@@ -13,6 +13,11 @@ export default {
       },
     },
     extend: {
+      scale: {
+        '102': '1.02',
+        '105': '1.05',
+        '110': '1.10',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
