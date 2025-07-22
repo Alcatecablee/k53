@@ -96,23 +96,39 @@ export default function Index() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button
-                asChild
-                size="lg"
-                className="bg-accent hover:bg-blue-800 text-lg px-8 font-sans"
-              >
-                <Link to="/practice">Start Practice Test</Link>
-              </Button>
+            <div className="grid md:grid-cols-2 gap-8 mb-16">
+              <div className="bg-slate-800 text-white p-8">
+                <h3 className="text-xl font-bold mb-4 uppercase tracking-wide">
+                  Candidate Assessment Portal
+                </h3>
+                <p className="text-slate-300 mb-6">
+                  Access comprehensive practice examinations aligned with current K53 regulations and assessment criteria.
+                </p>
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-white text-slate-800 hover:bg-slate-100 font-semibold uppercase tracking-wide w-full"
+                >
+                  <Link to="/practice">Begin Assessment</Link>
+                </Button>
+              </div>
 
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="text-lg px-8 font-sans"
-              >
-                <Link to="/dltc">Find Test Centers</Link>
-              </Button>
+              <div className="bg-white border-2 border-slate-800 p-8">
+                <h3 className="text-xl font-bold mb-4 uppercase tracking-wide text-slate-800">
+                  Testing Center Directory
+                </h3>
+                <p className="text-slate-600 mb-6">
+                  Locate authorized DLTC examination centers and schedule your official learner's license test.
+                </p>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide w-full"
+                >
+                  <Link to="/dltc">Find Centers</Link>
+                </Button>
+              </div>
             </div>
 
             {/* Quick Stats */}
