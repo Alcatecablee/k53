@@ -372,94 +372,108 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 border-t border-gray-800">
+      <footer className="bg-slate-900 text-white py-16 border-t-2 border-slate-800">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
-                  <Car className="w-5 h-5 text-white" />
+              <div className="flex items-center space-x-4 mb-6">
+                <div className="w-12 h-12 bg-white flex items-center justify-center">
+                  <div className="text-slate-900 font-bold text-lg tracking-wider">K53</div>
                 </div>
-                <span className="text-lg font-semibold font-sans">
-                  K53 Practice Tests
-                </span>
+                <div className="border-l-2 border-slate-700 pl-4">
+                  <div className="font-bold text-white uppercase tracking-wide">
+                    Assessment Portal
+                  </div>
+                  <div className="text-slate-400 text-xs uppercase tracking-wide">
+                    Republic of South Africa
+                  </div>
+                </div>
               </div>
-              <p className="text-gray-400 font-sans">
-                The most comprehensive K53 practice test platform for South
-                African learner drivers.
+              <p className="text-slate-400 leading-relaxed">
+                Official Department of Transport certified K53 learner's license
+                examination preparation system.
               </p>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 font-sans">Practice</h4>
-              <div className="space-y-2 text-gray-400">
+              <h4 className="font-bold mb-6 uppercase tracking-wide text-white">Assessment Categories</h4>
+              <div className="space-y-3 text-slate-400">
                 <Link
                   to="/practice"
-                  className="block hover:text-white transition-colors"
+                  className="block hover:text-white transition-colors uppercase tracking-wide text-sm"
                 >
                   Vehicle Controls
                 </Link>
                 <Link
                   to="/practice"
-                  className="block hover:text-white transition-colors"
+                  className="block hover:text-white transition-colors uppercase tracking-wide text-sm"
                 >
-                  Road Signs
+                  Road Signs & Markings
                 </Link>
                 <Link
                   to="/practice"
-                  className="block hover:text-white transition-colors"
+                  className="block hover:text-white transition-colors uppercase tracking-wide text-sm"
                 >
-                  Traffic Rules
+                  Traffic Regulations
                 </Link>
               </div>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 font-sans">Resources</h4>
-              <div className="space-y-2 text-gray-400">
+              <h4 className="font-bold mb-6 uppercase tracking-wide text-white">System Resources</h4>
+              <div className="space-y-3 text-slate-400">
                 <Link
                   to="/progress"
-                  className="block hover:text-white transition-colors"
+                  className="block hover:text-white transition-colors uppercase tracking-wide text-sm"
                 >
-                  My Progress
+                  Performance Analytics
                 </Link>
                 <Link
                   to="/dltc"
-                  className="block hover:text-white transition-colors"
+                  className="block hover:text-white transition-colors uppercase tracking-wide text-sm"
                 >
-                  Test Centers
+                  Testing Center Directory
                 </Link>
                 <a
                   href="https://taxfy.co.za"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block hover:text-white transition-colors"
+                  className="block hover:text-white transition-colors uppercase tracking-wide text-sm"
                 >
-                  Taxfy Refunds
+                  Tax Services Portal
                 </a>
               </div>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 font-sans">Support</h4>
-              <div className="space-y-2 text-gray-400">
-                <div className="flex items-center space-x-2">
+              <h4 className="font-bold mb-6 uppercase tracking-wide text-white">Official Support</h4>
+              <div className="space-y-3 text-slate-400">
+                <div className="flex items-center space-x-3">
                   <Phone className="h-4 w-4" />
-                  <span>Support: 0800 123 456</span>
+                  <span className="text-sm">Support Line: 0800 123 456</span>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3">
                   <Users className="h-4 w-4" />
-                  <span>10,000+ learners helped</span>
+                  <span className="text-sm">10,000+ Citizens Assisted</span>
+                </div>
+                <div className="bg-slate-800 border border-slate-700 p-3 mt-4">
+                  <div className="text-xs text-slate-300 uppercase tracking-wide">
+                    Official Platform
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p className="font-sans">
-              &copy; 2025 K53 Practice Tests. Designed for South African learner
-              drivers.
-            </p>
+          <div className="border-t-2 border-slate-800 mt-12 pt-8">
+            <div className="text-center text-slate-400">
+              <p className="text-sm uppercase tracking-wide">
+                &copy; 2025 Department of Transport K53 Assessment Portal • Republic of South Africa
+              </p>
+              <p className="text-xs text-slate-500 mt-2">
+                Authorized digital platform for learner's license examination preparation
+              </p>
+            </div>
           </div>
         </div>
       </footer>
