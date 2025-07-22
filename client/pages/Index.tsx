@@ -128,14 +128,14 @@ export default function Index() {
       </section>
 
       {/* Test Categories */}
-      <section className="py-16 bg-primary/20">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4 font-sans">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4 font-sans">
                 K53 Test Categories
               </h2>
-              <p className="text-lg text-gray-300 font-sans">
+              <p className="text-lg text-gray-600 font-sans">
                 Practice all three sections required for your learner's license
               </p>
             </div>
