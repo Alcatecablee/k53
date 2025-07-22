@@ -10,12 +10,12 @@ import {
   MapPin,
   Phone,
   Car,
-  Shield,
-  BookOpen,
-  Award,
-  TrendingUp,
-  Building2,
-  Gauge
+  Cog,
+  Layers,
+  ChartBarStacked,
+  BarChart3,
+  MapIcon,
+  Settings
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -126,7 +126,7 @@ export default function Index() {
               <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <Gauge className="w-6 h-6 text-blue-600" />
+                    <Settings className="w-6 h-6 text-blue-600" />
                   </div>
                   <CardTitle className="text-xl text-gray-900">Vehicle Controls</CardTitle>
                   <p className="text-gray-600">8 questions • Pass: 6/8</p>
@@ -152,7 +152,7 @@ export default function Index() {
               <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                    <Shield className="w-6 h-6 text-green-600" />
+                    <Layers className="w-6 h-6 text-green-600" />
                   </div>
                   <CardTitle className="text-xl text-gray-900">Road Signs</CardTitle>
                   <p className="text-gray-600">28 questions • Pass: 23/28</p>
@@ -178,7 +178,7 @@ export default function Index() {
               <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                    <BookOpen className="w-6 h-6 text-orange-600" />
+                    <FileText className="w-6 h-6 text-orange-600" />
                   </div>
                   <CardTitle className="text-xl text-gray-900">Traffic Rules</CardTitle>
                   <p className="text-gray-600">28 questions • Pass: 22/28</p>
@@ -217,7 +217,7 @@ export default function Index() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="text-center">
                 <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Award className="h-8 w-8 text-blue-600" />
+                  <CheckCircle className="h-8 w-8 text-blue-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Official Content</h3>
                 <p className="text-gray-600">
@@ -227,7 +227,7 @@ export default function Index() {
 
               <div className="text-center">
                 <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Gauge className="h-8 w-8 text-green-600" />
+                  <Clock className="h-8 w-8 text-green-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Instant Results</h3>
                 <p className="text-gray-600">
@@ -237,7 +237,7 @@ export default function Index() {
 
               <div className="text-center">
                 <div className="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="h-8 w-8 text-orange-600" />
+                  <BarChart3 className="h-8 w-8 text-orange-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Track Progress</h3>
                 <p className="text-gray-600">
@@ -247,7 +247,7 @@ export default function Index() {
 
               <div className="text-center">
                 <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Building2 className="h-8 w-8 text-purple-600" />
+                  <MapIcon className="h-8 w-8 text-purple-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Find Centers</h3>
                 <p className="text-gray-600">
