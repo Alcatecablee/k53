@@ -161,33 +161,8 @@ export default function Practice() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid md:grid-cols-3 gap-4 text-center">
-                  <div className="bg-accent/10 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-primary mb-1">
-                      5
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      Demo Questions
-                    </div>
-                  </div>
-                  <div className="bg-accent/10 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-primary mb-1">
-                      3
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      Categories
-                    </div>
-                  </div>
-                  <div className="bg-accent/10 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-primary mb-1">
-                      ~5
-                    </div>
-                    <div className="text-sm text-muted-foreground">Minutes</div>
-                  </div>
-                </div>
-
                 <div className="space-y-3">
-                  <h3 className="font-semibold">Test Categories:</h3>
+                  <h3 className="font-semibold">K53 Test Categories:</h3>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
                       <span className="text-sm">🚗 Vehicle Controls</span>
@@ -204,10 +179,45 @@ export default function Practice() {
                   </div>
                 </div>
 
-                <Button onClick={generateTest} size="lg" className="w-full">
-                  Start Practice Test
-                  <Clock className="ml-2 h-5 w-5" />
-                </Button>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <Card className="border-2 border-accent/20">
+                    <CardContent className="p-4 text-center">
+                      <div className="text-2xl font-bold text-primary mb-2">12</div>
+                      <div className="text-sm text-muted-foreground mb-3">Questions</div>
+                      <div className="text-xs text-muted-foreground mb-3">~5 minutes</div>
+                      <Button
+                        onClick={() => generateTest(false)}
+                        size="sm"
+                        variant="outline"
+                        className="w-full"
+                      >
+                        Quick Practice
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-2 border-primary/20 bg-primary/5">
+                    <CardContent className="p-4 text-center">
+                      <div className="text-2xl font-bold text-primary mb-2">64</div>
+                      <div className="text-sm text-muted-foreground mb-3">Questions</div>
+                      <div className="text-xs text-muted-foreground mb-3">~25 minutes</div>
+                      <Button
+                        onClick={() => generateTest(true)}
+                        size="sm"
+                        className="w-full"
+                      >
+                        Full K53 Test
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <div className="text-center">
+                  <p className="text-sm text-muted-foreground">
+                    Choose a quick practice session or take the full 64-question K53 test
+                    that matches the real exam format.
+                  </p>
+                </div>
               </CardContent>
             </Card>
           </div>
