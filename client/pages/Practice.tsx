@@ -94,28 +94,44 @@ export default function Practice() {
       testQuestions[currentQuestion].options.indexOf(selectedAnswer),
     ];
 
-    const categories = {
-      controls: { correct: 0, total: 0, required: 6 },
-      signs: { correct: 0, total: 0, required: 23 },
-      rules: { correct: 0, total: 0, required: 22 },
+    // K53 scoring requirements (scaled for test size)
+    const getRequiredScore = (total: number, fullRequirement: number, fullTotal: number) => {
+      if (isFullTest) return fullRequirement;
+      return Math.ceil((total / fullTotal) * fullRequirement);
     };
 
-    testQuestions.forEach((question, index) => {
+    const categories = {
+      controls: { correct: 0, total: 0, required: 0 },
+      signs: { correct: 0, total: 0, required: 0 },
+      rules: { correct: 0, total: 0, required: 0 },
+    };
+
+    // Count questions by category
+    testQuestions.forEach((question) => {
       categories[question.category].total++;
+    });
+
+    // Set required scores based on K53 standards
+    categories.controls.required = getRequiredScore(categories.controls.total, 6, 8);
+    categories.signs.required = getRequiredScore(categories.signs.total, 23, 28);
+    categories.rules.required = getRequiredScore(categories.rules.total, 22, 28);
+
+    // Calculate correct answers
+    testQuestions.forEach((question, index) => {
       if (finalAnswers[index] === question.correct) {
         categories[question.category].correct++;
       }
     });
 
-    const testResults: TestResult[] = Object.entries(categories).map(
-      ([category, data]) => ({
+    const testResults: TestResult[] = Object.entries(categories)
+      .filter(([, data]) => data.total > 0) // Only include categories with questions
+      .map(([category, data]) => ({
         category: category.charAt(0).toUpperCase() + category.slice(1),
         correct: data.correct,
         total: data.total,
         required: data.required,
         passed: data.correct >= data.required,
-      }),
-    );
+      }));
 
     setResults(testResults);
     setTestCompleted(true);
