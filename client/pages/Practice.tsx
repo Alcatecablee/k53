@@ -14,17 +14,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-
-interface Question {
-  id: string;
-  category: "controls" | "signs" | "rules";
-  question: string;
-  image?: string;
-  options: string[];
-  correct: number;
-  explanation: string;
-  language: "en" | "af" | "zu";
-}
+import { K53Question, generateRandomTest } from "../data/k53Questions";
 
 interface TestResult {
   category: string;
@@ -33,77 +23,6 @@ interface TestResult {
   required: number;
   passed: boolean;
 }
-
-// Sample K53 questions
-const sampleQuestions: Question[] = [
-  {
-    id: "Q1",
-    category: "signs",
-    question: "What does this red circle with a white horizontal bar mean?",
-    options: [
-      "No entry for all vehicles",
-      "No parking",
-      "No overtaking",
-      "Stop and give way",
-    ],
-    correct: 0,
-    explanation:
-      "A red circle with a white horizontal bar is a 'No Entry' sign, prohibiting all vehicles from entering.",
-    language: "en",
-  },
-  {
-    id: "Q2",
-    category: "controls",
-    question:
-      "What should you do when approaching a traffic light that changes from green to amber?",
-    options: [
-      "Speed up to get through",
-      "Stop if it's safe to do so",
-      "Continue at the same speed",
-      "Sound your horn",
-    ],
-    correct: 1,
-    explanation:
-      "When a traffic light changes from green to amber, you should stop if it's safe to do so. Only proceed if stopping would be dangerous.",
-    language: "en",
-  },
-  {
-    id: "Q3",
-    category: "rules",
-    question:
-      "What is the maximum speed limit in a built-up area unless otherwise indicated?",
-    options: ["40 km/h", "50 km/h", "60 km/h", "80 km/h"],
-    correct: 2,
-    explanation:
-      "The general speed limit in built-up areas (cities and towns) is 60 km/h unless otherwise indicated by road signs.",
-    language: "en",
-  },
-  {
-    id: "Q4",
-    category: "signs",
-    question: "What does a triangular sign with a red border mean?",
-    options: ["Information", "Warning", "Prohibition", "Mandatory"],
-    correct: 1,
-    explanation:
-      "Triangular signs with red borders are warning signs that alert drivers to potential hazards or changes in road conditions ahead.",
-    language: "en",
-  },
-  {
-    id: "Q5",
-    category: "controls",
-    question: "When must you use your indicators?",
-    options: [
-      "Only when turning",
-      "Only when changing lanes",
-      "When turning, changing lanes, or pulling over",
-      "Only in heavy traffic",
-    ],
-    correct: 2,
-    explanation:
-      "You must use your indicators when turning, changing lanes, pulling over, or whenever your intended movement might affect other road users.",
-    language: "en",
-  },
-];
 
 export default function Practice() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
