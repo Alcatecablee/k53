@@ -159,113 +159,121 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Test Categories */}
-      <section className="py-16 bg-white">
+      {/* Assessment Categories */}
+      <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4 font-sans">
-                K53 Test Categories
+            <div className="mb-12">
+              <h2 className="text-3xl font-bold text-slate-800 mb-4 uppercase tracking-wide">
+                Official Assessment Categories
               </h2>
-              <p className="text-lg text-gray-600 font-sans">
-                Practice all three sections required for your learner's license
+              <p className="text-lg text-slate-600 max-w-3xl">
+                Complete assessment preparation covering all mandatory examination sections as prescribed by the Department of Transport.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Vehicle Controls */}
-              <Card className="border border-gray-200 bg-white hover:shadow-lg transition-all">
-                <CardHeader className="pb-4">
-                  <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
-                    <Settings className="w-6 h-6 text-accent" />
-                  </div>
-                  <CardTitle className="text-xl text-gray-900 font-sans">
-                    Vehicle Controls
-                  </CardTitle>
-                  <p className="text-gray-600 font-sans">8 questions • Pass: 6/8</p>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-4 font-sans">
-                    Clutch operation, steering, brakes, indicators, and other
-                    essential vehicle controls.
-                  </p>
-                  <div className="mb-4">
-                    <div className="flex justify-between text-sm mb-1">
-                      <span>Progress</span>
-                      <span>75%</span>
-                    </div>
-                    <Progress value={75} className="h-2" />
-                  </div>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link to="/practice">Practice</Link>
-                  </Button>
-                </CardContent>
-              </Card>
+            <div className="bg-white border-2 border-slate-800">
+              <div className="bg-slate-800 text-white p-6">
+                <h3 className="text-xl font-bold uppercase tracking-wide">
+                  K53 Examination Structure
+                </h3>
+              </div>
 
-              {/* Road Signs */}
-              <Card className="border border-gray-200 bg-white hover:shadow-lg transition-all">
-                <CardHeader className="pb-4">
-                  <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-4">
-                    <Layers className="w-6 h-6 text-success" />
-                  </div>
-                  <CardTitle className="text-xl text-gray-900 font-sans">
-                    Road Signs
-                  </CardTitle>
-                  <p className="text-gray-600 font-sans">28 questions • Pass: 23/28</p>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-4 font-sans">
-                    Warning signs, command signs, prohibition signs, and road
-                    markings.
-                  </p>
-                  <div className="mb-4">
-                    <div className="flex justify-between text-sm mb-1">
-                      <span>Progress</span>
-                      <span>60%</span>
+              <div className="divide-y divide-slate-200">
+                <div className="p-6 hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-6">
+                      <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center">
+                        <Settings className="w-8 h-8 text-slate-800" />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-slate-800 uppercase tracking-wide">
+                          Vehicle Controls
+                        </h4>
+                        <p className="text-slate-600 mt-1">
+                          Assessment of clutch operation, steering mechanisms, braking systems, and indicator controls
+                        </p>
+                        <div className="mt-2 text-sm text-slate-500">
+                          8 Questions • Minimum Pass: 6/8 (75%)
+                        </div>
+                      </div>
                     </div>
-                    <Progress value={60} className="h-2" />
+                    <div className="text-right">
+                      <Button
+                        asChild
+                        className="bg-slate-800 text-white hover:bg-slate-700 font-semibold uppercase tracking-wide"
+                      >
+                        <Link to="/practice">Begin Module</Link>
+                      </Button>
+                    </div>
                   </div>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link to="/practice">Practice</Link>
-                  </Button>
-                </CardContent>
-              </Card>
+                </div>
 
-              {/* Traffic Rules */}
-              <Card className="border border-gray-200 bg-white hover:shadow-lg transition-all">
-                <CardHeader className="pb-4">
-                  <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
-                    <FileText className="w-6 h-6 text-accent" />
-                  </div>
-                  <CardTitle className="text-xl text-gray-900 font-sans">
-                    Traffic Rules
-                  </CardTitle>
-                  <p className="text-gray-600 font-sans">28 questions • Pass: 22/28</p>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-4 font-sans">
-                    Speed limits, following distances, parking regulations, and
-                    traffic laws.
-                  </p>
-                  <div className="mb-4">
-                    <div className="flex justify-between text-sm mb-1">
-                      <span>Progress</span>
-                      <span>45%</span>
+                <div className="p-6 hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-6">
+                      <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center">
+                        <Layers className="w-8 h-8 text-slate-800" />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-slate-800 uppercase tracking-wide">
+                          Road Signs & Markings
+                        </h4>
+                        <p className="text-slate-600 mt-1">
+                          Regulatory signs, warning indicators, prohibition notices, and road surface markings
+                        </p>
+                        <div className="mt-2 text-sm text-slate-500">
+                          28 Questions • Minimum Pass: 23/28 (82%)
+                        </div>
+                      </div>
                     </div>
-                    <Progress value={45} className="h-2" />
+                    <div className="text-right">
+                      <Button
+                        asChild
+                        className="bg-slate-800 text-white hover:bg-slate-700 font-semibold uppercase tracking-wide"
+                      >
+                        <Link to="/practice">Begin Module</Link>
+                      </Button>
+                    </div>
                   </div>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link to="/practice">Practice</Link>
-                  </Button>
-                </CardContent>
-              </Card>
+                </div>
+
+                <div className="p-6 hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-6">
+                      <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center">
+                        <FileText className="w-8 h-8 text-slate-800" />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-slate-800 uppercase tracking-wide">
+                          Traffic Regulations
+                        </h4>
+                        <p className="text-slate-600 mt-1">
+                          Speed limitations, following distances, parking regulations, and traffic law compliance
+                        </p>
+                        <div className="mt-2 text-sm text-slate-500">
+                          28 Questions • Minimum Pass: 22/28 (79%)
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <Button
+                        asChild
+                        className="bg-slate-800 text-white hover:bg-slate-700 font-semibold uppercase tracking-wide"
+                      >
+                        <Link to="/practice">Begin Module</Link>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-16 bg-gray-50">
+      {/* System Features */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
