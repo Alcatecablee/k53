@@ -33,4 +33,11 @@ const App = () => (
   </QueryClientProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+const container = document.getElementById("root")!;
+
+// Check if root is already created to avoid React 18 warning
+if (!container._reactRoot) {
+  container._reactRoot = createRoot(container);
+}
+
+container._reactRoot.render(<App />);
