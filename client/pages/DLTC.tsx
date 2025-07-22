@@ -95,50 +95,52 @@ export default function DLTCPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <Button asChild variant="ghost" className="rounded-xl">
-            <Link to="/">
-              <Home className="h-5 w-5 mr-2" />
-              Home
-            </Link>
-          </Button>
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-800">Find Your DLTC</h1>
-            <p className="text-gray-600">Locate testing centers near you</p>
+        <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8 -mx-4 px-4 py-6">
+          <div className="flex items-center justify-between">
+            <Button asChild variant="ghost" className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide">
+              <Link to="/">
+                <Home className="h-5 w-5 mr-2" />
+                Return to Portal
+              </Link>
+            </Button>
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-slate-900 uppercase tracking-wide">DLTC Directory</h1>
+              <p className="text-slate-600 uppercase text-sm tracking-wide">Official Testing Center Locator</p>
+            </div>
+            <div></div>
           </div>
-          <div></div>
         </div>
 
         <div className="max-w-6xl mx-auto">
           {/* Search Section */}
-          <Card className="duolingo-card mb-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-            <CardContent className="p-8">
-              <div className="text-center mb-6">
-                <div className="bg-white/20 rounded-full p-4 w-fit mx-auto mb-4">
-                  <MapPin className="h-8 w-8" />
+          <Card className="border-2 border-slate-800 bg-white mb-8">
+            <CardHeader className="bg-slate-800 text-white p-8">
+              <div className="text-center">
+                <div className="w-20 h-20 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-6">
+                  <MapPin className="h-10 w-10" />
                 </div>
-                <h2 className="text-2xl font-bold mb-2">
-                  Find Your Nearest DLTC
-                </h2>
-                <p className="opacity-90">
-                  Discover driving license testing centers with real-time info
+                <CardTitle className="text-3xl font-bold mb-4 uppercase tracking-wide">
+                  Official DLTC Network
+                </CardTitle>
+                <p className="text-slate-200 text-lg">
+                  Department of Transport Licensed Testing Centers - Republic of South Africa
                 </p>
               </div>
-
-              <div className="flex gap-4 max-w-md mx-auto">
+            </CardHeader>
+            <CardContent className="p-8">
+              <div className="flex gap-4 max-w-lg mx-auto">
                 <Input
-                  placeholder="Enter your city or province..."
-                  className="flex-1 bg-white/20 border-white/30 text-white placeholder:text-white/70 rounded-xl"
+                  placeholder="Enter province, city, or postal code..."
+                  className="flex-1 border-2 border-slate-300 focus:border-slate-800 text-slate-800 placeholder:text-slate-500"
                 />
                 <Button
-                  variant="secondary"
-                  className="rounded-xl font-semibold px-6"
+                  className="bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide px-8"
                 >
                   <Search className="h-4 w-4 mr-2" />
-                  Search
+                  Locate
                 </Button>
               </div>
             </CardContent>
