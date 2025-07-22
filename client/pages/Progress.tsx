@@ -276,44 +276,45 @@ export default function ProgressPage() {
           </Card>
 
           {/* Category Progress */}
-          <Card className="duolingo-card">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <TrendingUp className="h-5 w-5 text-gray-600" />
-                <span>Category Progress</span>
+          <Card className="border-2 border-slate-800 bg-white mb-8">
+            <CardHeader className="bg-slate-800 text-white p-6">
+              <CardTitle className="flex items-center space-x-2 text-xl font-bold uppercase tracking-wide">
+                <TrendingUp className="h-6 w-6" />
+                <span>Category Performance Analysis</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              {categoryProgress.map((category, index) => {
-                const IconComponent = category.icon;
-                return (
-                  <div key={index} className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className={`p-2 rounded-lg ${category.color}`}>
-                          <IconComponent className="h-5 w-5 text-white" />
+            <CardContent className="p-8">
+              <div className="space-y-6">
+                {categoryProgress.map((category, index) => {
+                  const IconComponent = category.icon;
+                  return (
+                    <div key={index} className="border-2 border-slate-300 p-6 hover:border-slate-800 transition-colors">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-4">
+                          <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center">
+                            <IconComponent className="h-8 w-8 text-slate-800" />
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-slate-800 text-xl uppercase tracking-wide">
+                              {category.name}
+                            </h3>
+                            <p className="text-slate-600 mt-1">
+                              {category.mastered} of {category.total} questions mastered
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-semibold text-gray-800">
-                            {category.name}
-                          </h3>
-                          <p className="text-sm text-gray-600">
-                            {category.mastered} of {category.total} lessons
-                            completed
-                          </p>
+                        <div className="text-right">
+                          <div className="text-4xl font-bold text-slate-800 mb-1">
+                            {category.progress}%
+                          </div>
+                          <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Proficiency</div>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="font-bold text-gray-800">
-                          {category.progress}%
-                        </div>
-                        <div className="text-sm text-gray-600">Complete</div>
-                      </div>
+                      <Progress value={category.progress} className="h-4" />
                     </div>
-                    <Progress value={category.progress} className="h-2" />
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </CardContent>
           </Card>
 
