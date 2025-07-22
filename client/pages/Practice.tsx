@@ -470,12 +470,12 @@ export default function Practice() {
               </CardTitle>
             </CardHeader>
 
-            <CardContent className="space-y-6">
+            <CardContent className="p-8">
               <RadioGroup
                 value={selectedAnswer}
                 onValueChange={handleAnswerSelect}
               >
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {currentQ?.options.map((option, index) => {
                     const isSelected = selectedAnswer === option;
                     const isCorrectAnswer =
@@ -486,36 +486,41 @@ export default function Practice() {
                     return (
                       <div
                         key={index}
-                        className={`border rounded-lg p-4 transition-colors cursor-pointer ${
+                        className={`border-2 p-6 transition-colors cursor-pointer ${
                           answered
                             ? isCorrectAnswer
-                              ? "border-green-500 bg-green-50"
+                              ? "border-slate-800 bg-slate-100"
                               : isWrongSelected
                                 ? "border-red-500 bg-red-50"
-                                : "border-gray-200 bg-white"
+                                : "border-slate-300 bg-white"
                             : isSelected
-                              ? "border-blue-500 bg-blue-50"
-                              : "border-gray-200 hover:border-gray-300 bg-white"
+                              ? "border-slate-800 bg-slate-100"
+                              : "border-slate-300 hover:border-slate-500 bg-white"
                         }`}
                         onClick={() => handleAnswerSelect(option)}
                       >
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-4">
                           <RadioGroupItem
                             value={option}
                             id={`option-${index}`}
                             disabled={answered}
+                            className="w-5 h-5"
                           />
                           <Label
                             htmlFor={`option-${index}`}
-                            className="flex-1 cursor-pointer font-medium"
+                            className="flex-1 cursor-pointer font-medium text-slate-800"
                           >
                             {option}
                           </Label>
                           {answered && isCorrectAnswer && (
-                            <CheckCircle className="h-5 w-5 text-green-600" />
+                            <div className="w-8 h-8 border-2 border-slate-800 bg-slate-100 flex items-center justify-center">
+                              <CheckCircle className="h-5 w-5 text-slate-800" />
+                            </div>
                           )}
                           {answered && isWrongSelected && (
-                            <XCircle className="h-5 w-5 text-red-600" />
+                            <div className="w-8 h-8 border-2 border-red-500 bg-red-50 flex items-center justify-center">
+                              <XCircle className="h-5 w-5 text-red-500" />
+                            </div>
                           )}
                         </div>
                       </div>
@@ -526,23 +531,29 @@ export default function Practice() {
 
               {showResult && (
                 <div
-                  className={`p-4 rounded-lg border ${
+                  className={`p-6 border-2 ${
                     isCorrect
-                      ? "bg-green-50 border-green-200"
-                      : "bg-red-50 border-red-200"
+                      ? "bg-slate-100 border-slate-800"
+                      : "bg-red-50 border-red-500"
                   }`}
                 >
-                  <div className="flex items-start space-x-3">
-                    {isCorrect ? (
-                      <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                    ) : (
-                      <XCircle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
-                    )}
+                  <div className="flex items-start space-x-4">
+                    <div className={`w-8 h-8 border-2 flex items-center justify-center ${
+                      isCorrect ? "border-slate-800 bg-slate-100" : "border-red-500 bg-red-50"
+                    }`}>
+                      {isCorrect ? (
+                        <CheckCircle className="h-5 w-5 text-slate-800" />
+                      ) : (
+                        <XCircle className="h-5 w-5 text-red-500" />
+                      )}
+                    </div>
                     <div>
-                      <div className="font-medium mb-1 text-gray-900">
-                        {isCorrect ? "Correct" : "Incorrect"}
+                      <div className={`font-bold mb-2 uppercase tracking-wide ${
+                        isCorrect ? "text-slate-800" : "text-red-700"
+                      }`}>
+                        {isCorrect ? "Correct Answer" : "Incorrect Answer"}
                       </div>
-                      <div className="text-sm text-gray-700">
+                      <div className="text-slate-700 leading-relaxed">
                         {currentQ?.explanation}
                       </div>
                     </div>
@@ -554,18 +565,18 @@ export default function Practice() {
                 <Button
                   onClick={submitAnswer}
                   disabled={!selectedAnswer}
-                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  className="w-full bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide py-4 text-lg"
                 >
-                  Submit Answer
+                  Submit Response
                 </Button>
               ) : (
                 <Button
                   onClick={nextQuestion}
-                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  className="w-full bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide py-4 text-lg"
                 >
                   {currentQuestion < testQuestions.length - 1
-                    ? "Next Question"
-                    : "Complete Test"}
+                    ? "Proceed to Next Question"
+                    : "Complete Assessment"}
                 </Button>
               )}
             </CardContent>
