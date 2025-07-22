@@ -33,14 +33,23 @@ export default function Practice() {
   const [testStarted, setTestStarted] = useState(false);
   const [testCompleted, setTestCompleted] = useState(false);
   const [results, setResults] = useState<TestResult[]>([]);
+  const [isFullTest, setIsFullTest] = useState(false);
 
-  // Generate a randomized test of 5 questions for demo (normally would be 64)
-  const [testQuestions, setTestQuestions] = useState<Question[]>([]);
+  // Generate a randomized test questions
+  const [testQuestions, setTestQuestions] = useState<K53Question[]>([]);
 
-  const generateTest = () => {
-    // For demo, just use the sample questions
-    const shuffled = [...sampleQuestions].sort(() => Math.random() - 0.5);
-    setTestQuestions(shuffled);
+  const generateTest = (fullTest: boolean = false) => {
+    setIsFullTest(fullTest);
+
+    if (fullTest) {
+      // Full K53 test: 8 controls, 28 signs, 28 rules = 64 questions
+      const randomTest = generateRandomTest(8, 28, 28);
+      setTestQuestions(randomTest);
+    } else {
+      // Quick demo test: 2 controls, 5 signs, 5 rules = 12 questions
+      const randomTest = generateRandomTest(2, 5, 5);
+      setTestQuestions(randomTest);
+    }
     setTestStarted(true);
     setCurrentQuestion(0);
     setSelectedAnswer("");
