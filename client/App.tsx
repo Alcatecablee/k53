@@ -36,8 +36,8 @@ const App = () => (
 const container = document.getElementById("root")!;
 
 // Check if root is already created to avoid React 18 warning
-if (!container._reactRoot) {
-  container._reactRoot = createRoot(container);
+if (!(container as any)._reactRoot) {
+  (container as any)._reactRoot = createRoot(container);
 }
 
-container._reactRoot.render(<App />);
+(container as any)._reactRoot.render(<App />);
