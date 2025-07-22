@@ -109,7 +109,7 @@ export default function Index() {
       </section>
 
       {/* Test Categories */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gradient-to-r from-slate-900/50 to-gray-900/50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
