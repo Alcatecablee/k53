@@ -132,22 +132,27 @@ export default function Index() {
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-gray-200">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900 mb-1 font-sans">150+</div>
-                <div className="text-sm text-gray-600 font-sans">Practice Questions</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900 mb-1 font-sans">85%</div>
-                <div className="text-sm text-gray-600 font-sans">Success Rate</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900 mb-1 font-sans">3</div>
-                <div className="text-sm text-gray-600 font-sans">Languages</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900 mb-1 font-sans">50+</div>
-                <div className="text-sm text-gray-600 font-sans">Test Centers</div>
+            <div className="bg-slate-100 p-8">
+              <h3 className="text-center text-lg font-bold uppercase tracking-wide text-slate-800 mb-8">
+                System Statistics
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div className="text-center border-r border-slate-300 last:border-r-0">
+                  <div className="text-4xl font-bold text-slate-800 mb-2">150+</div>
+                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Assessment Items</div>
+                </div>
+                <div className="text-center border-r border-slate-300 last:border-r-0">
+                  <div className="text-4xl font-bold text-slate-800 mb-2">85%</div>
+                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Pass Rate</div>
+                </div>
+                <div className="text-center border-r border-slate-300 last:border-r-0">
+                  <div className="text-4xl font-bold text-slate-800 mb-2">3</div>
+                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Languages</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-slate-800 mb-2">50+</div>
+                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Test Centers</div>
+                </div>
               </div>
             </div>
           </div>
