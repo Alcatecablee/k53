@@ -12,9 +12,9 @@ import {
   RotateCcw,
   FileText,
   Clock,
-  Gauge,
-  Shield,
-  BookOpen,
+  Settings,
+  Layers,
+  ChartBarStacked,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { K53Question, generateRandomTest } from "../data/k53Questions";
@@ -170,7 +170,7 @@ export default function Practice() {
                 <div className="grid md:grid-cols-3 gap-6 mb-8">
                   <div className="text-center p-4 bg-blue-50 rounded-lg">
                     <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <Gauge className="w-5 h-5 text-blue-600" />
+                      <Settings className="w-5 h-5 text-blue-600" />
                     </div>
                     <div className="font-medium text-gray-900">Vehicle Controls</div>
                     <div className="text-sm text-gray-600">8 questions</div>
@@ -178,7 +178,7 @@ export default function Practice() {
                   </div>
                   <div className="text-center p-4 bg-green-50 rounded-lg">
                     <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <Shield className="w-5 h-5 text-green-600" />
+                      <Layers className="w-5 h-5 text-green-600" />
                     </div>
                     <div className="font-medium text-gray-900">Road Signs</div>
                     <div className="text-sm text-gray-600">28 questions</div>
@@ -186,7 +186,7 @@ export default function Practice() {
                   </div>
                   <div className="text-center p-4 bg-orange-50 rounded-lg">
                     <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <BookOpen className="w-5 h-5 text-orange-600" />
+                      <ChartBarStacked className="w-5 h-5 text-orange-600" />
                     </div>
                     <div className="font-medium text-gray-900">Traffic Rules</div>
                     <div className="text-sm text-gray-600">28 questions</div>
