@@ -356,54 +356,62 @@ export default function Practice() {
                 <h3 className="font-bold text-slate-800 mb-6 text-xl uppercase tracking-wide">
                   Category Performance Analysis
                 </h3>
-                {results.map((result, index) => (
-                  <div
-                    key={index}
-                    className={`p-4 rounded-lg border ${
-                      result.passed
-                        ? "bg-green-50 border-green-200"
-                        : "bg-red-50 border-red-200"
-                    }`}
-                  >
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-gray-900">
-                        {result.category}
-                      </span>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-sm text-gray-600">
-                          {result.correct}/{result.total}
+                <div className="bg-slate-100 p-6">
+                  {results.map((result, index) => (
+                    <div
+                      key={index}
+                      className={`p-6 border-2 mb-4 last:mb-0 ${
+                        result.passed
+                          ? "bg-white border-slate-300"
+                          : "bg-white border-red-300"
+                      }`}
+                    >
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="font-bold text-slate-800 uppercase tracking-wide text-lg">
+                          {result.category}
                         </span>
-                        {result.passed ? (
-                          <CheckCircle className="h-4 w-4 text-green-600" />
-                        ) : (
-                          <XCircle className="h-4 w-4 text-red-600" />
-                        )}
+                        <div className="flex items-center space-x-4">
+                          <span className="text-slate-600 font-semibold">
+                            {result.correct}/{result.total}
+                          </span>
+                          <div className={`w-8 h-8 border-2 flex items-center justify-center ${
+                            result.passed
+                              ? "border-slate-800 bg-slate-100"
+                              : "border-red-500 bg-red-50"
+                          }`}>
+                            {result.passed ? (
+                              <CheckCircle className="h-5 w-5 text-slate-800" />
+                            ) : (
+                              <XCircle className="h-5 w-5 text-red-500" />
+                            )}
+                          </div>
+                        </div>
                       </div>
+                      <div className="text-sm text-slate-600 mb-3 uppercase tracking-wide">
+                        Minimum Required: {result.required}/{result.total}
+                      </div>
+                      <Progress
+                        value={(result.correct / result.total) * 100}
+                        className="h-3"
+                      />
                     </div>
-                    <div className="text-sm text-gray-600 mb-2">
-                      Required to pass: {result.required}/{result.total}
-                    </div>
-                    <Progress
-                      value={(result.correct / result.total) * 100}
-                      className="h-2"
-                    />
-                  </div>
-                ))}
+                  ))}
+                </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <div className="flex flex-col sm:flex-row gap-4 pt-6">
                   <Button
                     onClick={() => generateTest(isFullTest)}
                     variant="outline"
-                    className="flex-1"
+                    className="flex-1 border-2 border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide py-3"
                   >
                     <RotateCcw className="h-4 w-4 mr-2" />
-                    Retake Test
+                    Retake Assessment
                   </Button>
                   <Button
                     asChild
-                    className="flex-1 bg-blue-600 hover:bg-blue-700"
+                    className="flex-1 bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide py-3"
                   >
-                    <Link to="/progress">View All Results</Link>
+                    <Link to="/progress">View Progress Record</Link>
                   </Button>
                 </div>
               </CardContent>
