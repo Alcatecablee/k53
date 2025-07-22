@@ -8,17 +8,10 @@ import { Label } from "@/components/ui/label";
 import {
   CheckCircle,
   XCircle,
-  Clock,
-  BookOpen,
-  Home,
+  ArrowLeft,
   RotateCcw,
-  Heart,
-  Flame,
-  Star,
-  Crown,
-  Zap,
-  Car,
-  Trophy,
+  FileText,
+  Clock,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { K53Question, generateRandomTest } from "../data/k53Questions";
@@ -41,23 +34,16 @@ export default function Practice() {
   const [testCompleted, setTestCompleted] = useState(false);
   const [results, setResults] = useState<TestResult[]>([]);
   const [isFullTest, setIsFullTest] = useState(false);
-  const [lives, setLives] = useState(3); // Duolingo-style lives system
-  const [xpEarned, setXpEarned] = useState(0);
 
-  // Generate a randomized test questions
   const [testQuestions, setTestQuestions] = useState<K53Question[]>([]);
 
   const generateTest = (fullTest: boolean = false) => {
     setIsFullTest(fullTest);
-    setLives(fullTest ? 5 : 3); // More lives for full test
-    setXpEarned(0);
     
     if (fullTest) {
-      // Full K53 test: 8 controls, 28 signs, 28 rules = 64 questions
       const randomTest = generateRandomTest(8, 28, 28);
       setTestQuestions(randomTest);
     } else {
-      // Quick demo test: 2 controls, 5 signs, 5 rules = 12 questions  
       const randomTest = generateRandomTest(2, 5, 5);
       setTestQuestions(randomTest);
     }
@@ -85,14 +71,6 @@ export default function Practice() {
     setUserAnswers([...userAnswers, answerIndex]);
     setAnswered(true);
     setShowResult(true);
-
-    // Duolingo-style XP and lives system
-    const isCorrect = answerIndex === testQuestions[currentQuestion].correct;
-    if (isCorrect) {
-      setXpEarned(prev => prev + 10);
-    } else {
-      setLives(prev => Math.max(0, prev - 1));
-    }
   };
 
   const nextQuestion = () => {
@@ -107,13 +85,11 @@ export default function Practice() {
   };
 
   const completeTest = () => {
-    // Calculate results by category
     const finalAnswers = [
       ...userAnswers,
       testQuestions[currentQuestion].options.indexOf(selectedAnswer),
     ];
 
-    // K53 scoring requirements (scaled for test size)
     const getRequiredScore = (total: number, fullRequirement: number, fullTotal: number) => {
       if (isFullTest) return fullRequirement;
       return Math.ceil((total / fullTotal) * fullRequirement);
@@ -125,17 +101,14 @@ export default function Practice() {
       rules: { correct: 0, total: 0, required: 0 },
     };
 
-    // Count questions by category
     testQuestions.forEach((question) => {
       categories[question.category].total++;
     });
 
-    // Set required scores based on K53 standards
     categories.controls.required = getRequiredScore(categories.controls.total, 6, 8);
     categories.signs.required = getRequiredScore(categories.signs.total, 23, 28);  
     categories.rules.required = getRequiredScore(categories.rules.total, 22, 28);
 
-    // Calculate correct answers
     testQuestions.forEach((question, index) => {
       if (finalAnswers[index] === question.correct) {
         categories[question.category].correct++;
@@ -143,7 +116,7 @@ export default function Practice() {
     });
 
     const testResults: TestResult[] = Object.entries(categories)
-      .filter(([, data]) => data.total > 0) // Only include categories with questions
+      .filter(([, data]) => data.total > 0)
       .map(([category, data]) => ({
         category: category.charAt(0).toUpperCase() + category.slice(1),
         correct: data.correct,
@@ -163,117 +136,97 @@ export default function Practice() {
 
   if (!testStarted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <Button asChild variant="ghost" className="rounded-xl">
+            <Button asChild variant="ghost">
               <Link to="/">
-                <Home className="h-5 w-5 mr-2" />
-                Home
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Home
               </Link>
             </Button>
             <div className="text-center">
-              <h1 className="text-3xl font-bold text-gray-800">K53 Practice</h1>
-              <p className="text-gray-600">Choose your challenge</p>
+              <h1 className="text-2xl font-bold text-gray-900">K53 Practice Test</h1>
+              <p className="text-gray-600">Choose your test format</p>
             </div>
-            <div className="flex items-center space-x-2">
-              <Flame className="h-5 w-5 text-orange-500" />
-              <span className="font-bold text-orange-700">7</span>
-            </div>
+            <div></div>
           </div>
 
-          {/* Test Setup */}
           <div className="max-w-4xl mx-auto">
-            <Card className="duolingo-card border-2 mb-8">
-              <CardHeader className="text-center pb-4">
-                <div className="bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-full p-6 w-fit mx-auto mb-4 shadow-xl">
-                  <BookOpen className="h-12 w-12" />
-                </div>
-                <CardTitle className="text-3xl font-bold text-gray-800">
-                  Ready to Practice?
+            <Card className="border border-gray-200 mb-8">
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl text-gray-900 mb-2">
+                  Select Test Format
                 </CardTitle>
                 <p className="text-gray-600">
-                  Test your K53 knowledge with our interactive questions
+                  Choose between a quick practice session or a full K53 simulation
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <h3 className="font-bold text-gray-800 text-center">K53 Test Categories:</h3>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div className="text-center p-4 bg-blue-50 rounded-2xl">
-                      <Car className="h-8 w-8 mx-auto mb-2 text-blue-500" />
-                      <div className="font-semibold text-gray-800">Vehicle Controls</div>
-                      <Badge variant="outline" className="mt-1">Pass: 6/8</Badge>
-                    </div>
-                    <div className="text-center p-4 bg-green-50 rounded-2xl">
-                      <div className="h-8 w-8 mx-auto mb-2 bg-green-500 rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold">⚠</span>
-                      </div>
-                      <div className="font-semibold text-gray-800">Road Signs</div>
-                      <Badge variant="outline" className="mt-1">Pass: 23/28</Badge>
-                    </div>
-                    <div className="text-center p-4 bg-purple-50 rounded-2xl">
-                      <BookOpen className="h-8 w-8 mx-auto mb-2 text-purple-500" />
-                      <div className="font-semibold text-gray-800">Traffic Rules</div>
-                      <Badge variant="outline" className="mt-1">Pass: 22/28</Badge>
-                    </div>
+                <div className="grid md:grid-cols-3 gap-6 mb-8">
+                  <div className="text-center p-4 bg-blue-50 rounded-lg">
+                    <div className="w-8 h-8 bg-blue-600 rounded mx-auto mb-2"></div>
+                    <div className="font-medium text-gray-900">Vehicle Controls</div>
+                    <div className="text-sm text-gray-600">8 questions</div>
+                    <div className="text-xs text-gray-500">Pass: 6/8 required</div>
+                  </div>
+                  <div className="text-center p-4 bg-green-50 rounded-lg">
+                    <div className="w-8 h-8 bg-green-600 rounded-full mx-auto mb-2"></div>
+                    <div className="font-medium text-gray-900">Road Signs</div>
+                    <div className="text-sm text-gray-600">28 questions</div>
+                    <div className="text-xs text-gray-500">Pass: 23/28 required</div>
+                  </div>
+                  <div className="text-center p-4 bg-orange-50 rounded-lg">
+                    <div className="w-8 h-8 bg-orange-600 rounded-sm mx-auto mb-2"></div>
+                    <div className="font-medium text-gray-900">Traffic Rules</div>
+                    <div className="text-sm text-gray-600">28 questions</div>
+                    <div className="text-xs text-gray-500">Pass: 22/28 required</div>
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
-                  {/* Quick Practice */}
-                  <Card className="duolingo-card bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 hover:border-blue-300 transition-colors cursor-pointer group">
+                  <Card className="border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                     <CardContent className="p-6 text-center">
-                      <div className="bg-blue-500 text-white rounded-full p-4 w-fit mx-auto mb-4 group-hover:scale-110 transition-transform">
-                        <Zap className="h-8 w-8" />
+                      <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <Clock className="h-8 w-8 text-blue-600" />
                       </div>
-                      <div className="text-3xl font-bold text-blue-600 mb-2">12</div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">Quick Practice</h3>
+                      <div className="text-3xl font-bold text-blue-600 mb-1">12</div>
                       <div className="text-sm text-gray-600 mb-1">Questions</div>
-                      <div className="text-xs text-gray-500 mb-4">~5 minutes</div>
-                      <div className="flex items-center justify-center space-x-1 mb-4">
-                        {[1, 2, 3].map((i) => (
-                          <Heart key={i} className="h-4 w-4 text-red-500 fill-current" />
-                        ))}
-                      </div>
+                      <div className="text-xs text-gray-500 mb-4">Approximately 5 minutes</div>
+                      <p className="text-sm text-gray-600 mb-4">
+                        Perfect for a quick review session covering all three categories.
+                      </p>
                       <Button 
                         onClick={() => generateTest(false)} 
-                        className="duolingo-button w-full"
+                        className="w-full bg-blue-600 hover:bg-blue-700"
                       >
-                        Quick Practice
+                        Start Quick Practice
                       </Button>
                     </CardContent>
                   </Card>
 
-                  {/* Full Test */}
-                  <Card className="duolingo-card bg-gradient-to-br from-green-50 to-blue-50 border-2 border-green-200 hover:border-green-300 transition-colors cursor-pointer group">
+                  <Card className="border-2 border-green-200 hover:border-green-300 transition-colors cursor-pointer bg-green-50">
                     <CardContent className="p-6 text-center">
-                      <div className="bg-green-500 text-white rounded-full p-4 w-fit mx-auto mb-4 group-hover:scale-110 transition-transform">
-                        <Trophy className="h-8 w-8" />
+                      <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <FileText className="h-8 w-8 text-green-600" />
                       </div>
-                      <div className="text-3xl font-bold text-green-600 mb-2">64</div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">Full K53 Test</h3>
+                      <div className="text-3xl font-bold text-green-600 mb-1">64</div>
                       <div className="text-sm text-gray-600 mb-1">Questions</div>
-                      <div className="text-xs text-gray-500 mb-4">~25 minutes</div>
-                      <div className="flex items-center justify-center space-x-1 mb-4">
-                        {[1, 2, 3, 4, 5].map((i) => (
-                          <Heart key={i} className="h-4 w-4 text-red-500 fill-current" />
-                        ))}
-                      </div>
+                      <div className="text-xs text-gray-500 mb-4">Approximately 25 minutes</div>
+                      <p className="text-sm text-gray-600 mb-4">
+                        Complete simulation matching the official K53 test format.
+                      </p>
                       <Button 
                         onClick={() => generateTest(true)} 
-                        className="duolingo-button w-full bg-green-500 hover:bg-green-600"
+                        className="w-full bg-green-600 hover:bg-green-700"
                       >
-                        Full K53 Test
+                        Start Full Test
                       </Button>
                     </CardContent>
                   </Card>
-                </div>
-
-                <div className="text-center">
-                  <p className="text-sm text-gray-600">
-                    Choose Quick Practice for a short session or take the Full K53 Test 
-                    that matches the real exam format.
-                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -287,75 +240,96 @@ export default function Practice() {
     const overallPassed = results.every((r) => r.passed);
     const correctAnswers = results.reduce((sum, r) => sum + r.correct, 0);
     const totalQuestions = results.reduce((sum, r) => sum + r.total, 0);
-    const finalXP = Math.round((correctAnswers / totalQuestions) * 100) + (overallPassed ? 50 : 0);
+    const percentage = Math.round((correctAnswers / totalQuestions) * 100);
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 py-8">
-          <div className="max-w-2xl mx-auto">
-            <Card className="duolingo-card border-2 text-center">
-              <CardContent className="p-8">
-                <div className={`mx-auto mb-6 p-6 rounded-full w-fit shadow-lg ${
+          <div className="max-w-3xl mx-auto">
+            <Card className="border border-gray-200">
+              <CardHeader className="text-center">
+                <div className={`w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center ${
                   overallPassed 
-                    ? 'bg-gradient-to-r from-green-400 to-green-600 text-white' 
-                    : 'bg-gradient-to-r from-orange-400 to-red-500 text-white'
+                    ? 'bg-green-100 text-green-600' 
+                    : 'bg-orange-100 text-orange-600'
                 }`}>
                   {overallPassed ? (
-                    <Trophy className="h-16 w-16" />
+                    <CheckCircle className="h-10 w-10" />
                   ) : (
-                    <Heart className="h-16 w-16" />
+                    <XCircle className="h-10 w-10" />
                   )}
                 </div>
 
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                  {overallPassed ? "Congratulations!" : "Keep Practicing!"}
-                </h2>
-
-                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-2xl p-4 mb-6 inline-block">
-                  <div className="flex items-center space-x-2">
-                    <Star className="h-6 w-6" />
-                    <span className="text-xl font-bold">+{finalXP} XP</span>
-                  </div>
+                <CardTitle className="text-2xl text-gray-900 mb-2">
+                  Test Complete
+                </CardTitle>
+                
+                <div className="text-4xl font-bold mb-2">
+                  <span className={overallPassed ? 'text-green-600' : 'text-orange-600'}>
+                    {percentage}%
+                  </span>
                 </div>
-
-                <div className="space-y-4 mb-6">
-                  <h3 className="font-semibold text-gray-800">Your Results:</h3>
-                  {results.map((result, index) => (
-                    <div
-                      key={index}
-                      className={`p-4 rounded-2xl border-2 ${
-                        result.passed 
-                          ? 'bg-green-50 border-green-200' 
-                          : 'bg-red-50 border-red-200'
-                      }`}
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="font-medium text-gray-800">{result.category}</span>
+                <p className="text-gray-600">
+                  {correctAnswers} out of {totalQuestions} questions correct
+                </p>
+                
+                {overallPassed ? (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                    <p className="text-green-800 font-medium">
+                      Congratulations! You've passed all required sections.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mt-4">
+                    <p className="text-orange-800 font-medium">
+                      Keep practicing to improve your scores in the highlighted areas.
+                    </p>
+                  </div>
+                )}
+              </CardHeader>
+              
+              <CardContent className="space-y-4">
+                <h3 className="font-semibold text-gray-900 mb-4">Results by Category:</h3>
+                {results.map((result, index) => (
+                  <div
+                    key={index}
+                    className={`p-4 rounded-lg border ${
+                      result.passed 
+                        ? 'bg-green-50 border-green-200' 
+                        : 'bg-red-50 border-red-200'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-gray-900">{result.category}</span>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-sm text-gray-600">
+                          {result.correct}/{result.total}
+                        </span>
                         {result.passed ? (
-                          <CheckCircle className="h-5 w-5 text-green-600" />
+                          <CheckCircle className="h-4 w-4 text-green-600" />
                         ) : (
-                          <XCircle className="h-5 w-5 text-red-600" />
+                          <XCircle className="h-4 w-4 text-red-600" />
                         )}
                       </div>
-                      <div className="text-sm text-gray-600 mb-2">
-                        Score: {result.correct}/{result.total} (Required: {result.required})
-                      </div>
-                      <Progress value={(result.correct / result.total) * 100} className="h-2" />
                     </div>
-                  ))}
-                </div>
+                    <div className="text-sm text-gray-600 mb-2">
+                      Required to pass: {result.required}/{result.total}
+                    </div>
+                    <Progress value={(result.correct / result.total) * 100} className="h-2" />
+                  </div>
+                ))}
 
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <Button
                     onClick={() => generateTest(isFullTest)}
                     variant="outline"
-                    className="flex-1 rounded-xl font-semibold"
+                    className="flex-1"
                   >
                     <RotateCcw className="h-4 w-4 mr-2" />
-                    Try Again
+                    Retake Test
                   </Button>
-                  <Button asChild className="duolingo-button flex-1">
-                    <Link to="/progress">View Progress</Link>
+                  <Button asChild className="flex-1 bg-blue-600 hover:bg-blue-700">
+                    <Link to="/progress">View All Results</Link>
                   </Button>
                 </div>
               </CardContent>
@@ -367,64 +341,53 @@ export default function Practice() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-6">
         {/* Progress Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <Button asChild variant="ghost" size="sm" className="rounded-xl">
+            <Button asChild variant="ghost" size="sm">
               <Link to="/">
-                <Home className="h-4 w-4 mr-2" />
-                Exit
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Exit Test
               </Link>
             </Button>
             
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-1">
-                {[...Array(5)].map((_, i) => (
-                  <Heart 
-                    key={i} 
-                    className={`h-5 w-5 ${
-                      i < lives ? 'text-red-500 fill-current' : 'text-gray-300'
-                    }`} 
-                  />
-                ))}
+            <div className="text-center">
+              <Badge variant="outline" className="mb-2">
+                {isFullTest ? 'Full K53 Test' : 'Quick Practice'}
+              </Badge>
+              <div className="text-sm text-gray-600">
+                Question {currentQuestion + 1} of {testQuestions.length}
               </div>
-              <div className="bg-yellow-400 text-white px-3 py-1 rounded-full font-bold text-sm">
-                +{xpEarned} XP
-              </div>
+            </div>
+            
+            <div className="text-sm text-gray-600">
+              {Math.round(progress)}% Complete
             </div>
           </div>
           
-          <div className="duolingo-progress h-3 mb-2">
-            <div className="duolingo-progress-bar" style={{ width: `${progress}%` }} />
-          </div>
-          
-          <div className="flex justify-between text-sm text-gray-600">
-            <span>Question {currentQuestion + 1} of {testQuestions.length}</span>
-            <span>{Math.round(progress)}% Complete</span>
-          </div>
+          <Progress value={progress} className="h-2" />
         </div>
 
         {/* Question Card */}
-        <div className="max-w-2xl mx-auto">
-          <Card className="duolingo-card border-2">
-            <CardHeader className="pb-4">
+        <div className="max-w-3xl mx-auto">
+          <Card className="border border-gray-200">
+            <CardHeader>
               <div className="flex items-center justify-between mb-4">
-                <Badge variant="outline" className="capitalize px-3 py-1 rounded-full">
+                <Badge variant="secondary" className="capitalize">
                   {currentQ?.category.replace('_', ' ')}
                 </Badge>
                 <div className="text-sm text-gray-500">
                   {currentQuestion + 1}/{testQuestions.length}
                 </div>
               </div>
-              <CardTitle className="text-xl leading-relaxed text-gray-800">
+              <CardTitle className="text-xl text-gray-900 leading-relaxed">
                 {currentQ?.question}
               </CardTitle>
             </CardHeader>
             
             <CardContent className="space-y-6">
-              {/* Answer Options */}
               <RadioGroup value={selectedAnswer} onValueChange={handleAnswerSelect}>
                 <div className="space-y-3">
                   {currentQ?.options.map((option, index) => {
@@ -435,15 +398,15 @@ export default function Practice() {
                     return (
                       <div
                         key={index}
-                        className={`border-2 rounded-2xl p-4 transition-all cursor-pointer hover:scale-102 ${
+                        className={`border rounded-lg p-4 transition-colors cursor-pointer ${
                           answered
                             ? isCorrectAnswer
-                              ? 'border-green-500 bg-green-50 shadow-lg'
+                              ? 'border-green-500 bg-green-50'
                               : isWrongSelected
-                              ? 'border-red-500 bg-red-50 shadow-lg'
+                              ? 'border-red-500 bg-red-50'
                               : 'border-gray-200 bg-white'
                             : isSelected
-                            ? 'border-blue-500 bg-blue-50 shadow-md'
+                            ? 'border-blue-500 bg-blue-50'
                             : 'border-gray-200 hover:border-gray-300 bg-white'
                         }`}
                         onClick={() => handleAnswerSelect(option)}
@@ -453,11 +416,10 @@ export default function Practice() {
                             value={option} 
                             id={`option-${index}`}
                             disabled={answered}
-                            className="data-[state=checked]:border-blue-500 data-[state=checked]:text-blue-500"
                           />
                           <Label 
                             htmlFor={`option-${index}`} 
-                            className="flex-1 cursor-pointer text-base font-medium"
+                            className="flex-1 cursor-pointer font-medium"
                           >
                             {option}
                           </Label>
@@ -474,22 +436,21 @@ export default function Practice() {
                 </div>
               </RadioGroup>
 
-              {/* Explanation */}
               {showResult && (
-                <div className={`p-4 rounded-2xl border-2 ${
+                <div className={`p-4 rounded-lg border ${
                   isCorrect 
                     ? 'bg-green-50 border-green-200' 
                     : 'bg-red-50 border-red-200'
                 }`}>
                   <div className="flex items-start space-x-3">
                     {isCorrect ? (
-                      <CheckCircle className="h-6 w-6 text-green-600 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                     ) : (
-                      <XCircle className="h-6 w-6 text-red-600 mt-0.5 flex-shrink-0" />
+                      <XCircle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
                     )}
                     <div>
-                      <div className="font-bold mb-2 text-gray-800">
-                        {isCorrect ? "Correct! +10 XP" : "Incorrect"}
+                      <div className="font-medium mb-1 text-gray-900">
+                        {isCorrect ? "Correct" : "Incorrect"}
                       </div>
                       <div className="text-sm text-gray-700">
                         {currentQ?.explanation}
@@ -499,21 +460,20 @@ export default function Practice() {
                 </div>
               )}
 
-              {/* Action Buttons */}
               {!answered ? (
                 <Button 
                   onClick={submitAnswer} 
                   disabled={!selectedAnswer}
-                  className="duolingo-button w-full text-lg py-6"
+                  className="w-full bg-blue-600 hover:bg-blue-700"
                 >
                   Submit Answer
                 </Button>
               ) : (
                 <Button 
                   onClick={nextQuestion} 
-                  className="duolingo-button w-full text-lg py-6"
+                  className="w-full bg-blue-600 hover:bg-blue-700"
                 >
-                  {currentQuestion < testQuestions.length - 1 ? "Continue" : "Complete Test"}
+                  {currentQuestion < testQuestions.length - 1 ? "Next Question" : "Complete Test"}
                 </Button>
               )}
             </CardContent>
