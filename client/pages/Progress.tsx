@@ -19,7 +19,9 @@ export default function ProgressPage() {
           </Button>
           <div className="text-center">
             <h1 className="text-2xl font-bold text-foreground">My Progress</h1>
-            <p className="text-muted-foreground">Track your K53 preparation journey</p>
+            <p className="text-muted-foreground">
+              Track your K53 preparation journey
+            </p>
           </div>
           <div></div>
         </div>
@@ -31,14 +33,15 @@ export default function ProgressPage() {
               <div className="bg-primary/10 text-primary rounded-full p-4 w-fit mx-auto mb-4">
                 <TrendingUp className="h-8 w-8" />
               </div>
-              
+
               <h2 className="text-2xl font-bold text-foreground mb-4">
                 Progress Tracking Coming Soon!
               </h2>
-              
+
               <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                We're building an advanced progress tracking system that will help you monitor your improvement, 
-                identify weak areas, and track your journey to K53 success. Features will include:
+                We're building an advanced progress tracking system that will
+                help you monitor your improvement, identify weak areas, and
+                track your journey to K53 success. Features will include:
               </p>
 
               <div className="grid md:grid-cols-2 gap-4 mb-8 text-left">
@@ -71,11 +74,9 @@ export default function ProgressPage() {
                     <Target className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
-                
+
                 <Button asChild variant="outline" size="lg">
-                  <Link to="/">
-                    Back to Home
-                  </Link>
+                  <Link to="/">Back to Home</Link>
                 </Button>
               </div>
             </CardContent>
@@ -89,7 +90,9 @@ export default function ProgressPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-primary mb-2">0</div>
-                <p className="text-sm text-muted-foreground">Start practicing to see your stats!</p>
+                <p className="text-sm text-muted-foreground">
+                  Start practicing to see your stats!
+                </p>
               </CardContent>
             </Card>
 
@@ -99,7 +102,9 @@ export default function ProgressPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-primary mb-2">--</div>
-                <p className="text-sm text-muted-foreground">Complete tests to track progress</p>
+                <p className="text-sm text-muted-foreground">
+                  Complete tests to track progress
+                </p>
               </CardContent>
             </Card>
 
@@ -108,8 +113,12 @@ export default function ProgressPage() {
                 <CardTitle className="text-lg">Ready for Test?</CardTitle>
               </CardHeader>
               <CardContent>
-                <Badge variant="outline" className="mb-2">Not yet</Badge>
-                <p className="text-sm text-muted-foreground">Keep practicing to improve!</p>
+                <Badge variant="outline" className="mb-2">
+                  Not yet
+                </Badge>
+                <p className="text-sm text-muted-foreground">
+                  Keep practicing to improve!
+                </p>
               </CardContent>
             </Card>
           </div>

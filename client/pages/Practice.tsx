@@ -5,7 +5,14 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { CheckCircle, XCircle, Clock, BookOpen, Home, RotateCcw } from "lucide-react";
+import {
+  CheckCircle,
+  XCircle,
+  Clock,
+  BookOpen,
+  Home,
+  RotateCcw,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface Question {
@@ -33,28 +40,43 @@ const sampleQuestions: Question[] = [
     id: "Q1",
     category: "signs",
     question: "What does this red circle with a white horizontal bar mean?",
-    options: ["No entry for all vehicles", "No parking", "No overtaking", "Stop and give way"],
+    options: [
+      "No entry for all vehicles",
+      "No parking",
+      "No overtaking",
+      "Stop and give way",
+    ],
     correct: 0,
-    explanation: "A red circle with a white horizontal bar is a 'No Entry' sign, prohibiting all vehicles from entering.",
-    language: "en"
+    explanation:
+      "A red circle with a white horizontal bar is a 'No Entry' sign, prohibiting all vehicles from entering.",
+    language: "en",
   },
   {
-    id: "Q2", 
+    id: "Q2",
     category: "controls",
-    question: "What should you do when approaching a traffic light that changes from green to amber?",
-    options: ["Speed up to get through", "Stop if it's safe to do so", "Continue at the same speed", "Sound your horn"],
+    question:
+      "What should you do when approaching a traffic light that changes from green to amber?",
+    options: [
+      "Speed up to get through",
+      "Stop if it's safe to do so",
+      "Continue at the same speed",
+      "Sound your horn",
+    ],
     correct: 1,
-    explanation: "When a traffic light changes from green to amber, you should stop if it's safe to do so. Only proceed if stopping would be dangerous.",
-    language: "en"
+    explanation:
+      "When a traffic light changes from green to amber, you should stop if it's safe to do so. Only proceed if stopping would be dangerous.",
+    language: "en",
   },
   {
     id: "Q3",
-    category: "rules", 
-    question: "What is the maximum speed limit in a built-up area unless otherwise indicated?",
+    category: "rules",
+    question:
+      "What is the maximum speed limit in a built-up area unless otherwise indicated?",
     options: ["40 km/h", "50 km/h", "60 km/h", "80 km/h"],
     correct: 2,
-    explanation: "The general speed limit in built-up areas (cities and towns) is 60 km/h unless otherwise indicated by road signs.",
-    language: "en"
+    explanation:
+      "The general speed limit in built-up areas (cities and towns) is 60 km/h unless otherwise indicated by road signs.",
+    language: "en",
   },
   {
     id: "Q4",
@@ -62,18 +84,25 @@ const sampleQuestions: Question[] = [
     question: "What does a triangular sign with a red border mean?",
     options: ["Information", "Warning", "Prohibition", "Mandatory"],
     correct: 1,
-    explanation: "Triangular signs with red borders are warning signs that alert drivers to potential hazards or changes in road conditions ahead.",
-    language: "en"
+    explanation:
+      "Triangular signs with red borders are warning signs that alert drivers to potential hazards or changes in road conditions ahead.",
+    language: "en",
   },
   {
     id: "Q5",
     category: "controls",
     question: "When must you use your indicators?",
-    options: ["Only when turning", "Only when changing lanes", "When turning, changing lanes, or pulling over", "Only in heavy traffic"],
+    options: [
+      "Only when turning",
+      "Only when changing lanes",
+      "When turning, changing lanes, or pulling over",
+      "Only in heavy traffic",
+    ],
     correct: 2,
-    explanation: "You must use your indicators when turning, changing lanes, pulling over, or whenever your intended movement might affect other road users.",
-    language: "en"
-  }
+    explanation:
+      "You must use your indicators when turning, changing lanes, pulling over, or whenever your intended movement might affect other road users.",
+    language: "en",
+  },
 ];
 
 export default function Practice() {
@@ -111,8 +140,9 @@ export default function Practice() {
 
   const submitAnswer = () => {
     if (selectedAnswer === "") return;
-    
-    const answerIndex = testQuestions[currentQuestion].options.indexOf(selectedAnswer);
+
+    const answerIndex =
+      testQuestions[currentQuestion].options.indexOf(selectedAnswer);
     setUserAnswers([...userAnswers, answerIndex]);
     setAnswered(true);
     setShowResult(true);
@@ -131,12 +161,15 @@ export default function Practice() {
 
   const completeTest = () => {
     // Calculate results by category
-    const finalAnswers = [...userAnswers, testQuestions[currentQuestion].options.indexOf(selectedAnswer)];
-    
+    const finalAnswers = [
+      ...userAnswers,
+      testQuestions[currentQuestion].options.indexOf(selectedAnswer),
+    ];
+
     const categories = {
       controls: { correct: 0, total: 0, required: 6 },
       signs: { correct: 0, total: 0, required: 23 },
-      rules: { correct: 0, total: 0, required: 22 }
+      rules: { correct: 0, total: 0, required: 22 },
     };
 
     testQuestions.forEach((question, index) => {
@@ -146,20 +179,23 @@ export default function Practice() {
       }
     });
 
-    const testResults: TestResult[] = Object.entries(categories).map(([category, data]) => ({
-      category: category.charAt(0).toUpperCase() + category.slice(1),
-      correct: data.correct,
-      total: data.total,
-      required: data.required,
-      passed: data.correct >= data.required
-    }));
+    const testResults: TestResult[] = Object.entries(categories).map(
+      ([category, data]) => ({
+        category: category.charAt(0).toUpperCase() + category.slice(1),
+        correct: data.correct,
+        total: data.total,
+        required: data.required,
+        passed: data.correct >= data.required,
+      }),
+    );
 
     setResults(testResults);
     setTestCompleted(true);
   };
 
   const currentQ = testQuestions[currentQuestion];
-  const isCorrect = answered && selectedAnswer === currentQ?.options[currentQ.correct];
+  const isCorrect =
+    answered && selectedAnswer === currentQ?.options[currentQ.correct];
   const progress = ((currentQuestion + 1) / testQuestions.length) * 100;
 
   if (!testStarted) {
@@ -175,8 +211,12 @@ export default function Practice() {
               </Link>
             </Button>
             <div className="text-center">
-              <h1 className="text-2xl font-bold text-foreground">K53 Practice Test</h1>
-              <p className="text-muted-foreground">Test your knowledge before the real exam</p>
+              <h1 className="text-2xl font-bold text-foreground">
+                K53 Practice Test
+              </h1>
+              <p className="text-muted-foreground">
+                Test your knowledge before the real exam
+              </p>
             </div>
             <div></div>
           </div>
@@ -188,20 +228,32 @@ export default function Practice() {
                 <div className="bg-primary/10 text-primary rounded-full p-4 w-fit mx-auto mb-4">
                   <BookOpen className="h-8 w-8" />
                 </div>
-                <CardTitle className="text-2xl">Ready to Start Your Practice Test?</CardTitle>
+                <CardTitle className="text-2xl">
+                  Ready to Start Your Practice Test?
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid md:grid-cols-3 gap-4 text-center">
                   <div className="bg-accent/10 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-primary mb-1">5</div>
-                    <div className="text-sm text-muted-foreground">Demo Questions</div>
+                    <div className="text-2xl font-bold text-primary mb-1">
+                      5
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Demo Questions
+                    </div>
                   </div>
                   <div className="bg-accent/10 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-primary mb-1">3</div>
-                    <div className="text-sm text-muted-foreground">Categories</div>
+                    <div className="text-2xl font-bold text-primary mb-1">
+                      3
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Categories
+                    </div>
                   </div>
                   <div className="bg-accent/10 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-primary mb-1">~5</div>
+                    <div className="text-2xl font-bold text-primary mb-1">
+                      ~5
+                    </div>
                     <div className="text-sm text-muted-foreground">Minutes</div>
                   </div>
                 </div>
@@ -237,43 +289,63 @@ export default function Practice() {
   }
 
   if (testCompleted) {
-    const overallPassed = results.every(r => r.passed);
-    
+    const overallPassed = results.every((r) => r.passed);
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-accent/5 to-secondary/10">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto">
             <Card className="border-2">
               <CardHeader className="text-center">
-                <div className={`rounded-full p-4 w-fit mx-auto mb-4 ${overallPassed ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
-                  {overallPassed ? <CheckCircle className="h-8 w-8" /> : <XCircle className="h-8 w-8" />}
+                <div
+                  className={`rounded-full p-4 w-fit mx-auto mb-4 ${overallPassed ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}
+                >
+                  {overallPassed ? (
+                    <CheckCircle className="h-8 w-8" />
+                  ) : (
+                    <XCircle className="h-8 w-8" />
+                  )}
                 </div>
                 <CardTitle className="text-2xl">
-                  {overallPassed ? "Congratulations! You Passed!" : "Test Complete - More Practice Needed"}
+                  {overallPassed
+                    ? "Congratulations! You Passed!"
+                    : "Test Complete - More Practice Needed"}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
                   <h3 className="font-semibold">Your Results:</h3>
                   {results.map((result, index) => (
-                    <div key={index} className={`p-4 rounded-lg border-2 ${result.passed ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                    <div
+                      key={index}
+                      className={`p-4 rounded-lg border-2 ${result.passed ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`}
+                    >
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-medium">{result.category}</span>
-                        {result.passed ? 
-                          <CheckCircle className="h-5 w-5 text-green-600" /> : 
+                        {result.passed ? (
+                          <CheckCircle className="h-5 w-5 text-green-600" />
+                        ) : (
                           <XCircle className="h-5 w-5 text-red-600" />
-                        }
+                        )}
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        Score: {result.correct}/{result.total} (Required: {result.required})
+                        Score: {result.correct}/{result.total} (Required:{" "}
+                        {result.required})
                       </div>
-                      <Progress value={(result.correct / result.total) * 100} className="mt-2" />
+                      <Progress
+                        value={(result.correct / result.total) * 100}
+                        className="mt-2"
+                      />
                     </div>
                   ))}
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button onClick={generateTest} variant="outline" className="flex-1">
+                  <Button
+                    onClick={generateTest}
+                    variant="outline"
+                    className="flex-1"
+                  >
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Try Again
                   </Button>
@@ -326,37 +398,42 @@ export default function Practice() {
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Answer Options */}
-              <RadioGroup value={selectedAnswer} onValueChange={handleAnswerSelect}>
+              <RadioGroup
+                value={selectedAnswer}
+                onValueChange={handleAnswerSelect}
+              >
                 <div className="space-y-3">
                   {currentQ?.options.map((option, index) => {
                     const isSelected = selectedAnswer === option;
-                    const isCorrectAnswer = answered && index === currentQ.correct;
-                    const isWrongSelected = answered && isSelected && index !== currentQ.correct;
-                    
+                    const isCorrectAnswer =
+                      answered && index === currentQ.correct;
+                    const isWrongSelected =
+                      answered && isSelected && index !== currentQ.correct;
+
                     return (
                       <div
                         key={index}
                         className={`border-2 rounded-lg p-4 transition-colors cursor-pointer ${
                           answered
                             ? isCorrectAnswer
-                              ? 'border-green-500 bg-green-50'
+                              ? "border-green-500 bg-green-50"
                               : isWrongSelected
-                              ? 'border-red-500 bg-red-50'
-                              : 'border-border bg-background'
+                                ? "border-red-500 bg-red-50"
+                                : "border-border bg-background"
                             : isSelected
-                            ? 'border-primary bg-primary/5'
-                            : 'border-border hover:border-primary/50'
+                              ? "border-primary bg-primary/5"
+                              : "border-border hover:border-primary/50"
                         }`}
                         onClick={() => handleAnswerSelect(option)}
                       >
                         <div className="flex items-center space-x-3">
-                          <RadioGroupItem 
-                            value={option} 
+                          <RadioGroupItem
+                            value={option}
                             id={`option-${index}`}
                             disabled={answered}
                           />
-                          <Label 
-                            htmlFor={`option-${index}`} 
+                          <Label
+                            htmlFor={`option-${index}`}
                             className="flex-1 cursor-pointer text-base"
                           >
                             {option}
@@ -376,7 +453,9 @@ export default function Practice() {
 
               {/* Explanation */}
               {showResult && (
-                <div className={`p-4 rounded-lg border-2 ${isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                <div
+                  className={`p-4 rounded-lg border-2 ${isCorrect ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`}
+                >
                   <div className="flex items-start space-x-3">
                     {isCorrect ? (
                       <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
@@ -397,17 +476,19 @@ export default function Practice() {
 
               {/* Action Buttons */}
               {!answered ? (
-                <Button 
-                  onClick={submitAnswer} 
+                <Button
+                  onClick={submitAnswer}
                   disabled={!selectedAnswer}
-                  size="lg" 
+                  size="lg"
                   className="w-full"
                 >
                   Submit Answer
                 </Button>
               ) : (
                 <Button onClick={nextQuestion} size="lg" className="w-full">
-                  {currentQuestion < testQuestions.length - 1 ? "Next Question" : "Complete Test"}
+                  {currentQuestion < testQuestions.length - 1
+                    ? "Next Question"
+                    : "Complete Test"}
                 </Button>
               )}
             </CardContent>

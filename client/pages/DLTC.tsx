@@ -18,7 +18,9 @@ export default function DLTCPage() {
           </Button>
           <div className="text-center">
             <h1 className="text-2xl font-bold text-foreground">DLTC Finder</h1>
-            <p className="text-muted-foreground">Find Driving License Testing Centres near you</p>
+            <p className="text-muted-foreground">
+              Find Driving License Testing Centres near you
+            </p>
           </div>
           <div></div>
         </div>
@@ -34,8 +36,8 @@ export default function DLTCPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex gap-4">
-                <Input 
-                  placeholder="Enter your city or province..." 
+                <Input
+                  placeholder="Enter your city or province..."
                   className="flex-1"
                 />
                 <Button>
@@ -43,10 +45,11 @@ export default function DLTCPage() {
                   Search
                 </Button>
               </div>
-              
+
               <p className="text-sm text-muted-foreground">
-                🚧 <strong>Coming Soon:</strong> Interactive map with all DLTC locations across South Africa, 
-                including contact details, operating hours, and booking information.
+                🚧 <strong>Coming Soon:</strong> Interactive map with all DLTC
+                locations across South Africa, including contact details,
+                operating hours, and booking information.
               </p>
             </CardContent>
           </Card>
@@ -65,14 +68,14 @@ export default function DLTCPage() {
                     <p>123 Main Road, Cape Town, 8001</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-3">
                   <Phone className="h-4 w-4 text-primary mt-1" />
                   <div className="text-sm">
                     <p>021-123-4567</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-3">
                   <Clock className="h-4 w-4 text-primary mt-1" />
                   <div className="text-sm">
@@ -80,7 +83,7 @@ export default function DLTCPage() {
                     <p>Sat: 8:00 AM - 12:00 PM</p>
                   </div>
                 </div>
-                
+
                 <Button variant="outline" size="sm" className="w-full mt-4">
                   Get Directions
                 </Button>
@@ -99,14 +102,14 @@ export default function DLTCPage() {
                     <p>456 CBD Street, Johannesburg, 2000</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-3">
                   <Phone className="h-4 w-4 text-primary mt-1" />
                   <div className="text-sm">
                     <p>011-987-6543</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-3">
                   <Clock className="h-4 w-4 text-primary mt-1" />
                   <div className="text-sm">
@@ -114,7 +117,7 @@ export default function DLTCPage() {
                     <p>Sat: 8:00 AM - 1:00 PM</p>
                   </div>
                 </div>
-                
+
                 <Button variant="outline" size="sm" className="w-full mt-4">
                   Get Directions
                 </Button>
@@ -154,14 +157,14 @@ export default function DLTCPage() {
           {/* Practice Prompt */}
           <Card className="mt-8 bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
             <CardContent className="p-6 text-center">
-              <h3 className="text-lg font-semibold mb-2">Ready for Your Test?</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Ready for Your Test?
+              </h3>
               <p className="text-muted-foreground mb-4">
                 Make sure you're prepared by taking our practice tests first!
               </p>
               <Button asChild size="lg">
-                <Link to="/practice">
-                  Start Practice Test
-                </Link>
+                <Link to="/practice">Start Practice Test</Link>
               </Button>
             </CardContent>
           </Card>

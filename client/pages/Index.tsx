@@ -1,7 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Clock, MapPin, Target, Smartphone, BookOpen, TrendingUp, Shield } from "lucide-react";
+import {
+  CheckCircle,
+  Clock,
+  MapPin,
+  Target,
+  Smartphone,
+  BookOpen,
+  TrendingUp,
+  Shield,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
@@ -9,40 +24,46 @@ export default function Index() {
     {
       icon: Target,
       title: "Realistic Practice Tests",
-      description: "64-question mock tests matching real K53 format: 8 controls, 28 signs, 28 rules"
+      description:
+        "64-question mock tests matching real K53 format: 8 controls, 28 signs, 28 rules",
     },
     {
       icon: Clock,
       title: "Instant Feedback",
-      description: "Get immediate results with detailed explanations for every question"
+      description:
+        "Get immediate results with detailed explanations for every question",
     },
     {
       icon: Smartphone,
       title: "Offline Access",
-      description: "Practice anywhere without internet connection - perfect for South African conditions"
+      description:
+        "Practice anywhere without internet connection - perfect for South African conditions",
     },
     {
       icon: TrendingUp,
       title: "Progress Tracking",
-      description: "Monitor your improvement with detailed analytics and weak area identification"
+      description:
+        "Monitor your improvement with detailed analytics and weak area identification",
     },
     {
       icon: MapPin,
       title: "DLTC Finder",
-      description: "Locate nearby Driving License Testing Centres with contact details"
+      description:
+        "Locate nearby Driving License Testing Centres with contact details",
     },
     {
       icon: Shield,
       title: "Taxfy Integration",
-      description: "Calculate potential test fee refunds with our partner service"
-    }
+      description:
+        "Calculate potential test fee refunds with our partner service",
+    },
   ];
 
   const stats = [
     { label: "Practice Questions", value: "150+" },
     { label: "Pass Rate", value: "85%" },
     { label: "Languages", value: "3" },
-    { label: "Users Helped", value: "1000+" }
+    { label: "Users Helped", value: "1000+" },
   ];
 
   return (
@@ -56,23 +77,34 @@ export default function Index() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-foreground">K53 Master</h1>
-              <p className="text-xs text-muted-foreground">Practice Test Simulator</p>
+              <p className="text-xs text-muted-foreground">
+                Practice Test Simulator
+              </p>
             </div>
           </div>
-          
+
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/practice" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/practice"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            >
               Practice Tests
             </Link>
-            <Link to="/progress" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/progress"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            >
               My Progress
             </Link>
-            <Link to="/dltc" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/dltc"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            >
               Find DLTC
             </Link>
-            <a 
-              href="https://taxfy.co.za" 
-              target="_blank" 
+            <a
+              href="https://taxfy.co.za"
+              target="_blank"
               rel="noopener noreferrer"
               className="text-sm font-medium text-secondary hover:text-secondary/80 transition-colors"
             >
@@ -88,15 +120,17 @@ export default function Index() {
           <Badge variant="secondary" className="mb-4">
             🇿🇦 Built for South Africa
           </Badge>
-          
+
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            Pass Your <span className="text-primary">K53 Test</span><br />
+            Pass Your <span className="text-primary">K53 Test</span>
+            <br />
             with Confidence
           </h1>
-          
+
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Master your learner's license with our comprehensive practice simulator. 
-            Features real K53 questions, progress tracking, and offline access designed specifically for South African drivers.
+            Master your learner's license with our comprehensive practice
+            simulator. Features real K53 questions, progress tracking, and
+            offline access designed specifically for South African drivers.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -106,8 +140,13 @@ export default function Index() {
                 <Target className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            
-            <Button asChild variant="outline" size="lg" className="text-lg px-8">
+
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="text-lg px-8"
+            >
               <Link to="/progress">
                 View Progress
                 <TrendingUp className="ml-2 h-5 w-5" />
@@ -138,13 +177,17 @@ export default function Index() {
             Everything You Need to Pass
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Our comprehensive platform provides all the tools and resources you need to ace your K53 learner's license test.
+            Our comprehensive platform provides all the tools and resources you
+            need to ace your K53 learner's license test.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => (
-            <Card key={index} className="border-2 hover:border-primary/20 transition-colors">
+            <Card
+              key={index}
+              className="border-2 hover:border-primary/20 transition-colors"
+            >
               <CardHeader>
                 <div className="bg-primary/10 text-primary rounded-full p-3 w-fit">
                   <feature.icon className="h-6 w-6" />
@@ -168,9 +211,10 @@ export default function Index() {
             Multilingual Support
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Practice in your preferred language with support for English, Afrikaans, and isiZulu.
+            Practice in your preferred language with support for English,
+            Afrikaans, and isiZulu.
           </p>
-          
+
           <div className="flex flex-wrap justify-center gap-4">
             <Badge variant="outline" className="text-base px-4 py-2">
               🇬🇧 English
@@ -193,18 +237,29 @@ export default function Index() {
               Ready to Get Your License?
             </h2>
             <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-              Join thousands of South Africans who have successfully passed their K53 test using our practice simulator.
+              Join thousands of South Africans who have successfully passed
+              their K53 test using our practice simulator.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" variant="secondary" className="text-lg px-8">
+              <Button
+                asChild
+                size="lg"
+                variant="secondary"
+                className="text-lg px-8"
+              >
                 <Link to="/practice">
                   Start Your First Test
                   <CheckCircle className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              
-              <Button asChild size="lg" variant="outline" className="text-lg px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="text-lg px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+              >
                 <Link to="/dltc">
                   Find Test Centre
                   <MapPin className="ml-2 h-5 w-5" />
@@ -226,35 +281,51 @@ export default function Index() {
                 </div>
                 <div>
                   <h3 className="font-bold text-foreground">K53 Master</h3>
-                  <p className="text-xs text-muted-foreground">Practice Test Simulator</p>
+                  <p className="text-xs text-muted-foreground">
+                    Practice Test Simulator
+                  </p>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">
-                The most comprehensive K53 practice test simulator for South African learner drivers.
+                The most comprehensive K53 practice test simulator for South
+                African learner drivers.
               </p>
             </div>
-            
+
             <div>
-              <h4 className="font-semibold text-foreground mb-3">Quick Links</h4>
+              <h4 className="font-semibold text-foreground mb-3">
+                Quick Links
+              </h4>
               <div className="space-y-2 text-sm">
-                <Link to="/practice" className="block text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/practice"
+                  className="block text-muted-foreground hover:text-primary transition-colors"
+                >
                   Practice Tests
                 </Link>
-                <Link to="/progress" className="block text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/progress"
+                  className="block text-muted-foreground hover:text-primary transition-colors"
+                >
                   Progress Tracking
                 </Link>
-                <Link to="/dltc" className="block text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/dltc"
+                  className="block text-muted-foreground hover:text-primary transition-colors"
+                >
                   DLTC Finder
                 </Link>
               </div>
             </div>
-            
+
             <div>
-              <h4 className="font-semibold text-foreground mb-3">Partner Services</h4>
+              <h4 className="font-semibold text-foreground mb-3">
+                Partner Services
+              </h4>
               <div className="space-y-2 text-sm">
-                <a 
-                  href="https://taxfy.co.za" 
-                  target="_blank" 
+                <a
+                  href="https://taxfy.co.za"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="block text-secondary hover:text-secondary/80 transition-colors"
                 >
@@ -263,7 +334,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          
+
           <div className="border-t mt-8 pt-8 text-center">
             <p className="text-sm text-muted-foreground">
               © 2025 K53 Master. Built for South African drivers with ❤️
