@@ -176,15 +176,14 @@ export default function Practice() {
             </div>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <Card className="border border-gray-700 bg-gray-800/50 backdrop-blur-sm mb-8">
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl text-white mb-2">
-                  Select Test Format
+          <div className="max-w-6xl mx-auto">
+            <Card className="border-2 border-slate-800 bg-white mb-8">
+              <CardHeader className="bg-slate-800 text-white p-8">
+                <CardTitle className="text-2xl font-bold uppercase tracking-wide mb-2">
+                  Assessment Type Selection
                 </CardTitle>
-                <p className="text-gray-300">
-                  Choose between a quick practice session or a full K53
-                  simulation
+                <p className="text-slate-200">
+                  Select your preferred examination format according to Department of Transport standards
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
