@@ -1,347 +1,305 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import {
-  CheckCircle,
-  Clock,
-  MapPin,
+  Trophy,
+  Flame,
+  Star,
   Target,
-  Smartphone,
+  Zap,
   BookOpen,
-  TrendingUp,
+  Users,
+  Award,
+  Car,
   Shield,
+  MapPin,
+  Crown,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
-  const features = [
-    {
-      icon: Target,
-      title: "Realistic Practice Tests",
-      description:
-        "64-question mock tests matching real K53 format: 8 controls, 28 signs, 28 rules",
-    },
-    {
-      icon: Clock,
-      title: "Instant Feedback",
-      description:
-        "Get immediate results with detailed explanations for every question",
-    },
-    {
-      icon: Smartphone,
-      title: "Offline Access",
-      description:
-        "Practice anywhere without internet connection - perfect for South African conditions",
-    },
-    {
-      icon: TrendingUp,
-      title: "Progress Tracking",
-      description:
-        "Monitor your improvement with detailed analytics and weak area identification",
-    },
-    {
-      icon: MapPin,
-      title: "DLTC Finder",
-      description:
-        "Locate nearby Driving License Testing Centres with contact details",
-    },
-    {
-      icon: Shield,
-      title: "Taxfy Integration",
-      description:
-        "Calculate potential test fee refunds with our partner service",
-    },
+  // Mock user data (will be replaced with real data from Supabase)
+  const mockUser = {
+    streak: 7,
+    level: 12,
+    xp: 2450,
+    nextLevelXp: 3000,
+    completedLessons: 23,
+    totalLessons: 64,
+  };
+
+  const achievements = [
+    { id: 1, icon: Trophy, title: "First Test", description: "Complete your first practice test", earned: true },
+    { id: 2, icon: Flame, title: "7 Day Streak", description: "Practice for 7 days in a row", earned: true },
+    { id: 3, icon: Star, title: "Perfect Score", description: "Get 100% on a practice test", earned: false },
+    { id: 4, icon: Crown, title: "K53 Master", description: "Pass 10 full tests in a row", earned: false },
   ];
 
-  const stats = [
-    { label: "Practice Questions", value: "150+" },
-    { label: "Pass Rate", value: "85%" },
-    { label: "Languages", value: "3" },
-    { label: "Users Helped", value: "1000+" },
+  const categories = [
+    {
+      id: "controls",
+      title: "Vehicle Controls",
+      icon: Car,
+      color: "bg-blue-500",
+      progress: 80,
+      lessons: "8/8",
+      description: "Master your vehicle controls",
+    },
+    {
+      id: "signs",
+      title: "Road Signs",
+      icon: Shield,
+      color: "bg-green-500",
+      progress: 65,
+      lessons: "18/28",
+      description: "Learn all road signs",
+    },
+    {
+      id: "rules",
+      title: "Traffic Rules",
+      icon: BookOpen,
+      color: "bg-purple-500",
+      progress: 45,
+      lessons: "12/28",
+      description: "Know the rules of the road",
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-accent/5 to-secondary/10">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="bg-primary text-primary-foreground rounded-full p-2">
-              <BookOpen className="h-6 w-6" />
+      <header className="bg-white shadow-sm sticky top-0 z-50 border-b-2 border-gray-100">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="bg-primary text-primary-foreground rounded-2xl p-3 shadow-lg">
+                <Car className="h-8 w-8" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-800">K53 Master</h1>
+                <p className="text-sm text-gray-600">South African Driving Test</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">K53 Master</h1>
-              <p className="text-xs text-muted-foreground">
-                Practice Test Simulator
-              </p>
+            
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 bg-orange-100 px-3 py-2 rounded-full">
+                <Flame className="h-5 w-5 text-orange-500 streak-flame" />
+                <span className="font-bold text-orange-700">{mockUser.streak}</span>
+              </div>
+              <div className="flex items-center space-x-2 bg-purple-100 px-3 py-2 rounded-full">
+                <Crown className="h-5 w-5 text-purple-500" />
+                <span className="font-bold text-purple-700">Level {mockUser.level}</span>
+              </div>
+              <a 
+                href="https://taxfy.co.za" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+              >
+                Taxfy Refunds
+              </a>
             </div>
           </div>
-
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link
-              to="/practice"
-              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-            >
-              Practice Tests
-            </Link>
-            <Link
-              to="/progress"
-              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-            >
-              My Progress
-            </Link>
-            <Link
-              to="/dltc"
-              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-            >
-              Find DLTC
-            </Link>
-            <a
-              href="https://taxfy.co.za"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-secondary hover:text-secondary/80 transition-colors"
-            >
-              Taxfy Refunds
-            </a>
-          </nav>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-16 text-center">
-        <div className="max-w-4xl mx-auto">
-          <Badge variant="secondary" className="mb-4">
-            🇿🇦 Built for South Africa
-          </Badge>
-
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            Pass Your <span className="text-primary">K53 Test</span>
-            <br />
-            with Confidence
+      <div className="container mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="bg-gradient-to-r from-green-400 to-blue-500 p-6 rounded-full shadow-2xl bounce-in">
+                <Car className="h-16 w-16 text-white" />
+              </div>
+              <div className="absolute -top-2 -right-2 bg-yellow-400 rounded-full p-2 shadow-lg">
+                <Star className="h-4 w-4 text-white" />
+              </div>
+            </div>
+          </div>
+          
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+            Master Your <span className="text-primary">K53 Test</span>
           </h1>
-
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Master your learner's license with our comprehensive practice
-            simulator. Features real K53 questions, progress tracking, and
-            offline access designed specifically for South African drivers.
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Learn with confidence using our gamified learning platform. 
+            Join thousands of South Africans who passed their K53 test!
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button asChild size="lg" className="text-lg px-8">
-              <Link to="/practice">
-                Start Practice Test
-                <Target className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="text-lg px-8"
-            >
-              <Link to="/progress">
-                View Progress
-                <TrendingUp className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
+          {/* XP Progress */}
+          <div className="max-w-md mx-auto mb-8">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium text-gray-600">Level {mockUser.level}</span>
+              <span className="text-sm font-medium text-gray-600">{mockUser.xp} / {mockUser.nextLevelXp} XP</span>
+            </div>
+            <div className="duolingo-progress h-3">
+              <div 
+                className="duolingo-progress-bar" 
+                style={{ width: `${(mockUser.xp / mockUser.nextLevelXp) * 100}%` }}
+              />
+            </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            {stats.map((stat, index) => (
+          <Button asChild className="duolingo-button text-lg px-8 py-6 mb-8">
+            <Link to="/practice">
+              Continue Learning
+              <Zap className="ml-2 h-6 w-6" />
+            </Link>
+          </Button>
+        </div>
+
+        {/* Learning Categories */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+            Your Learning Path
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {categories.map((category) => {
+              const IconComponent = category.icon;
+              return (
+                <Card key={category.id} className="duolingo-card overflow-hidden group cursor-pointer">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`p-3 rounded-2xl ${category.color} shadow-lg group-hover:scale-110 transition-transform`}>
+                        <IconComponent className="h-8 w-8 text-white" />
+                      </div>
+                      <Badge className="level-badge">{category.lessons}</Badge>
+                    </div>
+                    
+                    <h3 className="text-xl font-bold text-gray-800 mb-2">{category.title}</h3>
+                    <p className="text-gray-600 mb-4">{category.description}</p>
+                    
+                    <div className="mb-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-gray-600">Progress</span>
+                        <span className="text-sm font-bold text-primary">{category.progress}%</span>
+                      </div>
+                      <div className="duolingo-progress h-2">
+                        <div 
+                          className="duolingo-progress-bar" 
+                          style={{ width: `${category.progress}%` }}
+                        />
+                      </div>
+                    </div>
+                    
+                    <Button asChild variant="outline" className="w-full rounded-xl font-semibold">
+                      <Link to="/practice">
+                        Start Learning
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Achievements */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+            Your Achievements
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {achievements.map((achievement) => {
+              const IconComponent = achievement.icon;
+              return (
+                <Card 
+                  key={achievement.id} 
+                  className={`duolingo-card p-4 text-center ${
+                    achievement.earned 
+                      ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200' 
+                      : 'bg-gray-50 border-gray-200 opacity-60'
+                  }`}
+                >
+                  <div className={`mx-auto mb-3 p-3 rounded-full w-fit ${
+                    achievement.earned 
+                      ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white' 
+                      : 'bg-gray-300 text-gray-500'
+                  }`}>
+                    <IconComponent className="h-6 w-6" />
+                  </div>
+                  <h3 className="font-bold text-gray-800 mb-1">{achievement.title}</h3>
+                  <p className="text-sm text-gray-600">{achievement.description}</p>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Stats Section */}
+        <div className="mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { icon: Users, value: "10K+", label: "Learners", color: "text-blue-500" },
+              { icon: Trophy, value: "85%", label: "Pass Rate", color: "text-green-500" },
+              { icon: BookOpen, value: "150+", label: "Questions", color: "text-purple-500" },
+              { icon: Award, value: "3", label: "Languages", color: "text-orange-500" },
+            ].map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-primary mb-1">
-                  {stat.value}
+                <div className={`mx-auto mb-2 p-3 rounded-full w-fit bg-gray-100 ${stat.color}`}>
+                  <stat.icon className="h-8 w-8" />
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  {stat.label}
-                </div>
+                <div className="text-2xl font-bold text-gray-800">{stat.value}</div>
+                <div className="text-sm text-gray-600">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
-      </section>
 
-      {/* Features Grid */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Everything You Need to Pass
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Our comprehensive platform provides all the tools and resources you
-            need to ace your K53 learner's license test.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <Card
-              key={index}
-              className="border-2 hover:border-primary/20 transition-colors"
-            >
-              <CardHeader>
-                <div className="bg-primary/10 text-primary rounded-full p-3 w-fit">
-                  <feature.icon className="h-6 w-6" />
-                </div>
-                <CardTitle className="text-xl">{feature.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-base">
-                  {feature.description}
-                </CardDescription>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Language Support */}
-      <section className="bg-accent/5 py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-foreground mb-4">
-            Multilingual Support
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Practice in your preferred language with support for English,
-            Afrikaans, and isiZulu.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <Badge variant="outline" className="text-base px-4 py-2">
-              🇬🇧 English
-            </Badge>
-            <Badge variant="outline" className="text-base px-4 py-2">
-              🇿🇦 Afrikaans
-            </Badge>
-            <Badge variant="outline" className="text-base px-4 py-2">
-              🌍 isiZulu
-            </Badge>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="container mx-auto px-4 py-16">
-        <Card className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-0">
-          <CardContent className="p-8 md:p-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to Get Your License?
-            </h2>
-            <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-              Join thousands of South Africans who have successfully passed
-              their K53 test using our practice simulator.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                asChild
-                size="lg"
-                variant="secondary"
-                className="text-lg px-8"
-              >
-                <Link to="/practice">
-                  Start Your First Test
-                  <CheckCircle className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="text-lg px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
-              >
-                <Link to="/dltc">
-                  Find Test Centre
-                  <MapPin className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t bg-muted/30 py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="bg-primary text-primary-foreground rounded-full p-2">
-                  <BookOpen className="h-5 w-5" />
-                </div>
+        {/* Quick Actions */}
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+          <Card className="duolingo-card bg-gradient-to-r from-blue-500 to-purple-600 text-white overflow-hidden">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-bold text-foreground">K53 Master</h3>
-                  <p className="text-xs text-muted-foreground">
-                    Practice Test Simulator
-                  </p>
+                  <h3 className="text-2xl font-bold mb-2">Quick Practice</h3>
+                  <p className="mb-4 opacity-90">Take a 5-minute practice session</p>
+                  <Button asChild variant="secondary" className="rounded-xl font-semibold">
+                    <Link to="/practice">Start Now</Link>
+                  </Button>
                 </div>
+                <Target className="h-16 w-16 opacity-20" />
               </div>
-              <p className="text-sm text-muted-foreground">
-                The most comprehensive K53 practice test simulator for South
-                African learner drivers.
-              </p>
-            </div>
+            </CardContent>
+          </Card>
 
-            <div>
-              <h4 className="font-semibold text-foreground mb-3">
-                Quick Links
-              </h4>
-              <div className="space-y-2 text-sm">
-                <Link
-                  to="/practice"
-                  className="block text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Practice Tests
-                </Link>
-                <Link
-                  to="/progress"
-                  className="block text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Progress Tracking
-                </Link>
-                <Link
-                  to="/dltc"
-                  className="block text-muted-foreground hover:text-primary transition-colors"
-                >
-                  DLTC Finder
-                </Link>
+          <Card className="duolingo-card bg-gradient-to-r from-green-500 to-blue-500 text-white overflow-hidden">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-2xl font-bold mb-2">Find Test Center</h3>
+                  <p className="mb-4 opacity-90">Locate your nearest DLTC</p>
+                  <Button asChild variant="secondary" className="rounded-xl font-semibold">
+                    <Link to="/dltc">Find DLTC</Link>
+                  </Button>
+                </div>
+                <MapPin className="h-16 w-16 opacity-20" />
               </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-foreground mb-3">
-                Partner Services
-              </h4>
-              <div className="space-y-2 text-sm">
-                <a
-                  href="https://taxfy.co.za"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-secondary hover:text-secondary/80 transition-colors"
-                >
-                  Taxfy - Test Fee Refunds
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t mt-8 pt-8 text-center">
-            <p className="text-sm text-muted-foreground">
-              © 2025 K53 Master. Built for South African drivers with ❤️
-            </p>
-          </div>
+            </CardContent>
+          </Card>
         </div>
-      </footer>
+
+        {/* Footer */}
+        <footer className="text-center py-12 border-t border-gray-200">
+          <div className="flex justify-center items-center space-x-2 mb-4">
+            <div className="bg-primary text-primary-foreground rounded-xl p-2">
+              <Car className="h-6 w-6" />
+            </div>
+            <span className="text-xl font-bold text-gray-800">K53 Master</span>
+          </div>
+          <p className="text-gray-600 mb-4">
+            The most fun way to learn driving in South Africa
+          </p>
+          <div className="flex justify-center space-x-6 text-sm text-gray-500">
+            <Link to="/practice" className="hover:text-primary transition-colors">Practice</Link>
+            <Link to="/progress" className="hover:text-primary transition-colors">Progress</Link>
+            <Link to="/dltc" className="hover:text-primary transition-colors">Find DLTC</Link>
+            <a href="https://taxfy.co.za" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+              Taxfy
+            </a>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }
