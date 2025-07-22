@@ -112,9 +112,10 @@ export default function Practice() {
   };
 
   const completeTest = () => {
+    const currentItems = testMode === "questions" ? testQuestions : testScenarios;
     const finalAnswers = [
       ...userAnswers,
-      testQuestions[currentQuestion].options.indexOf(selectedAnswer),
+      currentItems[currentQuestion].options.indexOf(selectedAnswer),
     ];
 
     const getRequiredScore = (
@@ -132,9 +133,18 @@ export default function Practice() {
       rules: { correct: 0, total: 0, required: 0 },
     };
 
-    testQuestions.forEach((question) => {
-      categories[question.category].total++;
-    });
+    if (testMode === "questions") {
+      testQuestions.forEach((question) => {
+        categories[question.category].total++;
+      });
+    } else {
+      // For scenarios, we'll count them all as mixed category
+      testScenarios.forEach((scenario) => {
+        if (categories[scenario.category]) {
+          categories[scenario.category].total++;
+        }
+      });
+    }
 
     categories.controls.required = getRequiredScore(
       categories.controls.total,
@@ -152,9 +162,12 @@ export default function Practice() {
       28,
     );
 
-    testQuestions.forEach((question, index) => {
-      if (finalAnswers[index] === question.correct) {
-        categories[question.category].correct++;
+    const itemsToProcess = testMode === "questions" ? testQuestions : testScenarios;
+    itemsToProcess.forEach((item, index) => {
+      if (finalAnswers[index] === item.correct) {
+        if (categories[item.category]) {
+          categories[item.category].correct++;
+        }
       }
     });
 
@@ -514,15 +527,25 @@ export default function Practice() {
             <CardHeader className="bg-slate-800 text-white p-6">
               <div className="flex items-center justify-between mb-4">
                 <Badge className="bg-white/20 text-white uppercase tracking-wide border border-white/30">
-                  {currentQ?.category.replace("_", " ")}
+                  {currentItem?.category.replace("_", " ")}
                 </Badge>
                 <div className="text-sm text-slate-200 uppercase tracking-wide">
-                  {currentQuestion + 1}/{testQuestions.length}
+                  {currentQuestion + 1}/{totalItems}
                 </div>
               </div>
               <CardTitle className="text-2xl font-bold leading-relaxed">
-                {currentQ?.question}
+                {testMode === "scenarios" && currentS ? currentS.title : currentItem?.question}
               </CardTitle>
+              {testMode === "scenarios" && currentS && (
+                <div className="mt-4 p-4 bg-white/10 border border-white/20 rounded">
+                  <div className="text-slate-200 mb-2 text-sm uppercase tracking-wide font-semibold">
+                    Scenario Context
+                  </div>
+                  <p className="text-slate-100 leading-relaxed">
+                    {currentS.scenario}
+                  </p>
+                </div>
+              )}
             </CardHeader>
 
             <CardContent className="p-8">
@@ -531,12 +554,12 @@ export default function Practice() {
                 onValueChange={handleAnswerSelect}
               >
                 <div className="space-y-4">
-                  {currentQ?.options.map((option, index) => {
+                  {currentItem?.options.map((option, index) => {
                     const isSelected = selectedAnswer === option;
                     const isCorrectAnswer =
-                      answered && index === currentQ.correct;
+                      answered && index === currentItem.correct;
                     const isWrongSelected =
-                      answered && isSelected && index !== currentQ.correct;
+                      answered && isSelected && index !== currentItem.correct;
 
                     return (
                       <div
@@ -609,7 +632,7 @@ export default function Practice() {
                         {isCorrect ? "Correct Answer" : "Incorrect Answer"}
                       </div>
                       <div className="text-slate-700 leading-relaxed">
-                        {currentQ?.explanation}
+                        {currentItem?.explanation}
                       </div>
                     </div>
                   </div>
@@ -629,8 +652,8 @@ export default function Practice() {
                   onClick={nextQuestion}
                   className="w-full bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide py-4 text-lg"
                 >
-                  {currentQuestion < testQuestions.length - 1
-                    ? "Proceed to Next Question"
+                  {currentQuestion < totalItems - 1
+                    ? testMode === "scenarios" ? "Proceed to Next Scenario" : "Proceed to Next Question"
                     : "Complete Assessment"}
                 </Button>
               )}
