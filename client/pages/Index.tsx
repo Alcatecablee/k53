@@ -40,22 +40,22 @@ export default function Index() {
               </div>
             </div>
 
-            <nav className="hidden md:flex items-center space-x-6">
+            <nav className="hidden md:flex items-center space-x-8">
               <Link
                 to="/practice"
-                className="text-gray-600 hover:text-accent font-medium font-sans"
+                className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
               >
                 Practice Tests
               </Link>
               <Link
                 to="/progress"
-                className="text-gray-600 hover:text-accent font-medium font-sans"
+                className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
               >
-                My Results
+                Results
               </Link>
               <Link
                 to="/dltc"
-                className="text-gray-600 hover:text-accent font-medium font-sans"
+                className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
               >
                 Test Centers
               </Link>
@@ -63,9 +63,9 @@ export default function Index() {
                 href="https://taxfy.co.za"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent hover:text-blue-600 font-medium font-sans"
+                className="bg-slate-800 text-white px-4 py-2 text-sm font-semibold uppercase tracking-wide hover:bg-slate-700 transition-colors"
               >
-                Taxfy Refunds
+                Tax Services
               </a>
             </nav>
           </div>
