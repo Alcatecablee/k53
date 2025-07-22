@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { K53Question, generateRandomTest } from "../data/k53Questions";
+import { K53Scenario, generateRandomScenarioTest } from "../data/k53Scenarios";
 
 interface TestResult {
   category: string;
@@ -26,6 +27,8 @@ interface TestResult {
   required: number;
   passed: boolean;
 }
+
+type TestMode = "questions" | "scenarios";
 
 export default function Practice() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -39,6 +42,8 @@ export default function Practice() {
   const [isFullTest, setIsFullTest] = useState(false);
 
   const [testQuestions, setTestQuestions] = useState<K53Question[]>([]);
+  const [testScenarios, setTestScenarios] = useState<K53Scenario[]>([]);
+  const [testMode, setTestMode] = useState<TestMode>("questions");
 
   const generateTest = (fullTest: boolean = false) => {
     setIsFullTest(fullTest);
@@ -231,62 +236,91 @@ export default function Practice() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="bg-slate-800 text-white p-8 hover:bg-slate-700 transition-colors">
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className="bg-slate-800 text-white p-6 hover:bg-slate-700 transition-colors">
                     <div className="text-center">
-                      <div className="w-20 h-20 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-6">
-                        <Clock className="h-10 w-10" />
+                      <div className="w-16 h-16 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-4">
+                        <Clock className="h-8 w-8" />
                       </div>
-                      <h3 className="text-2xl font-bold uppercase tracking-wide mb-4">
+                      <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
                         Practice Assessment
                       </h3>
-                      <div className="text-5xl font-bold mb-2">
+                      <div className="text-3xl font-bold mb-1">
                         12
                       </div>
-                      <div className="text-sm uppercase tracking-wide mb-1">
+                      <div className="text-xs uppercase tracking-wide mb-1">
                         Questions
                       </div>
-                      <div className="text-xs text-slate-300 mb-6 uppercase tracking-wide">
+                      <div className="text-xs text-slate-300 mb-4 uppercase tracking-wide">
                         Duration: ~5 Minutes
                       </div>
-                      <p className="text-slate-300 mb-6 leading-relaxed">
-                        Abbreviated assessment covering all mandatory categories for rapid skill evaluation.
+                      <p className="text-slate-300 mb-4 text-sm leading-relaxed">
+                        Abbreviated assessment for rapid skill evaluation.
                       </p>
                       <Button
                         onClick={() => generateTest(false)}
-                        className="w-full bg-white text-slate-800 hover:bg-slate-100 font-semibold uppercase tracking-wide py-3"
+                        className="w-full bg-white text-slate-800 hover:bg-slate-100 font-semibold uppercase tracking-wide py-2 text-sm"
                       >
-                        Initialize Practice Mode
+                        Begin Practice
                       </Button>
                     </div>
                   </div>
 
-                  <div className="bg-white border-2 border-slate-800 p-8 hover:shadow-lg transition-shadow">
+                  <div className="bg-white border-2 border-slate-800 p-6 hover:shadow-lg transition-shadow">
                     <div className="text-center">
-                      <div className="w-20 h-20 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-6">
-                        <FileText className="h-10 w-10 text-slate-800" />
+                      <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-4">
+                        <FileText className="h-8 w-8 text-slate-800" />
                       </div>
-                      <h3 className="text-2xl font-bold uppercase tracking-wide mb-4 text-slate-800">
+                      <h3 className="text-lg font-bold uppercase tracking-wide mb-3 text-slate-800">
                         Official Assessment
                       </h3>
-                      <div className="text-5xl font-bold mb-2 text-slate-800">
+                      <div className="text-3xl font-bold mb-1 text-slate-800">
                         64
                       </div>
-                      <div className="text-sm uppercase tracking-wide mb-1 text-slate-600">
+                      <div className="text-xs uppercase tracking-wide mb-1 text-slate-600">
                         Questions
                       </div>
-                      <div className="text-xs text-slate-500 mb-6 uppercase tracking-wide">
+                      <div className="text-xs text-slate-500 mb-4 uppercase tracking-wide">
                         Duration: ~25 Minutes
                       </div>
-                      <p className="text-slate-600 mb-6 leading-relaxed">
-                        Complete simulation adhering to official Department of Transport K53 examination standards.
+                      <p className="text-slate-600 mb-4 text-sm leading-relaxed">
+                        Complete simulation adhering to Department of Transport standards.
                       </p>
                       <Button
                         onClick={() => generateTest(true)}
-                        className="w-full border-2 border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide py-3"
+                        className="w-full border-2 border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide py-2 text-sm"
                         variant="outline"
                       >
-                        Begin Official Assessment
+                        Begin Official Test
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-orange-500 to-red-600 text-white p-6 hover:from-orange-600 hover:to-red-700 transition-colors">
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-4">
+                        <Car className="h-8 w-8" />
+                      </div>
+                      <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
+                        🔥 AI Scenarios
+                      </h3>
+                      <div className="text-3xl font-bold mb-1">
+                        25
+                      </div>
+                      <div className="text-xs uppercase tracking-wide mb-1">
+                        Real Situations
+                      </div>
+                      <div className="text-xs text-white/80 mb-4 uppercase tracking-wide">
+                        Duration: ~15 Minutes
+                      </div>
+                      <p className="text-white/90 mb-4 text-sm leading-relaxed">
+                        AI-generated real-world driving scenarios unique to South Africa.
+                      </p>
+                      <Button
+                        onClick={() => generateScenarioTest()}
+                        className="w-full bg-white text-orange-600 hover:bg-gray-100 font-semibold uppercase tracking-wide py-2 text-sm"
+                      >
+                        🚀 Try AI Scenarios
                       </Button>
                     </div>
                   </div>
