@@ -856,6 +856,118 @@ export const k53QuestionBank: K53Question[] = [
     correct: 1,
     explanation: "A flashing red light should be treated as a stop sign - come to a complete stop and proceed only when safe.",
     language: "en"
+  },
+  {
+    id: "R021",
+    category: "rules",
+    question: "When may you use the shoulder of the road?",
+    options: [
+      "To overtake slow vehicles",
+      "In emergency situations only",
+      "When traffic is heavy",
+      "During rush hour"
+    ],
+    correct: 1,
+    explanation: "The shoulder of the road may only be used in emergency situations, not for regular driving or overtaking.",
+    language: "en"
+  },
+  {
+    id: "R022",
+    category: "rules",
+    question: "What should you do when approaching an ambulance with flashing lights?",
+    options: [
+      "Maintain your speed",
+      "Speed up to get out of the way",
+      "Yield right of way and move aside safely",
+      "Follow closely behind"
+    ],
+    correct: 2,
+    explanation: "You must yield right of way to emergency vehicles with flashing lights and move aside safely to allow them to pass.",
+    language: "en"
+  },
+  {
+    id: "R023",
+    category: "rules",
+    question: "How far from a fire hydrant must you not park?",
+    options: [
+      "1 meter",
+      "1.5 meters",
+      "3 meters",
+      "5 meters"
+    ],
+    correct: 1,
+    explanation: "You may not park closer than 1.5 meters from a fire hydrant to ensure emergency access.",
+    language: "en"
+  },
+  {
+    id: "R024",
+    category: "rules",
+    question: "What is the penalty for driving without a valid license?",
+    options: [
+      "Warning only",
+      "Small fine",
+      "Criminal offense with fine and possible imprisonment",
+      "License suspension only"
+    ],
+    correct: 2,
+    explanation: "Driving without a valid license is a criminal offense that can result in a fine and possible imprisonment.",
+    language: "en"
+  },
+  {
+    id: "R025",
+    category: "rules",
+    question: "When must you dip your headlights?",
+    options: [
+      "Never",
+      "Only at night",
+      "When approaching oncoming traffic or following another vehicle",
+      "Only in rain"
+    ],
+    correct: 2,
+    explanation: "You must dip your headlights when approaching oncoming traffic or following another vehicle to avoid blinding other drivers.",
+    language: "en"
+  },
+  {
+    id: "R026",
+    category: "rules",
+    question: "What is the rule for child passengers in vehicles?",
+    options: [
+      "No special requirements",
+      "Must sit in back seat only",
+      "Children 3-14 years must use appropriate restraints unless taller than 1.5m",
+      "Children can sit anywhere"
+    ],
+    correct: 2,
+    explanation: "Children between ages 3-14 must use appropriate child restraints unless they are taller than 1.5 meters.",
+    language: "en"
+  },
+  {
+    id: "R027",
+    category: "rules",
+    question: "When is it legal to use a handheld mobile phone while driving?",
+    options: [
+      "During traffic jams",
+      "On quiet roads only",
+      "Never - you must use hands-free or headset",
+      "Only for emergencies"
+    ],
+    correct: 2,
+    explanation: "You may not operate a handheld communication device while driving. You must use hands-free or headset equipment.",
+    language: "en"
+  },
+  {
+    id: "R028",
+    category: "rules",
+    question: "What should you do if you miss your freeway exit?",
+    options: [
+      "Reverse on the freeway",
+      "Cross the median to turn around",
+      "Continue to the next exit",
+      "Stop and back up"
+    ],
+    correct: 2,
+    explanation: "If you miss your freeway exit, continue driving to the next exit. Never reverse, stop, or turn around on a freeway.",
+    language: "en"
   }
 ];
 
