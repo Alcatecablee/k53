@@ -176,21 +176,21 @@ export default function Practice() {
                     <div className="text-sm text-gray-300">8 questions</div>
                     <div className="text-xs text-gray-400">Pass: 6/8 required</div>
                   </div>
-                  <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <Layers className="w-5 h-5 text-green-600" />
+                  <div className="text-center p-4 bg-green-900/30 border border-green-700/50 rounded-lg">
+                    <div className="w-8 h-8 bg-green-800/50 rounded-lg flex items-center justify-center mx-auto mb-2">
+                      <Layers className="w-5 h-5 text-green-400" />
                     </div>
-                    <div className="font-medium text-gray-900">Road Signs</div>
-                    <div className="text-sm text-gray-600">28 questions</div>
-                    <div className="text-xs text-gray-500">Pass: 23/28 required</div>
+                    <div className="font-medium text-white">Road Signs</div>
+                    <div className="text-sm text-gray-300">28 questions</div>
+                    <div className="text-xs text-gray-400">Pass: 23/28 required</div>
                   </div>
-                  <div className="text-center p-4 bg-orange-50 rounded-lg">
-                    <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <ChartBarStacked className="w-5 h-5 text-orange-600" />
+                  <div className="text-center p-4 bg-orange-900/30 border border-orange-700/50 rounded-lg">
+                    <div className="w-8 h-8 bg-orange-800/50 rounded-lg flex items-center justify-center mx-auto mb-2">
+                      <ChartBarStacked className="w-5 h-5 text-orange-400" />
                     </div>
-                    <div className="font-medium text-gray-900">Traffic Rules</div>
-                    <div className="text-sm text-gray-600">28 questions</div>
-                    <div className="text-xs text-gray-500">Pass: 22/28 required</div>
+                    <div className="font-medium text-white">Traffic Rules</div>
+                    <div className="text-sm text-gray-300">28 questions</div>
+                    <div className="text-xs text-gray-400">Pass: 22/28 required</div>
                   </div>
                 </div>
 
