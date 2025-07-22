@@ -12,6 +12,9 @@ import {
   RotateCcw,
   FileText,
   Clock,
+  Gauge,
+  Shield,
+  BookOpen,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { K53Question, generateRandomTest } from "../data/k53Questions";
