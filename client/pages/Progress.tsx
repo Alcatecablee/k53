@@ -212,87 +212,62 @@ export default function ProgressPage() {
             </CardContent>
           </Card>
 
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="duolingo-card text-center">
-              <CardContent className="p-6">
-                <div className="bg-blue-100 rounded-full p-3 w-fit mx-auto mb-3">
-                  <Trophy className="h-6 w-6 text-blue-500" />
+          {/* System Statistics */}
+          <div className="bg-slate-100 p-8 mb-8">
+            <h3 className="text-center text-lg font-bold uppercase tracking-wide text-slate-800 mb-8">
+              Performance Metrics
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div className="text-center border-r border-slate-300 last:border-r-0">
+                <div className="text-4xl font-bold text-slate-800 mb-2">{userStats.testsCompleted}</div>
+                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Assessments</div>
+              </div>
+              <div className="text-center border-r border-slate-300 last:border-r-0">
+                <div className="text-4xl font-bold text-slate-800 mb-2">{userStats.streak}</div>
+                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Day Streak</div>
+              </div>
+              <div className="text-center border-r border-slate-300 last:border-r-0">
+                <div className="text-4xl font-bold text-slate-800 mb-2">
+                  {Math.floor(userStats.totalStudyTime / 60)}h {userStats.totalStudyTime % 60}m
                 </div>
-                <div className="text-2xl font-bold text-gray-800 mb-1">
-                  {userStats.testsCompleted}
-                </div>
-                <div className="text-sm text-gray-600">Tests Completed</div>
-              </CardContent>
-            </Card>
-
-            <Card className="duolingo-card text-center">
-              <CardContent className="p-6">
-                <div className="bg-orange-100 rounded-full p-3 w-fit mx-auto mb-3">
-                  <Flame className="h-6 w-6 text-orange-500" />
-                </div>
-                <div className="text-2xl font-bold text-gray-800 mb-1">
-                  {userStats.streak}
-                </div>
-                <div className="text-sm text-gray-600">Day Streak</div>
-              </CardContent>
-            </Card>
-
-            <Card className="duolingo-card text-center">
-              <CardContent className="p-6">
-                <div className="bg-green-100 rounded-full p-3 w-fit mx-auto mb-3">
-                  <Clock className="h-6 w-6 text-green-500" />
-                </div>
-                <div className="text-2xl font-bold text-gray-800 mb-1">
-                  {Math.floor(userStats.totalStudyTime / 60)}h{" "}
-                  {userStats.totalStudyTime % 60}m
-                </div>
-                <div className="text-sm text-gray-600">Study Time</div>
-              </CardContent>
-            </Card>
-
-            <Card className="duolingo-card text-center">
-              <CardContent className="p-6">
-                <div className="bg-purple-100 rounded-full p-3 w-fit mx-auto mb-3">
-                  <Users className="h-6 w-6 text-purple-500" />
-                </div>
-                <div className="text-2xl font-bold text-gray-800 mb-1">
-                  Top 15%
-                </div>
-                <div className="text-sm text-gray-600">Leaderboard</div>
-              </CardContent>
-            </Card>
+                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Study Time</div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-slate-800 mb-2">Top 15%</div>
+                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Ranking</div>
+              </div>
+            </div>
           </div>
 
           {/* Weekly Activity */}
-          <Card className="duolingo-card">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5 text-gray-600" />
-                <span>This Week's Activity</span>
+          <Card className="border-2 border-slate-800 bg-white mb-8">
+            <CardHeader className="bg-slate-800 text-white p-6">
+              <CardTitle className="flex items-center space-x-2 text-xl font-bold uppercase tracking-wide">
+                <Calendar className="h-6 w-6" />
+                <span>Weekly Activity Report</span>
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="flex justify-between items-end space-x-2 h-32">
+            <CardContent className="p-8">
+              <div className="flex justify-between items-end space-x-3 h-40">
                 {weeklyProgress.map((day, index) => (
                   <div
                     key={index}
                     className="flex-1 flex flex-col items-center"
                   >
                     <div
-                      className={`w-full rounded-t-lg transition-all duration-300 ${
-                        day.xp > 0 ? "bg-primary" : "bg-gray-200"
+                      className={`w-full transition-all duration-300 ${
+                        day.xp > 0 ? "bg-slate-800" : "bg-slate-300"
                       }`}
                       style={{
-                        height: `${Math.max((day.xp / 200) * 100, day.xp > 0 ? 20 : 8)}%`,
-                        minHeight: day.xp > 0 ? "20px" : "8px",
+                        height: `${Math.max((day.xp / 200) * 100, day.xp > 0 ? 25 : 10)}%`,
+                        minHeight: day.xp > 0 ? "25px" : "10px",
                       }}
                     />
-                    <div className="text-xs font-medium text-gray-600 mt-2">
+                    <div className="text-sm font-bold text-slate-800 mt-3 uppercase tracking-wide">
                       {day.day}
                     </div>
-                    <div className="text-xs text-gray-500">
-                      {day.xp > 0 ? `${day.xp} XP` : "-"}
+                    <div className="text-xs text-slate-600">
+                      {day.xp > 0 ? `${day.xp} XP` : "No Activity"}
                     </div>
                   </div>
                 ))}
