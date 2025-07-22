@@ -171,18 +171,18 @@ export default function Index() {
               </Card>
 
               {/* Road Signs */}
-              <Card className="border border-gray-700 bg-primary/40 backdrop-blur-sm hover:shadow-card hover:shadow-success/10 transition-all">
+              <Card className="border border-gray-200 bg-white hover:shadow-lg transition-all">
                 <CardHeader className="pb-4">
-                  <div className="w-12 h-12 bg-success/20 border border-success/30 rounded-lg flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-4">
                     <Layers className="w-6 h-6 text-success" />
                   </div>
-                  <CardTitle className="text-xl text-white font-sans">
+                  <CardTitle className="text-xl text-gray-900 font-sans">
                     Road Signs
                   </CardTitle>
-                  <p className="text-gray-300 font-sans">28 questions • Pass: 23/28</p>
+                  <p className="text-gray-600 font-sans">28 questions • Pass: 23/28</p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-300 mb-4 font-sans">
+                  <p className="text-gray-600 mb-4 font-sans">
                     Warning signs, command signs, prohibition signs, and road
                     markings.
                   </p>
