@@ -150,31 +150,31 @@ export default function Practice() {
               </Link>
             </Button>
             <div className="text-center">
-              <h1 className="text-2xl font-bold text-gray-900">K53 Practice Test</h1>
-              <p className="text-gray-600">Choose your test format</p>
+              <h1 className="text-2xl font-bold text-white">K53 Practice Test</h1>
+              <p className="text-gray-300">Choose your test format</p>
             </div>
             <div></div>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <Card className="border border-gray-200 mb-8">
+            <Card className="border border-gray-700 bg-gray-800/50 backdrop-blur-sm mb-8">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl text-gray-900 mb-2">
+                <CardTitle className="text-2xl text-white mb-2">
                   Select Test Format
                 </CardTitle>
-                <p className="text-gray-600">
+                <p className="text-gray-300">
                   Choose between a quick practice session or a full K53 simulation
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid md:grid-cols-3 gap-6 mb-8">
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <Settings className="w-5 h-5 text-blue-600" />
+                  <div className="text-center p-4 bg-blue-900/30 border border-blue-700/50 rounded-lg">
+                    <div className="w-8 h-8 bg-blue-800/50 rounded-lg flex items-center justify-center mx-auto mb-2">
+                      <Settings className="w-5 h-5 text-blue-400" />
                     </div>
-                    <div className="font-medium text-gray-900">Vehicle Controls</div>
-                    <div className="text-sm text-gray-600">8 questions</div>
-                    <div className="text-xs text-gray-500">Pass: 6/8 required</div>
+                    <div className="font-medium text-white">Vehicle Controls</div>
+                    <div className="text-sm text-gray-300">8 questions</div>
+                    <div className="text-xs text-gray-400">Pass: 6/8 required</div>
                   </div>
                   <div className="text-center p-4 bg-green-50 rounded-lg">
                     <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
