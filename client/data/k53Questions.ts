@@ -321,6 +321,202 @@ export const k53QuestionBank: K53Question[] = [
     explanation: "A 'Children Ahead' warning sign alerts you that children may be crossing or playing near the road, so drive with extra caution.",
     language: "en"
   },
+  {
+    id: "S015",
+    category: "signs",
+    question: "What does a 'Road Narrows' warning sign indicate?",
+    options: [
+      "Speed up to get through",
+      "Road ahead narrows, keep well to the left",
+      "Turn around",
+      "One-way street ahead"
+    ],
+    correct: 1,
+    explanation: "A 'Road Narrows' sign warns that the road ahead narrows from both sides or one side. Keep well to the left and approach with caution.",
+    language: "en"
+  },
+  {
+    id: "S016",
+    category: "signs",
+    question: "What does a 'Slippery Road' warning sign mean?",
+    options: [
+      "Road is always wet",
+      "Slippery road ahead, especially when wet",
+      "Construction zone",
+      "No motorcycles allowed"
+    ],
+    correct: 1,
+    explanation: "A 'Slippery Road' warning sign indicates slippery road conditions ahead, especially when wet. Drive with extra caution and reduce speed.",
+    language: "en"
+  },
+  {
+    id: "S017",
+    category: "signs",
+    question: "What does a 'T-Junction Ahead' warning sign indicate?",
+    options: [
+      "Turn left only",
+      "Turn right only",
+      "T-junction ahead where you must turn left or right",
+      "Three-way intersection"
+    ],
+    correct: 2,
+    explanation: "A 'T-Junction Ahead' warning sign indicates that the road ends at a T-junction ahead where you must turn either left or right.",
+    language: "en"
+  },
+  {
+    id: "S018",
+    category: "signs",
+    question: "What does a 'Crossroad Ahead' warning sign mean?",
+    options: [
+      "Religious crossing",
+      "Four-way intersection ahead",
+      "Pedestrian crossing only",
+      "Railway crossing"
+    ],
+    correct: 1,
+    explanation: "A 'Crossroad Ahead' warning sign indicates a four-way intersection ahead where roads cross from all directions.",
+    language: "en"
+  },
+  {
+    id: "S019",
+    category: "signs",
+    question: "What does a 'Y-Junction Ahead' warning sign indicate?",
+    options: [
+      "Road splits into two directions",
+      "Why you should stop",
+      "Railway junction",
+      "Yield sign ahead"
+    ],
+    correct: 0,
+    explanation: "A 'Y-Junction Ahead' warning sign indicates that the road splits into two directions forming a Y-shape.",
+    language: "en"
+  },
+  {
+    id: "S020",
+    category: "signs",
+    question: "What does a 'Falling Rocks' warning sign mean?",
+    options: [
+      "Rock climbing area",
+      "Falling rocks ahead, especially after rain",
+      "Rocky road surface",
+      "Stone quarry nearby"
+    ],
+    correct: 1,
+    explanation: "A 'Falling Rocks' warning sign indicates the danger of falling rocks ahead, especially after rain. Drive with caution.",
+    language: "en"
+  },
+  {
+    id: "S021",
+    category: "signs",
+    question: "What does a 'Wild Animals Ahead' warning sign indicate?",
+    options: [
+      "Zoo entrance",
+      "Game reserve boundary",
+      "Wild animals may cross the road ahead",
+      "Hunting area"
+    ],
+    correct: 2,
+    explanation: "A 'Wild Animals Ahead' warning sign indicates that wild animals may cross or be on the road ahead. Reduce speed and be alert.",
+    language: "en"
+  },
+  {
+    id: "S022",
+    category: "signs",
+    question: "What does a blue rectangular sign with 'P' indicate?",
+    options: [
+      "Police station",
+      "Parking area reservation",
+      "Public transport",
+      "Private property"
+    ],
+    correct: 1,
+    explanation: "A blue rectangular sign with 'P' indicates a parking area that is reserved for specific vehicles or purposes.",
+    language: "en"
+  },
+  {
+    id: "S023",
+    category: "signs",
+    question: "What does a 'Cyclists Ahead' warning sign mean?",
+    options: [
+      "Bicycle shop nearby",
+      "Cycle lane begins",
+      "Cyclists may be on the road ahead",
+      "No cycling allowed"
+    ],
+    correct: 2,
+    explanation: "A 'Cyclists Ahead' warning sign indicates that cyclists may be on the road ahead. Drive carefully and give cyclists space.",
+    language: "en"
+  },
+  {
+    id: "S024",
+    category: "signs",
+    question: "What does a 'School Zone' sign require?",
+    options: [
+      "Stop for all children",
+      "Reduced speed and extra caution around schools",
+      "No vehicles during school hours",
+      "Turn off radio"
+    ],
+    correct: 1,
+    explanation: "School zone signs require reduced speed (usually 30km/h) and extra caution when children may be present.",
+    language: "en"
+  },
+  {
+    id: "S025",
+    category: "signs",
+    question: "What does a 'Right Turn Only' command sign mean?",
+    options: [
+      "Suggestion to turn right",
+      "You must turn right at this intersection",
+      "Right turn preferred",
+      "Right lane only"
+    ],
+    correct: 1,
+    explanation: "A 'Right Turn Only' command sign means you must turn right at this intersection - it's mandatory, not optional.",
+    language: "en"
+  },
+  {
+    id: "S026",
+    category: "signs",
+    question: "What does a 'One Way' sign with an arrow indicate?",
+    options: [
+      "Preferred direction",
+      "Fast lane direction",
+      "Traffic moves in one direction only as shown by arrow",
+      "Turn signal required"
+    ],
+    correct: 2,
+    explanation: "A 'One Way' sign indicates that traffic may only travel in the direction shown by the arrow.",
+    language: "en"
+  },
+  {
+    id: "S027",
+    category: "signs",
+    question: "What does a 'No Left Turn' prohibition sign mean?",
+    options: [
+      "Left turn discouraged",
+      "Left turn prohibited at this intersection",
+      "Left lane closed",
+      "Left turn signal broken"
+    ],
+    correct: 1,
+    explanation: "A 'No Left Turn' prohibition sign means vehicles are prohibited from turning left at this intersection.",
+    language: "en"
+  },
+  {
+    id: "S028",
+    category: "signs",
+    question: "What does a 'Compulsory Stop' sign require?",
+    options: [
+      "Slow down and proceed",
+      "Stop only if other vehicles present",
+      "Come to a complete stop and proceed when safe",
+      "Stop for 3 seconds minimum"
+    ],
+    correct: 2,
+    explanation: "A 'Compulsory Stop' sign requires you to come to a complete stop and only proceed when it is safe to do so.",
+    language: "en"
+  },
 
   // RULES OF THE ROAD QUESTIONS
   {
