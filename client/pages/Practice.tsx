@@ -216,16 +216,16 @@ export default function Practice() {
                     </CardContent>
                   </Card>
 
-                  <Card className="border-2 border-green-200 hover:border-green-300 transition-colors cursor-pointer bg-green-50">
+                  <Card className="border-2 border-green-700 hover:border-green-500 transition-colors cursor-pointer bg-green-900/20 backdrop-blur-sm">
                     <CardContent className="p-6 text-center">
-                      <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                        <FileText className="h-8 w-8 text-green-600" />
+                      <div className="w-16 h-16 bg-green-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <FileText className="h-8 w-8 text-green-400" />
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">Full K53 Test</h3>
-                      <div className="text-3xl font-bold text-green-600 mb-1">64</div>
-                      <div className="text-sm text-gray-600 mb-1">Questions</div>
-                      <div className="text-xs text-gray-500 mb-4">Approximately 25 minutes</div>
-                      <p className="text-sm text-gray-600 mb-4">
+                      <h3 className="text-xl font-bold text-white mb-2">Full K53 Test</h3>
+                      <div className="text-3xl font-bold text-green-400 mb-1">64</div>
+                      <div className="text-sm text-gray-300 mb-1">Questions</div>
+                      <div className="text-xs text-gray-400 mb-4">Approximately 25 minutes</div>
+                      <p className="text-sm text-gray-300 mb-4">
                         Complete simulation matching the official K53 test format.
                       </p>
                       <Button 
