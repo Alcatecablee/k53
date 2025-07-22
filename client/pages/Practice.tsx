@@ -252,7 +252,7 @@ export default function Practice() {
     const percentage = Math.round((correctAnswers / totalQuestions) * 100);
     
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-3xl mx-auto">
             <Card className="border border-gray-200">
