@@ -21,21 +21,21 @@ import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200">
+      <header className="bg-white border-b-2 border-slate-800 shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center">
-                <Car className="w-6 h-6 text-white" />
+            <div className="flex items-center space-x-4">
+              <div className="w-14 h-14 bg-slate-800 flex items-center justify-center">
+                <div className="text-white font-bold text-lg tracking-wider">K53</div>
               </div>
-              <div>
-                <h1 className="text-xl font-semibold text-gray-900 font-sans">
-                  K53 Practice Tests
+              <div className="border-l-2 border-slate-200 pl-4">
+                <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+                  LEARNER'S LICENSE TESTING
                 </h1>
-                <p className="text-sm text-gray-600 font-sans">
-                  South African Learner's License
+                <p className="text-sm text-slate-600 font-medium uppercase tracking-wide">
+                  Department of Transport • Republic of South Africa
                 </p>
               </div>
             </div>
