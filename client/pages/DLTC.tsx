@@ -146,53 +146,54 @@ export default function DLTCPage() {
             </CardContent>
           </Card>
 
-          {/* Coming Soon Notice */}
-          <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-4 mb-8">
-            <div className="flex items-center space-x-3">
-              <AlertCircle className="h-5 w-5 text-yellow-600 flex-shrink-0" />
-              <div className="text-sm text-yellow-800">
-                <strong>Coming Soon:</strong> Real-time wait times, online
-                booking, and interactive maps with GPS navigation to all DLTC
-                locations across South Africa.
+          {/* System Notice */}
+          <div className="bg-slate-100 border-2 border-slate-800 p-6 mb-8">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-slate-800 flex items-center justify-center">
+                <Info className="h-6 w-6 text-white" />
+              </div>
+              <div className="text-slate-800">
+                <div className="font-bold uppercase tracking-wide mb-1">System Enhancement Notice</div>
+                <div className="text-sm leading-relaxed">
+                  Advanced features in development: Real-time capacity monitoring, digital appointment scheduling,
+                  and integrated GPS navigation system for all registered DLTC facilities nationwide.
+                </div>
               </div>
             </div>
           </div>
 
-          {/* DLTC Results */}
-          <div className="grid lg:grid-cols-2 gap-6 mb-8">
+          {/* DLTC Directory */}
+          <div className="grid lg:grid-cols-1 gap-6 mb-8">
             {mockDLTCs.map((dltc) => (
               <Card
                 key={dltc.id}
-                className="duolingo-card border-2 hover:border-blue-300 transition-colors"
+                className="border-2 border-slate-800 bg-white hover:shadow-lg transition-shadow"
               >
-                <CardHeader className="pb-4">
+                <CardHeader className="bg-slate-800 text-white p-6">
                   <div className="flex items-start justify-between">
                     <div>
-                      <CardTitle className="text-xl text-gray-800 mb-1">
+                      <CardTitle className="text-2xl font-bold uppercase tracking-wide mb-2">
                         {dltc.name}
                       </CardTitle>
-                      <p className="text-sm text-gray-600">
-                        {dltc.distance} away
+                      <p className="text-slate-200">
+                        Distance: {dltc.distance} • License Code: DT-{dltc.id.toString().padStart(3, '0')}
                       </p>
                     </div>
                     <div className="text-right">
-                      <div className="flex items-center space-x-1 mb-1">
-                        <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                        <span className="text-sm font-medium">
-                          {dltc.rating}
-                        </span>
+                      <div className="bg-white/20 border border-white/30 px-4 py-2 mb-2">
+                        <div className="text-lg font-bold">{dltc.rating}/5.0</div>
+                        <div className="text-xs uppercase tracking-wide">Rating</div>
                       </div>
                       <Badge
-                        variant="outline"
-                        className={`text-xs ${
+                        className={`font-semibold uppercase tracking-wide ${
                           dltc.busyLevel === "Quiet"
-                            ? "border-green-300 text-green-700"
+                            ? "bg-white/20 text-white border-white/30"
                             : dltc.busyLevel === "Moderate"
-                              ? "border-yellow-300 text-yellow-700"
-                              : "border-red-300 text-red-700"
+                              ? "bg-white/20 text-white border-white/30"
+                              : "bg-white/20 text-white border-white/30"
                         }`}
                       >
-                        {dltc.busyLevel}
+                        {dltc.busyLevel} Activity
                       </Badge>
                     </div>
                   </div>
