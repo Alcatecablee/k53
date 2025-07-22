@@ -72,7 +72,7 @@ export default function Practice() {
     setTestMode("scenarios");
     setIsFullTest(false);
 
-    const randomScenarios = generateRandomScenarioTest(25); // Generate 25 random scenarios
+    const randomScenarios = generateRandomScenarioTest(75); // Generate all 75 scenarios
     setTestScenarios(randomScenarios);
     setTestQuestions([]);
     setTestStarted(true);
@@ -339,13 +339,13 @@ export default function Practice() {
                         🔥 AI Scenarios
                       </h3>
                       <div className="text-3xl font-bold mb-1">
-                        25
+                        75
                       </div>
                       <div className="text-xs uppercase tracking-wide mb-1">
                         Real Situations
                       </div>
                       <div className="text-xs text-white/80 mb-4 uppercase tracking-wide">
-                        Duration: ~15 Minutes
+                        Duration: ~45 Minutes
                       </div>
                       <p className="text-white/90 mb-4 text-sm leading-relaxed">
                         AI-generated real-world driving scenarios unique to South Africa.
