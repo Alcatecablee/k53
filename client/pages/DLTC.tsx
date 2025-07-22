@@ -199,60 +199,75 @@ export default function DLTCPage() {
                   </div>
                 </CardHeader>
 
-                <CardContent className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <MapPin className="h-4 w-4 text-gray-500 mt-1 flex-shrink-0" />
-                    <p className="text-sm text-gray-700">{dltc.address}</p>
-                  </div>
+                <CardContent className="p-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div className="flex items-start space-x-3">
+                        <MapPin className="h-5 w-5 text-slate-600 mt-1 flex-shrink-0" />
+                        <div>
+                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-1">Physical Address</div>
+                          <p className="text-slate-600">{dltc.address}</p>
+                        </div>
+                      </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Phone className="h-4 w-4 text-gray-500 flex-shrink-0" />
-                    <p className="text-sm text-gray-700">{dltc.phone}</p>
-                  </div>
+                      <div className="flex items-start space-x-3">
+                        <Phone className="h-5 w-5 text-slate-600 mt-1 flex-shrink-0" />
+                        <div>
+                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-1">Contact Number</div>
+                          <p className="text-slate-600">{dltc.phone}</p>
+                        </div>
+                      </div>
 
-                  <div className="flex items-start space-x-3">
-                    <Clock className="h-4 w-4 text-gray-500 mt-1 flex-shrink-0" />
-                    <p className="text-sm text-gray-700">{dltc.hours}</p>
-                  </div>
-
-                  <div className="bg-blue-50 rounded-xl p-3">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-800">
-                        Wait Time
-                      </span>
-                      <span className="text-sm font-bold text-blue-600">
-                        {dltc.waitTime}
-                      </span>
+                      <div className="flex items-start space-x-3">
+                        <Clock className="h-5 w-5 text-slate-600 mt-1 flex-shrink-0" />
+                        <div>
+                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-1">Operating Hours</div>
+                          <p className="text-slate-600">{dltc.hours}</p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex flex-wrap gap-1">
-                      {dltc.services.map((service, index) => (
-                        <Badge
-                          key={index}
-                          variant="secondary"
-                          className="text-xs"
+
+                    <div>
+                      <div className="bg-slate-100 border-2 border-slate-300 p-4 mb-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="font-semibold text-slate-800 uppercase tracking-wide text-sm">
+                            Current Wait Time
+                          </span>
+                          <span className="text-lg font-bold text-slate-800">
+                            {dltc.waitTime}
+                          </span>
+                        </div>
+                        <div className="space-y-2">
+                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-2">Available Services</div>
+                          <div className="flex flex-wrap gap-2">
+                            {dltc.services.map((service, index) => (
+                              <Badge
+                                key={index}
+                                className="bg-slate-800 text-white text-xs uppercase tracking-wide"
+                              >
+                                {service}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <Button
+                          variant="outline"
+                          className="border-2 border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide"
                         >
-                          {service}
-                        </Badge>
-                      ))}
+                          <Navigation className="h-4 w-4 mr-2" />
+                          Navigate
+                        </Button>
+                        <Button
+                          className="bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide"
+                        >
+                          <Phone className="h-4 w-4 mr-2" />
+                          Contact
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 rounded-xl font-semibold"
-                    >
-                      <Navigation className="h-4 w-4 mr-2" />
-                      Directions
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="flex-1 rounded-xl font-semibold"
-                    >
-                      <Phone className="h-4 w-4 mr-2" />
-                      Call
-                    </Button>
                   </div>
                 </CardContent>
               </Card>
