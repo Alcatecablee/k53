@@ -306,61 +306,55 @@ export default function Practice() {
     const percentage = Math.round((correctAnswers / totalQuestions) * 100);
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black">
+      <div className="min-h-screen bg-slate-50">
         <div className="container mx-auto px-4 py-8">
-          <div className="max-w-3xl mx-auto">
-            <Card className="border border-gray-200">
-              <CardHeader className="text-center">
-                <div
-                  className={`w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center ${
-                    overallPassed
-                      ? "bg-green-100 text-green-600"
-                      : "bg-orange-100 text-orange-600"
-                  }`}
-                >
-                  {overallPassed ? (
-                    <CheckCircle className="h-10 w-10" />
-                  ) : (
-                    <XCircle className="h-10 w-10" />
-                  )}
-                </div>
-
-                <CardTitle className="text-2xl text-gray-900 mb-2">
-                  Test Complete
-                </CardTitle>
-
-                <div className="text-4xl font-bold mb-2">
-                  <span
-                    className={
-                      overallPassed ? "text-green-600" : "text-orange-600"
-                    }
+          <div className="max-w-4xl mx-auto">
+            <Card className="border-2 border-slate-800 bg-white">
+              <CardHeader className="bg-slate-800 text-white p-8">
+                <div className="text-center">
+                  <div
+                    className={`w-24 h-24 mx-auto mb-6 border-4 flex items-center justify-center ${
+                      overallPassed
+                        ? "bg-white/20 border-white text-white"
+                        : "bg-white/20 border-white text-white"
+                    }`}
                   >
-                    {percentage}%
-                  </span>
-                </div>
-                <p className="text-gray-600">
-                  {correctAnswers} out of {totalQuestions} questions correct
-                </p>
+                    {overallPassed ? (
+                      <CheckCircle className="h-12 w-12" />
+                    ) : (
+                      <XCircle className="h-12 w-12" />
+                    )}
+                  </div>
 
-                {overallPassed ? (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
-                    <p className="text-green-800 font-medium">
-                      Congratulations! You've passed all required sections.
+                  <CardTitle className="text-3xl font-bold mb-4 uppercase tracking-wide">
+                    Assessment Results
+                  </CardTitle>
+
+                  <div className="text-6xl font-bold mb-4">
+                    <span className="text-white">
+                      {percentage}%
+                    </span>
+                  </div>
+                  <p className="text-slate-200 text-lg uppercase tracking-wide">
+                    {correctAnswers} of {totalQuestions} Questions Correct
+                  </p>
+
+                  <div className="mt-6 p-4 bg-white/20 border border-white/30">
+                    <p className={`font-bold text-lg uppercase tracking-wide ${
+                      overallPassed ? "text-white" : "text-white"
+                    }`}>
+                      {overallPassed
+                        ? "Assessment Status: PASSED"
+                        : "Assessment Status: REQUIRES IMPROVEMENT"
+                      }
                     </p>
                   </div>
-                ) : (
-                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mt-4">
-                    <p className="text-orange-800 font-medium">
-                      Keep practicing to improve your scores in the highlighted
-                      areas.
-                    </p>
-                  </div>
-                )}
+                </div>
               </CardHeader>
 
-              <CardContent className="space-y-4">
-                <h3 className="font-semibold text-gray-900 mb-4">
-                  Results by Category:
+              <CardContent className="p-8">
+                <h3 className="font-bold text-slate-800 mb-6 text-xl uppercase tracking-wide">
+                  Category Performance Analysis
                 </h3>
                 {results.map((result, index) => (
                   <div
