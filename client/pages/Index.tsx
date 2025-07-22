@@ -205,11 +205,11 @@ export default function Index() {
       </section>
 
       {/* Features */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gradient-to-l from-gray-800/50 to-slate-900/50 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl font-bold text-white mb-4">
                 Why Choose Our Platform?
               </h2>
             </div>
@@ -219,8 +219,8 @@ export default function Index() {
                 <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Official Content</h3>
-                <p className="text-gray-600">
+                <h3 className="text-lg font-semibold text-white mb-2">Official Content</h3>
+                <p className="text-gray-300">
                   Questions based on the official K53 learner's license syllabus
                 </p>
               </div>
@@ -229,8 +229,8 @@ export default function Index() {
                 <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Clock className="h-8 w-8 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Instant Results</h3>
-                <p className="text-gray-600">
+                <h3 className="text-lg font-semibold text-white mb-2">Instant Results</h3>
+                <p className="text-gray-300">
                   Get immediate feedback with detailed explanations for every question
                 </p>
               </div>
@@ -239,8 +239,8 @@ export default function Index() {
                 <div className="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <BarChart3 className="h-8 w-8 text-orange-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Track Progress</h3>
-                <p className="text-gray-600">
+                <h3 className="text-lg font-semibold text-white mb-2">Track Progress</h3>
+                <p className="text-gray-300">
                   Monitor your performance across all test categories
                 </p>
               </div>
@@ -249,8 +249,8 @@ export default function Index() {
                 <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <MapIcon className="h-8 w-8 text-purple-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Find Centers</h3>
-                <p className="text-gray-600">
+                <h3 className="text-lg font-semibold text-white mb-2">Find Centers</h3>
+                <p className="text-gray-300">
                   Locate DLTC offices near you with contact information
                 </p>
               </div>
@@ -260,13 +260,13 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-blue-600">
+      <section className="py-16 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold text-white mb-4">
               Ready to Pass Your K53 Test?
             </h2>
-            <p className="text-xl text-blue-100 mb-8">
+            <p className="text-xl text-blue-200 mb-8">
               Join thousands of South Africans who have successfully obtained their learner's license with our practice tests.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -275,7 +275,7 @@ export default function Index() {
                   Start Practicing Now
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="text-lg px-8 border-white text-white hover:bg-white hover:text-blue-600">
+              <Button asChild size="lg" variant="outline" className="text-lg px-8 border-blue-300 text-blue-100 hover:bg-blue-100 hover:text-blue-900">
                 <Link to="/dltc">
                   Find Test Centers
                 </Link>
