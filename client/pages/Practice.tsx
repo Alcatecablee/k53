@@ -296,7 +296,7 @@ export default function Practice() {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
-                    onClick={generateTest}
+                    onClick={() => generateTest(isFullTest)}
                     variant="outline"
                     className="flex-1"
                   >
