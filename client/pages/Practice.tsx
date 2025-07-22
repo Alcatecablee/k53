@@ -186,38 +186,47 @@ export default function Practice() {
                   Select your preferred examination format according to Department of Transport standards
                 </p>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid md:grid-cols-3 gap-6 mb-8">
-                  <div className="text-center p-4 bg-blue-900/30 border border-blue-700/50 rounded-lg">
-                    <div className="w-8 h-8 bg-blue-800/50 rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <Settings className="w-5 h-5 text-blue-400" />
+              <CardContent className="p-8">
+                <div className="bg-slate-100 p-6 mb-8">
+                  <h3 className="text-lg font-bold uppercase tracking-wide text-slate-800 mb-6 text-center">
+                    Official Assessment Categories
+                  </h3>
+                  <div className="grid md:grid-cols-3 gap-6">
+                    <div className="text-center p-4 bg-white border-2 border-slate-300">
+                      <div className="w-12 h-12 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-3">
+                        <Settings className="w-6 h-6 text-slate-800" />
+                      </div>
+                      <div className="font-bold text-slate-800 uppercase tracking-wide text-sm">
+                        Vehicle Controls
+                      </div>
+                      <div className="text-sm text-slate-600 mt-1">8 Questions</div>
+                      <div className="text-xs text-slate-500 uppercase tracking-wide">
+                        Minimum Pass: 6/8 (75%)
+                      </div>
                     </div>
-                    <div className="font-medium text-white">
-                      Vehicle Controls
+                    <div className="text-center p-4 bg-white border-2 border-slate-300">
+                      <div className="w-12 h-12 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-3">
+                        <Layers className="w-6 h-6 text-slate-800" />
+                      </div>
+                      <div className="font-bold text-slate-800 uppercase tracking-wide text-sm">
+                        Road Signs
+                      </div>
+                      <div className="text-sm text-slate-600 mt-1">28 Questions</div>
+                      <div className="text-xs text-slate-500 uppercase tracking-wide">
+                        Minimum Pass: 23/28 (82%)
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-300">8 questions</div>
-                    <div className="text-xs text-gray-400">
-                      Pass: 6/8 required
-                    </div>
-                  </div>
-                  <div className="text-center p-4 bg-green-900/30 border border-green-700/50 rounded-lg">
-                    <div className="w-8 h-8 bg-green-800/50 rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <Layers className="w-5 h-5 text-green-400" />
-                    </div>
-                    <div className="font-medium text-white">Road Signs</div>
-                    <div className="text-sm text-gray-300">28 questions</div>
-                    <div className="text-xs text-gray-400">
-                      Pass: 23/28 required
-                    </div>
-                  </div>
-                  <div className="text-center p-4 bg-orange-900/30 border border-orange-700/50 rounded-lg">
-                    <div className="w-8 h-8 bg-orange-800/50 rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <ChartBarStacked className="w-5 h-5 text-orange-400" />
-                    </div>
-                    <div className="font-medium text-white">Traffic Rules</div>
-                    <div className="text-sm text-gray-300">28 questions</div>
-                    <div className="text-xs text-gray-400">
-                      Pass: 22/28 required
+                    <div className="text-center p-4 bg-white border-2 border-slate-300">
+                      <div className="w-12 h-12 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-3">
+                        <ChartBarStacked className="w-6 h-6 text-slate-800" />
+                      </div>
+                      <div className="font-bold text-slate-800 uppercase tracking-wide text-sm">
+                        Traffic Rules
+                      </div>
+                      <div className="text-sm text-slate-600 mt-1">28 Questions</div>
+                      <div className="text-xs text-slate-500 uppercase tracking-wide">
+                        Minimum Pass: 22/28 (79%)
+                      </div>
                     </div>
                   </div>
                 </div>
