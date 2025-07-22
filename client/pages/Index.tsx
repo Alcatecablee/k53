@@ -43,19 +43,19 @@ export default function Index() {
             <nav className="hidden md:flex items-center space-x-6">
               <Link
                 to="/practice"
-                className="text-gray-300 hover:text-blue-400 font-medium"
+                className="text-gray-300 hover:text-accent font-medium font-sans"
               >
                 Practice Tests
               </Link>
               <Link
                 to="/progress"
-                className="text-gray-300 hover:text-blue-400 font-medium"
+                className="text-gray-300 hover:text-accent font-medium font-sans"
               >
                 My Results
               </Link>
               <Link
                 to="/dltc"
-                className="text-gray-300 hover:text-blue-400 font-medium"
+                className="text-gray-300 hover:text-accent font-medium font-sans"
               >
                 Test Centers
               </Link>
@@ -63,7 +63,7 @@ export default function Index() {
                 href="https://taxfy.co.za"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300 font-medium"
+                className="text-accent hover:text-blue-300 font-medium font-sans"
               >
                 Taxfy Refunds
               </a>
@@ -76,10 +76,10 @@ export default function Index() {
       <section className="bg-primary/30 backdrop-blur-sm py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 font-sans">
               Master Your K53 Learner's License Test
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto font-sans">
               Comprehensive practice tests designed specifically for South
               African driving regulations. Study the official K53 syllabus with
               realistic questions and instant feedback.
