@@ -123,16 +123,16 @@ export default function Index() {
 
             <div className="grid md:grid-cols-3 gap-8">
               {/* Vehicle Controls */}
-              <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
+              <Card className="border border-gray-700 bg-gray-800/40 backdrop-blur-sm hover:shadow-xl hover:shadow-blue-500/10 transition-all">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                     <Settings className="w-6 h-6 text-blue-600" />
                   </div>
-                  <CardTitle className="text-xl text-gray-900">Vehicle Controls</CardTitle>
-                  <p className="text-gray-600">8 questions • Pass: 6/8</p>
+                  <CardTitle className="text-xl text-white">Vehicle Controls</CardTitle>
+                  <p className="text-gray-300">8 questions • Pass: 6/8</p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-gray-300 mb-4">
                     Clutch operation, steering, brakes, indicators, and other essential vehicle controls.
                   </p>
                   <div className="mb-4">
@@ -149,16 +149,16 @@ export default function Index() {
               </Card>
 
               {/* Road Signs */}
-              <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
+              <Card className="border border-gray-700 bg-gray-800/40 backdrop-blur-sm hover:shadow-xl hover:shadow-blue-500/10 transition-all">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
                     <Layers className="w-6 h-6 text-green-600" />
                   </div>
-                  <CardTitle className="text-xl text-gray-900">Road Signs</CardTitle>
-                  <p className="text-gray-600">28 questions • Pass: 23/28</p>
+                  <CardTitle className="text-xl text-white">Road Signs</CardTitle>
+                  <p className="text-gray-300">28 questions • Pass: 23/28</p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-gray-300 mb-4">
                     Warning signs, command signs, prohibition signs, and road markings.
                   </p>
                   <div className="mb-4">
@@ -175,16 +175,16 @@ export default function Index() {
               </Card>
 
               {/* Traffic Rules */}
-              <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
+              <Card className="border border-gray-700 bg-gray-800/40 backdrop-blur-sm hover:shadow-xl hover:shadow-blue-500/10 transition-all">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
                     <FileText className="w-6 h-6 text-orange-600" />
                   </div>
-                  <CardTitle className="text-xl text-gray-900">Traffic Rules</CardTitle>
-                  <p className="text-gray-600">28 questions • Pass: 22/28</p>
+                  <CardTitle className="text-xl text-white">Traffic Rules</CardTitle>
+                  <p className="text-gray-300">28 questions • Pass: 22/28</p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-gray-300 mb-4">
                     Speed limits, following distances, parking regulations, and traffic laws.
                   </p>
                   <div className="mb-4">
