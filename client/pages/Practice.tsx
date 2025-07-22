@@ -47,6 +47,7 @@ export default function Practice() {
 
   const generateTest = (fullTest: boolean = false) => {
     setIsFullTest(fullTest);
+    setTestMode("questions");
 
     if (fullTest) {
       const randomTest = generateRandomTest(8, 28, 28);
@@ -55,6 +56,24 @@ export default function Practice() {
       const randomTest = generateRandomTest(2, 5, 5);
       setTestQuestions(randomTest);
     }
+    setTestScenarios([]);
+    setTestStarted(true);
+    setCurrentQuestion(0);
+    setSelectedAnswer("");
+    setAnswered(false);
+    setShowResult(false);
+    setUserAnswers([]);
+    setTestCompleted(false);
+    setResults([]);
+  };
+
+  const generateScenarioTest = () => {
+    setTestMode("scenarios");
+    setIsFullTest(false);
+
+    const randomScenarios = generateRandomScenarioTest(25); // Generate 25 random scenarios
+    setTestScenarios(randomScenarios);
+    setTestQuestions([]);
     setTestStarted(true);
     setCurrentQuestion(0);
     setSelectedAnswer("");
@@ -72,17 +91,16 @@ export default function Practice() {
   };
 
   const submitAnswer = () => {
-    if (selectedAnswer === "") return;
+    if (selectedAnswer === "" || !currentItem) return;
 
-    const answerIndex =
-      testQuestions[currentQuestion].options.indexOf(selectedAnswer);
+    const answerIndex = currentItem.options.indexOf(selectedAnswer);
     setUserAnswers([...userAnswers, answerIndex]);
     setAnswered(true);
     setShowResult(true);
   };
 
   const nextQuestion = () => {
-    if (currentQuestion < testQuestions.length - 1) {
+    if (currentQuestion < totalItems - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedAnswer("");
       setAnswered(false);
@@ -153,10 +171,12 @@ export default function Practice() {
     setTestCompleted(true);
   };
 
-  const currentQ = testQuestions[currentQuestion];
-  const isCorrect =
-    answered && selectedAnswer === currentQ?.options[currentQ.correct];
-  const progress = ((currentQuestion + 1) / testQuestions.length) * 100;
+  const currentQ = testMode === "questions" ? testQuestions[currentQuestion] : null;
+  const currentS = testMode === "scenarios" ? testScenarios[currentQuestion] : null;
+  const currentItem = currentQ || currentS;
+  const isCorrect = answered && currentItem && selectedAnswer === currentItem.options[currentItem.correct];
+  const totalItems = testMode === "questions" ? testQuestions.length : testScenarios.length;
+  const progress = ((currentQuestion + 1) / totalItems) * 100;
 
   if (!testStarted) {
     return (
@@ -470,10 +490,10 @@ export default function Practice() {
 
             <div className="text-center">
               <Badge className="mb-2 bg-slate-800 text-white uppercase tracking-wide">
-                {isFullTest ? "Official Assessment" : "Practice Mode"}
+                {testMode === "scenarios" ? "🔥 AI Scenarios" : (isFullTest ? "Official Assessment" : "Practice Mode")}
               </Badge>
               <div className="text-sm text-slate-600 uppercase tracking-wide">
-                Question {currentQuestion + 1} of {testQuestions.length}
+                {testMode === "scenarios" ? "Scenario" : "Question"} {currentQuestion + 1} of {totalItems}
               </div>
             </div>
 
