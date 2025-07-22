@@ -297,13 +297,13 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900">
+      <section className="py-16 bg-dark-gradient">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-bold text-white mb-4 font-sans">
               Ready to Pass Your K53 Test?
             </h2>
-            <p className="text-xl text-blue-200 mb-8">
+            <p className="text-xl text-gray-200 mb-8 font-sans">
               Join thousands of South Africans who have successfully obtained
               their learner's license with our practice tests.
             </p>
@@ -312,7 +312,7 @@ export default function Index() {
                 asChild
                 size="lg"
                 variant="secondary"
-                className="text-lg px-8"
+                className="text-lg px-8 font-sans"
               >
                 <Link to="/practice">Start Practicing Now</Link>
               </Button>
@@ -320,7 +320,7 @@ export default function Index() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="text-lg px-8 border-blue-300 text-blue-100 hover:bg-blue-100 hover:text-blue-900"
+                className="text-lg px-8 border-accent text-white hover:bg-accent hover:text-white font-sans"
               >
                 <Link to="/dltc">Find Test Centers</Link>
               </Button>
@@ -330,19 +330,19 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black/80 backdrop-blur-sm text-white py-12 border-t border-gray-800">
+      <footer className="bg-secondary/80 backdrop-blur-sm text-white py-12 border-t border-gray-800">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <div className="text-white font-bold">K53</div>
+                <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
+                  <Car className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-lg font-semibold">
+                <span className="text-lg font-semibold font-sans">
                   K53 Practice Tests
                 </span>
               </div>
-              <p className="text-gray-400">
+              <p className="text-gray-400 font-sans">
                 The most comprehensive K53 practice test platform for South
                 African learner drivers.
               </p>
