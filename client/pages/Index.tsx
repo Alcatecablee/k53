@@ -2,7 +2,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Clock, CheckCircle, Users, FileText, MapPin, Phone } from "lucide-react";
+import {
+  Clock,
+  CheckCircle,
+  Users,
+  FileText,
+  MapPin,
+  Phone,
+  Car,
+  Shield,
+  BookOpen,
+  Award,
+  TrendingUp,
+  Building2,
+  Gauge
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
