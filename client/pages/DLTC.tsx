@@ -277,76 +277,81 @@ export default function DLTCPage() {
           {/* Information Sections */}
           <div className="grid lg:grid-cols-2 gap-8 mb-8">
             {/* Test Requirements */}
-            <Card className="duolingo-card">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>What to Bring</span>
+            <Card className="border-2 border-slate-800 bg-white">
+              <CardHeader className="bg-slate-800 text-white p-6">
+                <CardTitle className="flex items-center space-x-2 text-xl font-bold uppercase tracking-wide">
+                  <CheckCircle className="h-6 w-6" />
+                  <span>Required Documentation</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {testRequirements.map((req, index) => {
-                  const IconComponent = req.icon;
-                  return (
-                    <div key={index} className="flex items-start space-x-3">
-                      <IconComponent className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                      <div>
-                        <h3 className="font-semibold text-gray-800 mb-1">
-                          {req.title}
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                          {req.description}
-                        </p>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  {testRequirements.map((req, index) => {
+                    const IconComponent = req.icon;
+                    return (
+                      <div key={index} className="flex items-start space-x-4 p-4 border-2 border-slate-300">
+                        <div className="w-8 h-8 bg-slate-100 border-2 border-slate-800 flex items-center justify-center flex-shrink-0">
+                          <IconComponent className="h-4 w-4 text-slate-800" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-slate-800 mb-1 uppercase tracking-wide">
+                            {req.title}
+                          </h3>
+                          <p className="text-slate-600">
+                            {req.description}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </CardContent>
             </Card>
 
-            {/* Test Day Tips */}
-            <Card className="duolingo-card">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Info className="h-5 w-5 text-blue-500" />
-                  <span>Test Day Tips</span>
+            {/* Test Day Guidelines */}
+            <Card className="border-2 border-slate-800 bg-white">
+              <CardHeader className="bg-slate-800 text-white p-6">
+                <CardTitle className="flex items-center space-x-2 text-xl font-bold uppercase tracking-wide">
+                  <Info className="h-6 w-6" />
+                  <span>Assessment Guidelines</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
+              <CardContent className="p-6">
+                <div className="space-y-4">
                   {testTips.map((tip, index) => (
-                    <li key={index} className="flex items-start space-x-3">
-                      <div className="bg-blue-100 rounded-full p-1 mt-0.5">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                    <div key={index} className="flex items-start space-x-4">
+                      <div className="w-6 h-6 bg-slate-800 flex items-center justify-center mt-0.5 flex-shrink-0">
+                        <div className="w-2 h-2 bg-white" />
                       </div>
-                      <span className="text-sm text-gray-700">{tip}</span>
-                    </li>
+                      <span className="text-slate-700 leading-relaxed">{tip}</span>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Practice Promotion */}
-          <Card className="duolingo-card bg-gradient-to-r from-green-500 to-blue-500 text-white">
-            <CardContent className="p-8 text-center">
-              <div className="bg-white/20 rounded-full p-4 w-fit mx-auto mb-4">
-                <Car className="h-8 w-8" />
+          {/* Assessment Preparation */}
+          <Card className="bg-slate-800 text-white">
+            <CardContent className="p-12 text-center">
+              <div className="w-20 h-20 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-6">
+                <Car className="h-10 w-10" />
               </div>
-              <h3 className="text-2xl font-bold mb-2">Ready for Your Test?</h3>
-              <p className="mb-6 opacity-90 max-w-md mx-auto">
-                Make sure you're fully prepared with our comprehensive K53
-                practice tests before heading to the DLTC!
+              <h3 className="text-3xl font-bold mb-4 uppercase tracking-wide">
+                Pre-Assessment Preparation
+              </h3>
+              <p className="mb-8 text-slate-200 text-lg leading-relaxed max-w-2xl mx-auto">
+                Ensure optimal assessment performance through comprehensive preparation using our
+                Department of Transport certified practice examination system.
               </p>
               <Button
                 asChild
                 size="lg"
-                variant="secondary"
-                className="rounded-xl font-semibold"
+                className="bg-white text-slate-800 hover:bg-slate-100 font-semibold uppercase tracking-wide px-8 py-4 text-lg"
               >
                 <Link to="/practice">
-                  Practice K53 Test
-                  <CheckCircle className="ml-2 h-5 w-5" />
+                  Access Assessment Portal
+                  <CheckCircle className="ml-3 h-5 w-5" />
                 </Link>
               </Button>
             </CardContent>
