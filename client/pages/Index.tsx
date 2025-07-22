@@ -128,32 +128,32 @@ export default function Index() {
       </section>
 
       {/* Test Categories */}
-      <section className="py-16 bg-gradient-to-r from-slate-900/50 to-gray-900/50">
+      <section className="py-16 bg-primary/20">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4">
+              <h2 className="text-3xl font-bold text-white mb-4 font-sans">
                 K53 Test Categories
               </h2>
-              <p className="text-lg text-gray-300">
+              <p className="text-lg text-gray-300 font-sans">
                 Practice all three sections required for your learner's license
               </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {/* Vehicle Controls */}
-              <Card className="border border-gray-700 bg-gray-800/40 backdrop-blur-sm hover:shadow-xl hover:shadow-blue-500/10 transition-all">
+              <Card className="border border-gray-700 bg-primary/40 backdrop-blur-sm hover:shadow-card hover:shadow-accent/10 transition-all">
                 <CardHeader className="pb-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <Settings className="w-6 h-6 text-blue-600" />
+                  <div className="w-12 h-12 bg-accent/20 border border-accent/30 rounded-lg flex items-center justify-center mb-4">
+                    <Settings className="w-6 h-6 text-accent" />
                   </div>
-                  <CardTitle className="text-xl text-white">
+                  <CardTitle className="text-xl text-white font-sans">
                     Vehicle Controls
                   </CardTitle>
-                  <p className="text-gray-300">8 questions • Pass: 6/8</p>
+                  <p className="text-gray-300 font-sans">8 questions • Pass: 6/8</p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-300 mb-4">
+                  <p className="text-gray-300 mb-4 font-sans">
                     Clutch operation, steering, brakes, indicators, and other
                     essential vehicle controls.
                   </p>
@@ -171,15 +171,15 @@ export default function Index() {
               </Card>
 
               {/* Road Signs */}
-              <Card className="border border-gray-700 bg-gray-800/40 backdrop-blur-sm hover:shadow-xl hover:shadow-blue-500/10 transition-all">
+              <Card className="border border-gray-700 bg-primary/40 backdrop-blur-sm hover:shadow-card hover:shadow-success/10 transition-all">
                 <CardHeader className="pb-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                    <Layers className="w-6 h-6 text-green-600" />
+                  <div className="w-12 h-12 bg-success/20 border border-success/30 rounded-lg flex items-center justify-center mb-4">
+                    <Layers className="w-6 h-6 text-success" />
                   </div>
-                  <CardTitle className="text-xl text-white">
+                  <CardTitle className="text-xl text-white font-sans">
                     Road Signs
                   </CardTitle>
-                  <p className="text-gray-300">28 questions • Pass: 23/28</p>
+                  <p className="text-gray-300 font-sans">28 questions • Pass: 23/28</p>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300 mb-4">
