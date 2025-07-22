@@ -21,20 +21,20 @@ import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black">
+    <div className="min-h-screen bg-dark-gradient">
       {/* Header */}
-      <header className="bg-gray-900/80 backdrop-blur-sm shadow-sm border-b border-gray-800">
+      <header className="bg-primary/80 backdrop-blur-sm shadow-card border-b border-gray-800">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                <div className="text-white font-bold text-lg">K53</div>
+              <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center">
+                <Car className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-white">
+                <h1 className="text-xl font-semibold text-white font-sans">
                   K53 Practice Tests
                 </h1>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-gray-300 font-sans">
                   South African Learner's License
                 </p>
               </div>
@@ -73,7 +73,7 @@ export default function Index() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm py-16">
+      <section className="bg-primary/30 backdrop-blur-sm py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
