@@ -21,9 +21,9 @@ import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
-    <div className="min-h-screen bg-dark-gradient">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-primary/80 backdrop-blur-sm shadow-card border-b border-gray-800">
+      <header className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -31,10 +31,10 @@ export default function Index() {
                 <Car className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-white font-sans">
+                <h1 className="text-xl font-semibold text-gray-900 font-sans">
                   K53 Practice Tests
                 </h1>
-                <p className="text-sm text-gray-300 font-sans">
+                <p className="text-sm text-gray-600 font-sans">
                   South African Learner's License
                 </p>
               </div>
@@ -43,19 +43,19 @@ export default function Index() {
             <nav className="hidden md:flex items-center space-x-6">
               <Link
                 to="/practice"
-                className="text-gray-300 hover:text-accent font-medium font-sans"
+                className="text-gray-600 hover:text-accent font-medium font-sans"
               >
                 Practice Tests
               </Link>
               <Link
                 to="/progress"
-                className="text-gray-300 hover:text-accent font-medium font-sans"
+                className="text-gray-600 hover:text-accent font-medium font-sans"
               >
                 My Results
               </Link>
               <Link
                 to="/dltc"
-                className="text-gray-300 hover:text-accent font-medium font-sans"
+                className="text-gray-600 hover:text-accent font-medium font-sans"
               >
                 Test Centers
               </Link>
@@ -63,7 +63,7 @@ export default function Index() {
                 href="https://taxfy.co.za"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent hover:text-blue-300 font-medium font-sans"
+                className="text-accent hover:text-blue-600 font-medium font-sans"
               >
                 Taxfy Refunds
               </a>
@@ -73,13 +73,13 @@ export default function Index() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-primary/30 backdrop-blur-sm py-16">
+      <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 font-sans">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 font-sans">
               Master Your K53 Learner's License Test
             </h1>
-            <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto font-sans">
+            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto font-sans">
               Comprehensive practice tests designed specifically for South
               African driving regulations. Study the official K53 syllabus with
               realistic questions and instant feedback.
@@ -105,22 +105,22 @@ export default function Index() {
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-gray-700">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-gray-200">
               <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-1 font-sans">150+</div>
-                <div className="text-sm text-gray-300 font-sans">Practice Questions</div>
+                <div className="text-3xl font-bold text-gray-900 mb-1 font-sans">150+</div>
+                <div className="text-sm text-gray-600 font-sans">Practice Questions</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-1 font-sans">85%</div>
-                <div className="text-sm text-gray-300 font-sans">Success Rate</div>
+                <div className="text-3xl font-bold text-gray-900 mb-1 font-sans">85%</div>
+                <div className="text-sm text-gray-600 font-sans">Success Rate</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-1 font-sans">3</div>
-                <div className="text-sm text-gray-300 font-sans">Languages</div>
+                <div className="text-3xl font-bold text-gray-900 mb-1 font-sans">3</div>
+                <div className="text-sm text-gray-600 font-sans">Languages</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-1 font-sans">50+</div>
-                <div className="text-sm text-gray-300 font-sans">Test Centers</div>
+                <div className="text-3xl font-bold text-gray-900 mb-1 font-sans">50+</div>
+                <div className="text-sm text-gray-600 font-sans">Test Centers</div>
               </div>
             </div>
           </div>
