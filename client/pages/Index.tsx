@@ -152,7 +152,7 @@ export default function Index() {
               <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-green-600 rounded-full"></div>
+                    <Shield className="w-6 h-6 text-green-600" />
                   </div>
                   <CardTitle className="text-xl text-gray-900">Road Signs</CardTitle>
                   <p className="text-gray-600">28 questions • Pass: 23/28</p>
