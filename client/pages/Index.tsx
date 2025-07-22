@@ -113,10 +113,10 @@ export default function Index() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl font-bold text-white mb-4">
                 K53 Test Categories
               </h2>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-gray-300">
                 Practice all three sections required for your learner's license
               </p>
             </div>
