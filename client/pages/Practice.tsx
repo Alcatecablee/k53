@@ -423,48 +423,49 @@ export default function Practice() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black">
-      <div className="container mx-auto px-4 py-6">
-        {/* Progress Header */}
-        <div className="mb-6">
+    <div className="min-h-screen bg-slate-50">
+      <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8">
+        <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
-            <Button asChild variant="ghost" size="sm">
+            <Button asChild variant="ghost" className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide">
               <Link to="/">
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Exit Test
+                Exit Assessment
               </Link>
             </Button>
 
             <div className="text-center">
-              <Badge variant="outline" className="mb-2">
-                {isFullTest ? "Full K53 Test" : "Quick Practice"}
+              <Badge className="mb-2 bg-slate-800 text-white uppercase tracking-wide">
+                {isFullTest ? "Official Assessment" : "Practice Mode"}
               </Badge>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-slate-600 uppercase tracking-wide">
                 Question {currentQuestion + 1} of {testQuestions.length}
               </div>
             </div>
 
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-slate-600 font-semibold uppercase tracking-wide">
               {Math.round(progress)}% Complete
             </div>
           </div>
 
-          <Progress value={progress} className="h-2" />
+          <Progress value={progress} className="h-3 bg-slate-200" />
         </div>
+      </div>
+      <div className="container mx-auto px-4 py-6">
 
         {/* Question Card */}
-        <div className="max-w-3xl mx-auto">
-          <Card className="border border-gray-200">
-            <CardHeader>
+        <div className="max-w-4xl mx-auto">
+          <Card className="border-2 border-slate-800 bg-white">
+            <CardHeader className="bg-slate-800 text-white p-6">
               <div className="flex items-center justify-between mb-4">
-                <Badge variant="secondary" className="capitalize">
+                <Badge className="bg-white/20 text-white uppercase tracking-wide border border-white/30">
                   {currentQ?.category.replace("_", " ")}
                 </Badge>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-slate-200 uppercase tracking-wide">
                   {currentQuestion + 1}/{testQuestions.length}
                 </div>
               </div>
-              <CardTitle className="text-xl text-gray-900 leading-relaxed">
+              <CardTitle className="text-2xl font-bold leading-relaxed">
                 {currentQ?.question}
               </CardTitle>
             </CardHeader>
