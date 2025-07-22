@@ -349,7 +349,7 @@ export default function Index() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Practice</h4>
+              <h4 className="font-semibold mb-4 font-sans">Practice</h4>
               <div className="space-y-2 text-gray-400">
                 <Link
                   to="/practice"
@@ -373,7 +373,7 @@ export default function Index() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Resources</h4>
+              <h4 className="font-semibold mb-4 font-sans">Resources</h4>
               <div className="space-y-2 text-gray-400">
                 <Link
                   to="/progress"
@@ -399,7 +399,7 @@ export default function Index() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Support</h4>
+              <h4 className="font-semibold mb-4 font-sans">Support</h4>
               <div className="space-y-2 text-gray-400">
                 <div className="flex items-center space-x-2">
                   <Phone className="h-4 w-4" />
@@ -414,7 +414,7 @@ export default function Index() {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>
+            <p className="font-sans">
               &copy; 2025 K53 Practice Tests. Designed for South African learner
               drivers.
             </p>
