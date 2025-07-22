@@ -73,17 +73,28 @@ export default function Index() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gray-50 py-16">
+      <section className="bg-white py-20">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 font-sans">
-              Master Your K53 Learner's License Test
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto font-sans">
-              Comprehensive practice tests designed specifically for South
-              African driving regulations. Study the official K53 syllabus with
-              realistic questions and instant feedback.
-            </p>
+          <div className="max-w-6xl mx-auto">
+            <div className="bg-slate-800 text-white p-12 mb-12">
+              <div className="max-w-4xl">
+                <div className="flex items-center mb-6">
+                  <div className="w-2 h-16 bg-white mr-6"></div>
+                  <div>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-2 tracking-tight">
+                      OFFICIAL K53 LEARNER'S LICENSE
+                    </h1>
+                    <h2 className="text-2xl md:text-3xl text-slate-300 font-light">
+                      Examination Preparation System
+                    </h2>
+                  </div>
+                </div>
+                <p className="text-xl text-slate-200 leading-relaxed max-w-3xl">
+                  Authorized practice testing platform in accordance with South African National Road Traffic Act.
+                  Comprehensive examination preparation covering all three mandatory assessment categories.
+                </p>
+              </div>
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button
