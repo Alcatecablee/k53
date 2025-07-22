@@ -15,7 +15,7 @@ import {
   ChartBarStacked,
   BarChart3,
   MapIcon,
-  Settings
+  Settings,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -31,24 +31,37 @@ export default function Index() {
                 <div className="text-white font-bold text-lg">K53</div>
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-white">K53 Practice Tests</h1>
-                <p className="text-sm text-gray-300">South African Learner's License</p>
+                <h1 className="text-xl font-semibold text-white">
+                  K53 Practice Tests
+                </h1>
+                <p className="text-sm text-gray-300">
+                  South African Learner's License
+                </p>
               </div>
             </div>
-            
+
             <nav className="hidden md:flex items-center space-x-6">
-              <Link to="/practice" className="text-gray-300 hover:text-blue-400 font-medium">
+              <Link
+                to="/practice"
+                className="text-gray-300 hover:text-blue-400 font-medium"
+              >
                 Practice Tests
               </Link>
-              <Link to="/progress" className="text-gray-300 hover:text-blue-400 font-medium">
+              <Link
+                to="/progress"
+                className="text-gray-300 hover:text-blue-400 font-medium"
+              >
                 My Results
               </Link>
-              <Link to="/dltc" className="text-gray-300 hover:text-blue-400 font-medium">
+              <Link
+                to="/dltc"
+                className="text-gray-300 hover:text-blue-400 font-medium"
+              >
                 Test Centers
               </Link>
-              <a 
-                href="https://taxfy.co.za" 
-                target="_blank" 
+              <a
+                href="https://taxfy.co.za"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-300 font-medium"
               >
@@ -67,21 +80,27 @@ export default function Index() {
               Master Your K53 Learner's License Test
             </h1>
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Comprehensive practice tests designed specifically for South African driving regulations. 
-              Study the official K53 syllabus with realistic questions and instant feedback.
+              Comprehensive practice tests designed specifically for South
+              African driving regulations. Study the official K53 syllabus with
+              realistic questions and instant feedback.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8">
-                <Link to="/practice">
-                  Start Practice Test
-                </Link>
+              <Button
+                asChild
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-lg px-8"
+              >
+                <Link to="/practice">Start Practice Test</Link>
               </Button>
-              
-              <Button asChild variant="outline" size="lg" className="text-lg px-8">
-                <Link to="/dltc">
-                  Find Test Centers
-                </Link>
+
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="text-lg px-8"
+              >
+                <Link to="/dltc">Find Test Centers</Link>
               </Button>
             </div>
 
@@ -128,12 +147,15 @@ export default function Index() {
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                     <Settings className="w-6 h-6 text-blue-600" />
                   </div>
-                  <CardTitle className="text-xl text-white">Vehicle Controls</CardTitle>
+                  <CardTitle className="text-xl text-white">
+                    Vehicle Controls
+                  </CardTitle>
                   <p className="text-gray-300">8 questions • Pass: 6/8</p>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300 mb-4">
-                    Clutch operation, steering, brakes, indicators, and other essential vehicle controls.
+                    Clutch operation, steering, brakes, indicators, and other
+                    essential vehicle controls.
                   </p>
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-1">
@@ -154,12 +176,15 @@ export default function Index() {
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
                     <Layers className="w-6 h-6 text-green-600" />
                   </div>
-                  <CardTitle className="text-xl text-white">Road Signs</CardTitle>
+                  <CardTitle className="text-xl text-white">
+                    Road Signs
+                  </CardTitle>
                   <p className="text-gray-300">28 questions • Pass: 23/28</p>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300 mb-4">
-                    Warning signs, command signs, prohibition signs, and road markings.
+                    Warning signs, command signs, prohibition signs, and road
+                    markings.
                   </p>
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-1">
@@ -180,12 +205,15 @@ export default function Index() {
                   <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
                     <FileText className="w-6 h-6 text-orange-600" />
                   </div>
-                  <CardTitle className="text-xl text-white">Traffic Rules</CardTitle>
+                  <CardTitle className="text-xl text-white">
+                    Traffic Rules
+                  </CardTitle>
                   <p className="text-gray-300">28 questions • Pass: 22/28</p>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300 mb-4">
-                    Speed limits, following distances, parking regulations, and traffic laws.
+                    Speed limits, following distances, parking regulations, and
+                    traffic laws.
                   </p>
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-1">
@@ -219,7 +247,9 @@ export default function Index() {
                 <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Official Content</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Official Content
+                </h3>
                 <p className="text-gray-300">
                   Questions based on the official K53 learner's license syllabus
                 </p>
@@ -229,9 +259,12 @@ export default function Index() {
                 <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Clock className="h-8 w-8 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Instant Results</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Instant Results
+                </h3>
                 <p className="text-gray-300">
-                  Get immediate feedback with detailed explanations for every question
+                  Get immediate feedback with detailed explanations for every
+                  question
                 </p>
               </div>
 
@@ -239,7 +272,9 @@ export default function Index() {
                 <div className="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <BarChart3 className="h-8 w-8 text-orange-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Track Progress</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Track Progress
+                </h3>
                 <p className="text-gray-300">
                   Monitor your performance across all test categories
                 </p>
@@ -249,7 +284,9 @@ export default function Index() {
                 <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <MapIcon className="h-8 w-8 text-purple-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Find Centers</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Find Centers
+                </h3>
                 <p className="text-gray-300">
                   Locate DLTC offices near you with contact information
                 </p>
@@ -267,18 +304,25 @@ export default function Index() {
               Ready to Pass Your K53 Test?
             </h2>
             <p className="text-xl text-blue-200 mb-8">
-              Join thousands of South Africans who have successfully obtained their learner's license with our practice tests.
+              Join thousands of South Africans who have successfully obtained
+              their learner's license with our practice tests.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" variant="secondary" className="text-lg px-8">
-                <Link to="/practice">
-                  Start Practicing Now
-                </Link>
+              <Button
+                asChild
+                size="lg"
+                variant="secondary"
+                className="text-lg px-8"
+              >
+                <Link to="/practice">Start Practicing Now</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="text-lg px-8 border-blue-300 text-blue-100 hover:bg-blue-100 hover:text-blue-900">
-                <Link to="/dltc">
-                  Find Test Centers
-                </Link>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="text-lg px-8 border-blue-300 text-blue-100 hover:bg-blue-100 hover:text-blue-900"
+              >
+                <Link to="/dltc">Find Test Centers</Link>
               </Button>
             </div>
           </div>
@@ -294,43 +338,66 @@ export default function Index() {
                 <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                   <div className="text-white font-bold">K53</div>
                 </div>
-                <span className="text-lg font-semibold">K53 Practice Tests</span>
+                <span className="text-lg font-semibold">
+                  K53 Practice Tests
+                </span>
               </div>
               <p className="text-gray-400">
-                The most comprehensive K53 practice test platform for South African learner drivers.
+                The most comprehensive K53 practice test platform for South
+                African learner drivers.
               </p>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Practice</h4>
               <div className="space-y-2 text-gray-400">
-                <Link to="/practice" className="block hover:text-white transition-colors">
+                <Link
+                  to="/practice"
+                  className="block hover:text-white transition-colors"
+                >
                   Vehicle Controls
                 </Link>
-                <Link to="/practice" className="block hover:text-white transition-colors">
+                <Link
+                  to="/practice"
+                  className="block hover:text-white transition-colors"
+                >
                   Road Signs
                 </Link>
-                <Link to="/practice" className="block hover:text-white transition-colors">
+                <Link
+                  to="/practice"
+                  className="block hover:text-white transition-colors"
+                >
                   Traffic Rules
                 </Link>
               </div>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Resources</h4>
               <div className="space-y-2 text-gray-400">
-                <Link to="/progress" className="block hover:text-white transition-colors">
+                <Link
+                  to="/progress"
+                  className="block hover:text-white transition-colors"
+                >
                   My Progress
                 </Link>
-                <Link to="/dltc" className="block hover:text-white transition-colors">
+                <Link
+                  to="/dltc"
+                  className="block hover:text-white transition-colors"
+                >
                   Test Centers
                 </Link>
-                <a href="https://taxfy.co.za" target="_blank" rel="noopener noreferrer" className="block hover:text-white transition-colors">
+                <a
+                  href="https://taxfy.co.za"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block hover:text-white transition-colors"
+                >
                   Taxfy Refunds
                 </a>
               </div>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Support</h4>
               <div className="space-y-2 text-gray-400">
@@ -345,9 +412,12 @@ export default function Index() {
               </div>
             </div>
           </div>
-          
+
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 K53 Practice Tests. Designed for South African learner drivers.</p>
+            <p>
+              &copy; 2025 K53 Practice Tests. Designed for South African learner
+              drivers.
+            </p>
           </div>
         </div>
       </footer>

@@ -42,7 +42,7 @@ export default function Practice() {
 
   const generateTest = (fullTest: boolean = false) => {
     setIsFullTest(fullTest);
-    
+
     if (fullTest) {
       const randomTest = generateRandomTest(8, 28, 28);
       setTestQuestions(randomTest);
@@ -68,7 +68,7 @@ export default function Practice() {
 
   const submitAnswer = () => {
     if (selectedAnswer === "") return;
-    
+
     const answerIndex =
       testQuestions[currentQuestion].options.indexOf(selectedAnswer);
     setUserAnswers([...userAnswers, answerIndex]);
@@ -93,7 +93,11 @@ export default function Practice() {
       testQuestions[currentQuestion].options.indexOf(selectedAnswer),
     ];
 
-    const getRequiredScore = (total: number, fullRequirement: number, fullTotal: number) => {
+    const getRequiredScore = (
+      total: number,
+      fullRequirement: number,
+      fullTotal: number,
+    ) => {
       if (isFullTest) return fullRequirement;
       return Math.ceil((total / fullTotal) * fullRequirement);
     };
@@ -108,9 +112,21 @@ export default function Practice() {
       categories[question.category].total++;
     });
 
-    categories.controls.required = getRequiredScore(categories.controls.total, 6, 8);
-    categories.signs.required = getRequiredScore(categories.signs.total, 23, 28);  
-    categories.rules.required = getRequiredScore(categories.rules.total, 22, 28);
+    categories.controls.required = getRequiredScore(
+      categories.controls.total,
+      6,
+      8,
+    );
+    categories.signs.required = getRequiredScore(
+      categories.signs.total,
+      23,
+      28,
+    );
+    categories.rules.required = getRequiredScore(
+      categories.rules.total,
+      22,
+      28,
+    );
 
     testQuestions.forEach((question, index) => {
       if (finalAnswers[index] === question.correct) {
@@ -150,7 +166,9 @@ export default function Practice() {
               </Link>
             </Button>
             <div className="text-center">
-              <h1 className="text-2xl font-bold text-white">K53 Practice Test</h1>
+              <h1 className="text-2xl font-bold text-white">
+                K53 Practice Test
+              </h1>
               <p className="text-gray-300">Choose your test format</p>
             </div>
             <div></div>
@@ -163,7 +181,8 @@ export default function Practice() {
                   Select Test Format
                 </CardTitle>
                 <p className="text-gray-300">
-                  Choose between a quick practice session or a full K53 simulation
+                  Choose between a quick practice session or a full K53
+                  simulation
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -172,9 +191,13 @@ export default function Practice() {
                     <div className="w-8 h-8 bg-blue-800/50 rounded-lg flex items-center justify-center mx-auto mb-2">
                       <Settings className="w-5 h-5 text-blue-400" />
                     </div>
-                    <div className="font-medium text-white">Vehicle Controls</div>
+                    <div className="font-medium text-white">
+                      Vehicle Controls
+                    </div>
                     <div className="text-sm text-gray-300">8 questions</div>
-                    <div className="text-xs text-gray-400">Pass: 6/8 required</div>
+                    <div className="text-xs text-gray-400">
+                      Pass: 6/8 required
+                    </div>
                   </div>
                   <div className="text-center p-4 bg-green-900/30 border border-green-700/50 rounded-lg">
                     <div className="w-8 h-8 bg-green-800/50 rounded-lg flex items-center justify-center mx-auto mb-2">
@@ -182,7 +205,9 @@ export default function Practice() {
                     </div>
                     <div className="font-medium text-white">Road Signs</div>
                     <div className="text-sm text-gray-300">28 questions</div>
-                    <div className="text-xs text-gray-400">Pass: 23/28 required</div>
+                    <div className="text-xs text-gray-400">
+                      Pass: 23/28 required
+                    </div>
                   </div>
                   <div className="text-center p-4 bg-orange-900/30 border border-orange-700/50 rounded-lg">
                     <div className="w-8 h-8 bg-orange-800/50 rounded-lg flex items-center justify-center mx-auto mb-2">
@@ -190,7 +215,9 @@ export default function Practice() {
                     </div>
                     <div className="font-medium text-white">Traffic Rules</div>
                     <div className="text-sm text-gray-300">28 questions</div>
-                    <div className="text-xs text-gray-400">Pass: 22/28 required</div>
+                    <div className="text-xs text-gray-400">
+                      Pass: 22/28 required
+                    </div>
                   </div>
                 </div>
 
@@ -200,15 +227,24 @@ export default function Practice() {
                       <div className="w-16 h-16 bg-blue-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
                         <Clock className="h-8 w-8 text-blue-400" />
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-2">Quick Practice</h3>
-                      <div className="text-3xl font-bold text-blue-400 mb-1">12</div>
-                      <div className="text-sm text-gray-300 mb-1">Questions</div>
-                      <div className="text-xs text-gray-400 mb-4">Approximately 5 minutes</div>
+                      <h3 className="text-xl font-bold text-white mb-2">
+                        Quick Practice
+                      </h3>
+                      <div className="text-3xl font-bold text-blue-400 mb-1">
+                        12
+                      </div>
+                      <div className="text-sm text-gray-300 mb-1">
+                        Questions
+                      </div>
+                      <div className="text-xs text-gray-400 mb-4">
+                        Approximately 5 minutes
+                      </div>
                       <p className="text-sm text-gray-300 mb-4">
-                        Perfect for a quick review session covering all three categories.
+                        Perfect for a quick review session covering all three
+                        categories.
                       </p>
-                      <Button 
-                        onClick={() => generateTest(false)} 
+                      <Button
+                        onClick={() => generateTest(false)}
                         className="w-full bg-blue-600 hover:bg-blue-700"
                       >
                         Start Quick Practice
@@ -221,15 +257,24 @@ export default function Practice() {
                       <div className="w-16 h-16 bg-green-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
                         <FileText className="h-8 w-8 text-green-400" />
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-2">Full K53 Test</h3>
-                      <div className="text-3xl font-bold text-green-400 mb-1">64</div>
-                      <div className="text-sm text-gray-300 mb-1">Questions</div>
-                      <div className="text-xs text-gray-400 mb-4">Approximately 25 minutes</div>
+                      <h3 className="text-xl font-bold text-white mb-2">
+                        Full K53 Test
+                      </h3>
+                      <div className="text-3xl font-bold text-green-400 mb-1">
+                        64
+                      </div>
+                      <div className="text-sm text-gray-300 mb-1">
+                        Questions
+                      </div>
+                      <div className="text-xs text-gray-400 mb-4">
+                        Approximately 25 minutes
+                      </div>
                       <p className="text-sm text-gray-300 mb-4">
-                        Complete simulation matching the official K53 test format.
+                        Complete simulation matching the official K53 test
+                        format.
                       </p>
-                      <Button 
-                        onClick={() => generateTest(true)} 
+                      <Button
+                        onClick={() => generateTest(true)}
                         className="w-full bg-green-600 hover:bg-green-700"
                       >
                         Start Full Test
@@ -250,18 +295,20 @@ export default function Practice() {
     const correctAnswers = results.reduce((sum, r) => sum + r.correct, 0);
     const totalQuestions = results.reduce((sum, r) => sum + r.total, 0);
     const percentage = Math.round((correctAnswers / totalQuestions) * 100);
-    
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-3xl mx-auto">
             <Card className="border border-gray-200">
               <CardHeader className="text-center">
-                <div className={`w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center ${
-                  overallPassed 
-                    ? 'bg-green-100 text-green-600' 
-                    : 'bg-orange-100 text-orange-600'
-                }`}>
+                <div
+                  className={`w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center ${
+                    overallPassed
+                      ? "bg-green-100 text-green-600"
+                      : "bg-orange-100 text-orange-600"
+                  }`}
+                >
                   {overallPassed ? (
                     <CheckCircle className="h-10 w-10" />
                   ) : (
@@ -272,16 +319,20 @@ export default function Practice() {
                 <CardTitle className="text-2xl text-gray-900 mb-2">
                   Test Complete
                 </CardTitle>
-                
+
                 <div className="text-4xl font-bold mb-2">
-                  <span className={overallPassed ? 'text-green-600' : 'text-orange-600'}>
+                  <span
+                    className={
+                      overallPassed ? "text-green-600" : "text-orange-600"
+                    }
+                  >
                     {percentage}%
                   </span>
                 </div>
                 <p className="text-gray-600">
                   {correctAnswers} out of {totalQuestions} questions correct
                 </p>
-                
+
                 {overallPassed ? (
                   <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
                     <p className="text-green-800 font-medium">
@@ -291,25 +342,30 @@ export default function Practice() {
                 ) : (
                   <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mt-4">
                     <p className="text-orange-800 font-medium">
-                      Keep practicing to improve your scores in the highlighted areas.
+                      Keep practicing to improve your scores in the highlighted
+                      areas.
                     </p>
                   </div>
                 )}
               </CardHeader>
-              
+
               <CardContent className="space-y-4">
-                <h3 className="font-semibold text-gray-900 mb-4">Results by Category:</h3>
+                <h3 className="font-semibold text-gray-900 mb-4">
+                  Results by Category:
+                </h3>
                 {results.map((result, index) => (
                   <div
                     key={index}
                     className={`p-4 rounded-lg border ${
-                      result.passed 
-                        ? 'bg-green-50 border-green-200' 
-                        : 'bg-red-50 border-red-200'
+                      result.passed
+                        ? "bg-green-50 border-green-200"
+                        : "bg-red-50 border-red-200"
                     }`}
                   >
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-gray-900">{result.category}</span>
+                      <span className="font-medium text-gray-900">
+                        {result.category}
+                      </span>
                       <div className="flex items-center space-x-2">
                         <span className="text-sm text-gray-600">
                           {result.correct}/{result.total}
@@ -324,7 +380,10 @@ export default function Practice() {
                     <div className="text-sm text-gray-600 mb-2">
                       Required to pass: {result.required}/{result.total}
                     </div>
-                    <Progress value={(result.correct / result.total) * 100} className="h-2" />
+                    <Progress
+                      value={(result.correct / result.total) * 100}
+                      className="h-2"
+                    />
                   </div>
                 ))}
 
@@ -337,7 +396,10 @@ export default function Practice() {
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Retake Test
                   </Button>
-                  <Button asChild className="flex-1 bg-blue-600 hover:bg-blue-700">
+                  <Button
+                    asChild
+                    className="flex-1 bg-blue-600 hover:bg-blue-700"
+                  >
                     <Link to="/progress">View All Results</Link>
                   </Button>
                 </div>
@@ -361,21 +423,21 @@ export default function Practice() {
                 Exit Test
               </Link>
             </Button>
-            
+
             <div className="text-center">
               <Badge variant="outline" className="mb-2">
-                {isFullTest ? 'Full K53 Test' : 'Quick Practice'}
+                {isFullTest ? "Full K53 Test" : "Quick Practice"}
               </Badge>
               <div className="text-sm text-gray-600">
                 Question {currentQuestion + 1} of {testQuestions.length}
               </div>
             </div>
-            
+
             <div className="text-sm text-gray-600">
               {Math.round(progress)}% Complete
             </div>
           </div>
-          
+
           <Progress value={progress} className="h-2" />
         </div>
 
@@ -385,7 +447,7 @@ export default function Practice() {
             <CardHeader>
               <div className="flex items-center justify-between mb-4">
                 <Badge variant="secondary" className="capitalize">
-                  {currentQ?.category.replace('_', ' ')}
+                  {currentQ?.category.replace("_", " ")}
                 </Badge>
                 <div className="text-sm text-gray-500">
                   {currentQuestion + 1}/{testQuestions.length}
@@ -395,39 +457,44 @@ export default function Practice() {
                 {currentQ?.question}
               </CardTitle>
             </CardHeader>
-            
+
             <CardContent className="space-y-6">
-              <RadioGroup value={selectedAnswer} onValueChange={handleAnswerSelect}>
+              <RadioGroup
+                value={selectedAnswer}
+                onValueChange={handleAnswerSelect}
+              >
                 <div className="space-y-3">
                   {currentQ?.options.map((option, index) => {
                     const isSelected = selectedAnswer === option;
-                    const isCorrectAnswer = answered && index === currentQ.correct;
-                    const isWrongSelected = answered && isSelected && index !== currentQ.correct;
-                    
+                    const isCorrectAnswer =
+                      answered && index === currentQ.correct;
+                    const isWrongSelected =
+                      answered && isSelected && index !== currentQ.correct;
+
                     return (
                       <div
                         key={index}
                         className={`border rounded-lg p-4 transition-colors cursor-pointer ${
                           answered
                             ? isCorrectAnswer
-                              ? 'border-green-500 bg-green-50'
+                              ? "border-green-500 bg-green-50"
                               : isWrongSelected
-                              ? 'border-red-500 bg-red-50'
-                              : 'border-gray-200 bg-white'
+                                ? "border-red-500 bg-red-50"
+                                : "border-gray-200 bg-white"
                             : isSelected
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-gray-300 bg-white'
+                              ? "border-blue-500 bg-blue-50"
+                              : "border-gray-200 hover:border-gray-300 bg-white"
                         }`}
                         onClick={() => handleAnswerSelect(option)}
                       >
                         <div className="flex items-center space-x-3">
-                          <RadioGroupItem 
-                            value={option} 
+                          <RadioGroupItem
+                            value={option}
                             id={`option-${index}`}
                             disabled={answered}
                           />
-                          <Label 
-                            htmlFor={`option-${index}`} 
+                          <Label
+                            htmlFor={`option-${index}`}
                             className="flex-1 cursor-pointer font-medium"
                           >
                             {option}
@@ -446,11 +513,13 @@ export default function Practice() {
               </RadioGroup>
 
               {showResult && (
-                <div className={`p-4 rounded-lg border ${
-                  isCorrect 
-                    ? 'bg-green-50 border-green-200' 
-                    : 'bg-red-50 border-red-200'
-                }`}>
+                <div
+                  className={`p-4 rounded-lg border ${
+                    isCorrect
+                      ? "bg-green-50 border-green-200"
+                      : "bg-red-50 border-red-200"
+                  }`}
+                >
                   <div className="flex items-start space-x-3">
                     {isCorrect ? (
                       <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
@@ -470,19 +539,21 @@ export default function Practice() {
               )}
 
               {!answered ? (
-                <Button 
-                  onClick={submitAnswer} 
+                <Button
+                  onClick={submitAnswer}
                   disabled={!selectedAnswer}
                   className="w-full bg-blue-600 hover:bg-blue-700"
                 >
                   Submit Answer
                 </Button>
               ) : (
-                <Button 
-                  onClick={nextQuestion} 
+                <Button
+                  onClick={nextQuestion}
                   className="w-full bg-blue-600 hover:bg-blue-700"
                 >
-                  {currentQuestion < testQuestions.length - 1 ? "Next Question" : "Complete Test"}
+                  {currentQuestion < testQuestions.length - 1
+                    ? "Next Question"
+                    : "Complete Test"}
                 </Button>
               )}
             </CardContent>
