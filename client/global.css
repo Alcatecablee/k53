@@ -9,7 +9,7 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 98%;
     --foreground: 220 13% 13%;
 
     --card: 0 0% 100%;
@@ -18,16 +18,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 13% 13%;
 
-    --primary: 142 76% 36%;
+    --primary: 93 94% 39%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 45 93% 47%;
-    --secondary-foreground: 220 13% 13%;
+    --secondary: 213 87% 53%;
+    --secondary-foreground: 0 0% 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 197 71% 73%;
+    --accent: 41 96% 59%;
     --accent-foreground: 220 13% 13%;
 
     --destructive: 0 84.2% 60.2%;
@@ -35,7 +35,13 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 142 76% 36%;
+    --ring: 93 94% 39%;
+
+    --duolingo-green: 93 94% 39%;
+    --duolingo-blue: 213 87% 53%;
+    --duolingo-orange: 41 96% 59%;
+    --duolingo-red: 0 84% 60%;
+    --duolingo-purple: 262 83% 58%;
 
     --radius: 0.5rem;
 
