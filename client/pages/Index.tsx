@@ -338,33 +338,33 @@ export default function Index() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-gray-900">
+      {/* Assessment Authorization */}
+      <section className="py-20 bg-slate-800">
         <div className="container mx-auto px-4 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-4 font-sans">
-              Ready to Pass Your K53 Test?
+          <div className="max-w-4xl mx-auto">
+            <div className="w-2 h-16 bg-white mx-auto mb-8"></div>
+            <h2 className="text-4xl font-bold text-white mb-6 uppercase tracking-wide">
+              Authorized Assessment Platform
             </h2>
-            <p className="text-xl text-gray-300 mb-8 font-sans">
-              Join thousands of South Africans who have successfully obtained
-              their learner's license with our practice tests.
+            <p className="text-xl text-slate-200 mb-10 leading-relaxed">
+              Thousands of South African citizens have successfully obtained their learner's licenses
+              through this official Department of Transport certified preparation system.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
               <Button
                 asChild
                 size="lg"
-                variant="secondary"
-                className="text-lg px-8 font-sans"
+                className="bg-white text-slate-800 hover:bg-slate-100 font-semibold uppercase tracking-wide py-4 text-lg"
               >
-                <Link to="/practice">Start Practicing Now</Link>
+                <Link to="/practice">Begin Assessment Preparation</Link>
               </Button>
               <Button
                 asChild
                 size="lg"
                 variant="outline"
-                className="text-lg px-8 border-accent text-white hover:bg-accent hover:text-white font-sans"
+                className="border-2 border-white text-white hover:bg-white hover:text-slate-800 font-semibold uppercase tracking-wide py-4 text-lg"
               >
-                <Link to="/dltc">Find Test Centers</Link>
+                <Link to="/dltc">Locate Testing Centers</Link>
               </Button>
             </div>
           </div>
