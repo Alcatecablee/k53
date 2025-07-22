@@ -1,170 +1,289 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { MapPin, Home, Search, Phone, Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { 
+  MapPin, 
+  Home, 
+  Search, 
+  Phone, 
+  Clock, 
+  Navigation,
+  Star,
+  Users,
+  Car,
+  CheckCircle,
+  AlertCircle,
+  Info
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function DLTCPage() {
+  const mockDLTCs = [
+    {
+      id: 1,
+      name: "Cape Town DLTC",
+      address: "123 Main Road, Cape Town, 8001",
+      phone: "021-123-4567",
+      hours: "Mon-Fri: 8:00 AM - 4:00 PM, Sat: 8:00 AM - 12:00 PM",
+      distance: "2.3 km",
+      rating: 4.2,
+      busyLevel: "Moderate",
+      waitTime: "30-45 min",
+      services: ["Learner's Test", "Driver's Test", "Renewals"]
+    },
+    {
+      id: 2,
+      name: "Johannesburg DLTC",
+      address: "456 CBD Street, Johannesburg, 2000", 
+      phone: "011-987-6543",
+      hours: "Mon-Fri: 7:30 AM - 4:30 PM, Sat: 8:00 AM - 1:00 PM",
+      distance: "1.8 km",
+      rating: 3.8,
+      busyLevel: "Busy",
+      waitTime: "60-90 min", 
+      services: ["Learner's Test", "Driver's Test", "Renewals", "Eye Tests"]
+    },
+    {
+      id: 3,
+      name: "Durban DLTC",
+      address: "789 Beach Road, Durban, 4001",
+      phone: "031-555-7890",
+      hours: "Mon-Fri: 8:00 AM - 4:00 PM, Sat: 8:00 AM - 12:00 PM",
+      distance: "5.1 km",
+      rating: 4.5,
+      busyLevel: "Quiet",
+      waitTime: "15-30 min",
+      services: ["Learner's Test", "Driver's Test", "Renewals", "Motorcycle Tests"]
+    }
+  ];
+
+  const testRequirements = [
+    {
+      icon: CheckCircle,
+      title: "Valid South African ID",
+      description: "Original ID document or passport"
+    },
+    {
+      icon: CheckCircle, 
+      title: "Passport Photos",
+      description: "Two recent passport-sized photos"
+    },
+    {
+      icon: CheckCircle,
+      title: "Proof of Residence", 
+      description: "Not older than 3 months"
+    },
+    {
+      icon: CheckCircle,
+      title: "Eye Test Certificate",
+      description: "If required by examiner"
+    }
+  ];
+
+  const testTips = [
+    "Arrive 30 minutes early to complete paperwork",
+    "Bring exact change for test fees",
+    "Study road signs the night before your test",
+    "Get a good night's sleep before test day",
+    "Practice with our K53 simulator beforehand"
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-accent/5 to-secondary/10">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Button asChild variant="outline">
+          <Button asChild variant="ghost" className="rounded-xl">
             <Link to="/">
-              <Home className="h-4 w-4 mr-2" />
-              Back to Home
+              <Home className="h-5 w-5 mr-2" />
+              Home
             </Link>
           </Button>
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-foreground">DLTC Finder</h1>
-            <p className="text-muted-foreground">
-              Find Driving License Testing Centres near you
-            </p>
+            <h1 className="text-3xl font-bold text-gray-800">Find Your DLTC</h1>
+            <p className="text-gray-600">Locate testing centers near you</p>
           </div>
           <div></div>
         </div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Search Section */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <MapPin className="h-5 w-5 mr-2" />
-                Find Your Nearest DLTC
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex gap-4">
-                <Input
-                  placeholder="Enter your city or province..."
-                  className="flex-1"
+          <Card className="duolingo-card mb-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+            <CardContent className="p-8">
+              <div className="text-center mb-6">
+                <div className="bg-white/20 rounded-full p-4 w-fit mx-auto mb-4">
+                  <MapPin className="h-8 w-8" />
+                </div>
+                <h2 className="text-2xl font-bold mb-2">Find Your Nearest DLTC</h2>
+                <p className="opacity-90">
+                  Discover driving license testing centers with real-time info
+                </p>
+              </div>
+              
+              <div className="flex gap-4 max-w-md mx-auto">
+                <Input 
+                  placeholder="Enter your city or province..." 
+                  className="flex-1 bg-white/20 border-white/30 text-white placeholder:text-white/70 rounded-xl"
                 />
-                <Button>
+                <Button variant="secondary" className="rounded-xl font-semibold px-6">
                   <Search className="h-4 w-4 mr-2" />
                   Search
                 </Button>
               </div>
-
-              <p className="text-sm text-muted-foreground">
-                🚧 <strong>Coming Soon:</strong> Interactive map with all DLTC
-                locations across South Africa, including contact details,
-                operating hours, and booking information.
-              </p>
             </CardContent>
           </Card>
 
-          {/* Sample DLTC Cards */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="border-2">
+          {/* Coming Soon Notice */}
+          <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-4 mb-8">
+            <div className="flex items-center space-x-3">
+              <AlertCircle className="h-5 w-5 text-yellow-600 flex-shrink-0" />
+              <div className="text-sm text-yellow-800">
+                <strong>Coming Soon:</strong> Real-time wait times, online booking, and interactive maps 
+                with GPS navigation to all DLTC locations across South Africa.
+              </div>
+            </div>
+          </div>
+
+          {/* DLTC Results */}
+          <div className="grid lg:grid-cols-2 gap-6 mb-8">
+            {mockDLTCs.map((dltc) => (
+              <Card key={dltc.id} className="duolingo-card border-2 hover:border-blue-300 transition-colors">
+                <CardHeader className="pb-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="text-xl text-gray-800 mb-1">{dltc.name}</CardTitle>
+                      <p className="text-sm text-gray-600">{dltc.distance} away</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="flex items-center space-x-1 mb-1">
+                        <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                        <span className="text-sm font-medium">{dltc.rating}</span>
+                      </div>
+                      <Badge 
+                        variant="outline" 
+                        className={`text-xs ${
+                          dltc.busyLevel === 'Quiet' ? 'border-green-300 text-green-700' :
+                          dltc.busyLevel === 'Moderate' ? 'border-yellow-300 text-yellow-700' :
+                          'border-red-300 text-red-700'
+                        }`}
+                      >
+                        {dltc.busyLevel}
+                      </Badge>
+                    </div>
+                  </div>
+                </CardHeader>
+                
+                <CardContent className="space-y-4">
+                  <div className="flex items-start space-x-3">
+                    <MapPin className="h-4 w-4 text-gray-500 mt-1 flex-shrink-0" />
+                    <p className="text-sm text-gray-700">{dltc.address}</p>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3">
+                    <Phone className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                    <p className="text-sm text-gray-700">{dltc.phone}</p>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <Clock className="h-4 w-4 text-gray-500 mt-1 flex-shrink-0" />
+                    <p className="text-sm text-gray-700">{dltc.hours}</p>
+                  </div>
+                  
+                  <div className="bg-blue-50 rounded-xl p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-800">Wait Time</span>
+                      <span className="text-sm font-bold text-blue-600">{dltc.waitTime}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {dltc.services.map((service, index) => (
+                        <Badge key={index} variant="secondary" className="text-xs">
+                          {service}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" className="flex-1 rounded-xl font-semibold">
+                      <Navigation className="h-4 w-4 mr-2" />
+                      Directions
+                    </Button>
+                    <Button size="sm" className="flex-1 rounded-xl font-semibold">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Call
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Information Sections */}
+          <div className="grid lg:grid-cols-2 gap-8 mb-8">
+            {/* Test Requirements */}
+            <Card className="duolingo-card">
               <CardHeader>
-                <CardTitle className="text-lg">Cape Town DLTC</CardTitle>
-                <p className="text-sm text-muted-foreground">Western Cape</p>
+                <CardTitle className="flex items-center space-x-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>What to Bring</span>
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start space-x-3">
-                  <MapPin className="h-4 w-4 text-primary mt-1" />
-                  <div className="text-sm">
-                    <p>123 Main Road, Cape Town, 8001</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <Phone className="h-4 w-4 text-primary mt-1" />
-                  <div className="text-sm">
-                    <p>021-123-4567</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <Clock className="h-4 w-4 text-primary mt-1" />
-                  <div className="text-sm">
-                    <p>Mon-Fri: 8:00 AM - 4:00 PM</p>
-                    <p>Sat: 8:00 AM - 12:00 PM</p>
-                  </div>
-                </div>
-
-                <Button variant="outline" size="sm" className="w-full mt-4">
-                  Get Directions
-                </Button>
+              <CardContent className="space-y-4">
+                {testRequirements.map((req, index) => {
+                  const IconComponent = req.icon;
+                  return (
+                    <div key={index} className="flex items-start space-x-3">
+                      <IconComponent className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <h3 className="font-semibold text-gray-800 mb-1">{req.title}</h3>
+                        <p className="text-sm text-gray-600">{req.description}</p>
+                      </div>
+                    </div>
+                  );
+                })}
               </CardContent>
             </Card>
 
-            <Card className="border-2">
+            {/* Test Day Tips */}
+            <Card className="duolingo-card">
               <CardHeader>
-                <CardTitle className="text-lg">Johannesburg DLTC</CardTitle>
-                <p className="text-sm text-muted-foreground">Gauteng</p>
+                <CardTitle className="flex items-center space-x-2">
+                  <Info className="h-5 w-5 text-blue-500" />
+                  <span>Test Day Tips</span>
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start space-x-3">
-                  <MapPin className="h-4 w-4 text-primary mt-1" />
-                  <div className="text-sm">
-                    <p>456 CBD Street, Johannesburg, 2000</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <Phone className="h-4 w-4 text-primary mt-1" />
-                  <div className="text-sm">
-                    <p>011-987-6543</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <Clock className="h-4 w-4 text-primary mt-1" />
-                  <div className="text-sm">
-                    <p>Mon-Fri: 7:30 AM - 4:30 PM</p>
-                    <p>Sat: 8:00 AM - 1:00 PM</p>
-                  </div>
-                </div>
-
-                <Button variant="outline" size="sm" className="w-full mt-4">
-                  Get Directions
-                </Button>
+              <CardContent>
+                <ul className="space-y-3">
+                  {testTips.map((tip, index) => (
+                    <li key={index} className="flex items-start space-x-3">
+                      <div className="bg-blue-100 rounded-full p-1 mt-0.5">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                      </div>
+                      <span className="text-sm text-gray-700">{tip}</span>
+                    </li>
+                  ))}
+                </ul>
               </CardContent>
             </Card>
           </div>
 
-          {/* Information Section */}
-          <Card className="mt-8 bg-accent/5">
-            <CardHeader>
-              <CardTitle>What to Bring to Your K53 Test</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <h4 className="font-semibold mb-2">Required Documents:</h4>
-                  <ul className="text-sm space-y-1 text-muted-foreground">
-                    <li>• Valid South African ID document</li>
-                    <li>• Two passport-sized photos</li>
-                    <li>• Proof of residence (not older than 3 months)</li>
-                    <li>• Eye test certificate (if required)</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">Test Day Tips:</h4>
-                  <ul className="text-sm space-y-1 text-muted-foreground">
-                    <li>• Arrive 30 minutes early</li>
-                    <li>• Bring exact change for fees</li>
-                    <li>• Study road signs the night before</li>
-                    <li>• Get a good night's sleep</li>
-                  </ul>
-                </div>
+          {/* Practice Promotion */}
+          <Card className="duolingo-card bg-gradient-to-r from-green-500 to-blue-500 text-white">
+            <CardContent className="p-8 text-center">
+              <div className="bg-white/20 rounded-full p-4 w-fit mx-auto mb-4">
+                <Car className="h-8 w-8" />
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Practice Prompt */}
-          <Card className="mt-8 bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
-            <CardContent className="p-6 text-center">
-              <h3 className="text-lg font-semibold mb-2">
-                Ready for Your Test?
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Make sure you're prepared by taking our practice tests first!
+              <h3 className="text-2xl font-bold mb-2">Ready for Your Test?</h3>
+              <p className="mb-6 opacity-90 max-w-md mx-auto">
+                Make sure you're fully prepared with our comprehensive K53 practice tests 
+                before heading to the DLTC!
               </p>
-              <Button asChild size="lg">
-                <Link to="/practice">Start Practice Test</Link>
+              <Button asChild size="lg" variant="secondary" className="rounded-xl font-semibold">
+                <Link to="/practice">
+                  Practice K53 Test
+                  <CheckCircle className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
             </CardContent>
           </Card>
