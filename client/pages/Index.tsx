@@ -182,7 +182,7 @@ export default function Index() {
                   <p className="text-gray-300 font-sans">28 questions • Pass: 23/28</p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-300 mb-4">
+                  <p className="text-gray-300 mb-4 font-sans">
                     Warning signs, command signs, prohibition signs, and road
                     markings.
                   </p>
@@ -200,18 +200,18 @@ export default function Index() {
               </Card>
 
               {/* Traffic Rules */}
-              <Card className="border border-gray-700 bg-gray-800/40 backdrop-blur-sm hover:shadow-xl hover:shadow-blue-500/10 transition-all">
+              <Card className="border border-gray-700 bg-primary/40 backdrop-blur-sm hover:shadow-card hover:shadow-accent/10 transition-all">
                 <CardHeader className="pb-4">
-                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                    <FileText className="w-6 h-6 text-orange-600" />
+                  <div className="w-12 h-12 bg-accent/20 border border-accent/30 rounded-lg flex items-center justify-center mb-4">
+                    <FileText className="w-6 h-6 text-accent" />
                   </div>
-                  <CardTitle className="text-xl text-white">
+                  <CardTitle className="text-xl text-white font-sans">
                     Traffic Rules
                   </CardTitle>
-                  <p className="text-gray-300">28 questions • Pass: 22/28</p>
+                  <p className="text-gray-300 font-sans">28 questions • Pass: 22/28</p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-300 mb-4">
+                  <p className="text-gray-300 mb-4 font-sans">
                     Speed limits, following distances, parking regulations, and
                     traffic laws.
                   </p>
