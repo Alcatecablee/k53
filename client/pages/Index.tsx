@@ -126,7 +126,7 @@ export default function Index() {
               <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-blue-600 rounded"></div>
+                    <Gauge className="w-6 h-6 text-blue-600" />
                   </div>
                   <CardTitle className="text-xl text-gray-900">Vehicle Controls</CardTitle>
                   <p className="text-gray-600">8 questions • Pass: 6/8</p>
