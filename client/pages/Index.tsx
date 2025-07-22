@@ -21,9 +21,9 @@ import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-gray-900/80 backdrop-blur-sm shadow-sm border-b border-gray-800">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -31,26 +31,26 @@ export default function Index() {
                 <div className="text-white font-bold text-lg">K53</div>
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-gray-900">K53 Practice Tests</h1>
-                <p className="text-sm text-gray-600">South African Learner's License</p>
+                <h1 className="text-xl font-semibold text-white">K53 Practice Tests</h1>
+                <p className="text-sm text-gray-300">South African Learner's License</p>
               </div>
             </div>
             
             <nav className="hidden md:flex items-center space-x-6">
-              <Link to="/practice" className="text-gray-700 hover:text-blue-600 font-medium">
+              <Link to="/practice" className="text-gray-300 hover:text-blue-400 font-medium">
                 Practice Tests
               </Link>
-              <Link to="/progress" className="text-gray-700 hover:text-blue-600 font-medium">
+              <Link to="/progress" className="text-gray-300 hover:text-blue-400 font-medium">
                 My Results
               </Link>
-              <Link to="/dltc" className="text-gray-700 hover:text-blue-600 font-medium">
+              <Link to="/dltc" className="text-gray-300 hover:text-blue-400 font-medium">
                 Test Centers
               </Link>
               <a 
                 href="https://taxfy.co.za" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-700 font-medium"
+                className="text-blue-400 hover:text-blue-300 font-medium"
               >
                 Taxfy Refunds
               </a>
@@ -60,13 +60,13 @@ export default function Index() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-white py-16">
+      <section className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Master Your K53 Learner's License Test
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
               Comprehensive practice tests designed specifically for South African driving regulations. 
               Study the official K53 syllabus with realistic questions and instant feedback.
             </p>
@@ -86,22 +86,22 @@ export default function Index() {
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-gray-200">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-gray-700">
               <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900 mb-1">150+</div>
-                <div className="text-sm text-gray-600">Practice Questions</div>
+                <div className="text-3xl font-bold text-white mb-1">150+</div>
+                <div className="text-sm text-gray-300">Practice Questions</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900 mb-1">85%</div>
-                <div className="text-sm text-gray-600">Success Rate</div>
+                <div className="text-3xl font-bold text-white mb-1">85%</div>
+                <div className="text-sm text-gray-300">Success Rate</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900 mb-1">3</div>
-                <div className="text-sm text-gray-600">Languages</div>
+                <div className="text-3xl font-bold text-white mb-1">3</div>
+                <div className="text-sm text-gray-300">Languages</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900 mb-1">50+</div>
-                <div className="text-sm text-gray-600">Test Centers</div>
+                <div className="text-3xl font-bold text-white mb-1">50+</div>
+                <div className="text-sm text-gray-300">Test Centers</div>
               </div>
             </div>
           </div>
