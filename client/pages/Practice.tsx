@@ -231,66 +231,65 @@ export default function Practice() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <Card className="border-2 border-gray-700 hover:border-blue-500 transition-colors cursor-pointer bg-gray-800/40 backdrop-blur-sm">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-16 h-16 bg-blue-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
-                        <Clock className="h-8 w-8 text-blue-400" />
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="bg-slate-800 text-white p-8 hover:bg-slate-700 transition-colors">
+                    <div className="text-center">
+                      <div className="w-20 h-20 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-6">
+                        <Clock className="h-10 w-10" />
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-2">
-                        Quick Practice
+                      <h3 className="text-2xl font-bold uppercase tracking-wide mb-4">
+                        Practice Assessment
                       </h3>
-                      <div className="text-3xl font-bold text-blue-400 mb-1">
+                      <div className="text-5xl font-bold mb-2">
                         12
                       </div>
-                      <div className="text-sm text-gray-300 mb-1">
+                      <div className="text-sm uppercase tracking-wide mb-1">
                         Questions
                       </div>
-                      <div className="text-xs text-gray-400 mb-4">
-                        Approximately 5 minutes
+                      <div className="text-xs text-slate-300 mb-6 uppercase tracking-wide">
+                        Duration: ~5 Minutes
                       </div>
-                      <p className="text-sm text-gray-300 mb-4">
-                        Perfect for a quick review session covering all three
-                        categories.
+                      <p className="text-slate-300 mb-6 leading-relaxed">
+                        Abbreviated assessment covering all mandatory categories for rapid skill evaluation.
                       </p>
                       <Button
                         onClick={() => generateTest(false)}
-                        className="w-full bg-blue-600 hover:bg-blue-700"
+                        className="w-full bg-white text-slate-800 hover:bg-slate-100 font-semibold uppercase tracking-wide py-3"
                       >
-                        Start Quick Practice
+                        Initialize Practice Mode
                       </Button>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
 
-                  <Card className="border-2 border-green-700 hover:border-green-500 transition-colors cursor-pointer bg-green-900/20 backdrop-blur-sm">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-16 h-16 bg-green-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
-                        <FileText className="h-8 w-8 text-green-400" />
+                  <div className="bg-white border-2 border-slate-800 p-8 hover:shadow-lg transition-shadow">
+                    <div className="text-center">
+                      <div className="w-20 h-20 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-6">
+                        <FileText className="h-10 w-10 text-slate-800" />
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-2">
-                        Full K53 Test
+                      <h3 className="text-2xl font-bold uppercase tracking-wide mb-4 text-slate-800">
+                        Official Assessment
                       </h3>
-                      <div className="text-3xl font-bold text-green-400 mb-1">
+                      <div className="text-5xl font-bold mb-2 text-slate-800">
                         64
                       </div>
-                      <div className="text-sm text-gray-300 mb-1">
+                      <div className="text-sm uppercase tracking-wide mb-1 text-slate-600">
                         Questions
                       </div>
-                      <div className="text-xs text-gray-400 mb-4">
-                        Approximately 25 minutes
+                      <div className="text-xs text-slate-500 mb-6 uppercase tracking-wide">
+                        Duration: ~25 Minutes
                       </div>
-                      <p className="text-sm text-gray-300 mb-4">
-                        Complete simulation matching the official K53 test
-                        format.
+                      <p className="text-slate-600 mb-6 leading-relaxed">
+                        Complete simulation adhering to official Department of Transport K53 examination standards.
                       </p>
                       <Button
                         onClick={() => generateTest(true)}
-                        className="w-full bg-green-600 hover:bg-green-700"
+                        className="w-full border-2 border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide py-3"
+                        variant="outline"
                       >
-                        Start Full Test
+                        Begin Official Assessment
                       </Button>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
