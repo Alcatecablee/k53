@@ -195,16 +195,16 @@ export default function Practice() {
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
-                  <Card className="border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
+                  <Card className="border-2 border-gray-700 hover:border-blue-500 transition-colors cursor-pointer bg-gray-800/40 backdrop-blur-sm">
                     <CardContent className="p-6 text-center">
-                      <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                        <Clock className="h-8 w-8 text-blue-600" />
+                      <div className="w-16 h-16 bg-blue-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <Clock className="h-8 w-8 text-blue-400" />
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">Quick Practice</h3>
-                      <div className="text-3xl font-bold text-blue-600 mb-1">12</div>
-                      <div className="text-sm text-gray-600 mb-1">Questions</div>
-                      <div className="text-xs text-gray-500 mb-4">Approximately 5 minutes</div>
-                      <p className="text-sm text-gray-600 mb-4">
+                      <h3 className="text-xl font-bold text-white mb-2">Quick Practice</h3>
+                      <div className="text-3xl font-bold text-blue-400 mb-1">12</div>
+                      <div className="text-sm text-gray-300 mb-1">Questions</div>
+                      <div className="text-xs text-gray-400 mb-4">Approximately 5 minutes</div>
+                      <p className="text-sm text-gray-300 mb-4">
                         Perfect for a quick review session covering all three categories.
                       </p>
                       <Button 
