@@ -319,48 +319,50 @@ export default function ProgressPage() {
           </Card>
 
           {/* Achievements */}
-          <Card className="duolingo-card">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Award className="h-5 w-5 text-gray-600" />
-                <span>Achievements</span>
+          <Card className="border-2 border-slate-800 bg-white mb-8">
+            <CardHeader className="bg-slate-800 text-white p-6">
+              <CardTitle className="flex items-center space-x-2 text-xl font-bold uppercase tracking-wide">
+                <Award className="h-6 w-6" />
+                <span>Achievement Record</span>
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <CardContent className="p-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {achievements.map((achievement) => {
                   const IconComponent = achievement.icon;
                   return (
                     <div
                       key={achievement.id}
-                      className={`p-4 rounded-2xl border-2 transition-all ${
+                      className={`p-6 border-2 transition-all ${
                         achievement.earned
-                          ? "bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200 shadow-lg"
-                          : "bg-gray-50 border-gray-200 opacity-60"
+                          ? "bg-slate-100 border-slate-800"
+                          : "bg-white border-slate-300 opacity-60"
                       }`}
                     >
                       <div
-                        className={`mx-auto mb-3 p-3 rounded-full w-fit ${
+                        className={`mx-auto mb-4 w-16 h-16 border-2 flex items-center justify-center ${
                           achievement.earned
-                            ? "bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg"
-                            : "bg-gray-300 text-gray-500"
+                            ? "border-slate-800 bg-slate-100 text-slate-800"
+                            : "border-slate-300 bg-slate-50 text-slate-400"
                         }`}
                       >
-                        <IconComponent className="h-6 w-6" />
+                        <IconComponent className="h-8 w-8" />
                       </div>
-                      <h3 className="font-bold text-gray-800 text-center mb-1">
+                      <h3 className="font-bold text-slate-800 text-center mb-2 uppercase tracking-wide">
                         {achievement.title}
                       </h3>
-                      <p className="text-sm text-gray-600 text-center">
+                      <p className="text-sm text-slate-600 text-center leading-relaxed">
                         {achievement.description}
                       </p>
-                      {achievement.earned && (
-                        <div className="text-center mt-2">
-                          <Badge className="bg-green-100 text-green-800 border-green-200">
-                            Earned!
-                          </Badge>
-                        </div>
-                      )}
+                      <div className="text-center mt-4">
+                        <Badge className={`uppercase tracking-wide font-semibold ${
+                          achievement.earned
+                            ? "bg-slate-800 text-white"
+                            : "bg-slate-300 text-slate-600"
+                        }`}>
+                          {achievement.earned ? "Achieved" : "Locked"}
+                        </Badge>
+                      </div>
                     </div>
                   );
                 })}
@@ -368,28 +370,27 @@ export default function ProgressPage() {
             </CardContent>
           </Card>
 
-          {/* Practice Recommendation */}
-          <Card className="duolingo-card bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-            <CardContent className="p-8 text-center">
-              <div className="bg-white/20 rounded-full p-4 w-fit mx-auto mb-4">
-                <Target className="h-8 w-8" />
+          {/* Assessment Recommendation */}
+          <Card className="bg-slate-800 text-white">
+            <CardContent className="p-12 text-center">
+              <div className="w-20 h-20 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-6">
+                <Target className="h-10 w-10" />
               </div>
-              <h3 className="text-2xl font-bold mb-2">
-                Ready for More Practice?
+              <h3 className="text-3xl font-bold mb-4 uppercase tracking-wide">
+                Continue Assessment Training
               </h3>
-              <p className="mb-6 opacity-90">
-                Focus on {userStats.weakestCategory} to improve your overall
-                score!
+              <p className="mb-8 text-slate-200 text-lg leading-relaxed max-w-2xl mx-auto">
+                Recommended focus area: {userStats.weakestCategory}.
+                Continue regular practice sessions to maintain proficiency and improve overall assessment performance.
               </p>
               <Button
                 asChild
                 size="lg"
-                variant="secondary"
-                className="rounded-xl font-semibold"
+                className="bg-white text-slate-800 hover:bg-slate-100 font-semibold uppercase tracking-wide px-8 py-4 text-lg"
               >
                 <Link to="/practice">
-                  Continue Learning
-                  <Zap className="ml-2 h-5 w-5" />
+                  Access Assessment Portal
+                  <ArrowLeft className="ml-3 h-5 w-5 rotate-180" />
                 </Link>
               </Button>
             </CardContent>
