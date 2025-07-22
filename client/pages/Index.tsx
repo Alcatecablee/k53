@@ -297,13 +297,13 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-dark-gradient">
+      <section className="py-16 bg-gray-900">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold text-white mb-4 font-sans">
               Ready to Pass Your K53 Test?
             </h2>
-            <p className="text-xl text-gray-200 mb-8 font-sans">
+            <p className="text-xl text-gray-300 mb-8 font-sans">
               Join thousands of South Africans who have successfully obtained
               their learner's license with our practice tests.
             </p>
@@ -330,7 +330,7 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-secondary/80 backdrop-blur-sm text-white py-12 border-t border-gray-800">
+      <footer className="bg-gray-900 text-white py-12 border-t border-gray-800">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
