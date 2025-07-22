@@ -273,62 +273,64 @@ export default function Index() {
       </section>
 
       {/* System Features */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4 font-sans">
-                Why Choose Our Platform?
+            <div className="mb-12">
+              <h2 className="text-3xl font-bold text-slate-800 mb-4 uppercase tracking-wide">
+                Official System Capabilities
               </h2>
+              <p className="text-lg text-slate-600 max-w-3xl">
+                Comprehensive assessment platform features designed in accordance with Department of Transport standards.
+              </p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="h-8 w-8 text-accent" />
+              <div className="bg-white border-2 border-slate-300 p-6 hover:border-slate-800 transition-colors">
+                <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="h-8 w-8 text-slate-800" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-sans">
-                  Official Content
+                <h3 className="text-lg font-bold text-slate-800 mb-3 uppercase tracking-wide text-center">
+                  Certified Content
                 </h3>
-                <p className="text-gray-600 font-sans">
-                  Questions based on the official K53 learner's license syllabus
+                <p className="text-slate-600 text-center leading-relaxed">
+                  Assessment items based on official K53 learner's license curriculum as prescribed by the Department of Transport
                 </p>
               </div>
 
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-50 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Clock className="h-8 w-8 text-success" />
+              <div className="bg-white border-2 border-slate-300 p-6 hover:border-slate-800 transition-colors">
+                <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-6">
+                  <Clock className="h-8 w-8 text-slate-800" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-sans">
-                  Instant Results
+                <h3 className="text-lg font-bold text-slate-800 mb-3 uppercase tracking-wide text-center">
+                  Immediate Evaluation
                 </h3>
-                <p className="text-gray-600 font-sans">
-                  Get immediate feedback with detailed explanations for every
-                  question
+                <p className="text-slate-600 text-center leading-relaxed">
+                  Real-time assessment scoring with comprehensive explanatory feedback for all examination items
                 </p>
               </div>
 
-              <div className="text-center">
-                <div className="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <BarChart3 className="h-8 w-8 text-accent" />
+              <div className="bg-white border-2 border-slate-300 p-6 hover:border-slate-800 transition-colors">
+                <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-6">
+                  <BarChart3 className="h-8 w-8 text-slate-800" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-sans">
-                  Track Progress
+                <h3 className="text-lg font-bold text-slate-800 mb-3 uppercase tracking-wide text-center">
+                  Performance Analytics
                 </h3>
-                <p className="text-gray-600 font-sans">
-                  Monitor your performance across all test categories
+                <p className="text-slate-600 text-center leading-relaxed">
+                  Advanced tracking and analysis of assessment performance across all mandatory categories
                 </p>
               </div>
 
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-50 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <MapIcon className="h-8 w-8 text-success" />
+              <div className="bg-white border-2 border-slate-300 p-6 hover:border-slate-800 transition-colors">
+                <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-6">
+                  <MapIcon className="h-8 w-8 text-slate-800" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-sans">
-                  Find Centers
+                <h3 className="text-lg font-bold text-slate-800 mb-3 uppercase tracking-wide text-center">
+                  Center Directory
                 </h3>
-                <p className="text-gray-600 font-sans">
-                  Locate DLTC offices near you with contact information
+                <p className="text-slate-600 text-center leading-relaxed">
+                  Comprehensive database of authorized DLTC testing facilities with contact information
                 </p>
               </div>
             </div>
