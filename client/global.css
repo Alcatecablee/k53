@@ -113,47 +113,5 @@
 }
 
 @layer components {
-  .duolingo-button {
-    @apply bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl;
-  }
-
-  .duolingo-card {
-    @apply bg-white rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-102 border-2 border-gray-100;
-  }
-
-  .duolingo-progress {
-    @apply bg-gray-200 rounded-full overflow-hidden;
-  }
-
-  .duolingo-progress-bar {
-    @apply bg-primary h-full rounded-full transition-all duration-500 ease-out;
-  }
-
-  .streak-flame {
-    @apply text-orange-500 animate-pulse;
-  }
-
-  .bounce-in {
-    animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-
-
-
-  @keyframes bounceIn {
-    0% {
-      transform: scale(0);
-      opacity: 0;
-    }
-    60% {
-      transform: scale(1.1);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  .level-badge {
-    @apply bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold px-3 py-1 rounded-full text-sm shadow-lg;
-  }
+  /* Professional styling for K53 Practice Test platform */
 }
