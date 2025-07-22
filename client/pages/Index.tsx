@@ -233,61 +233,61 @@ export default function Index() {
       </section>
 
       {/* Features */}
-      <section className="py-16 bg-primary/30 backdrop-blur-sm">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4 font-sans">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4 font-sans">
                 Why Choose Our Platform?
               </h2>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="text-center">
-                <div className="w-16 h-16 bg-accent/20 border border-accent/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="h-8 w-8 text-accent" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2 font-sans">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-sans">
                   Official Content
                 </h3>
-                <p className="text-gray-300 font-sans">
+                <p className="text-gray-600 font-sans">
                   Questions based on the official K53 learner's license syllabus
                 </p>
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 bg-success/20 border border-success/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-green-50 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Clock className="h-8 w-8 text-success" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2 font-sans">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-sans">
                   Instant Results
                 </h3>
-                <p className="text-gray-300 font-sans">
+                <p className="text-gray-600 font-sans">
                   Get immediate feedback with detailed explanations for every
                   question
                 </p>
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 bg-accent/20 border border-accent/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <BarChart3 className="h-8 w-8 text-accent" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2 font-sans">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-sans">
                   Track Progress
                 </h3>
-                <p className="text-gray-300 font-sans">
+                <p className="text-gray-600 font-sans">
                   Monitor your performance across all test categories
                 </p>
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 bg-success/20 border border-success/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-green-50 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <MapIcon className="h-8 w-8 text-success" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2 font-sans">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-sans">
                   Find Centers
                 </h3>
-                <p className="text-gray-300 font-sans">
+                <p className="text-gray-600 font-sans">
                   Locate DLTC offices near you with contact information
                 </p>
               </div>
