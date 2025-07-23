@@ -708,7 +708,9 @@ function PracticeComponent() {
                                 <div className="w-full bg-white/10 border border-white/20 h-1 mt-1">
                                   <div
                                     className="bg-white h-full"
-                                    style={{width: `${((5 - (usageInfo.remaining || 0)) / 5) * 100}%`}}
+                                    style={{
+                                      width: `${((5 - (usageInfo.remaining || 0)) / 5) * 100}%`,
+                                    }}
                                   ></div>
                                 </div>
                               </div>
@@ -718,12 +720,16 @@ function PracticeComponent() {
                                     Daily allocation complete
                                   </div>
                                   <div className="text-xs text-white/70 leading-relaxed">
-                                    Premium members access 220+ additional scenarios including location-specific highway patterns and advanced driving conditions
+                                    Premium members access 220+ additional
+                                    scenarios including location-specific
+                                    highway patterns and advanced driving
+                                    conditions
                                   </div>
                                 </div>
                               ) : (
                                 <div className="text-center text-xs text-white/70">
-                                  {usageInfo.remaining} scenarios remaining today
+                                  {usageInfo.remaining} scenarios remaining
+                                  today
                                 </div>
                               )}
                             </div>
@@ -744,14 +750,17 @@ function PracticeComponent() {
                                   Premium scenarios locked
                                 </div>
                                 <div className="text-xs text-white/70">
-                                  Cape Town coastal routes, Johannesburg highway merging, rural farm roads
+                                  Cape Town coastal routes, Johannesburg highway
+                                  merging, rural farm roads
                                 </div>
                               </div>
                               <Button
                                 asChild
                                 className="w-full bg-slate-600 hover:bg-slate-500 text-white font-medium uppercase tracking-wide py-2 text-xs"
                               >
-                                <Link to="/pricing">Access unlimited scenarios</Link>
+                                <Link to="/pricing">
+                                  Access unlimited scenarios
+                                </Link>
                               </Button>
                             </div>
                           )}
@@ -778,7 +787,8 @@ function PracticeComponent() {
                     Premium scenario categories
                   </CardTitle>
                   <p className="text-slate-300">
-                    Advanced assessment scenarios available through premium access
+                    Advanced assessment scenarios available through premium
+                    access
                   </p>
                 </CardHeader>
                 <CardContent className="p-6">
@@ -788,10 +798,13 @@ function PracticeComponent() {
                         Cape Town coastal routes
                       </div>
                       <div className="text-slate-300 text-sm mb-3">
-                        Baboon encounter protocols, mountain pass navigation, coastal wind conditions
+                        Baboon encounter protocols, mountain pass navigation,
+                        coastal wind conditions
                       </div>
                       <div className="bg-black text-white p-2 text-center">
-                        <div className="text-xs uppercase tracking-wide">Premium access required</div>
+                        <div className="text-xs uppercase tracking-wide">
+                          Premium access required
+                        </div>
                       </div>
                     </div>
                     <div className="bg-slate-700 border border-black p-4">
@@ -799,10 +812,13 @@ function PracticeComponent() {
                         Johannesburg highway merging
                       </div>
                       <div className="text-slate-300 text-sm mb-3">
-                        M1 complex interchanges, taxi lane navigation, rush hour protocols
+                        M1 complex interchanges, taxi lane navigation, rush hour
+                        protocols
                       </div>
                       <div className="bg-black text-white p-2 text-center">
-                        <div className="text-xs uppercase tracking-wide">Premium access required</div>
+                        <div className="text-xs uppercase tracking-wide">
+                          Premium access required
+                        </div>
                       </div>
                     </div>
                     <div className="bg-slate-700 border border-black p-4">
@@ -810,10 +826,13 @@ function PracticeComponent() {
                         Rural farm road navigation
                       </div>
                       <div className="text-slate-300 text-sm mb-3">
-                        Livestock crossing procedures, gravel road techniques, narrow bridge protocols
+                        Livestock crossing procedures, gravel road techniques,
+                        narrow bridge protocols
                       </div>
                       <div className="bg-black text-white p-2 text-center">
-                        <div className="text-xs uppercase tracking-wide">Premium access required</div>
+                        <div className="text-xs uppercase tracking-wide">
+                          Premium access required
+                        </div>
                       </div>
                     </div>
                     <div className="bg-slate-700 border border-black p-4">
@@ -821,10 +840,13 @@ function PracticeComponent() {
                         Night driving assessments
                       </div>
                       <div className="text-slate-300 text-sm mb-3">
-                        Reduced visibility protocols, headlight management, pedestrian detection
+                        Reduced visibility protocols, headlight management,
+                        pedestrian detection
                       </div>
                       <div className="bg-black text-white p-2 text-center">
-                        <div className="text-xs uppercase tracking-wide">Premium access required</div>
+                        <div className="text-xs uppercase tracking-wide">
+                          Premium access required
+                        </div>
                       </div>
                     </div>
                   </div>

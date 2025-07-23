@@ -175,7 +175,9 @@ function PricingComponent() {
             <Card className="border border-black bg-slate-800 mb-8 max-w-2xl mx-auto">
               <CardContent className="p-6 text-center">
                 <AlertCircle className="h-8 w-8 text-white mx-auto mb-3" />
-                <h3 className="font-bold text-white mb-2 uppercase tracking-wide">Payment processing failed</h3>
+                <h3 className="font-bold text-white mb-2 uppercase tracking-wide">
+                  Payment processing failed
+                </h3>
                 <p className="text-slate-300">{paymentError}</p>
               </CardContent>
             </Card>
@@ -185,7 +187,9 @@ function PricingComponent() {
             <Card className="border border-black bg-slate-800 mb-8 max-w-2xl mx-auto">
               <CardContent className="p-6 text-center">
                 <div className="bg-slate-700 border border-black p-3 mb-4">
-                  <h3 className="font-bold text-white uppercase tracking-wide">Daily allocation status</h3>
+                  <h3 className="font-bold text-white uppercase tracking-wide">
+                    Daily allocation status
+                  </h3>
                 </div>
                 <p className="text-slate-300 mb-2">
                   Current remaining allocation:{" "}
@@ -207,7 +211,9 @@ function PricingComponent() {
                 Premium access tiers
               </h2>
               <p className="text-slate-300 max-w-2xl mx-auto">
-                Authorized subscription plans for enhanced K53 learner's license preparation. All tiers include location-specific scenarios certified for South African driving assessment standards.
+                Authorized subscription plans for enhanced K53 learner's license
+                preparation. All tiers include location-specific scenarios
+                certified for South African driving assessment standards.
               </p>
             </div>
 
@@ -230,7 +236,9 @@ function PricingComponent() {
                   >
                     <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-slate-800 border border-black text-white">
                       {plan.id === "free" && <Zap className="h-8 w-8" />}
-                      {(plan.id === "light" || plan.id === "basic") && <Users className="h-8 w-8" />}
+                      {(plan.id === "light" || plan.id === "basic") && (
+                        <Users className="h-8 w-8" />
+                      )}
                       {plan.id === "pro" && <Crown className="h-8 w-8" />}
                     </div>
                     <CardTitle className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
@@ -293,7 +301,9 @@ function PricingComponent() {
                 Regional scenario collections
               </h2>
               <p className="text-slate-300 max-w-2xl mx-auto">
-                Specialized driving assessment scenarios for specific South African regional conditions. Individually certified preparation modules for enhanced local area competency.
+                Specialized driving assessment scenarios for specific South
+                African regional conditions. Individually certified preparation
+                modules for enhanced local area competency.
               </p>
             </div>
 

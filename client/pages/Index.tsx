@@ -198,14 +198,19 @@ export default function Index() {
                       Limited time offer
                     </div>
                     <div className="text-sm text-slate-300">
-                      New users receive enhanced practice access for R29/month during first enrollment period
+                      New users receive enhanced practice access for R29/month
+                      during first enrollment period
                     </div>
                   </div>
                   <h2 className="text-2xl font-bold mb-4 text-white">
                     Assessment Access Categories
                   </h2>
                   <p className="text-slate-300 mb-6">
-                    Official assessments (64 questions) and practice assessments (12 questions) are free and unlimited for all users. Scenario-based practice: 5 scenarios daily at no cost. Enhanced scenario access available through certified premium tiers.
+                    Official assessments (64 questions) and practice assessments
+                    (12 questions) are free and unlimited for all users.
+                    Scenario-based practice: 5 scenarios daily at no cost.
+                    Enhanced scenario access available through certified premium
+                    tiers.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <Button
