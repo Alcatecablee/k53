@@ -105,13 +105,14 @@ export const getDashboardStats: RequestHandler = async (req, res) => {
 // Get users with pagination and filtering
 export const getUsers: RequestHandler = async (req, res) => {
   try {
-    if (!supabaseAdmin) {
+    const supabaseClient = getSupabaseAdmin();
+    if (!supabaseClient) {
       return res.json([]);
     }
 
     const { search, status, limit = 100 } = req.query;
 
-    let query = supabaseAdmin
+    let query = supabaseClient
       .from("user_subscriptions")
       .select(
         `
