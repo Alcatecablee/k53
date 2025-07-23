@@ -44,6 +44,12 @@ export const k53ScenarioBank: K53Scenario[] = [
     timeOfDay: "morning",
     weather: "clear",
     language: "en",
+    location: {
+      cities: ["Cape Town"],
+      regions: ["Western Cape"],
+      landmarks: ["steep hills"],
+      specificity: "city",
+    },
   },
   {
     id: "SC002",
