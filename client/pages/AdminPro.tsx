@@ -99,6 +99,23 @@ interface EnhancedPayment {
   country: string;
 }
 
+// Safe fetch wrapper to handle network errors gracefully
+const safeFetch = async (url: string, options?: RequestInit) => {
+  try {
+    const response = await fetch(url, options);
+    return response;
+  } catch (error) {
+    console.warn(`Network error for ${url}:`, error);
+    // Return a mock failed response instead of throwing
+    return {
+      ok: false,
+      status: 0,
+      statusText: "Network Error",
+      json: async () => ({}),
+    } as Response;
+  }
+};
+
 export default function AdminPro() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
