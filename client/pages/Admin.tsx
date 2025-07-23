@@ -50,18 +50,20 @@ export default function Admin() {
         .select("user_id", { count: "exact", head: true })
         .catch(() => ({ count: 0 }));
 
-      // Get active subscriptions
+      // Get active subscriptions (handle missing tables)
       const { data: subscriptions, count: activeSubscriptions } = await supabase
         .from("user_subscriptions")
         .select("*", { count: "exact" })
         .eq("status", "active")
-        .neq("plan_type", "free");
+        .neq("plan_type", "free")
+        .catch(() => ({ data: [], count: 0 }));
 
-      // Calculate total revenue
+      // Calculate total revenue (handle missing tables)
       const { data: payments } = await supabase
         .from("payments")
         .select("amount_cents")
-        .eq("status", "completed");
+        .eq("status", "completed")
+        .catch(() => ({ data: [] }));
 
       const totalRevenue = payments?.reduce((sum, p) => sum + p.amount_cents, 0) || 0;
 
