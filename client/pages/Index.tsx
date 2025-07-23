@@ -16,8 +16,11 @@ import {
   BarChart3,
   MapIcon,
   Settings,
+  User,
+  LogOut,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Index() {
   return (
