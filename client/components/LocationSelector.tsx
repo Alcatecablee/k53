@@ -183,13 +183,13 @@ export function LocationSelector({
               <h3 className="text-lg font-bold text-slate-800 uppercase tracking-wide">
                 Selected Location
               </h3>
-              <div className="bg-green-50 p-4 rounded border-2 border-green-200 flex items-center space-x-3">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+              <div className="bg-slate-800 p-4 rounded border-2 border-slate-600 flex items-center space-x-3">
+                <CheckCircle className="h-5 w-5 text-slate-300" />
                 <div>
-                  <Badge className="bg-green-600 text-white mb-2">
+                  <Badge className="bg-slate-700 text-white mb-2">
                     {selectedLocation.displayName}
                   </Badge>
-                  <p className="text-green-700 text-sm">
+                  <p className="text-slate-300 text-sm">
                     You'll get scenarios like navigating {selectedLocation.city}
                     's roads, local traffic conditions, and{" "}
                     {selectedLocation.region}-specific driving challenges.
