@@ -568,17 +568,17 @@ function PracticeComponent() {
 
                   <div className="bg-slate-700 border border-slate-600 text-white p-6 hover:bg-slate-600 transition-colors">
                     <div className="text-center">
-                      <div className="w-16 h-16 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-4">
-                        <Car className="h-8 w-8" />
+                      <div className="w-16 h-16 bg-slate-600 border border-slate-500 flex items-center justify-center mx-auto mb-4">
+                        <Car className="h-8 w-8 text-white" />
                       </div>
                       <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
-                        🔥 AI Scenarios
+                        Scenario Assessment
                       </h3>
                       <div className="text-3xl font-bold mb-1">220+</div>
                       <div className="text-xs uppercase tracking-wide mb-1">
                         Location-Aware Scenarios
                       </div>
-                      <div className="text-xs text-white/80 mb-2 uppercase tracking-wide">
+                      <div className="text-xs text-slate-400 mb-2 uppercase tracking-wide">
                         Duration: Unlimited
                       </div>
 
@@ -598,9 +598,9 @@ function PracticeComponent() {
                         </div>
                       )}
 
-                      <p className="text-white/90 mb-4 text-sm leading-relaxed">
-                        Real-world driving scenarios tailored to your area -
-                        from Cape Town's baboons to Joburg's taxi ranks!
+                      <p className="text-slate-300 mb-4 text-sm leading-relaxed">
+                        Real-world driving scenarios tailored to your specific area
+                        and South African driving conditions.
                       </p>
 
                       <div className="space-y-2">
@@ -622,17 +622,17 @@ function PracticeComponent() {
                         <Button
                           onClick={() => generateScenarioTest()}
                           disabled={usageInfo && !usageInfo.canAccess}
-                          className="w-full bg-white text-orange-600 hover:bg-gray-100 font-semibold uppercase tracking-wide py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          🚀 Start AI Scenarios
+                          Start Scenarios
                         </Button>
 
                         {usageInfo && !usageInfo.canAccess && (
                           <Button
                             asChild
-                            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold uppercase tracking-wide py-2 text-xs"
+                            className="w-full bg-slate-600 hover:bg-slate-500 text-white font-medium uppercase tracking-wide py-2 text-xs"
                           >
-                            <Link to="/pricing">⭐ Upgrade for Unlimited</Link>
+                            <Link to="/pricing">Upgrade for Unlimited</Link>
                           </Button>
                         )}
 
