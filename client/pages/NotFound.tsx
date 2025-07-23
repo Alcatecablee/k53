@@ -17,7 +17,7 @@ const NotFound = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="max-w-2xl w-full">
-        <Card className="border-2 border-black-800 bg-white">
+        <Card className="border-2 border-black bg-white">
           <CardHeader className="bg-slate-800 text-white p-8 text-center">
             <div className="w-20 h-20 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-6">
               <AlertTriangle className="h-10 w-10" />
