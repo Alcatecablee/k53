@@ -3809,7 +3809,13 @@ export const k53ScenarioBank: K53Scenario[] = [
     context: "freeway",
     timeOfDay: "evening",
     weather: "clear",
-    language: "en"
+    language: "en",
+    location: {
+      cities: ["Nelspruit"],
+      regions: ["Mpumalanga"],
+      landmarks: ["N4", "wildlife crossing"],
+      specificity: "region"
+    }
   },
   {
     id: "SC174",
@@ -4029,7 +4035,13 @@ export const k53ScenarioBank: K53Scenario[] = [
     context: "urban",
     timeOfDay: "afternoon",
     weather: "wind",
-    language: "en"
+    language: "en",
+    location: {
+      cities: ["Durban"],
+      regions: ["KwaZulu-Natal"],
+      landmarks: ["M7"],
+      specificity: "city"
+    }
   },
   {
     id: "SC185",
@@ -4149,7 +4161,13 @@ export const k53ScenarioBank: K53Scenario[] = [
     context: "freeway",
     timeOfDay: "afternoon",
     weather: "wind",
-    language: "en"
+    language: "en",
+    location: {
+      cities: ["Kimberley"],
+      regions: ["Northern Cape"],
+      landmarks: ["N12"],
+      specificity: "region"
+    }
   },
   {
     id: "SC191",
