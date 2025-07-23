@@ -21,8 +21,9 @@ import {
   User,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { K53Question, generateRandomTest } from "../data/k53Questions";
-import { K53Scenario, generateRandomScenarioTest, generateLocationAwareScenarioTest } from "../data/k53Scenarios";
+import { K53Question } from "../data/k53Questions";
+import { K53Scenario } from "../data/k53Scenarios";
+import { getScenarios, getQuestions } from "@/services/dataService";
 import { LocationSelector } from "@/components/LocationSelector";
 import { AuthenticatedRoute } from "@/components/AuthenticatedRoute";
 import { getStoredLocation, type UserLocation } from "@/services/locationService";
