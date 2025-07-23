@@ -67,12 +67,13 @@ export default function Admin() {
 
       const totalRevenue = payments?.reduce((sum, p) => sum + p.amount_cents, 0) || 0;
 
-      // Get today's signups
+      // Get today's signups (handle missing tables)
       const today = new Date().toISOString().split("T")[0];
       const { count: todaySignups } = await supabase
         .from("user_progress")
         .select("user_id", { count: "exact", head: true })
-        .gte("created_at", today);
+        .gte("created_at", today)
+        .catch(() => ({ count: 0 }));
 
       // Calculate conversion rate (simplified)
       const totalUniqueUsers = new Set(
