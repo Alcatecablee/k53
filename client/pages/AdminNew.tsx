@@ -715,38 +715,41 @@ export default function AdminNew() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-2">
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
-                              className="text-slate-300"
+                              className="border-gray-300 text-gray-700"
                               onClick={() => setSelectedUser(user)}
                             >
                               <Eye className="h-3 w-3" />
                             </Button>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
-                              className="text-slate-300"
+                              className="border-gray-300 text-gray-700"
                               onClick={() => handleUserAction(user.id, "resetPassword")}
                             >
                               <Mail className="h-3 w-3" />
                             </Button>
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <Button size="sm" variant="outline" className="text-red-400">
+                                <Button size="sm" variant="outline" className="border-red-300 text-red-700 hover:bg-red-50">
                                   <Ban className="h-3 w-3" />
                                 </Button>
                               </AlertDialogTrigger>
-                              <AlertDialogContent>
+                              <AlertDialogContent className="bg-white">
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle>Ban User</AlertDialogTitle>
-                                  <AlertDialogDescription>
+                                  <AlertDialogTitle className="text-gray-900">Ban User</AlertDialogTitle>
+                                  <AlertDialogDescription className="text-gray-600">
                                     Are you sure you want to ban {user.email}? This will immediately revoke their access.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction onClick={() => handleUserAction(user.id, "ban")}>
+                                  <AlertDialogCancel className="border-gray-300">Cancel</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => handleUserAction(user.id, "ban")}
+                                    className="bg-red-600 hover:bg-red-700"
+                                  >
                                     Ban User
                                   </AlertDialogAction>
                                 </AlertDialogFooter>
@@ -765,13 +768,13 @@ export default function AdminNew() {
           {/* Payments Tab */}
           <TabsContent value="payments" className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">Payment Management</h2>
-              <div className="flex items-center space-x-2">
-                <Button onClick={() => exportData("payments")} variant="outline" className="text-slate-300">
+              <h2 className="text-2xl font-semibold text-gray-900">Payment Management</h2>
+              <div className="flex items-center space-x-3">
+                <Button onClick={() => exportData("payments")} variant="outline" className="border-gray-300 text-gray-700">
                   <Download className="h-4 w-4 mr-2" />
                   Export
                 </Button>
-                <Button variant="outline" className="text-slate-300">
+                <Button variant="outline" className="border-gray-300 text-gray-700">
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Sync PayPal
                 </Button>
@@ -780,31 +783,31 @@ export default function AdminNew() {
 
             {/* Payment Statistics */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="border-2 border-black bg-slate-800 text-white">
+              <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">Total Processed</CardTitle>
+                  <CardTitle className="text-sm font-medium text-gray-600">Total Processed</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-400">{formatPrice(payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount_cents, 0))}</div>
-                  <p className="text-xs text-slate-400">Total processed</p>
+                  <div className="text-2xl font-bold text-gray-900">{formatPrice(payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount_cents, 0))}</div>
+                  <p className="text-xs text-gray-500">Total processed</p>
                 </CardContent>
               </Card>
-              <Card className="border-2 border-black bg-slate-800 text-white">
+              <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">Success Rate</CardTitle>
+                  <CardTitle className="text-sm font-medium text-gray-600">Success Rate</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-400">{payments.length > 0 ? Math.round((payments.filter(p => p.status === 'completed').length / payments.length) * 100) : 0}%</div>
-                  <p className="text-xs text-slate-400">Payment success rate</p>
+                  <div className="text-2xl font-bold text-gray-900">{payments.length > 0 ? Math.round((payments.filter(p => p.status === 'completed').length / payments.length) * 100) : 0}%</div>
+                  <p className="text-xs text-gray-500">Payment success rate</p>
                 </CardContent>
               </Card>
-              <Card className="border-2 border-black bg-slate-800 text-white">
+              <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">Failed Payments</CardTitle>
+                  <CardTitle className="text-sm font-medium text-gray-600">Failed Payments</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-red-400">{payments.filter(p => p.status === 'failed').length}</div>
-                  <p className="text-xs text-slate-400">Failed payments</p>
+                  <div className="text-2xl font-bold text-red-600">{payments.filter(p => p.status === 'failed').length}</div>
+                  <p className="text-xs text-gray-500">Failed payments</p>
                 </CardContent>
               </Card>
             </div>
