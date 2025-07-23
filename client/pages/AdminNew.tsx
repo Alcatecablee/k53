@@ -368,12 +368,12 @@ export default function AdminNew() {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <Card className="border-2 border-red-300 bg-red-50 max-w-md">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="border border-red-200 bg-white max-w-md shadow-lg">
           <CardContent className="p-8 text-center">
-            <h1 className="text-2xl font-bold text-red-800 mb-4">Access Denied</h1>
-            <p className="text-red-700 mb-6">You don't have permission to access this page.</p>
-            <Button asChild className="bg-red-600 hover:bg-red-700">
+            <h1 className="text-2xl font-semibold text-gray-900 mb-4">Access Denied</h1>
+            <p className="text-gray-600 mb-6">You don't have permission to access this page.</p>
+            <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
               <Link to="/">Return Home</Link>
             </Button>
           </CardContent>
@@ -384,10 +384,10 @@ export default function AdminNew() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <RefreshCw className="w-16 h-16 text-white animate-spin mx-auto mb-4" />
-          <p className="text-white font-semibold">Loading Dashboard...</p>
+          <RefreshCw className="w-16 h-16 text-gray-400 animate-spin mx-auto mb-4" />
+          <p className="text-gray-700 font-medium">Loading Dashboard...</p>
         </div>
       </div>
     );
