@@ -44,6 +44,7 @@ import {
 } from "@/services/subscriptionService";
 import { SEO } from "@/components/SEO";
 import { SEO_CONFIGS } from "@/hooks/useSEO";
+import { supabase } from "@/lib/supabase";
 
 interface TestResult {
   category: string;
