@@ -727,10 +727,7 @@ export default function AdminPro() {
           user={selectedUser}
           isOpen={!!selectedUser}
           onClose={() => setSelectedUser(null)}
-          onSave={async (user) => {
-            console.log('Saving user:', user);
-            // Here you would call your API to save the user
-          }}
+          onSave={handleUserUpdate}
         />
       )}
 
