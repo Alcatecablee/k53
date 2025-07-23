@@ -155,7 +155,7 @@ function PricingComponent() {
             {SUBSCRIPTION_PLANS.map((plan) => (
               <Card
                 key={plan.id}
-                className={`border-2 relative ${plan.popular ? "border-orange-500 bg-orange-50" : "border-black-300 bg-white"}`}
+                className={`border-2 relative ${plan.popular ? "border-orange-500 bg-orange-50" : "border-black bg-white"}`}
               >
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
@@ -241,7 +241,7 @@ function PricingComponent() {
             {SCENARIO_PACKS.map((pack, index) => (
               <Card
                 key={index}
-                className="border-2 border-black-300 bg-white hover:shadow-lg transition-shadow"
+                className="border-2 border-black bg-white hover:shadow-lg transition-shadow"
               >
                 <CardHeader className="bg-slate-100 p-6">
                   <div className="flex items-start justify-between mb-3">
