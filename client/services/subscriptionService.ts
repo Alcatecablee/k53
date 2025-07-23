@@ -5,8 +5,36 @@ import { isOfflineMode } from '@/services/networkService';
 // Get user's current subscription
 export const getUserSubscription = async (): Promise<UserSubscription | null> => {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return null;
+    // Check offline mode first
+    if (isOfflineMode()) {
+      console.log('Offline mode: using local subscription data');
+      const offlineSubscription: UserSubscription = {
+        id: 'offline-sub',
+        user_id: 'offline-user',
+        plan_type: 'free',
+        status: 'active',
+        price_cents: 0,
+        currency: 'ZAR',
+        billing_cycle: 'monthly',
+        current_period_start: new Date().toISOString(),
+        current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      return offlineSubscription;
+    }
+
+    const { data: { user }, error } = await Promise.race([
+      supabase.auth.getUser(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Auth timeout')), 3000)
+      )
+    ]);
+
+    if (error || !user) {
+      console.warn('Auth error, falling back to offline mode');
+      return null;
+    }
 
     // For now, return a mock subscription since we don't have the database set up yet
     // In production, this would query the user_subscriptions table
@@ -26,7 +54,7 @@ export const getUserSubscription = async (): Promise<UserSubscription | null> =>
 
     return mockSubscription;
   } catch (error) {
-    console.warn('Error getting user subscription:', error);
+    console.warn('Error getting user subscription, using offline mode:', error);
     return null;
   }
 };
