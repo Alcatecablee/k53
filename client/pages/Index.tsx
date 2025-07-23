@@ -32,17 +32,17 @@ export default function Index() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-14 h-14 bg-slate-800 flex items-center justify-center">
-                <div className="text-white font-bold text-lg tracking-wider">
-                  K53
+              <div className="w-14 h-14 bg-orange-600 flex items-center justify-center">
+                <div className="text-white font-bold text-sm tracking-wider">
+                  S53
                 </div>
               </div>
               <div className="border-l-2 border-slate-200 pl-4">
                 <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-                  LEARNER'S LICENSE TESTING
+                  SUPERK53
                 </h1>
                 <p className="text-sm text-slate-600 font-medium uppercase tracking-wide">
-                  Department of Transport • Republic of South Africa
+                  AI-Powered K53 Practice • South Africa
                 </p>
               </div>
             </div>
