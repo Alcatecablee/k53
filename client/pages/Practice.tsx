@@ -19,6 +19,7 @@ import {
   MapPin,
   LogOut,
   User,
+  BookOpen,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { K53Question } from "../data/k53Questions";
