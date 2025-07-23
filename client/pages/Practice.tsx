@@ -359,15 +359,28 @@ function PracticeComponent() {
               </div>
               <div className="flex items-center space-x-2">
                 {user && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={signOut}
-                    className="text-slate-700 hover:text-slate-900"
-                    title="Sign Out"
-                  >
-                    <LogOut className="h-4 w-4" />
-                  </Button>
+                  <>
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="icon"
+                      className="text-slate-700 hover:text-slate-900"
+                      title="View Profile"
+                    >
+                      <Link to="/profile">
+                        <User className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={signOut}
+                      className="text-slate-700 hover:text-slate-900"
+                      title="Sign Out"
+                    >
+                      <LogOut className="h-4 w-4" />
+                    </Button>
+                  </>
                 )}
               </div>
             </div>
