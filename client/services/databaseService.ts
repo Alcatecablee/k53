@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseClient } from "@/lib/supabase";
 import type { UserProgress, UserScenario } from "@/lib/supabase";
 
 // User Progress Functions
