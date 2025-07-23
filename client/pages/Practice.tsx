@@ -367,7 +367,7 @@ export default function Practice() {
                       <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
                         🔥 AI Scenarios
                       </h3>
-                      <div className="text-3xl font-bold mb-1">150+</div>
+                      <div className="text-3xl font-bold mb-1">200+</div>
                       <div className="text-xs uppercase tracking-wide mb-1">
                         AI-Generated Scenarios
                       </div>
