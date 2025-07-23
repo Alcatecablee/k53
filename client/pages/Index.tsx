@@ -23,6 +23,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Index() {
+  const { user, signOut } = useAuth();
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
@@ -45,34 +47,62 @@ export default function Index() {
               </div>
             </div>
 
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link
-                to="/practice"
-                className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
-              >
-                Practice Tests
-              </Link>
-              <Link
-                to="/progress"
-                className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
-              >
-                Results
-              </Link>
-              <Link
-                to="/dltc"
-                className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
-              >
-                Test Centers
-              </Link>
-              <a
-                href="https://taxfy.co.za"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-slate-800 text-white px-4 py-2 text-sm font-semibold uppercase tracking-wide hover:bg-slate-700 transition-colors"
-              >
-                Tax Services
-              </a>
-            </nav>
+            <div className="flex items-center space-x-4">
+              <nav className="hidden md:flex items-center space-x-8">
+                <Link
+                  to="/practice"
+                  className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
+                >
+                  Practice Tests
+                </Link>
+                <Link
+                  to="/progress"
+                  className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
+                >
+                  Results
+                </Link>
+                <Link
+                  to="/dltc"
+                  className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
+                >
+                  Test Centers
+                </Link>
+                <a
+                  href="https://taxfy.co.za"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-slate-800 text-white px-4 py-2 text-sm font-semibold uppercase tracking-wide hover:bg-slate-700 transition-colors"
+                >
+                  Tax Services
+                </a>
+              </nav>
+
+              {/* User Profile Icon */}
+              {user && (
+                <div className="flex items-center space-x-2 border-l-2 border-slate-200 pl-4">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="icon"
+                    className="text-slate-700 hover:text-slate-900"
+                    title="View Profile"
+                  >
+                    <Link to="/profile">
+                      <User className="h-5 w-5" />
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={signOut}
+                    className="text-slate-700 hover:text-slate-900"
+                    title="Sign Out"
+                  >
+                    <LogOut className="h-5 w-5" />
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
