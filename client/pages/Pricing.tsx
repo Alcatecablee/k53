@@ -226,23 +226,23 @@ function PricingComponent() {
                   )}
 
                   <CardHeader
-                    className={`text-center ${plan.popular ? "bg-orange-100" : "bg-slate-50"} p-6`}
+                    className={`text-center ${plan.popular ? "bg-slate-600" : "bg-slate-700"} border-b border-black p-6`}
                   >
-                    <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-slate-800 text-white">
+                    <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-slate-800 border border-black text-white">
                       {plan.id === "free" && <Zap className="h-8 w-8" />}
-                      {plan.id === "basic" && <Users className="h-8 w-8" />}
+                      {(plan.id === "light" || plan.id === "basic") && <Users className="h-8 w-8" />}
                       {plan.id === "pro" && <Crown className="h-8 w-8" />}
                     </div>
-                    <CardTitle className="text-xl font-bold text-slate-900 mb-2">
+                    <CardTitle className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
                       {plan.name}
                     </CardTitle>
-                    <p className="text-slate-600 text-sm mb-4">
+                    <p className="text-slate-300 text-sm mb-4">
                       {plan.description}
                     </p>
-                    <div className="text-4xl font-bold text-slate-900">
+                    <div className="text-4xl font-bold text-white">
                       {formatPrice(plan.price_cents)}
                       {plan.price_cents > 0 && (
-                        <span className="text-lg font-normal text-slate-600">
+                        <span className="text-lg font-normal text-slate-300">
                           /month
                         </span>
                       )}
