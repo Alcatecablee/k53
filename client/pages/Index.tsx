@@ -194,26 +194,33 @@ export default function Index() {
               {/* Access Information */}
               <div className="bg-slate-800 border border-black p-8 mb-8">
                 <div className="max-w-4xl mx-auto text-center">
+                  <div className="bg-slate-700 border border-black p-4 mb-6">
+                    <div className="text-xs text-white uppercase tracking-wide mb-1">
+                      Limited time offer
+                    </div>
+                    <div className="text-sm text-slate-300">
+                      New users receive enhanced practice access for R29/month during first enrollment period
+                    </div>
+                  </div>
                   <h2 className="text-2xl font-bold mb-4 text-white">
-                    Access Information
+                    Assessment Access Categories
                   </h2>
                   <p className="text-slate-300 mb-6">
-                    Practice 5 scenarios daily at no cost. Full access available
-                    through Premium subscription.
+                    Basic practice allocation: 5 scenarios daily at no cost. Enhanced preparation available through certified premium access tiers.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <Button
                       asChild
                       className="bg-white text-slate-900 hover:bg-slate-100 font-medium"
                     >
-                      <Link to="/practice">Start Practice Assessment</Link>
+                      <Link to="/practice">Begin practice assessment</Link>
                     </Button>
                     <Button
                       asChild
                       variant="outline"
                       className="border-black text-slate-300 hover:bg-slate-700 hover:text-white"
                     >
-                      <Link to="/pricing">View Premium Access</Link>
+                      <Link to="/pricing">Premium access options</Link>
                     </Button>
                   </div>
                 </div>
