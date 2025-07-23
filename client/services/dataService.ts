@@ -16,17 +16,25 @@ export const getScenarios = async (
 ) => {
   try {
     // Try to fetch from database first
-    let query = supabase.from("scenarios").select("*");
+    if (supabaseClient) {
+      let query = supabaseClient.from("scenarios").select("*");
 
-    if (difficulty) {
-      query = query.eq("difficulty", difficulty);
+      if (difficulty) {
+        query = query.eq("difficulty", difficulty);
+      }
+
+      if (category) {
+        query = query.eq("category", category);
+      }
+
+      const { data: dbScenarios, error } = await query;
+
+      if (!error && dbScenarios && dbScenarios.length > 0) {
+        console.log("Using database scenarios");
+        // Use database scenarios with location awareness
+        return useLocationAwareSelection(dbScenarios, count, userLocation);
+      }
     }
-
-    if (category) {
-      query = query.eq("category", category);
-    }
-
-    const { data: dbScenarios, error } = await query;
 
     if (!error && dbScenarios && dbScenarios.length > 0) {
       console.log("Using database scenarios");
