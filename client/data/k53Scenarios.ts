@@ -4523,4 +4523,69 @@ export const generateRandomScenarioTest = (
   return shuffledScenarios.slice(0, count);
 };
 
+// Function to generate location-aware scenario test
+export const generateLocationAwareScenarioTest = (
+  count: number = 10,
+  userCity?: string,
+  userRegion?: string,
+  difficulty?: "basic" | "intermediate" | "advanced",
+  category?: "controls" | "signs" | "rules" | "mixed",
+): K53Scenario[] => {
+  let scenarios = k53ScenarioBank;
+
+  // Filter by difficulty and category first
+  if (difficulty) {
+    scenarios = scenarios.filter((s) => s.difficulty === difficulty);
+  }
+
+  if (category) {
+    scenarios = scenarios.filter((s) => s.category === category);
+  }
+
+  // Score scenarios based on location relevance
+  const scoredScenarios = scenarios.map((scenario) => {
+    let score = 1; // Base score for all scenarios
+
+    if (scenario.location) {
+      // City-specific scenarios get highest priority
+      if (userCity && scenario.location.cities?.includes(userCity)) {
+        score = 5;
+      }
+      // Region-specific scenarios get medium priority
+      else if (userRegion && scenario.location.regions?.includes(userRegion)) {
+        score = 3;
+      }
+      // National scenarios get slight boost
+      else if (scenario.location.specificity === "national") {
+        score = 2;
+      }
+    }
+
+    return { scenario, score };
+  });
+
+  // Sort by score (highest first) then shuffle within score groups
+  scoredScenarios.sort((a, b) => b.score - a.score);
+
+  // Group by score and shuffle within each group
+  const scoreGroups: { [score: number]: K53Scenario[] } = {};
+  scoredScenarios.forEach(({ scenario, score }) => {
+    if (!scoreGroups[score]) {
+      scoreGroups[score] = [];
+    }
+    scoreGroups[score].push(scenario);
+  });
+
+  // Shuffle each score group and flatten
+  const shuffledScenarios: K53Scenario[] = [];
+  Object.keys(scoreGroups)
+    .sort((a, b) => Number(b) - Number(a)) // Highest scores first
+    .forEach(score => {
+      const shuffledGroup = shuffleArray(scoreGroups[Number(score)]);
+      shuffledScenarios.push(...shuffledGroup);
+    });
+
+  return shuffledScenarios.slice(0, count);
+};
+
 export type { K53Scenario };
