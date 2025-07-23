@@ -253,8 +253,8 @@ function PricingComponent() {
                     <ul className="space-y-3 mb-6">
                       {plan.features.map((feature, index) => (
                         <li key={index} className="flex items-center space-x-3">
-                          <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
-                          <span className="text-slate-700 text-sm">
+                          <Check className="h-4 w-4 text-white flex-shrink-0" />
+                          <span className="text-slate-300 text-sm">
                             {feature}
                           </span>
                         </li>
@@ -267,10 +267,10 @@ function PricingComponent() {
                         currentSubscription?.plan_type === plan.id ||
                         plan.id === "free"
                       }
-                      className={`w-full ${
+                      className={`w-full font-medium uppercase tracking-wide ${
                         plan.popular
-                          ? "bg-orange-600 hover:bg-orange-700 text-white"
-                          : "border-2 border-black text-slate-800 hover:bg-slate-800 hover:text-white"
+                          ? "bg-white text-slate-900 hover:bg-slate-100"
+                          : "border border-black text-slate-300 hover:bg-slate-700 hover:text-white"
                       }`}
                       variant={plan.popular ? "default" : "outline"}
                     >
