@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { DemoModeIndicator } from "@/components/DemoModeIndicator";
+
 import { SEO, WebsiteSEO, CourseSEO } from "@/components/SEO";
 import { SEO_CONFIGS } from "@/hooks/useSEO";
 
