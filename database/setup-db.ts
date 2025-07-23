@@ -5,8 +5,19 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Use service role key for admin operations
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseUrl = process.env.VITE_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+
+// Validate required environment variables
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error(
+    'Missing required environment variables for database setup:\n' +
+    '- VITE_SUPABASE_URL\n' +
+    '- SUPABASE_SERVICE_ROLE_KEY\n\n' +
+    'Please check your .env file.'
+  );
+  process.exit(1);
+}
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
