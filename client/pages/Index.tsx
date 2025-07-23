@@ -102,6 +102,12 @@ export default function Index() {
                   >
                     Documentation
                   </Link>
+                  <Link
+                    to="/admin"
+                    className="text-slate-300 hover:text-white font-medium text-sm uppercase tracking-wide transition-colors"
+                  >
+                    Admin
+                  </Link>
                   <a
                     href="https://taxfy.co.za"
                     target="_blank"
