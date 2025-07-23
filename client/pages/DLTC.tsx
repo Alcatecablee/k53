@@ -98,7 +98,7 @@ export default function DLTCPage() {
     <div className="min-h-screen bg-slate-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="bg-white border-b-2 border-black-800 shadow-sm mb-8 -mx-4 px-4 py-6">
+        <div className="bg-white border-b-2 border-black shadow-sm mb-8 -mx-4 px-4 py-6">
           <div className="flex items-center justify-between">
             <Button
               asChild
@@ -124,7 +124,7 @@ export default function DLTCPage() {
 
         <div className="max-w-6xl mx-auto">
           {/* Search Section */}
-          <Card className="border-2 border-black-800 bg-white mb-8">
+          <Card className="border-2 border-black bg-white mb-8">
             <CardHeader className="bg-slate-800 text-white p-8">
               <div className="text-center">
                 <div className="w-20 h-20 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-6">
@@ -143,7 +143,7 @@ export default function DLTCPage() {
               <div className="flex gap-4 max-w-lg mx-auto">
                 <Input
                   placeholder="Enter province, city, or postal code..."
-                  className="flex-1 border-2 border-black focus:border-black-800 text-slate-800 placeholder:text-slate-500"
+                  className="flex-1 border-2 border-black focus:border-black text-slate-800 placeholder:text-slate-500"
                 />
                 <Button className="bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide px-8">
                   <Search className="h-4 w-4 mr-2" />
@@ -154,7 +154,7 @@ export default function DLTCPage() {
           </Card>
 
           {/* System Notice */}
-          <div className="bg-slate-100 border-2 border-black-800 p-6 mb-8">
+          <div className="bg-slate-100 border-2 border-black p-6 mb-8">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-slate-800 flex items-center justify-center">
                 <Info className="h-6 w-6 text-white" />
@@ -178,7 +178,7 @@ export default function DLTCPage() {
             {mockDLTCs.map((dltc) => (
               <Card
                 key={dltc.id}
-                className="border-2 border-black-800 bg-white hover:shadow-lg transition-shadow"
+                className="border-2 border-black bg-white hover:shadow-lg transition-shadow"
               >
                 <CardHeader className="bg-slate-800 text-white p-6">
                   <div className="flex items-start justify-between">
@@ -279,7 +279,7 @@ export default function DLTCPage() {
                       <div className="grid grid-cols-2 gap-3">
                         <Button
                           variant="outline"
-                          className="border-2 border-black-800 text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide"
+                          className="border-2 border-black text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide"
                         >
                           <Navigation className="h-4 w-4 mr-2" />
                           Navigate
@@ -299,7 +299,7 @@ export default function DLTCPage() {
           {/* Information Sections */}
           <div className="grid lg:grid-cols-2 gap-8 mb-8">
             {/* Test Requirements */}
-            <Card className="border-2 border-black-800 bg-white">
+            <Card className="border-2 border-black bg-white">
               <CardHeader className="bg-slate-800 text-white p-6">
                 <CardTitle className="flex items-center space-x-2 text-xl font-bold uppercase tracking-wide">
                   <CheckCircle className="h-6 w-6" />
@@ -315,7 +315,7 @@ export default function DLTCPage() {
                         key={index}
                         className="flex items-start space-x-4 p-4 border-2 border-black"
                       >
-                        <div className="w-8 h-8 bg-slate-100 border-2 border-black-800 flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 bg-slate-100 border-2 border-black flex items-center justify-center flex-shrink-0">
                           <IconComponent className="h-4 w-4 text-slate-800" />
                         </div>
                         <div>
@@ -332,7 +332,7 @@ export default function DLTCPage() {
             </Card>
 
             {/* Test Day Guidelines */}
-            <Card className="border-2 border-black-800 bg-white">
+            <Card className="border-2 border-black bg-white">
               <CardHeader className="bg-slate-800 text-white p-6">
                 <CardTitle className="flex items-center space-x-2 text-xl font-bold uppercase tracking-wide">
                   <Info className="h-6 w-6" />
