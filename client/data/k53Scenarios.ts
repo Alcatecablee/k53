@@ -2800,6 +2800,16 @@ export const getScenariosByContext = (context: string): K53Scenario[] => {
   return k53ScenarioBank.filter((s) => s.context === context);
 };
 
+// Function to shuffle an array using Fisher-Yates algorithm
+const shuffleArray = <T>(array: T[]): T[] => {
+  const shuffled = [...array]; // Create a copy to avoid mutating the original
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 // Function to generate a random scenario test
 export const generateRandomScenarioTest = (
   count: number = 10,
@@ -2816,7 +2826,9 @@ export const generateRandomScenarioTest = (
     scenarios = scenarios.filter((s) => s.category === category);
   }
 
-  return scenarios.sort(() => Math.random() - 0.5).slice(0, count);
+  // Use proper Fisher-Yates shuffle instead of biased sort
+  const shuffledScenarios = shuffleArray(scenarios);
+  return shuffledScenarios.slice(0, count);
 };
 
 export type { K53Scenario };
