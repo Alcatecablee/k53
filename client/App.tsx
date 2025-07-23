@@ -15,6 +15,7 @@ import Progress from "./pages/Progress";
 import Profile from "./pages/Profile";
 import Pricing from "./pages/Pricing";
 import DLTC from "./pages/DLTC";
+import Documentation from "./pages/Documentation";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
