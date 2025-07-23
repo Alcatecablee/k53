@@ -172,6 +172,7 @@ export const supabase = {
   // Status helpers
   isOffline: () => isOfflineMode,
   isConfigured: () => Boolean(supabaseClient),
+  isClientAvailable: () => Boolean(supabaseClient && !clientInitializationFailed),
 };
 
 // Re-export types from Supabase
