@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { SUBSCRIPTION_PLANS, type UserSubscription, type DailyUsage, type SubscriptionPlan } from '@/types/subscription';
+import { isOfflineMode } from '@/services/networkService';
 
 // Get user's current subscription
 export const getUserSubscription = async (): Promise<UserSubscription | null> => {
