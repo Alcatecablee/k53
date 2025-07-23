@@ -666,7 +666,7 @@ function PracticeComponent() {
       <div className="min-h-screen bg-slate-900">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            <Card className="border-2 border-slate-800 bg-white">
+            <Card className="border-2 border-black bg-white">
               <CardHeader className="bg-slate-800 text-white p-8">
                 <div className="text-center">
                   <div
@@ -782,7 +782,7 @@ function PracticeComponent() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8">
+      <div className="bg-white border-b-2 border-black shadow-sm mb-8">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
             <Button
@@ -826,7 +826,7 @@ function PracticeComponent() {
       <div className="container mx-auto px-4 py-6">
         {/* Question Card */}
         <div className="max-w-4xl mx-auto">
-          <Card className="border-2 border-slate-800 bg-white">
+          <Card className="border-2 border-black bg-white">
             <CardHeader className="bg-slate-800 text-white p-6">
               <div className="flex items-center justify-between mb-4">
                 <Badge className="bg-white/20 text-white uppercase tracking-wide border border-white/30">
@@ -874,13 +874,13 @@ function PracticeComponent() {
                         className={`border-2 p-6 transition-colors cursor-pointer ${
                           answered
                             ? isCorrectAnswer
-                              ? "border-slate-800 bg-slate-100"
+                              ? "border-black bg-slate-100"
                               : isWrongSelected
                                 ? "border-red-500 bg-red-50"
-                                : "border-slate-300 bg-white"
+                                : "border-black bg-white"
                             : isSelected
-                              ? "border-slate-800 bg-slate-100"
-                              : "border-slate-300 hover:border-slate-500 bg-white"
+                              ? "border-black bg-slate-100"
+                              : "border-black hover:border-black bg-white"
                         }`}
                         onClick={() => handleAnswerSelect(option)}
                       >
@@ -898,7 +898,7 @@ function PracticeComponent() {
                             {option}
                           </Label>
                           {answered && isCorrectAnswer && (
-                            <div className="w-8 h-8 border-2 border-slate-800 bg-slate-100 flex items-center justify-center">
+                            <div className="w-8 h-8 border-2 border-black bg-slate-100 flex items-center justify-center">
                               <CheckCircle className="h-5 w-5 text-slate-800" />
                             </div>
                           )}
@@ -918,7 +918,7 @@ function PracticeComponent() {
                 <div
                   className={`p-6 border-2 ${
                     isCorrect
-                      ? "bg-slate-100 border-slate-800"
+                      ? "bg-slate-100 border-black"
                       : "bg-red-50 border-red-500"
                   }`}
                 >
@@ -926,7 +926,7 @@ function PracticeComponent() {
                     <div
                       className={`w-8 h-8 border-2 flex items-center justify-center ${
                         isCorrect
-                          ? "border-slate-800 bg-slate-100"
+                          ? "border-black bg-slate-100"
                           : "border-red-500 bg-red-50"
                       }`}
                     >
