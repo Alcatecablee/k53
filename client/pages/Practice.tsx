@@ -396,7 +396,7 @@ function PracticeComponent() {
       <div className="min-h-screen bg-slate-900">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
-          <div className="bg-slate-800 border-b border-slate-700 mb-8 -mx-4 px-4 py-6">
+          <div className="bg-slate-800 border-b border-black mb-8 -mx-4 px-4 py-6">
             <div className="flex items-center justify-between">
               <Button
                 asChild
@@ -446,7 +446,7 @@ function PracticeComponent() {
           </div>
 
           <div className="max-w-6xl mx-auto">
-            <Card className="border border-slate-700 bg-slate-800 mb-8">
+            <Card className="border border-black bg-slate-800 mb-8">
               <CardHeader className="bg-slate-700 text-white p-8">
                 <CardTitle className="text-2xl font-bold uppercase tracking-wide mb-2">
                   Assessment Type Selection
@@ -457,13 +457,13 @@ function PracticeComponent() {
                 </p>
               </CardHeader>
               <CardContent className="p-8">
-                <div className="bg-slate-700 border border-slate-600 p-6 mb-8">
+                <div className="bg-slate-700 border border-black p-6 mb-8">
                   <h3 className="text-lg font-bold uppercase tracking-wide text-white mb-6 text-center">
                     Official Assessment Categories
                   </h3>
                   <div className="grid md:grid-cols-3 gap-6">
-                    <div className="text-center p-4 bg-slate-800 border border-slate-600">
-                      <div className="w-12 h-12 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-3">
+                    <div className="text-center p-4 bg-slate-800 border border-black">
+                      <div className="w-12 h-12 bg-slate-700 border border-black flex items-center justify-center mx-auto mb-3">
                         <Settings className="w-6 h-6 text-white" />
                       </div>
                       <div className="font-bold text-white uppercase tracking-wide text-sm">
@@ -476,8 +476,8 @@ function PracticeComponent() {
                         Minimum Pass: 6/8 (75%)
                       </div>
                     </div>
-                    <div className="text-center p-4 bg-slate-800 border border-slate-600">
-                      <div className="w-12 h-12 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-3">
+                    <div className="text-center p-4 bg-slate-800 border border-black">
+                      <div className="w-12 h-12 bg-slate-700 border border-black flex items-center justify-center mx-auto mb-3">
                         <Layers className="w-6 h-6 text-white" />
                       </div>
                       <div className="font-bold text-white uppercase tracking-wide text-sm">
@@ -490,8 +490,8 @@ function PracticeComponent() {
                         Minimum Pass: 23/28 (82%)
                       </div>
                     </div>
-                    <div className="text-center p-4 bg-slate-800 border border-slate-600">
-                      <div className="w-12 h-12 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-3">
+                    <div className="text-center p-4 bg-slate-800 border border-black">
+                      <div className="w-12 h-12 bg-slate-700 border border-black flex items-center justify-center mx-auto mb-3">
                         <ChartBarStacked className="w-6 h-6 text-white" />
                       </div>
                       <div className="font-bold text-white uppercase tracking-wide text-sm">
