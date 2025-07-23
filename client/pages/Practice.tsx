@@ -586,8 +586,13 @@ function PracticeComponent() {
                         <div className="text-xs uppercase tracking-wide mb-1">
                           Questions
                         </div>
-                        <div className="text-xs text-slate-400 mb-4 uppercase tracking-wide">
+                        <div className="text-xs text-slate-400 mb-2 uppercase tracking-wide">
                           Duration: 5 Minutes
+                        </div>
+                        <div className="p-2 bg-slate-700 border border-black mb-4">
+                          <div className="text-xs text-white uppercase tracking-wide">
+                            Skill assessment level: Basic preparation
+                          </div>
                         </div>
                         <p className="text-slate-300 mb-4 text-sm leading-relaxed">
                           Abbreviated assessment for rapid skill evaluation.
@@ -613,8 +618,13 @@ function PracticeComponent() {
                         <div className="text-xs uppercase tracking-wide mb-1">
                           Questions
                         </div>
-                        <div className="text-xs text-slate-400 mb-4 uppercase tracking-wide">
+                        <div className="text-xs text-slate-400 mb-2 uppercase tracking-wide">
                           Duration: 25 Minutes
+                        </div>
+                        <div className="p-2 bg-slate-700 border border-black mb-4">
+                          <div className="text-xs text-white uppercase tracking-wide">
+                            Test readiness level: Comprehensive evaluation
+                          </div>
                         </div>
                         <p className="text-slate-300 mb-4 text-sm leading-relaxed">
                           Complete simulation adhering to Department of
@@ -668,17 +678,34 @@ function PracticeComponent() {
                         </p>
 
                         <div className="space-y-2">
-                          {/* Usage indicator for free users */}
+                          {/* Enhanced usage indicator with value messaging */}
                           {usageInfo && !usageInfo.isSubscribed && (
-                            <div className="p-2 bg-white/20 rounded border border-white/30 text-center">
-                              <div className="text-xs text-white/90">
-                                Daily scenarios:{" "}
-                                {5 - (usageInfo.remaining || 0)}
-                                /5 used
+                            <div className="p-3 bg-white/20 rounded border border-white/30">
+                              <div className="text-center mb-2">
+                                <div className="text-xs text-white/90 uppercase tracking-wide">
+                                  Daily scenarios:{" "}
+                                  {5 - (usageInfo.remaining || 0)}
+                                  /5 used
+                                </div>
+                                <div className="w-full bg-white/10 border border-white/20 h-1 mt-1">
+                                  <div
+                                    className="bg-white h-full"
+                                    style={{width: `${((5 - (usageInfo.remaining || 0)) / 5) * 100}%`}}
+                                  ></div>
+                                </div>
                               </div>
-                              {usageInfo.remaining === 0 && (
-                                <div className="text-xs text-red-200 mt-1">
-                                  Daily limit reached!
+                              {usageInfo.remaining === 0 ? (
+                                <div className="text-center border-t border-white/20 pt-2">
+                                  <div className="text-xs text-white uppercase tracking-wide mb-1">
+                                    Daily allocation complete
+                                  </div>
+                                  <div className="text-xs text-white/70 leading-relaxed">
+                                    Premium members access 220+ additional scenarios including location-specific highway patterns and advanced driving conditions
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="text-center text-xs text-white/70">
+                                  {usageInfo.remaining} scenarios remaining today
                                 </div>
                               )}
                             </div>
@@ -693,12 +720,22 @@ function PracticeComponent() {
                           </Button>
 
                           {usageInfo && !usageInfo.canAccess && (
-                            <Button
-                              asChild
-                              className="w-full bg-slate-600 hover:bg-slate-500 text-white font-medium uppercase tracking-wide py-2 text-xs"
-                            >
-                              <Link to="/pricing">Upgrade for Unlimited</Link>
-                            </Button>
+                            <div className="space-y-2">
+                              <div className="p-2 bg-white/10 border border-white/20 text-center">
+                                <div className="text-xs text-white/90 uppercase tracking-wide mb-1">
+                                  Premium scenarios locked
+                                </div>
+                                <div className="text-xs text-white/70">
+                                  Cape Town coastal routes, Johannesburg highway merging, rural farm roads
+                                </div>
+                              </div>
+                              <Button
+                                asChild
+                                className="w-full bg-slate-600 hover:bg-slate-500 text-white font-medium uppercase tracking-wide py-2 text-xs"
+                              >
+                                <Link to="/pricing">Access unlimited scenarios</Link>
+                              </Button>
+                            </div>
                           )}
 
                           <Button
