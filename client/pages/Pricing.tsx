@@ -69,7 +69,7 @@ function PricingComponent() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-black-800 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-slate-600 font-semibold uppercase tracking-wide">
             Loading Pricing...
           </p>
@@ -81,7 +81,7 @@ function PricingComponent() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <div className="bg-white border-b-2 border-black-800 shadow-sm mb-8">
+      <div className="bg-white border-b-2 border-black shadow-sm mb-8">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <Button
@@ -208,7 +208,7 @@ function PricingComponent() {
                     className={`w-full ${
                       plan.popular
                         ? "bg-orange-600 hover:bg-orange-700 text-white"
-                        : "border-2 border-black-800 text-slate-800 hover:bg-slate-800 hover:text-white"
+                        : "border-2 border-black text-slate-800 hover:bg-slate-800 hover:text-white"
                     }`}
                     variant={plan.popular ? "default" : "outline"}
                   >
@@ -272,7 +272,7 @@ function PricingComponent() {
                 <CardContent className="p-6">
                   <Button
                     onClick={() => handleBuyPack(pack.name, pack.price_cents)}
-                    className="w-full border-2 border-black-800 text-slate-800 hover:bg-slate-800 hover:text-white"
+                    className="w-full border-2 border-black text-slate-800 hover:bg-slate-800 hover:text-white"
                     variant="outline"
                   >
                     Buy Pack
@@ -285,7 +285,7 @@ function PricingComponent() {
 
         {/* Bottom CTA */}
         <div className="text-center mt-12">
-          <Card className="border-2 border-black-800 bg-slate-800 text-white max-w-2xl mx-auto">
+          <Card className="border-2 border-black bg-slate-800 text-white max-w-2xl mx-auto">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold mb-4">Ready to Master K53?</h3>
               <p className="text-slate-200 mb-6">
