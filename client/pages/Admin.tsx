@@ -91,13 +91,13 @@ export default function Admin() {
           : 0;
 
       // Get recent payments (handle missing tables)
-      const { data: recentPaymentsData } = await supabase
-        .from("payments")
-        .select("*")
-        .eq("status", "completed")
-        .order("created_at", { ascending: false })
-        .limit(10)
-        .catch(() => ({ data: [] }));
+      const { data: recentPaymentsData } = await (supabaseClient
+        ?.from("payments")
+        ?.select("*")
+        ?.eq("status", "completed")
+        ?.order("created_at", { ascending: false })
+        ?.limit(10)
+        ?.catch(() => ({ data: [] })) || Promise.resolve({ data: [] }));
 
       setStats({
         totalUsers: totalUniqueUsers,
