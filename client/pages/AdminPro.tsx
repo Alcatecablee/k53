@@ -176,6 +176,37 @@ export default function AdminPro() {
     }
   };
 
+  const loadContentStats = async () => {
+    try {
+      const [questionsRes, scenariosRes] = await Promise.all([
+        fetch("/api/content/questions"),
+        fetch("/api/content/scenarios")
+      ]);
+
+      const [questionsData, scenariosData] = await Promise.all([
+        questionsRes.ok ? questionsRes.json() : { stats: { total: 0 } },
+        scenariosRes.ok ? scenariosRes.json() : { stats: { total: 0 } }
+      ]);
+
+      const stats = {
+        questions: questionsData.stats?.total || 0,
+        scenarios: scenariosData.stats?.total || 0,
+        studyMaterials: 0, // Would come from materials API
+        videos: 0, // Would come from videos API
+      };
+
+      setContentStats(stats);
+    } catch (error) {
+      console.error("Error loading content stats:", error);
+      setContentStats({
+        questions: 0,
+        scenarios: 0,
+        studyMaterials: 0,
+        videos: 0,
+      });
+    }
+  };
+
   const loadDashboardData = async () => {
     try {
       const response = await fetch("/api/enterprise/dashboard-stats");
