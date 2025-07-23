@@ -64,6 +64,7 @@ function PricingComponent() {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState<string | null>(null);
   const [paymentError, setPaymentError] = useState<string | null>(null);
+  const [modalStep, setModalStep] = useState<'confirm' | 'payment'>('confirm');
   const [showComparison, setShowComparison] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<UserLocation | null>(null);
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
