@@ -234,7 +234,8 @@ export const getPayments: RequestHandler = async (req, res) => {
 // User actions
 export const userAction: RequestHandler = async (req, res) => {
   try {
-    if (!supabaseAdmin) {
+    const supabaseClient = getSupabaseAdmin();
+    if (!supabaseClient) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
