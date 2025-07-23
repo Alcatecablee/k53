@@ -121,34 +121,34 @@ function PricingComponent() {
   return (
     <>
       <SEO {...SEO_CONFIGS.pricing} />
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-900">
         {/* Header */}
-        <div className="bg-white border-b-2 border-black shadow-sm mb-8">
+        <div className="bg-slate-800 border-b border-black mb-8">
           <div className="container mx-auto px-4 py-6">
             <div className="flex items-center justify-between">
               <Button
                 asChild
                 variant="ghost"
-                className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide"
+                className="text-slate-300 hover:text-white font-medium uppercase tracking-wide"
               >
                 <Link to="/">
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Portal
+                  Return to portal
                 </Link>
               </Button>
 
               <div className="text-center">
-                <h1 className="text-2xl font-bold text-slate-900 uppercase tracking-wide">
-                  SuperK53 Pricing
+                <h1 className="text-2xl font-bold text-white uppercase tracking-wide">
+                  Subscription access tiers
                 </h1>
-                <p className="text-slate-600 uppercase text-sm tracking-wide">
-                  Choose Your Learning Plan
+                <p className="text-slate-400 uppercase text-sm tracking-wide">
+                  Department of transport certified preparation
                 </p>
               </div>
 
               <div className="flex items-center space-x-2">
                 {user && currentSubscription && (
-                  <Badge className="bg-slate-800 text-white">
+                  <Badge className="bg-slate-700 text-white border border-black">
                     Current: {currentSubscription.plan_type.toUpperCase()}
                   </Badge>
                 )}
