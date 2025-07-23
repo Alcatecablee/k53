@@ -4,7 +4,7 @@ import {
   generateRandomScenarioTest,
 } from "@/data/k53Scenarios";
 import { k53QuestionBank, generateRandomTest } from "@/data/k53Questions";
-import { supabase } from "@/lib/supabase";
+import { supabaseClient } from "@/lib/supabase";
 import type { UserLocation } from "@/services/locationService";
 
 // Try to use database first, fallback to local data
