@@ -504,13 +504,14 @@ export default function AdminPro() {
       });
 
       if (response.ok) {
-        const result = await response.json();
+        const result = await response.json().catch(() => ({ success: false }));
         await loadUsers(); // Refresh data
         return result;
       } else {
-        throw new Error("Bulk operation failed");
+        throw new Error(`Bulk operation failed: ${response.statusText || "Unknown error"}`);
       }
     } catch (error) {
+      console.error("Bulk operation error:", error);
       throw error;
     }
   };
