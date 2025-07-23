@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { DemoModeIndicator } from "@/components/DemoModeIndicator";
 
 export default function Index() {
   // Safe useAuth call with error handling for HMR issues
@@ -138,6 +139,9 @@ export default function Index() {
           </div>
         </div>
       </header>
+
+      {/* Demo Mode Indicator */}
+      <DemoModeIndicator />
 
       {/* Hero Section */}
       <section className="bg-white py-20">
