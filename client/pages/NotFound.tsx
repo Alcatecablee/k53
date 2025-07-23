@@ -38,7 +38,7 @@ const NotFound = () => {
               K53 Assessment Portal system. This may indicate an invalid URL or
               restricted access area.
             </p>
-            <div className="bg-slate-100 border-2 border-black-300 p-4 mb-6">
+            <div className="bg-slate-100 border-2 border-black p-4 mb-6">
               <p className="text-slate-700 text-sm">
                 <strong>Attempted Path:</strong> {location.pathname}
               </p>
