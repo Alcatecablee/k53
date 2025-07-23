@@ -813,47 +813,47 @@ export default function AdminNew() {
             </div>
 
             {/* Payments Table */}
-            <Card className="border-2 border-black bg-slate-800 text-white">
+            <Card className="border border-gray-200 bg-white">
               <CardContent className="p-0">
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-slate-700">
-                      <TableHead className="text-white">Payment ID</TableHead>
-                      <TableHead className="text-white">User</TableHead>
-                      <TableHead className="text-white">Amount</TableHead>
-                      <TableHead className="text-white">Method</TableHead>
-                      <TableHead className="text-white">Status</TableHead>
-                      <TableHead className="text-white">Date</TableHead>
-                      <TableHead className="text-white">Actions</TableHead>
+                    <TableRow className="border-gray-200">
+                      <TableHead className="text-gray-700 font-medium">Payment ID</TableHead>
+                      <TableHead className="text-gray-700 font-medium">User</TableHead>
+                      <TableHead className="text-gray-700 font-medium">Amount</TableHead>
+                      <TableHead className="text-gray-700 font-medium">Method</TableHead>
+                      <TableHead className="text-gray-700 font-medium">Status</TableHead>
+                      <TableHead className="text-gray-700 font-medium">Date</TableHead>
+                      <TableHead className="text-gray-700 font-medium">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {payments.map((payment) => (
-                      <TableRow key={payment.id} className="border-slate-700">
-                        <TableCell className="text-white font-mono">{payment.id}</TableCell>
-                        <TableCell className="text-white">{payment.user_email}</TableCell>
-                        <TableCell className="text-white">{formatPrice(payment.amount_cents)}</TableCell>
+                      <TableRow key={payment.id} className="border-gray-100 hover:bg-gray-50">
+                        <TableCell className="text-gray-900 font-mono text-sm">{payment.id}</TableCell>
+                        <TableCell className="text-gray-900">{payment.user_email}</TableCell>
+                        <TableCell className="text-gray-900 font-medium">{formatPrice(payment.amount_cents)}</TableCell>
                         <TableCell>
-                          <Badge className="bg-blue-600 text-white">
+                          <Badge className="bg-blue-100 text-blue-800 border-blue-200">
                             {payment.payment_method.toUpperCase()}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <Badge 
+                          <Badge
                             className={
-                              payment.status === "completed" ? "bg-green-600 text-white" :
-                              payment.status === "failed" ? "bg-red-600 text-white" :
-                              "bg-yellow-600 text-white"
+                              payment.status === "completed" ? "bg-green-100 text-green-800 border-green-200" :
+                              payment.status === "failed" ? "bg-red-100 text-red-800 border-red-200" :
+                              "bg-yellow-100 text-yellow-800 border-yellow-200"
                             }
                           >
                             {payment.status.toUpperCase()}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-slate-400">
+                        <TableCell className="text-gray-500">
                           {new Date(payment.created_at).toLocaleDateString()}
                         </TableCell>
                         <TableCell>
-                          <Button size="sm" variant="outline" className="text-slate-300">
+                          <Button size="sm" variant="outline" className="border-gray-300 text-gray-700">
                             <Eye className="h-3 w-3 mr-1" />
                             View
                           </Button>
