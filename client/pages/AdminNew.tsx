@@ -187,61 +187,13 @@ export default function AdminNew() {
 
   const loadUsers = async () => {
     try {
-      // Get real user data from database
-      const { data: usersData, error } = await supabase
-        .from("user_subscriptions")
-        .select(
-          `
-          id,
-          email,
-          created_at,
-          plan_type,
-          status,
-          location,
-          last_seen
-        `,
-        )
-        .order("created_at", { ascending: false })
-        .limit(100);
-
-      if (error) {
-        console.error("Error loading users:", error);
-        return;
+      const response = await fetch(`/api/admin/users?search=${searchTerm}&status=${filterStatus}`);
+      if (response.ok) {
+        const usersData = await response.json();
+        setUsers(usersData);
+      } else {
+        console.error("Failed to load users");
       }
-
-      // Get usage data for each user
-      const userIds = usersData?.map((user) => user.id) || [];
-      const { data: usageData } = await supabase
-        .from("daily_usage")
-        .select("user_id, scenarios_used")
-        .in("user_id", userIds)
-        .eq("date", new Date().toISOString().split("T")[0]);
-
-      const usageMap =
-        usageData?.reduce((acc: any, usage) => {
-          acc[usage.user_id] = usage.scenarios_used;
-          return acc;
-        }, {}) || {};
-
-      const formattedUsers: User[] =
-        usersData?.map((user) => ({
-          id: user.id,
-          email: user.email,
-          created_at: user.created_at,
-          subscription: {
-            plan_type: user.plan_type,
-            status: user.status,
-            created_at: user.created_at,
-          },
-          usage: {
-            scenarios_used: usageMap[user.id] || 0,
-            max_scenarios: user.plan_type === "free" ? 5 : -1,
-          },
-          location: user.location,
-          last_seen: user.last_seen,
-        })) || [];
-
-      setUsers(formattedUsers);
     } catch (error) {
       console.error("Error loading users:", error);
     }
