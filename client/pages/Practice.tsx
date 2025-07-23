@@ -393,7 +393,7 @@ function PracticeComponent() {
 
   if (!testStarted) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-900">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8 -mx-4 px-4 py-6">
@@ -663,7 +663,7 @@ function PracticeComponent() {
     const percentage = Math.round((correctAnswers / totalQuestions) * 100);
 
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-900">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             <Card className="border-2 border-slate-800 bg-white">
@@ -781,7 +781,7 @@ function PracticeComponent() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-900">
       <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
