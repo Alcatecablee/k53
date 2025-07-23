@@ -121,8 +121,57 @@ export default function AdminPro() {
       loadUsers(),
       loadPayments(),
       loadRealTimeData(),
+      loadActivityFeed(),
     ]);
     setLoading(false);
+  };
+
+  const loadActivityFeed = async () => {
+    try {
+      // Load real activity from multiple sources
+      const [usersRes, paymentsRes] = await Promise.all([
+        fetch("/api/enterprise/users?limit=5"),
+        fetch("/api/enterprise/payments?limit=5")
+      ]);
+
+      const [recentUsers, recentPayments] = await Promise.all([
+        usersRes.ok ? usersRes.json() : [],
+        paymentsRes.ok ? paymentsRes.json() : []
+      ]);
+
+      const activities = [];
+
+      // Add recent user registrations
+      recentUsers.slice(0, 3).forEach((user: any) => {
+        activities.push({
+          id: `user_${user.id}`,
+          type: 'user',
+          title: 'New user registration',
+          description: `${user.email} joined with ${user.subscription?.plan_type || 'free'} plan`,
+          timestamp: user.created_at,
+          severity: 'success',
+        });
+      });
+
+      // Add recent payments
+      recentPayments.slice(0, 3).forEach((payment: any) => {
+        activities.push({
+          id: `payment_${payment.id}`,
+          type: 'payment',
+          title: 'Payment processed',
+          description: `${formatPrice(payment.amount_cents)} payment ${payment.status}`,
+          timestamp: payment.created_at,
+          severity: payment.status === 'completed' ? 'success' : 'warning',
+        });
+      });
+
+      // Sort by timestamp and take latest
+      activities.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      setActivityItems(activities.slice(0, 6));
+    } catch (error) {
+      console.error("Error loading activity feed:", error);
+      setActivityItems([]);
+    }
   };
 
   const loadDashboardData = async () => {
