@@ -92,5 +92,25 @@ export function createServer() {
   app.get("/api/materials", listMaterials);
   app.get("/api/materials/:materialId", getMaterial);
 
+  // System management routes
+  app.get("/api/system/database/logs", getDatabaseLogs);
+  app.post("/api/system/database/backup", backupDatabase);
+  app.post("/api/system/maintenance", toggleMaintenanceMode);
+  app.get("/api/system/performance", getPerformanceMetrics);
+  app.get("/api/system/logs/errors", getErrorLogs);
+  app.post("/api/system/services/restart", restartServices);
+  app.post("/api/system/security/scan", runSecurityScan);
+  app.get("/api/system/logs/access", getAccessLogs);
+  app.get("/api/system/security/threats", getThreatDetection);
+
+  // Content management routes
+  app.get("/api/content/questions", getQuestionBank);
+  app.get("/api/content/questions/export", exportQuestions);
+  app.post("/api/content/questions/import", importQuestions);
+  app.get("/api/content/scenarios", getScenarios);
+  app.post("/api/content/scenarios", addScenario);
+  app.put("/api/content/scenarios/:scenarioId", updateScenario);
+  app.get("/api/content/stats", getContentStats);
+
   return app;
 }
