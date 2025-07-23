@@ -169,7 +169,6 @@ export default function Index() {
                     <div className="w-2 h-16 bg-white mr-6"></div>
                     <div>
                       <div className="flex items-center space-x-3 mb-3">
-                        <Shield className="h-6 w-6 text-white" />
                         <Badge className="bg-slate-700 text-white border-0">
                           DEPARTMENT OF TRANSPORT
                         </Badge>
