@@ -215,18 +215,18 @@ export default function AdminNew() {
 
   const checkSystemHealth = async () => {
     try {
-      // Test database connection
-      const { error: dbError } = await supabase
-        .from("user_subscriptions")
-        .select("id")
-        .limit(1);
-
-      setSystemHealth({
-        database: dbError ? "error" : "operational",
-        paypal: "operational",
-        server: "operational",
-        storage: "operational",
-      });
+      const response = await fetch('/api/admin/system-health');
+      if (response.ok) {
+        const health = await response.json();
+        setSystemHealth(health);
+      } else {
+        setSystemHealth({
+          database: "error",
+          paypal: "warning",
+          server: "error",
+          storage: "warning",
+        });
+      }
     } catch (error) {
       setSystemHealth({
         database: "error",
