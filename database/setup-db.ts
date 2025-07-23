@@ -11,10 +11,10 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 // Validate required environment variables
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error(
-    'Missing required environment variables for database setup:\n' +
-    '- VITE_SUPABASE_URL\n' +
-    '- SUPABASE_SERVICE_ROLE_KEY\n\n' +
-    'Please check your .env file.'
+    "Missing required environment variables for database setup:\n" +
+      "- VITE_SUPABASE_URL\n" +
+      "- SUPABASE_SERVICE_ROLE_KEY\n\n" +
+      "Please check your .env file.",
   );
   process.exit(1);
 }

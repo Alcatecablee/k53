@@ -5,11 +5,13 @@
 ### 1. Initial Setup
 
 1. **Copy environment template:**
+
    ```bash
    cp .env.example .env
    ```
 
 2. **Get your Supabase credentials:**
+
    - Go to [supabase.com](https://supabase.com) and sign in
    - Open your project dashboard
    - Go to Settings → API
@@ -61,8 +63,9 @@ CREATE POLICY "Users can insert own scenarios" ON public.user_scenarios
 #### API Limits and Security Headers
 
 1. **In Supabase Dashboard:**
+
    - Go to Settings → API
-   - Enable "API Gateway" 
+   - Enable "API Gateway"
    - Set rate limits for your API endpoints
    - Configure CORS settings
 
@@ -74,6 +77,7 @@ CREATE POLICY "Users can insert own scenarios" ON public.user_scenarios
 ### 4. Development vs Production
 
 #### Development (.env)
+
 ```bash
 NODE_ENV=development
 VITE_SUPABASE_URL=https://your-project.supabase.co
@@ -81,6 +85,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
 #### Production (Platform Environment Variables)
+
 ```bash
 NODE_ENV=production
 VITE_SUPABASE_URL=https://your-production-project.supabase.co
@@ -90,6 +95,7 @@ VITE_SUPABASE_ANON_KEY=your-production-anon-key
 ### 5. Common Security Mistakes to Avoid
 
 ❌ **DON'T:**
+
 - Commit .env files to git
 - Use service role keys in client-side code
 - Disable RLS on user data tables
@@ -97,6 +103,7 @@ VITE_SUPABASE_ANON_KEY=your-production-anon-key
 - Store sensitive data without encryption
 
 ✅ **DO:**
+
 - Use environment variables for all secrets
 - Enable RLS on all user data tables
 - Use separate databases for dev/staging/production
@@ -106,11 +113,13 @@ VITE_SUPABASE_ANON_KEY=your-production-anon-key
 ### 6. Testing Your Security Setup
 
 Run this command to verify your environment:
+
 ```bash
 npm run dev
 ```
 
 If you see this error, your environment is not configured:
+
 ```
 Missing required environment variables:
 - VITE_SUPABASE_URL
@@ -120,6 +129,7 @@ Missing required environment variables:
 ### 7. Emergency Response
 
 If credentials are accidentally committed:
+
 1. **Immediately rotate all keys** in Supabase dashboard
 2. Update .env with new keys
 3. Verify no unauthorized access occurred
@@ -128,6 +138,7 @@ If credentials are accidentally committed:
 ## Next Steps
 
 After completing security setup:
+
 1. Set up database tables (Phase 2)
 2. Implement payment integration (Phase 3)
 3. Configure production deployment (Phase 4)

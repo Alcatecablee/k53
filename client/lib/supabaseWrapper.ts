@@ -6,15 +6,16 @@ import { env } from "./env";
 const { supabaseUrl, supabaseAnonKey, isConfigured } = env;
 
 // Create the original client (only if environment is configured)
-const originalSupabase = isConfigured && supabaseUrl && supabaseAnonKey
-  ? createClient(supabaseUrl, supabaseAnonKey, {
-      auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: true,
-      },
-    })
-  : null;
+const originalSupabase =
+  isConfigured && supabaseUrl && supabaseAnonKey
+    ? createClient(supabaseUrl, supabaseAnonKey, {
+        auth: {
+          autoRefreshToken: true,
+          persistSession: true,
+          detectSessionInUrl: true,
+        },
+      })
+    : null;
 
 // Global offline state
 let isOfflineMode = false;

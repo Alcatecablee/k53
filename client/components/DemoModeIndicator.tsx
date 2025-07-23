@@ -24,12 +24,13 @@ export function DemoModeIndicator() {
           </h3>
           <div className="mt-2 text-sm text-amber-700">
             <p>
-              You're experiencing SuperK53 in demo mode. Some features like user accounts,
-              progress saving, and premium subscriptions are limited.
+              You're experiencing SuperK53 in demo mode. Some features like user
+              accounts, progress saving, and premium subscriptions are limited.
             </p>
             {envStatus.missingVars.length > 0 && (
               <p className="mt-2">
-                <strong>Missing configuration:</strong> {envStatus.missingVars.join(', ')}
+                <strong>Missing configuration:</strong>{" "}
+                {envStatus.missingVars.join(", ")}
               </p>
             )}
           </div>
