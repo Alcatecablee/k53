@@ -11,12 +11,12 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 // Validate required environment variables
 if (!supabaseUrl || !supabaseServiceKey) {
   console.warn(
-    'Missing required environment variables for database setup:\n' +
-    '- VITE_SUPABASE_URL\n' +
-    '- SUPABASE_SERVICE_ROLE_KEY\n\n' +
-    'Skipping database setup. This is normal for demo deployments.'
+    "Missing required environment variables for database setup:\n" +
+      "- VITE_SUPABASE_URL\n" +
+      "- SUPABASE_SERVICE_ROLE_KEY\n\n" +
+      "Skipping database setup. This is normal for demo deployments.",
   );
-  console.log('Database setup skipped - running in demo mode');
+  console.log("Database setup skipped - running in demo mode");
   process.exit(0); // Exit gracefully instead of with error
 }
 

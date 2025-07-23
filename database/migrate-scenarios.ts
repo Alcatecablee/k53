@@ -13,12 +13,12 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 // Validate required environment variables
 if (!supabaseUrl || !supabaseServiceKey) {
   console.warn(
-    'Missing required environment variables for scenario migration:\n' +
-    '- VITE_SUPABASE_URL\n' +
-    '- SUPABASE_SERVICE_ROLE_KEY\n\n' +
-    'Skipping scenario migration. This is normal for demo deployments.'
+    "Missing required environment variables for scenario migration:\n" +
+      "- VITE_SUPABASE_URL\n" +
+      "- SUPABASE_SERVICE_ROLE_KEY\n\n" +
+      "Skipping scenario migration. This is normal for demo deployments.",
   );
-  console.log('Scenario migration skipped - running in demo mode');
+  console.log("Scenario migration skipped - running in demo mode");
   process.exit(0);
 }
 
