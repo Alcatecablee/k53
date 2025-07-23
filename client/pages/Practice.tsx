@@ -339,7 +339,7 @@ export default function Practice() {
                         🔥 AI Scenarios
                       </h3>
                       <div className="text-3xl font-bold mb-1">
-                        75
+                        126
                       </div>
                       <div className="text-xs uppercase tracking-wide mb-1">
                         Real Situations
