@@ -434,17 +434,18 @@ export default function AdminPro() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ csvData: data }),
-      });
+      }).catch(() => ({ ok: false, statusText: "Network Error" }));
 
       if (response.ok) {
-        const result = await response.json();
+        const result = await response.json().catch(() => ({ imported: 0, errors: 0 }));
         alert(
           `Successfully imported ${result.imported} records! ${result.errors} errors.`,
         );
       } else {
-        throw new Error("Import failed");
+        throw new Error(`Import failed: ${response.statusText || "Unknown error"}`);
       }
     } catch (error) {
+      console.error("CSV upload error:", error);
       alert(`Import failed: ${error}`);
     }
   };
