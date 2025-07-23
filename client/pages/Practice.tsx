@@ -396,9 +396,11 @@ function PracticeComponent() {
 
   if (!testStarted) {
     return (
-      <div className="min-h-screen bg-slate-900">
-        <div className="container mx-auto px-4 py-8">
-          {/* Header */}
+      <>
+        <SEO {...SEO_CONFIGS.practice} />
+        <div className="min-h-screen bg-slate-900">
+          <div className="container mx-auto px-4 py-8">
+            {/* Header */}
           <div className="bg-slate-800 border-b border-black mb-8 -mx-4 px-4 py-6">
             <div className="flex items-center justify-between">
               <Button
@@ -665,6 +667,7 @@ function PracticeComponent() {
           </div>
         </div>
       </div>
+      </>
     );
   }
 
