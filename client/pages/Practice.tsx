@@ -446,12 +446,12 @@ function PracticeComponent() {
           </div>
 
           <div className="max-w-6xl mx-auto">
-            <Card className="border-2 border-slate-800 bg-white mb-8">
-              <CardHeader className="bg-slate-800 text-white p-8">
+            <Card className="border border-slate-700 bg-slate-800 mb-8">
+              <CardHeader className="bg-slate-700 text-white p-8">
                 <CardTitle className="text-2xl font-bold uppercase tracking-wide mb-2">
                   Assessment Type Selection
                 </CardTitle>
-                <p className="text-slate-200">
+                <p className="text-slate-300">
                   Select your preferred examination format according to
                   Department of Transport standards
                 </p>
