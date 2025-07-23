@@ -289,12 +289,13 @@ export const getUserUsageStats: RequestHandler = async (req, res) => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-    const { data: usageHistory, error: historyError } = await getSupabaseClient()
-      .from("daily_usage")
-      .select("*")
-      .eq("user_id", userId)
-      .gte("date", thirtyDaysAgo.toISOString().split("T")[0])
-      .order("date", { ascending: false });
+    const { data: usageHistory, error: historyError } =
+      await getSupabaseClient()
+        .from("daily_usage")
+        .select("*")
+        .eq("user_id", userId)
+        .gte("date", thirtyDaysAgo.toISOString().split("T")[0])
+        .order("date", { ascending: false });
 
     if (historyError) {
       console.error("Error fetching usage history:", historyError);
