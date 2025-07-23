@@ -13,7 +13,6 @@ import {
   CheckCircle,
   AlertCircle,
   Info,
-  Calculator,
   ChevronDown,
   ChevronUp,
   Target,
@@ -68,11 +67,7 @@ function PricingComponent() {
   const [showComparison, setShowComparison] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<UserLocation | null>(null);
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
-  const [expandedPack, setExpandedPack] = useState<string | null>(null);
-  const [calculatorValues, setCalculatorValues] = useState({
-    dailyScenarios: 10,
-    studyDays: 30,
-  });
+  const [showLocationSelector, setShowLocationSelector] = useState(false);
 
   useEffect(() => {
     const loadSubscriptionData = async () => {
@@ -142,17 +137,6 @@ function PricingComponent() {
     alert(
       `Purchasing individual scenario packs will be available soon. For now, subscribe to SuperK53 Premium to get all packs included!`,
     );
-  };
-
-  // Calculate value for different plans
-  const calculateValue = (plan: any) => {
-    const { dailyScenarios, studyDays } = calculatorValues;
-    const totalScenarios = plan.max_scenarios_per_day === -1 
-      ? dailyScenarios * studyDays 
-      : Math.min(plan.max_scenarios_per_day * studyDays, dailyScenarios * studyDays);
-    
-    const costPerScenario = plan.price_cents > 0 ? plan.price_cents / 100 / totalScenarios : 0;
-    return { totalScenarios, costPerScenario };
   };
 
   // Get location-specific scenarios count
@@ -264,154 +248,246 @@ function PricingComponent() {
             </Card>
           )}
 
-          {/* Value Calculator */}
-          <Card className="border border-black bg-slate-800 mb-8 max-w-4xl mx-auto">
-            <CardHeader className="bg-slate-700 border-b border-black">
-              <CardTitle className="flex items-center text-white uppercase tracking-wide">
-                <Calculator className="h-5 w-5 mr-2" />
-                Value Calculator
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-2 uppercase tracking-wide">
-                    Daily Scenarios Target
-                  </label>
-                  <input
-                    type="range"
-                    min="5"
-                    max="50"
-                    value={calculatorValues.dailyScenarios}
-                    onChange={(e) => setCalculatorValues(prev => ({
-                      ...prev,
-                      dailyScenarios: parseInt(e.target.value)
-                    }))}
-                    className="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer"
-                  />
-                  <div className="text-center mt-2">
-                    <span className="text-white font-bold text-xl">{calculatorValues.dailyScenarios}</span>
-                    <span className="text-slate-400 text-sm"> scenarios/day</span>
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-slate-300 text-sm font-medium mb-2 uppercase tracking-wide">
-                    Study Period (Days)
-                  </label>
-                  <input
-                    type="range"
-                    min="7"
-                    max="90"
-                    value={calculatorValues.studyDays}
-                    onChange={(e) => setCalculatorValues(prev => ({
-                      ...prev,
-                      studyDays: parseInt(e.target.value)
-                    }))}
-                    className="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer"
-                  />
-                  <div className="text-center mt-2">
-                    <span className="text-white font-bold text-xl">{calculatorValues.studyDays}</span>
-                    <span className="text-slate-400 text-sm"> days</span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Choose Your Location Section */}
-          <Card className="border border-black bg-slate-800 mb-8 max-w-6xl mx-auto">
-            <CardHeader className="bg-slate-700 border-b border-black">
-              <CardTitle className="flex items-center text-white uppercase tracking-wide">
-                <MapPin className="h-5 w-5 mr-2" />
-                Choose Your Location for Targeted Content
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <p className="text-slate-300 mb-6">
-                Select your region to see how our location-specific scenarios will enhance your K53 preparation
+          {/* Subscription Plans */}
+          <div className="max-w-6xl mx-auto mb-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-white mb-4 uppercase tracking-wide">
+                Choose your preparation level
+              </h2>
+              <p className="text-slate-300 max-w-2xl mx-auto mb-6">
+                All plans include location-specific scenarios for South African driving conditions.
+                Start with Free Practice or upgrade for unlimited access and premium features.
               </p>
               
-              <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
-                {SOUTH_AFRICAN_LOCATIONS.slice(0, 12).map((location) => (
-                  <button
-                    key={`${location.city}-${location.region}`}
-                    onClick={() => setSelectedLocation(location)}
-                    className={`p-3 border border-black text-left transition-colors ${
-                      selectedLocation?.city === location.city
-                        ? "bg-white text-slate-900"
-                        : "bg-slate-700 text-slate-300 hover:bg-slate-600"
-                    }`}
+              {/* Location context banner */}
+              <div className="bg-slate-800 border border-black p-4 max-w-2xl mx-auto mb-6">
+                <div className="flex items-center justify-center space-x-4">
+                  <MapPin className="h-5 w-5 text-slate-400" />
+                  <div className="text-left">
+                    <div className="text-white font-medium text-sm uppercase tracking-wide">
+                      Location-Aware Content Included
+                    </div>
+                    <div className="text-slate-400 text-xs">
+                      Scenarios automatically adapt to South African cities and regions
+                    </div>
+                  </div>
+                  <Button
+                    onClick={() => setShowLocationSelector(!showLocationSelector)}
+                    variant="ghost"
+                    size="sm"
+                    className="text-slate-400 hover:text-white text-xs"
                   >
-                    <div className="font-medium text-sm uppercase tracking-wide">
-                      {location.city}
-                    </div>
-                    <div className="text-xs opacity-75">
-                      {location.region}
-                    </div>
-                  </button>
-                ))}
+                    Learn More
+                  </Button>
+                </div>
               </div>
+            </div>
 
-              {selectedLocation && (
-                <Card className="bg-slate-700 border border-black">
-                  <CardContent className="p-4">
-                    <h4 className="text-white font-bold uppercase tracking-wide mb-2">
-                      Location-Specific Content for {selectedLocation.city}
-                    </h4>
-                    <div className="grid md:grid-cols-3 gap-4 text-sm">
-                      <div className="flex items-center space-x-2">
-                        <Target className="h-4 w-4 text-slate-400" />
-                        <span className="text-slate-300">
-                          {getLocationScenarios(selectedLocation)} targeted scenarios
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Shield className="h-4 w-4 text-slate-400" />
-                        <span className="text-slate-300">
-                          Regional safety considerations
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Gauge className="h-4 w-4 text-slate-400" />
-                        <span className="text-slate-300">
-                          Local traffic patterns
-                        </span>
+            {/* Location selector (collapsible) */}
+            {showLocationSelector && (
+              <Card className="border border-black bg-slate-800 mb-8 max-w-4xl mx-auto">
+                <CardHeader className="bg-slate-700 border-b border-black">
+                  <CardTitle className="text-white text-center uppercase tracking-wide">
+                    Location-Specific Content Examples
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <p className="text-slate-300 mb-4 text-center">
+                    Select a region to see how scenarios adapt to local driving conditions
+                  </p>
+                  
+                  <div className="grid md:grid-cols-4 gap-3 mb-6">
+                    {SOUTH_AFRICAN_LOCATIONS.slice(0, 8).map((location) => (
+                      <button
+                        key={`${location.city}-${location.region}`}
+                        onClick={() => setSelectedLocation(location)}
+                        className={`p-3 border border-black text-left transition-colors text-sm ${
+                          selectedLocation?.city === location.city
+                            ? "bg-white text-slate-900"
+                            : "bg-slate-700 text-slate-300 hover:bg-slate-600"
+                        }`}
+                      >
+                        <div className="font-medium uppercase tracking-wide">
+                          {location.city}
+                        </div>
+                        <div className="text-xs opacity-75">
+                          {location.region}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {selectedLocation && (
+                    <div className="bg-slate-700 border border-black p-4 text-center">
+                      <h4 className="text-white font-bold uppercase tracking-wide mb-3">
+                        Content for {selectedLocation.city}
+                      </h4>
+                      <div className="grid md:grid-cols-3 gap-4 text-sm">
+                        <div className="flex items-center justify-center space-x-2">
+                          <Target className="h-4 w-4 text-slate-400" />
+                          <span className="text-slate-300">
+                            {getLocationScenarios(selectedLocation)} targeted scenarios
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-center space-x-2">
+                          <Shield className="h-4 w-4 text-slate-400" />
+                          <span className="text-slate-300">
+                            Local safety considerations
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-center space-x-2">
+                          <Gauge className="h-4 w-4 text-slate-400" />
+                          <span className="text-slate-300">
+                            Regional traffic patterns
+                          </span>
+                        </div>
                       </div>
                     </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {SUBSCRIPTION_PLANS.map((plan) => (
+                <Card
+                  key={plan.id}
+                  className={`border relative transition-all duration-300 hover:shadow-lg ${
+                    plan.popular 
+                      ? "border-white bg-slate-700 shadow-md" 
+                      : "border-black bg-slate-800 hover:border-slate-600"
+                  }`}
+                >
+                  {plan.popular && (
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <Badge className="bg-white text-slate-900 border border-black px-4 py-1 font-bold uppercase tracking-wide">
+                        Most Popular
+                      </Badge>
+                    </div>
+                  )}
+
+                  <CardHeader
+                    className={`text-center ${
+                      plan.popular ? "bg-slate-600" : "bg-slate-700"
+                    } border-b border-black p-6`}
+                  >
+                    <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-slate-800 border border-black text-white">
+                      {plan.id === "free" && <Zap className="h-8 w-8" />}
+                      {(plan.id === "light" || plan.id === "basic") && (
+                        <Users className="h-8 w-8" />
+                      )}
+                      {plan.id === "pro" && <Crown className="h-8 w-8" />}
+                    </div>
+                    <CardTitle className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
+                      {plan.name}
+                    </CardTitle>
+                    <p className="text-slate-300 text-sm mb-4">
+                      {plan.description}
+                    </p>
+                    <div className="text-4xl font-bold text-white">
+                      {formatPrice(plan.price_cents)}
+                      {plan.price_cents > 0 && (
+                        <span className="text-lg font-normal text-slate-300">
+                          /month
+                        </span>
+                      )}
+                    </div>
+                    
+                    {/* Simple value indication */}
+                    {plan.price_cents > 0 && (
+                      <div className="mt-3 p-2 bg-slate-800 border border-black">
+                        <div className="text-xs text-slate-400 uppercase tracking-wide">
+                          {plan.max_scenarios_per_day === -1 ? "Unlimited scenarios" : `${plan.max_scenarios_per_day} scenarios/day`}
+                        </div>
+                        <div className="text-xs text-white">
+                          {plan.max_scenarios_per_day === -1 
+                            ? "Best value for serious learners" 
+                            : `About R${(plan.price_cents / 100 / (plan.max_scenarios_per_day * 30)).toFixed(2)} per scenario`
+                          }
+                        </div>
+                      </div>
+                    )}
+                  </CardHeader>
+
+                  <CardContent className="p-6">
+                    <ul className="space-y-3 mb-6">
+                      {plan.features.map((feature, index) => (
+                        <li 
+                          key={index} 
+                          className="flex items-center space-x-3 relative"
+                          onMouseEnter={() => setHoveredFeature(feature)}
+                          onMouseLeave={() => setHoveredFeature(null)}
+                        >
+                          <Check className="h-4 w-4 text-white flex-shrink-0" />
+                          <span className="text-slate-300 text-sm flex items-center">
+                            {feature}
+                            {FEATURE_EXPLANATIONS[feature] && (
+                              <Info className="h-3 w-3 ml-1 text-slate-500" />
+                            )}
+                          </span>
+                          
+                          {/* Tooltip */}
+                          {hoveredFeature === feature && FEATURE_EXPLANATIONS[feature] && (
+                            <div className="absolute bottom-full left-0 mb-2 w-64 p-3 bg-slate-900 border border-white text-white text-xs z-50">
+                              {FEATURE_EXPLANATIONS[feature]}
+                            </div>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Button
+                      onClick={() => handleSubscribe(plan.id)}
+                      disabled={
+                        currentSubscription?.plan_type === plan.id ||
+                        plan.id === "free"
+                      }
+                      className={`w-full font-medium uppercase tracking-wide transition-all duration-300 ${
+                        plan.popular
+                          ? "bg-white text-slate-900 hover:bg-slate-100"
+                          : "border border-black text-slate-300 hover:bg-slate-700 hover:text-white"
+                      }`}
+                      variant={plan.popular ? "default" : "outline"}
+                    >
+                      {currentSubscription?.plan_type === plan.id
+                        ? "Current Plan"
+                        : plan.id === "free"
+                          ? "Current Plan"
+                          : "Subscribe Now"}
+                    </Button>
                   </CardContent>
                 </Card>
-              )}
-            </CardContent>
-          </Card>
+              ))}
+            </div>
 
-          {/* Comparison Toggle */}
-          <div className="text-center mb-8">
-            <Button
-              onClick={() => setShowComparison(!showComparison)}
-              variant="outline"
-              className="border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide"
-            >
-              {showComparison ? (
-                <>
-                  <ChevronUp className="h-4 w-4 mr-2" />
-                  Hide Comparison Table
-                </>
-              ) : (
-                <>
-                  <ChevronDown className="h-4 w-4 mr-2" />
-                  Show Detailed Comparison
-                </>
-              )}
-            </Button>
+            {/* Simple comparison toggle */}
+            <div className="text-center">
+              <Button
+                onClick={() => setShowComparison(!showComparison)}
+                variant="ghost"
+                className="text-slate-400 hover:text-white font-medium uppercase tracking-wide"
+              >
+                {showComparison ? (
+                  <>
+                    <ChevronUp className="h-4 w-4 mr-2" />
+                    Hide Feature Comparison
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="h-4 w-4 mr-2" />
+                    Compare All Features
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
 
-          {/* Detailed Comparison Table */}
+          {/* Detailed Comparison Table (collapsible) */}
           {showComparison && (
-            <Card className="border border-black bg-slate-800 mb-8 max-w-6xl mx-auto overflow-hidden">
+            <Card className="border border-black bg-slate-800 mb-12 max-w-6xl mx-auto overflow-hidden">
               <CardHeader className="bg-slate-700 border-b border-black">
                 <CardTitle className="text-white uppercase tracking-wide text-center">
-                  Feature Comparison
+                  Complete Feature Comparison
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
@@ -430,7 +506,6 @@ function PricingComponent() {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* Extract unique features for comparison */}
                       {Array.from(new Set(SUBSCRIPTION_PLANS.flatMap(plan => plan.features))).map((feature, index) => (
                         <tr key={index} className="border-b border-slate-600">
                           <td className="p-4 text-slate-300 text-sm font-medium">
@@ -447,23 +522,6 @@ function PricingComponent() {
                           ))}
                         </tr>
                       ))}
-                      
-                      {/* Value calculation row */}
-                      <tr className="border-b border-slate-600 bg-slate-750">
-                        <td className="p-4 text-white font-bold uppercase tracking-wide">
-                          Cost per scenario (based on calculator)
-                        </td>
-                        {SUBSCRIPTION_PLANS.map((plan) => {
-                          const { costPerScenario } = calculateValue(plan);
-                          return (
-                            <td key={plan.id} className="text-center p-4">
-                              <span className="text-white font-bold">
-                                {costPerScenario > 0 ? `R${costPerScenario.toFixed(2)}` : "Free"}
-                              </span>
-                            </td>
-                          );
-                        })}
-                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -471,233 +529,57 @@ function PricingComponent() {
             </Card>
           )}
 
-          {/* Subscription Plans */}
-          <div className="max-w-6xl mx-auto mb-12">
+          {/* Simplified Regional Packs */}
+          <div className="max-w-4xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-4 uppercase tracking-wide">
-                Premium access tiers
+              <h2 className="text-2xl font-bold text-white mb-4 uppercase tracking-wide">
+                Premium Regional Collections
               </h2>
-              <p className="text-slate-300 max-w-2xl mx-auto">
-                Authorized subscription plans for enhanced K53 learner's license
-                preparation. All tiers include location-specific scenarios
-                certified for South African driving assessment standards.
+              <p className="text-slate-300 mb-4">
+                Specialized scenario packs for specific South African regions.
               </p>
+              <div className="text-sm text-slate-400 uppercase tracking-wide">
+                All packs included free with SuperK53 Premium
+              </div>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {SUBSCRIPTION_PLANS.map((plan) => {
-                const { totalScenarios, costPerScenario } = calculateValue(plan);
-                return (
-                  <Card
-                    key={plan.id}
-                    className={`border relative transition-all duration-300 hover:shadow-lg ${
-                      plan.popular
-                        ? "border-white bg-slate-700 shadow-md"
-                        : "border-black bg-slate-800 hover:border-slate-600"
-                    }`}
-                  >
-                    {plan.popular && (
-                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                        <Badge className="bg-white text-slate-900 border border-black px-4 py-1 font-bold uppercase tracking-wide">
-                          Recommended tier
-                        </Badge>
-                      </div>
-                    )}
-
-                    <CardHeader
-                      className={`text-center ${
-                        plan.popular ? "bg-slate-600" : "bg-slate-700"
-                      } border-b border-black p-6`}
-                    >
-                      <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-slate-800 border border-black text-white">
-                        {plan.id === "free" && <Zap className="h-8 w-8" />}
-                        {(plan.id === "light" || plan.id === "basic") && (
-                          <Users className="h-8 w-8" />
-                        )}
-                        {plan.id === "pro" && <Crown className="h-8 w-8" />}
-                      </div>
-                      <CardTitle className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
-                        {plan.name}
-                      </CardTitle>
-                      <p className="text-slate-300 text-sm mb-4">
-                        {plan.description}
-                      </p>
-                      <div className="text-4xl font-bold text-white">
-                        {formatPrice(plan.price_cents)}
-                        {plan.price_cents > 0 && (
-                          <span className="text-lg font-normal text-slate-300">
-                            /month
-                          </span>
-                        )}
-                      </div>
-                      
-                      {/* Value display */}
-                      <div className="mt-3 p-2 bg-slate-800 border border-black">
-                        <div className="text-xs text-slate-400 uppercase tracking-wide">
-                          With your settings
-                        </div>
-                        <div className="text-sm text-white">
-                          {totalScenarios} scenarios • {costPerScenario > 0 ? `R${costPerScenario.toFixed(2)} each` : "Free"}
-                        </div>
-                      </div>
-                    </CardHeader>
-
-                    <CardContent className="p-6">
-                      <ul className="space-y-3 mb-6">
-                        {plan.features.map((feature, index) => (
-                          <li 
-                            key={index} 
-                            className="flex items-center space-x-3 relative"
-                            onMouseEnter={() => setHoveredFeature(feature)}
-                            onMouseLeave={() => setHoveredFeature(null)}
-                          >
-                            <Check className="h-4 w-4 text-white flex-shrink-0" />
-                            <span className="text-slate-300 text-sm flex items-center">
-                              {feature}
-                              {FEATURE_EXPLANATIONS[feature] && (
-                                <Info className="h-3 w-3 ml-1 text-slate-500" />
-                              )}
-                            </span>
-                            
-                            {/* Tooltip */}
-                            {hoveredFeature === feature && FEATURE_EXPLANATIONS[feature] && (
-                              <div className="absolute bottom-full left-0 mb-2 w-64 p-3 bg-slate-900 border border-white text-white text-xs z-50">
-                                {FEATURE_EXPLANATIONS[feature]}
-                              </div>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-
-                      <Button
-                        onClick={() => handleSubscribe(plan.id)}
-                        disabled={
-                          currentSubscription?.plan_type === plan.id ||
-                          plan.id === "free"
-                        }
-                        className={`w-full font-medium uppercase tracking-wide transition-all duration-300 ${
-                          plan.popular
-                            ? "bg-white text-slate-900 hover:bg-slate-100"
-                            : "border border-black text-slate-300 hover:bg-slate-700 hover:text-white"
-                        }`}
-                        variant={plan.popular ? "default" : "outline"}
-                      >
-                        {currentSubscription?.plan_type === plan.id
-                          ? "Current Plan"
-                          : plan.id === "free"
-                            ? "Current Plan"
-                            : "Subscribe Now"}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Enhanced Scenario Packs */}
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-4 uppercase tracking-wide">
-                Regional scenario collections
-              </h2>
-              <p className="text-slate-300 max-w-2xl mx-auto">
-                Specialized driving assessment scenarios for specific South
-                African regional conditions. Individually certified preparation
-                modules for enhanced local area competency.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {SCENARIO_PACKS.map((pack, index) => (
+            <div className="grid md:grid-cols-2 gap-6">
+              {SCENARIO_PACKS.slice(0, 4).map((pack, index) => (
                 <Card
                   key={index}
-                  className="border border-black bg-slate-800 hover:bg-slate-750 transition-all duration-300 hover:shadow-lg"
+                  className="border border-black bg-slate-800 hover:bg-slate-750 transition-colors"
                 >
-                  <CardHeader className="bg-slate-700 border-b border-black p-6">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="w-12 h-12 bg-slate-800 border border-black flex items-center justify-center">
-                        <MapPin className="h-6 w-6 text-white" />
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-white font-bold uppercase tracking-wide mb-1">
+                          {pack.name}
+                        </h3>
+                        <p className="text-slate-300 text-sm mb-2">
+                          {pack.description}
+                        </p>
+                        <div className="text-xs text-slate-400 uppercase tracking-wide">
+                          {pack.scenario_count} scenarios • {pack.location_region}
+                        </div>
                       </div>
                       <div className="text-right">
-                        <Badge className="bg-slate-600 text-white border border-black text-xs uppercase tracking-wide mb-2">
-                          {pack.scenario_count} scenarios
-                        </Badge>
-                        <div className="text-xs text-slate-400 uppercase tracking-wide">
-                          <div>{pack.location_region}</div>
-                          {pack.location_city && <div>{pack.location_city}</div>}
+                        <div className="text-white font-bold text-lg">
+                          {formatPrice(pack.price_cents)}
+                        </div>
+                        <div className="text-xs text-slate-400">
+                          or included in Premium
                         </div>
                       </div>
                     </div>
-                    <CardTitle className="text-lg font-bold text-white mb-2 uppercase tracking-wide">
-                      {pack.name}
-                    </CardTitle>
-                    <p className="text-slate-300 text-sm mb-3">
-                      {pack.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-white">
-                        {formatPrice(pack.price_cents)}
-                      </span>
-                      <Button
-                        onClick={() => setExpandedPack(expandedPack === pack.name ? null : pack.name)}
-                        variant="ghost"
-                        size="sm"
-                        className="text-slate-400 hover:text-white"
-                      >
-                        {expandedPack === pack.name ? (
-                          <ChevronUp className="h-4 w-4" />
-                        ) : (
-                          <ChevronDown className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </div>
-                  </CardHeader>
-
-                  {expandedPack === pack.name && (
-                    <div className="border-b border-black bg-slate-750 p-4">
-                      <h4 className="text-white font-medium text-sm uppercase tracking-wide mb-2">
-                        What's Included:
-                      </h4>
-                      <ul className="space-y-1 text-sm text-slate-300">
-                        <li className="flex items-center space-x-2">
-                          <Clock className="h-3 w-3 text-slate-400" />
-                          <span>Real-world scenarios from {pack.location_city || pack.location_region}</span>
-                        </li>
-                        <li className="flex items-center space-x-2">
-                          <Target className="h-3 w-3 text-slate-400" />
-                          <span>Location-specific traffic patterns</span>
-                        </li>
-                        <li className="flex items-center space-x-2">
-                          <Shield className="h-3 w-3 text-slate-400" />
-                          <span>Regional safety considerations</span>
-                        </li>
-                        <li className="flex items-center space-x-2">
-                          <Gauge className="h-3 w-3 text-slate-400" />
-                          <span>Local landmark references</span>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-
-                  <CardContent className="p-6">
-                    <div className="flex space-x-2">
-                      <Button
-                        onClick={() => handleBuyPack(pack.name, pack.price_cents)}
-                        className="flex-1 border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide transition-all duration-300"
-                        variant="outline"
-                      >
-                        Buy Pack
-                      </Button>
-                      <div className="text-center">
-                        <div className="text-xs text-slate-400 uppercase tracking-wide">
-                          Or get with
-                        </div>
-                        <div className="text-xs text-white font-bold">
-                          Premium
-                        </div>
-                      </div>
-                    </div>
+                    
+                    <Button
+                      onClick={() => handleBuyPack(pack.name, pack.price_cents)}
+                      className="w-full border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide text-sm"
+                      variant="outline"
+                      size="sm"
+                    >
+                      Buy Individual Pack
+                    </Button>
                   </CardContent>
                 </Card>
               ))}
