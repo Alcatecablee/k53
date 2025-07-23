@@ -1,5 +1,5 @@
 // Re-export from the wrapper for backwards compatibility
-export { supabase } from './supabaseWrapper'
+export { supabase } from "./supabaseWrapper";
 
 // Database types
 export interface User {
@@ -39,14 +39,16 @@ export interface UserScenario {
 
 // Helper function to get current user
 export const getCurrentUser = async () => {
-  const { supabase } = await import('./supabaseWrapper');
-  const { data: { user } } = await supabase.auth.getUser();
+  const { supabase } = await import("./supabaseWrapper");
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return user;
 };
 
 // Helper function to sign out
 export const signOut = async () => {
-  const { supabase } = await import('./supabaseWrapper');
+  const { supabase } = await import("./supabaseWrapper");
   const { error } = await supabase.auth.signOut();
   return { error };
 };
