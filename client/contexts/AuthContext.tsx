@@ -15,22 +15,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session with timeout and error handling
+    // Get initial session with comprehensive error handling
     const initAuth = async () => {
       try {
-        const { data: { session }, error } = await Promise.race([
-          supabase.auth.getSession(),
-          new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('Supabase connection timeout')), 5000)
-          )
-        ]);
+        // Multiple fallback attempts with shorter timeouts
+        const attemptAuth = async () => {
+          try {
+            return await Promise.race([
+              supabase.auth.getSession(),
+              new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('Auth timeout')), 2000)
+              )
+            ]);
+          } catch (networkError) {
+            // Check if it's a network error (Failed to fetch)
+            if (networkError.message?.includes('fetch') ||
+                networkError.message?.includes('network') ||
+                networkError.message?.includes('timeout')) {
+              console.warn('Network connectivity issue detected:', networkError.message);
+              return { data: { session: null }, error: networkError };
+            }
+            throw networkError;
+          }
+        };
+
+        const { data: { session }, error } = await attemptAuth();
 
         if (error) {
-          console.warn('Supabase auth error, continuing in offline mode:', error);
+          console.warn('Supabase auth error, continuing in offline mode:', error.message);
         }
         setUser(session?.user ?? null);
       } catch (error) {
-        console.warn('Supabase unavailable, continuing in offline mode:', error);
+        console.warn('Supabase completely unavailable, entering offline mode:', error);
         setUser(null);
       } finally {
         setLoading(false);
@@ -39,23 +55,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     initAuth();
 
-    // Listen for auth changes with error handling
+    // Listen for auth changes with comprehensive error handling
     let subscription: any;
     try {
       const {
         data: { subscription: sub },
       } = supabase.auth.onAuthStateChange((_event, session) => {
-        setUser(session?.user ?? null);
-        setLoading(false);
+        try {
+          setUser(session?.user ?? null);
+          setLoading(false);
+        } catch (listenerError) {
+          console.warn('Auth state change error:', listenerError);
+        }
       });
       subscription = sub;
     } catch (error) {
-      console.warn('Unable to set up auth listener:', error);
+      console.warn('Unable to set up auth listener, app will work in offline mode:', error);
     }
 
     return () => {
-      if (subscription) {
-        subscription.unsubscribe();
+      try {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+      } catch (cleanupError) {
+        console.warn('Error during auth cleanup:', cleanupError);
       }
     };
   }, []);
