@@ -102,27 +102,27 @@
 
 @layer components {
   /* Government/Enterprise Minimal Theme Components */
-  
+
   .government-header {
     @apply bg-slate-800 border-b border-black;
   }
-  
+
   .government-card {
     @apply bg-slate-800 border border-black text-white;
   }
-  
+
   .government-button {
     @apply bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide transition-colors;
   }
-  
+
   .government-button-outline {
     @apply border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide transition-colors;
   }
-  
+
   .government-badge {
     @apply bg-slate-700 text-white border-0 font-medium uppercase tracking-wide;
   }
-  
+
   .section-dark {
     @apply bg-slate-900;
   }
@@ -162,7 +162,9 @@
 /* Custom utility for slate-750 */
 @layer utilities {
   .bg-slate-750 {
-    background-color: rgb(45 55 72); /* Custom color between slate-700 and slate-800 */
+    background-color: rgb(
+      45 55 72
+    ); /* Custom color between slate-700 and slate-800 */
   }
 
   .hover\:bg-slate-750:hover {

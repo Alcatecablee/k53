@@ -170,9 +170,10 @@ export default function Index() {
                   </div>
                 </div>
                 <p className="text-xl text-slate-300 leading-relaxed max-w-3xl">
-                  Authorized digital examination platform in accordance with the National Road Traffic Act. 
-                  Comprehensive assessment preparation covering all mandatory testing categories as prescribed 
-                  by the Department of Transport.
+                  Authorized digital examination platform in accordance with the
+                  National Road Traffic Act. Comprehensive assessment
+                  preparation covering all mandatory testing categories as
+                  prescribed by the Department of Transport.
                 </p>
               </div>
             </div>
@@ -184,7 +185,8 @@ export default function Index() {
                   Access Information
                 </h2>
                 <p className="text-slate-300 mb-6">
-                  Practice 5 scenarios daily at no cost. Full access available through Premium subscription.
+                  Practice 5 scenarios daily at no cost. Full access available
+                  through Premium subscription.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button
@@ -217,8 +219,8 @@ export default function Index() {
                 </div>
                 <div className="p-8">
                   <p className="text-slate-300 mb-6">
-                    Access comprehensive practice examinations aligned with current K53 regulations 
-                    and assessment criteria.
+                    Access comprehensive practice examinations aligned with
+                    current K53 regulations and assessment criteria.
                   </p>
                   <Button
                     asChild
@@ -242,8 +244,8 @@ export default function Index() {
                 </div>
                 <div className="p-8">
                   <p className="text-slate-300 mb-6">
-                    Locate authorized DLTC examination centers and schedule your official 
-                    learner's license test.
+                    Locate authorized DLTC examination centers and schedule your
+                    official learner's license test.
                   </p>
                   <Button
                     asChild
@@ -272,25 +274,19 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="text-center border-r border-black last:border-r-0">
-                  <div className="text-4xl font-bold text-white mb-2">
-                    92%
-                  </div>
+                  <div className="text-4xl font-bold text-white mb-2">92%</div>
                   <div className="text-sm text-slate-400 uppercase tracking-wide font-medium">
                     Success Rate
                   </div>
                 </div>
                 <div className="text-center border-r border-black last:border-r-0">
-                  <div className="text-4xl font-bold text-white mb-2">
-                    11
-                  </div>
+                  <div className="text-4xl font-bold text-white mb-2">11</div>
                   <div className="text-sm text-slate-400 uppercase tracking-wide font-medium">
                     Languages
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-white mb-2">
-                    500+
-                  </div>
+                  <div className="text-4xl font-bold text-white mb-2">500+</div>
                   <div className="text-sm text-slate-400 uppercase tracking-wide font-medium">
                     Test Centers
                   </div>
@@ -310,8 +306,9 @@ export default function Index() {
                 Official Assessment Categories
               </h2>
               <p className="text-lg text-slate-300 max-w-3xl">
-                Complete assessment preparation covering all mandatory examination sections 
-                as prescribed by the Department of Transport.
+                Complete assessment preparation covering all mandatory
+                examination sections as prescribed by the Department of
+                Transport.
               </p>
             </div>
 
@@ -334,8 +331,8 @@ export default function Index() {
                           Vehicle Controls
                         </h4>
                         <p className="text-slate-300 mt-1">
-                          Assessment of clutch operation, steering mechanisms, braking systems, 
-                          and indicator controls
+                          Assessment of clutch operation, steering mechanisms,
+                          braking systems, and indicator controls
                         </p>
                         <div className="mt-2 text-sm text-slate-400">
                           8 Questions • Minimum Pass: 6/8 (75%)
@@ -364,8 +361,8 @@ export default function Index() {
                           Road Signs & Markings
                         </h4>
                         <p className="text-slate-300 mt-1">
-                          Regulatory signs, warning indicators, prohibition notices, 
-                          and road surface markings
+                          Regulatory signs, warning indicators, prohibition
+                          notices, and road surface markings
                         </p>
                         <div className="mt-2 text-sm text-slate-400">
                           28 Questions • Minimum Pass: 23/28 (82%)
@@ -394,8 +391,8 @@ export default function Index() {
                           Traffic Regulations
                         </h4>
                         <p className="text-slate-300 mt-1">
-                          Speed limitations, following distances, parking regulations, 
-                          and traffic law compliance
+                          Speed limitations, following distances, parking
+                          regulations, and traffic law compliance
                         </p>
                         <div className="mt-2 text-sm text-slate-400">
                           28 Questions • Minimum Pass: 22/28 (79%)
@@ -427,7 +424,8 @@ export default function Index() {
                 Platform Capabilities
               </h2>
               <p className="text-lg text-slate-300 max-w-3xl">
-                Assessment platform features designed in accordance with Department of Transport standards.
+                Assessment platform features designed in accordance with
+                Department of Transport standards.
               </p>
             </div>
 
@@ -440,8 +438,8 @@ export default function Index() {
                   Certified Content
                 </h3>
                 <p className="text-slate-300 text-center leading-relaxed">
-                  Assessment items based on official K53 learner's license curriculum 
-                  as prescribed by the Department of Transport
+                  Assessment items based on official K53 learner's license
+                  curriculum as prescribed by the Department of Transport
                 </p>
               </div>
 
@@ -453,7 +451,7 @@ export default function Index() {
                   Immediate Evaluation
                 </h3>
                 <p className="text-slate-300 text-center leading-relaxed">
-                  Real-time assessment scoring with comprehensive explanatory 
+                  Real-time assessment scoring with comprehensive explanatory
                   feedback for all examination items
                 </p>
               </div>
@@ -466,7 +464,7 @@ export default function Index() {
                   Performance Analytics
                 </h3>
                 <p className="text-slate-300 text-center leading-relaxed">
-                  Advanced tracking and analysis of assessment performance 
+                  Advanced tracking and analysis of assessment performance
                   across all mandatory categories
                 </p>
               </div>
@@ -479,7 +477,7 @@ export default function Index() {
                   Center Directory
                 </h3>
                 <p className="text-slate-300 text-center leading-relaxed">
-                  Comprehensive database of authorized DLTC testing facilities 
+                  Comprehensive database of authorized DLTC testing facilities
                   with contact information
                 </p>
               </div>
@@ -497,8 +495,9 @@ export default function Index() {
               Authorized Assessment Platform
             </h2>
             <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-              Thousands of South African citizens have successfully obtained their learner's licenses 
-              through this official Department of Transport certified preparation system.
+              Thousands of South African citizens have successfully obtained
+              their learner's licenses through this official Department of
+              Transport certified preparation system.
             </p>
             <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
               <Button
@@ -542,7 +541,7 @@ export default function Index() {
                 </div>
               </div>
               <p className="text-slate-400 leading-relaxed">
-                Official Department of Transport certified K53 learner's license 
+                Official Department of Transport certified K53 learner's license
                 examination preparation system.
               </p>
             </div>
@@ -626,10 +625,12 @@ export default function Index() {
           <div className="border-t border-black mt-12 pt-8">
             <div className="text-center text-slate-400">
               <p className="text-sm uppercase tracking-wide">
-                &copy; 2025 Department of Transport K53 Assessment Portal • Republic of South Africa
+                &copy; 2025 Department of Transport K53 Assessment Portal •
+                Republic of South Africa
               </p>
               <p className="text-xs text-slate-500 mt-2">
-                Authorized digital platform for learner's license examination preparation
+                Authorized digital platform for learner's license examination
+                preparation
               </p>
             </div>
           </div>

@@ -543,9 +543,7 @@ function PracticeComponent() {
                       <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
                         Official Assessment
                       </h3>
-                      <div className="text-3xl font-bold mb-1">
-                        64
-                      </div>
+                      <div className="text-3xl font-bold mb-1">64</div>
                       <div className="text-xs uppercase tracking-wide mb-1">
                         Questions
                       </div>
@@ -599,8 +597,8 @@ function PracticeComponent() {
                       )}
 
                       <p className="text-slate-300 mb-4 text-sm leading-relaxed">
-                        Real-world driving scenarios tailored to your specific area
-                        and South African driving conditions.
+                        Real-world driving scenarios tailored to your specific
+                        area and South African driving conditions.
                       </p>
 
                       <div className="space-y-2">

@@ -52,16 +52,18 @@ export function DemoModeIndicator() {
           </h3>
           <div className="mt-2 text-sm text-amber-700">
             <p>
-              You're experiencing SuperK53 in demo mode. Some features like user accounts,
-              progress saving, and premium subscriptions are limited.
+              You're experiencing SuperK53 in demo mode. Some features like user
+              accounts, progress saving, and premium subscriptions are limited.
             </p>
             {envStatus.missingVars.length > 0 && (
               <div className="mt-2">
                 <p>
-                  <strong>Missing configuration:</strong> {envStatus.missingVars.join(', ')}
+                  <strong>Missing configuration:</strong>{" "}
+                  {envStatus.missingVars.join(", ")}
                 </p>
                 <p className="mt-1 text-xs">
-                  Set these environment variables in your Fly.dev dashboard and redeploy.
+                  Set these environment variables in your Fly.dev dashboard and
+                  redeploy.
                 </p>
               </div>
             )}
@@ -74,8 +76,10 @@ export function DemoModeIndicator() {
               onClick={refreshEnvironment}
               disabled={isRefreshing}
             >
-              <RefreshCw className={`h-4 w-4 mr-1 ${isRefreshing ? 'animate-spin' : ''}`} />
-              {isRefreshing ? 'Checking...' : 'Refresh Status'}
+              <RefreshCw
+                className={`h-4 w-4 mr-1 ${isRefreshing ? "animate-spin" : ""}`}
+              />
+              {isRefreshing ? "Checking..." : "Refresh Status"}
             </Button>
             <Button
               size="sm"
@@ -87,7 +91,9 @@ export function DemoModeIndicator() {
                 href="#fly-setup"
                 onClick={(e) => {
                   e.preventDefault();
-                  alert('Check FLY_SETUP.md in your project for detailed instructions on setting Fly.dev environment variables.');
+                  alert(
+                    "Check FLY_SETUP.md in your project for detailed instructions on setting Fly.dev environment variables.",
+                  );
                 }}
               >
                 <Settings className="h-4 w-4 mr-1" />

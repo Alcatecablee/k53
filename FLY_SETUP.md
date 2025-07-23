@@ -55,7 +55,7 @@ You can add non-sensitive environment variables to `fly.toml`:
 [env]
   NODE_ENV = "production"
   PAYPAL_ENVIRONMENT = "production"
-  
+
 # Don't put secrets here - use fly secrets instead
 ```
 
@@ -71,7 +71,7 @@ You can add non-sensitive environment variables to `fly.toml`:
 After setting up environment variables, your app should:
 
 - ✅ **No longer show "Demo Mode Active"**
-- ✅ **Enable user authentication** 
+- ✅ **Enable user authentication**
 - ✅ **Save progress to database**
 - ✅ **Show subscription features**
 - ✅ **Connect to Supabase successfully**
@@ -79,16 +79,19 @@ After setting up environment variables, your app should:
 ## Troubleshooting
 
 ### If Demo Mode Still Shows:
+
 1. Verify environment variables are set in Fly.dev (not just .env)
 2. Make sure you redeployed after setting variables
 3. Check browser console for environment debug info
 
 ### If Authentication Doesn't Work:
+
 1. Verify Supabase URL and keys are correct
 2. Check Supabase dashboard for connection attempts
 3. Ensure Row Level Security (RLS) is configured properly
 
 ### If You Don't Have Fly CLI:
+
 - Install it: `curl -L https://fly.io/install.sh | sh`
 - Or use the web dashboard method above
 

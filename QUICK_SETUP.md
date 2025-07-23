@@ -27,7 +27,7 @@ fly deploy
 ## What This Will Do:
 
 1. **✅ Remove "Demo Mode Active" banner**
-2. **✅ Enable user authentication & registration**  
+2. **✅ Enable user authentication & registration**
 3. **✅ Enable progress saving to database**
 4. **✅ Enable subscription system**
 5. **✅ Enable PayPal payment processing**
@@ -43,19 +43,22 @@ fly deploy
 ## If You Don't Have Fly CLI:
 
 ### Option 1: Install Fly CLI
+
 ```bash
 curl -L https://fly.io/install.sh | sh
 ```
 
 ### Option 2: Use Web Dashboard
+
 1. Go to [fly.io/apps](https://fly.io/apps)
-2. Click your app → "Secrets" tab  
+2. Click your app → "Secrets" tab
 3. Add each variable manually
 4. Click "Deploy" when done
 
 ## Verification:
 
 After deployment, your app should show:
+
 - ✅ No demo mode banner
 - ✅ Working sign up/login
 - ✅ Subscription pricing page functional
