@@ -630,26 +630,26 @@ export default function AdminNew() {
             </div>
 
             {/* Search and Filters */}
-            <Card className="border-2 border-black bg-slate-800 text-white">
+            <Card className="border border-gray-200 bg-white">
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4">
                   <div className="flex-1">
-                    <Label htmlFor="search" className="text-white">Search Users</Label>
-                    <div className="relative">
-                      <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                    <Label htmlFor="search" className="text-gray-700 font-medium">Search Users</Label>
+                    <div className="relative mt-1">
+                      <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                       <Input
                         id="search"
                         placeholder="Search by email, name, or location..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 bg-slate-700 border-slate-600 text-white"
+                        className="pl-10 border-gray-300 bg-white text-gray-900"
                       />
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="filter" className="text-white">Filter by Status</Label>
+                    <Label htmlFor="filter" className="text-gray-700 font-medium">Filter by Status</Label>
                     <Select value={filterStatus} onValueChange={setFilterStatus}>
-                      <SelectTrigger className="w-48 bg-slate-700 border-slate-600 text-white">
+                      <SelectTrigger className="w-48 border-gray-300 bg-white text-gray-900 mt-1">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -665,36 +665,36 @@ export default function AdminNew() {
             </Card>
 
             {/* Users Table */}
-            <Card className="border-2 border-black bg-slate-800 text-white">
+            <Card className="border border-gray-200 bg-white">
               <CardContent className="p-0">
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-slate-700">
-                      <TableHead className="text-white">User</TableHead>
-                      <TableHead className="text-white">Subscription</TableHead>
-                      <TableHead className="text-white">Usage</TableHead>
-                      <TableHead className="text-white">Location</TableHead>
-                      <TableHead className="text-white">Last Seen</TableHead>
-                      <TableHead className="text-white">Actions</TableHead>
+                    <TableRow className="border-gray-200">
+                      <TableHead className="text-gray-700 font-medium">User</TableHead>
+                      <TableHead className="text-gray-700 font-medium">Subscription</TableHead>
+                      <TableHead className="text-gray-700 font-medium">Usage</TableHead>
+                      <TableHead className="text-gray-700 font-medium">Location</TableHead>
+                      <TableHead className="text-gray-700 font-medium">Last Seen</TableHead>
+                      <TableHead className="text-gray-700 font-medium">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredUsers.map((user) => (
-                      <TableRow key={user.id} className="border-slate-700">
+                      <TableRow key={user.id} className="border-gray-100 hover:bg-gray-50">
                         <TableCell>
                           <div>
-                            <div className="font-medium text-white">{user.email}</div>
-                            <div className="text-sm text-slate-400">
+                            <div className="font-medium text-gray-900">{user.email}</div>
+                            <div className="text-sm text-gray-500">
                               Joined {new Date(user.created_at).toLocaleDateString()}
                             </div>
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge 
+                          <Badge
                             className={
-                              user.subscription?.plan_type === "pro" ? "bg-purple-600 text-white" :
-                              user.subscription?.plan_type === "basic" ? "bg-blue-600 text-white" :
-                              "bg-slate-600 text-white"
+                              user.subscription?.plan_type === "pro" ? "bg-purple-100 text-purple-800 border-purple-200" :
+                              user.subscription?.plan_type === "basic" ? "bg-blue-100 text-blue-800 border-blue-200" :
+                              "bg-gray-100 text-gray-800 border-gray-200"
                             }
                           >
                             {user.subscription?.plan_type?.toUpperCase() || "FREE"}
@@ -702,15 +702,15 @@ export default function AdminNew() {
                         </TableCell>
                         <TableCell>
                           <div className="text-sm">
-                            <div className="text-white">
+                            <div className="text-gray-900 font-medium">
                               {user.usage?.scenarios_used || 0}/
                               {user.usage?.max_scenarios === -1 ? "∞" : user.usage?.max_scenarios || 5}
                             </div>
-                            <div className="text-slate-400">scenarios</div>
+                            <div className="text-gray-500">scenarios</div>
                           </div>
                         </TableCell>
-                        <TableCell className="text-white">{user.location || "Unknown"}</TableCell>
-                        <TableCell className="text-slate-400">
+                        <TableCell className="text-gray-900">{user.location || "Unknown"}</TableCell>
+                        <TableCell className="text-gray-500">
                           {user.last_seen ? new Date(user.last_seen).toLocaleDateString() : "Never"}
                         </TableCell>
                         <TableCell>
