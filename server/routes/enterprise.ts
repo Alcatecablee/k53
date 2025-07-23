@@ -240,15 +240,37 @@ export const getEnhancedPayments: RequestHandler = async (req, res) => {
       return res.json([]);
     }
 
+    // Get user emails separately to avoid join issues
+    const userIds = [...new Set((payments || []).map((p: any) => p.user_id).filter(Boolean))];
+    let userEmailMap: Record<string, string> = {};
+
+    if (userIds.length > 0) {
+      const { data: users } = await db
+        .from("user_subscriptions")
+        .select("user_id, email, location")
+        .in("user_id", userIds);
+
+      userEmailMap = (users || []).reduce((acc: any, user: any) => {
+        acc[user.user_id] = {
+          email: user.email,
+          location: user.location
+        };
+        return acc;
+      }, {});
+    }
+
     // Enhance payment data with real analytics only
-    const enhancedPayments = (payments || []).map((payment: any) => ({
-      ...payment,
-      user_email: payment.user_subscriptions?.email || 'Unknown',
-      fee_cents: Math.floor((payment.amount_cents || 0) * 0.029), // Real 2.9% processing fee
-      refunded: false, // Would come from real refund tracking
-      country: payment.user_subscriptions?.location?.split(',')[1]?.trim() || 'ZA',
-      risk_level: calculatePaymentRisk(payment),
-    }));
+    const enhancedPayments = (payments || []).map((payment: any) => {
+      const userInfo = userEmailMap[payment.user_id] || {};
+      return {
+        ...payment,
+        user_email: userInfo.email || 'Unknown',
+        fee_cents: Math.floor((payment.amount_cents || 0) * 0.029), // Real 2.9% processing fee
+        refunded: false, // Would come from real refund tracking
+        country: userInfo.location?.split(',')[1]?.trim() || 'ZA',
+        risk_level: calculatePaymentRisk(payment),
+      };
+    });
 
     // Cache for 3 minutes
     setCache(cacheKey, enhancedPayments, 3);
