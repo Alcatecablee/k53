@@ -172,31 +172,29 @@ function PricingComponent() {
           )}
 
           {paymentError && (
-            <Card className="border-2 border-red-300 bg-red-50 mb-8 max-w-2xl mx-auto">
+            <Card className="border border-black bg-slate-800 mb-8 max-w-2xl mx-auto">
               <CardContent className="p-6 text-center">
-                <AlertCircle className="h-8 w-8 text-red-600 mx-auto mb-3" />
-                <h3 className="font-bold text-red-800 mb-2">Payment Failed</h3>
-                <p className="text-red-700">{paymentError}</p>
+                <AlertCircle className="h-8 w-8 text-white mx-auto mb-3" />
+                <h3 className="font-bold text-white mb-2 uppercase tracking-wide">Payment processing failed</h3>
+                <p className="text-slate-300">{paymentError}</p>
               </CardContent>
             </Card>
           )}
           {/* Current Usage (for free users) */}
           {user && !usageInfo?.isSubscribed && (
-            <Card className="border-2 border-orange-300 bg-orange-50 mb-8 max-w-2xl mx-auto">
+            <Card className="border border-black bg-slate-800 mb-8 max-w-2xl mx-auto">
               <CardContent className="p-6 text-center">
-                <div className="flex items-center justify-center space-x-2 mb-3">
-                  <Zap className="h-5 w-5 text-orange-600" />
-                  <h3 className="font-bold text-orange-800">Today's Usage</h3>
+                <div className="bg-slate-700 border border-black p-3 mb-4">
+                  <h3 className="font-bold text-white uppercase tracking-wide">Daily allocation status</h3>
                 </div>
-                <p className="text-orange-700 mb-2">
-                  You have{" "}
-                  <span className="font-bold">
+                <p className="text-slate-300 mb-2">
+                  Current remaining allocation:{" "}
+                  <span className="font-bold text-white">
                     {usageInfo?.remaining || 0} scenarios
-                  </span>{" "}
-                  remaining today
+                  </span>
                 </p>
-                <p className="text-sm text-orange-600">
-                  Upgrade to SuperK53 for unlimited practice!
+                <p className="text-sm text-slate-400 uppercase tracking-wide">
+                  Enhanced access available through premium subscription tiers
                 </p>
               </CardContent>
             </Card>
@@ -205,13 +203,11 @@ function PricingComponent() {
           {/* Subscription Plans */}
           <div className="max-w-6xl mx-auto mb-12">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">
-                Subscription Plans
+              <h2 className="text-3xl font-bold text-white mb-4 uppercase tracking-wide">
+                Premium access tiers
               </h2>
-              <p className="text-slate-600 max-w-2xl mx-auto">
-                Choose the perfect plan for your K53 preparation. All plans
-                include location-aware scenarios tailored for South African
-                driving conditions.
+              <p className="text-slate-300 max-w-2xl mx-auto">
+                Authorized subscription plans for enhanced K53 learner's license preparation. All tiers include location-specific scenarios certified for South African driving assessment standards.
               </p>
             </div>
 
