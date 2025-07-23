@@ -43,17 +43,17 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-slate-900">
       {/* Header */}
-      <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
+      <header className="bg-slate-800 border-b border-black sticky top-0 z-50">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-4">
-                <div className="w-14 h-14 bg-slate-700 border border-slate-600 flex items-center justify-center">
+                <div className="w-14 h-14 bg-slate-700 border border-black flex items-center justify-center">
                   <div className="text-white font-bold text-sm tracking-wider">
                     K53
                   </div>
                 </div>
-                <div className="border-l border-slate-600 pl-4">
+                <div className="border-l border-black pl-4">
                   <h1 className="text-xl font-bold text-white tracking-tight">
                     SUPERK53
                   </h1>
@@ -100,7 +100,7 @@ export default function Index() {
                 </a>
               </nav>
 
-              <div className="flex items-center space-x-2 border-l border-slate-600 pl-4">
+              <div className="flex items-center space-x-2 border-l border-black pl-4">
                 {user ? (
                   <>
                     <Button
