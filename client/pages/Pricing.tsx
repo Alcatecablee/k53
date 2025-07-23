@@ -289,13 +289,11 @@ function PricingComponent() {
           {/* Scenario Packs */}
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">
-                Location-Based Scenario Packs
+              <h2 className="text-3xl font-bold text-white mb-4 uppercase tracking-wide">
+                Regional scenario collections
               </h2>
-              <p className="text-slate-600 max-w-2xl mx-auto">
-                Master driving in specific South African regions with our
-                curated scenario packs. Perfect for learners who want extra
-                practice in their local area.
+              <p className="text-slate-300 max-w-2xl mx-auto">
+                Specialized driving assessment scenarios for specific South African regional conditions. Individually certified preparation modules for enhanced local area competency.
               </p>
             </div>
 
