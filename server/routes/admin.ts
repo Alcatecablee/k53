@@ -293,9 +293,10 @@ export const getSystemHealth: RequestHandler = async (req, res) => {
       storage: "operational",
     };
 
-    if (supabaseAdmin) {
+    const supabaseClient = getSupabaseAdmin();
+    if (supabaseClient) {
       try {
-        const { error } = await supabaseAdmin
+        const { error } = await supabaseClient
           .from("user_subscriptions")
           .select("id")
           .limit(1);
