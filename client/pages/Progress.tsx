@@ -131,7 +131,7 @@ export default function ProgressPage() {
       mastered: 7,
       total: 8,
       icon: Car,
-      color: "bg-blue-500",
+      color: "bg-slate-600",
     },
     {
       name: "Road Signs",
@@ -139,7 +139,7 @@ export default function ProgressPage() {
       mastered: 19,
       total: 28,
       icon: Shield,
-      color: "bg-green-500",
+      color: "bg-slate-700",
     },
     {
       name: "Traffic Rules",
@@ -147,7 +147,7 @@ export default function ProgressPage() {
       mastered: 21,
       total: 28,
       icon: BookOpen,
-      color: "bg-purple-500",
+      color: "bg-slate-800",
     },
   ];
 
