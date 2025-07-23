@@ -7,8 +7,10 @@ import { supabase as supabaseWrapper } from "./supabaseWrapper";
 // Only export the client if it exists and is properly configured
 export const supabaseClient = (() => {
   try {
-    const client = supabaseWrapper._client;
-    return client && typeof client === 'object' ? client : null;
+    if (supabaseWrapper.isClientAvailable()) {
+      return supabaseWrapper._client;
+    }
+    return null;
   } catch (error) {
     console.warn("Error accessing Supabase client:", error);
     return null;
