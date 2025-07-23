@@ -44,32 +44,7 @@ export function AuthenticatedRoute({ children }: AuthenticatedRouteProps) {
         <div className="max-w-md w-full space-y-4">
           <Auth onAuthSuccess={() => window.location.reload()} />
 
-          {showOfflineOption && (
-            <Card className="border-slate-600 bg-slate-800">
-              <CardHeader className="text-center pb-3">
-                <div className="w-12 h-12 bg-slate-700 border-2 border-slate-600 flex items-center justify-center mx-auto mb-2">
-                  <WifiOff className="h-6 w-6 text-slate-300" />
-                </div>
-                <CardTitle className="text-slate-200 text-lg">
-                  Connection Issues?
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <p className="text-slate-300 text-sm mb-4">
-                  Having trouble connecting? You can still practice offline with
-                  limited features.
-                </p>
-                <Button
-                  onClick={() => setOfflineMode(true)}
-                  variant="outline"
-                  className="w-full border-slate-600 text-slate-300 hover:bg-slate-700"
-                >
-                  <AlertTriangle className="h-4 w-4 mr-2" />
-                  Continue in Offline Mode
-                </Button>
-              </CardContent>
-            </Card>
-          )}
+
         </div>
       </div>
     );
