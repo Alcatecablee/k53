@@ -17,6 +17,7 @@ import Pricing from "./pages/Pricing";
 import DLTC from "./pages/DLTC";
 import Documentation from "./pages/Documentation";
 import AdminNew from "./pages/AdminNew";
+import AdminPro from "./pages/AdminPro";
 import NotFound from "./pages/NotFound";
 import { addResourceHints } from "./utils/seoUtils";
 
