@@ -230,7 +230,7 @@ export default function ProgressPage() {
               Performance Metrics
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div className="text-center border-r border-black-300 last:border-r-0">
+              <div className="text-center border-r border-black last:border-r-0">
                 <div className="text-4xl font-bold text-slate-800 mb-2">
                   {userStats.testsCompleted}
                 </div>
@@ -238,7 +238,7 @@ export default function ProgressPage() {
                   Assessments
                 </div>
               </div>
-              <div className="text-center border-r border-black-300 last:border-r-0">
+              <div className="text-center border-r border-black last:border-r-0">
                 <div className="text-4xl font-bold text-slate-800 mb-2">
                   {userStats.streak}
                 </div>
@@ -246,7 +246,7 @@ export default function ProgressPage() {
                   Day Streak
                 </div>
               </div>
-              <div className="text-center border-r border-black-300 last:border-r-0">
+              <div className="text-center border-r border-black last:border-r-0">
                 <div className="text-4xl font-bold text-slate-800 mb-2">
                   {Math.floor(userStats.totalStudyTime / 60)}h{" "}
                   {userStats.totalStudyTime % 60}m
@@ -317,7 +317,7 @@ export default function ProgressPage() {
                   return (
                     <div
                       key={index}
-                      className="border-2 border-black-300 p-6 hover:border-black transition-colors"
+                      className="border-2 border-black p-6 hover:border-black transition-colors"
                     >
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-4">
@@ -369,14 +369,14 @@ export default function ProgressPage() {
                       className={`p-6 border-2 transition-all ${
                         achievement.earned
                           ? "bg-slate-100 border-black"
-                          : "bg-white border-black-300 opacity-60"
+                          : "bg-white border-black opacity-60"
                       }`}
                     >
                       <div
                         className={`mx-auto mb-4 w-16 h-16 border-2 flex items-center justify-center ${
                           achievement.earned
                             ? "border-black bg-slate-100 text-slate-800"
-                            : "border-black-300 bg-slate-50 text-slate-400"
+                            : "border-black bg-slate-50 text-slate-400"
                         }`}
                       >
                         <IconComponent className="h-8 w-8" />
