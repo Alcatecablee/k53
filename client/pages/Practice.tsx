@@ -52,9 +52,13 @@ export default function Practice() {
 
     if (fullTest) {
       const randomTest = generateRandomTest(8, 28, 28);
+      console.log("Official test randomized order (first 10):",
+        randomTest.slice(0, 10).map(q => q.id));
       setTestQuestions(randomTest);
     } else {
       const randomTest = generateRandomTest(2, 5, 5);
+      console.log("Practice test randomized order:",
+        randomTest.map(q => q.id));
       setTestQuestions(randomTest);
     }
     setTestScenarios([]);
