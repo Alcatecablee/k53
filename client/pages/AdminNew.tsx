@@ -1373,7 +1373,25 @@ export default function AdminNew() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button
-                    onClick={() => alert('Security scan initiated!')}
+                    onClick={async () => {
+                      alert('Security scan running... Please wait.');
+                      try {
+                        const response = await fetch('/api/system/security/scan', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                          const scan = data.scan;
+                          const vulnCount = Object.values(scan.vulnerabilities).reduce((a: any, b: any) => a + b, 0);
+                          alert(`Security Scan Complete!\n\nScan ID: ${scan.scanId}\nDuration: ${Math.round(scan.duration / 1000)}s\nVulnerabilities Found: ${vulnCount}\n\nCritical: ${scan.vulnerabilities.critical}\nHigh: ${scan.vulnerabilities.high}\nMedium: ${scan.vulnerabilities.medium}\nLow: ${scan.vulnerabilities.low}`);
+                        } else {
+                          alert('Security scan failed');
+                        }
+                      } catch (error) {
+                        alert('Failed to run security scan');
+                      }
+                    }}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
@@ -1381,7 +1399,17 @@ export default function AdminNew() {
                     Security Scan
                   </Button>
                   <Button
-                    onClick={() => alert('Access logs viewer coming soon!')}
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/system/logs/access');
+                        const data = await response.json();
+                        const recent = data.logs?.slice(0, 5) || [];
+                        const logText = recent.map(log => `[${new Date(log.timestamp).toLocaleTimeString()}] ${log.message} (${log.data?.ip || 'unknown IP'})`).join('\n');
+                        alert(`Access Logs (${data.summary?.total || 0} total, ${data.summary?.uniqueIPs || 0} unique IPs):\n\n${logText || 'No recent access logs'}`);
+                      } catch (error) {
+                        alert('Failed to fetch access logs');
+                      }
+                    }}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
@@ -1389,7 +1417,17 @@ export default function AdminNew() {
                     Access Logs
                   </Button>
                   <Button
-                    onClick={() => alert('Threat detection report coming soon!')}
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/system/security/threats');
+                        const data = await response.json();
+                        const threats = data.threats || [];
+                        const threatText = threats.map(threat => `${threat.type} (${threat.severity}) from ${threat.source} - ${threat.blocked ? 'BLOCKED' : 'ALLOWED'}`).join('\n');
+                        alert(`Threat Detection Report:\n\nTotal Threats: ${data.summary?.totalThreats || 0}\nCritical: ${data.summary?.criticalThreats || 0}\nBlocked: ${data.summary?.blockedThreats || 0}\n\nRecent Threats:\n${threatText || 'No recent threats'}`);
+                      } catch (error) {
+                        alert('Failed to fetch threat detection data');
+                      }
+                    }}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
