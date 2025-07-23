@@ -2835,6 +2835,12 @@ export const k53ScenarioBank: K53Scenario[] = [
     timeOfDay: "afternoon",
     weather: "clear",
     language: "en",
+    location: {
+      cities: ["Johannesburg"],
+      regions: ["Gauteng"],
+      landmarks: ["Alexandra", "informal settlement"],
+      specificity: "city"
+    },
   },
   {
     id: "SC129",
@@ -2857,6 +2863,12 @@ export const k53ScenarioBank: K53Scenario[] = [
     timeOfDay: "morning",
     weather: "clear",
     language: "en",
+    location: {
+      cities: ["Johannesburg", "Bronkhorstspruit"],
+      regions: ["Gauteng"],
+      landmarks: ["R25"],
+      specificity: "region"
+    },
   },
   {
     id: "SC130",
@@ -3033,6 +3045,12 @@ export const k53ScenarioBank: K53Scenario[] = [
     timeOfDay: "morning",
     weather: "clear",
     language: "en",
+    location: {
+      cities: ["Cape Town"],
+      regions: ["Western Cape"],
+      landmarks: ["University of Cape Town", "campus"],
+      specificity: "city"
+    },
   },
   {
     id: "SC138",
