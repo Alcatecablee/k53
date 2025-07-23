@@ -477,14 +477,15 @@ export default function AdminPro() {
       });
 
       if (response.ok) {
-        const result = await response.json();
+        const result = await response.json().catch(() => ({ success: false }));
         // Refresh users list
         await loadUsers();
         return result;
       } else {
-        throw new Error("Update failed");
+        throw new Error(`Update failed: ${response.statusText || "Unknown error"}`);
       }
     } catch (error) {
+      console.error("User update error:", error);
       throw error;
     }
   };
