@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import Pricing from "./pages/Pricing";
 import DLTC from "./pages/DLTC";
 import Documentation from "./pages/Documentation";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import { addResourceHints } from "./utils/seoUtils";
 
