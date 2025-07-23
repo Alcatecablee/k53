@@ -3,7 +3,7 @@
 export interface UserSubscription {
   id: string;
   user_id: string;
-  plan_type: "free" | "basic" | "pro" | "family";
+  plan_type: "free" | "light" | "basic" | "pro" | "family";
   status: "active" | "canceled" | "expired" | "trial";
   price_cents: number; // In cents (R50 = 5000 cents)
   currency: "ZAR";
