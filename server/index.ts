@@ -1,6 +1,14 @@
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import {
+  databaseHealthCheck,
+  getDatabaseStats,
+  upsertUser,
+  getUser,
+  deleteUser,
+  testTables,
+} from "./routes/database";
 
 export function createServer() {
   const app = express();
