@@ -684,7 +684,7 @@ function PricingComponent() {
                     <div className="flex space-x-2">
                       <Button
                         onClick={() => handleBuyPack(pack.name, pack.price_cents)}
-                        className="flex-1 border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide transition-all duration-300 hover:scale-105"
+                        className="flex-1 border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide transition-all duration-300"
                         variant="outline"
                       >
                         Buy Pack
