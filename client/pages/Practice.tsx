@@ -168,6 +168,14 @@ function PracticeComponent() {
   };
 
   const generateScenarioTest = async () => {
+    // Check if user can access scenarios
+    const accessInfo = await canAccessScenarios();
+
+    if (!accessInfo.canAccess) {
+      alert(`You've reached your daily limit of 5 scenarios. Upgrade to SuperK53 for unlimited practice!`);
+      return;
+    }
+
     setTestMode("scenarios");
     setIsFullTest(false);
 
@@ -183,6 +191,14 @@ function PracticeComponent() {
       }
 
       setTestScenarios(randomScenarios);
+
+      // Update usage for scenarios (only for free users)
+      if (!accessInfo.isSubscribed) {
+        await updateDailyUsage('scenarios', 1);
+        // Refresh usage info
+        const newAccessInfo = await canAccessScenarios();
+        setUsageInfo(newAccessInfo);
+      }
     } catch (error) {
       console.error('Error generating scenarios:', error);
       // Fallback to empty array
