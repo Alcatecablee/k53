@@ -121,8 +121,7 @@ async function main() {
   process.exit(0);
 }
 
-if (require.main === module) {
-  main();
-}
+// Run if this is the main module
+main();
 
 export { migrateScenarios, migrateQuestions };
