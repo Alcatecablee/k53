@@ -597,6 +597,11 @@ function PracticeComponent() {
                         <div className="text-xs text-slate-400 mb-2 uppercase tracking-wide">
                           Duration: 5 Minutes
                         </div>
+                        <div className="p-2 bg-white text-slate-900 border border-black mb-2">
+                          <div className="text-xs font-bold uppercase tracking-wide">
+                            Free and unlimited
+                          </div>
+                        </div>
                         <div className="p-2 bg-slate-700 border border-black mb-4">
                           <div className="text-xs text-white uppercase tracking-wide">
                             Skill assessment level: Basic preparation
