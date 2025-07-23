@@ -304,3 +304,60 @@ export const getLeaderboard = async (
     return [];
   }
 };
+
+// User Profile Functions
+export const getUserProfile = async () => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user || !supabaseClient) {
+      return null;
+    }
+
+    const { data, error } = await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (error && error.code !== 'PGRST116') { // Not found error is ok
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.warn("Error fetching user profile:", error);
+    return null;
+  }
+};
+
+export const updateUserProfile = async (updates: any) => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user || !supabaseClient) {
+      console.warn("Cannot update profile - user not authenticated or DB unavailable");
+      return { data: null, error: null };
+    }
+
+    const { data, error } = await supabaseClient
+      .from("profiles")
+      .upsert({
+        id: user.id,
+        ...updates,
+        updated_at: new Date().toISOString(),
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.warn("Failed to update profile:", error);
+      return { data: null, error };
+    }
+
+    return { data, error: null };
+  } catch (error) {
+    console.warn("Error updating user profile:", error);
+    return { data: null, error };
+  }
+};
