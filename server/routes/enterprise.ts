@@ -158,10 +158,7 @@ export const getEnhancedUsers: RequestHandler = async (req, res) => {
 
     let query = db
       .from("user_subscriptions")
-      .select(`
-        *,
-        payments:payments(amount_cents, status, created_at)
-      `)
+      .select("*")
       .order("created_at", { ascending: false })
       .range(Number(offset), Number(offset) + Number(limit) - 1);
 
