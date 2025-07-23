@@ -102,7 +102,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md border-2 border-black-800 bg-white">
+      <Card className="w-full max-w-md border-2 border-black bg-white">
         <CardHeader className="bg-slate-800 text-white p-6">
           <CardTitle className="text-2xl font-bold uppercase tracking-wide text-center">
             {isSignUp ? "Create Account" : "Sign In"}
