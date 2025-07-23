@@ -98,8 +98,10 @@ export default function DLTCPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="container mx-auto px-4 py-8">
+    <>
+      <SEO {...SEO_CONFIGS.dltc} />
+      <div className="min-h-screen bg-slate-50">
+        <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="bg-white border-b-2 border-black shadow-sm mb-8 -mx-4 px-4 py-6">
           <div className="flex items-center justify-between">
@@ -398,5 +400,6 @@ export default function DLTCPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
