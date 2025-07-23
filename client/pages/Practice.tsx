@@ -64,34 +64,40 @@ function PracticeComponent() {
     const loadUserLocation = async () => {
       try {
         if (user) {
-          const profile = await getUserProfile();
-          if (profile.location) {
-            // Parse location from user profile
-            const locationParts = profile.location.split(', ');
-            if (locationParts.length >= 2) {
-              const userLoc: UserLocation = {
-                city: locationParts[0],
-                region: locationParts[1],
-                displayName: profile.location
-              };
-              setUserLocation(userLoc);
-              return;
+          try {
+            const profile = await getUserProfile();
+            if (profile.location) {
+              // Parse location from user profile
+              const locationParts = profile.location.split(', ');
+              if (locationParts.length >= 2) {
+                const userLoc: UserLocation = {
+                  city: locationParts[0],
+                  region: locationParts[1],
+                  displayName: profile.location
+                };
+                setUserLocation(userLoc);
+                return;
+              }
             }
+          } catch (dbError) {
+            console.warn('Database unavailable for user profile, using local storage:', dbError);
           }
         }
 
-        // Fallback to stored location
+        // Always fallback to stored location
         const storedLocation = getStoredLocation();
         if (storedLocation) {
           setUserLocation(storedLocation);
         }
       } catch (error) {
-        console.error('Error loading user location:', error);
-        // Fallback to stored location
-        const storedLocation = getStoredLocation();
-        if (storedLocation) {
-          setUserLocation(storedLocation);
-        }
+        console.warn('Error loading user location, using defaults:', error);
+        // Set a default location if nothing works
+        const defaultLocation: UserLocation = {
+          city: 'Cape Town',
+          region: 'Western Cape',
+          displayName: 'Cape Town, Western Cape'
+        };
+        setUserLocation(defaultLocation);
       }
     };
 
