@@ -1099,14 +1099,39 @@ export default function AdminNew() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button
-                    onClick={() => alert('Question Bank Editor coming soon!')}
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/content/questions');
+                        const data = await response.json();
+                        alert(`Question Bank:\n\nTotal Questions: ${data.stats?.total || 0}\nCategories: ${data.stats?.categories?.length || 0}\nDifficulties: ${data.stats?.difficulties?.length || 0}\n\nFirst 3 questions loaded. Question editor interface coming soon!`);
+                      } catch (error) {
+                        alert('Failed to load question bank');
+                      }
+                    }}
                     className="w-full bg-white text-slate-900 hover:bg-slate-100"
                   >
                     <Edit className="h-4 w-4 mr-2" />
                     Edit Question Bank
                   </Button>
                   <Button
-                    onClick={() => alert('Question export initiated!')}
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/content/questions/export?format=csv');
+                        if (response.ok) {
+                          const blob = await response.blob();
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = `questions_${new Date().toISOString().split('T')[0]}.csv`;
+                          a.click();
+                          alert('Questions exported successfully!');
+                        } else {
+                          alert('Failed to export questions');
+                        }
+                      } catch (error) {
+                        alert('Failed to export questions');
+                      }
+                    }}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
@@ -1114,7 +1139,33 @@ export default function AdminNew() {
                     Export Questions
                   </Button>
                   <Button
-                    onClick={() => alert('CSV import feature coming soon!')}
+                    onClick={() => {
+                      const input = document.createElement('input');
+                      input.type = 'file';
+                      input.accept = '.csv';
+                      input.onchange = async (e: any) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          const text = await file.text();
+                          try {
+                            const response = await fetch('/api/content/questions/import', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ csvData: text }),
+                            });
+                            const data = await response.json();
+                            if (data.success) {
+                              alert(`Import completed!\n\nImported: ${data.imported} questions\nErrors: ${data.errors}\nTotal questions: ${data.total}`);
+                            } else {
+                              alert('Import failed');
+                            }
+                          } catch (error) {
+                            alert('Failed to import CSV');
+                          }
+                        }
+                      };
+                      input.click();
+                    }}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
