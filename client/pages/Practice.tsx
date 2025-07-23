@@ -332,7 +332,32 @@ export default function Practice() {
                   K53 Examination Preparation System
                 </p>
               </div>
-              <div></div>
+              <div className="flex items-center space-x-2">
+                {user && (
+                  <>
+                    <div className="text-right">
+                      <div className="text-sm font-semibold text-slate-800">
+                        {user.user_metadata?.full_name || user.email}
+                      </div>
+                      {userLocation && (
+                        <div className="text-xs text-slate-600 flex items-center">
+                          <MapPin className="h-3 w-3 mr-1" />
+                          {userLocation.displayName}
+                        </div>
+                      )}
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={signOut}
+                      className="text-slate-700 hover:text-slate-900"
+                      title="Sign Out"
+                    >
+                      <LogOut className="h-4 w-4" />
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
