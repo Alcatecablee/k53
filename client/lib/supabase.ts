@@ -1,10 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
+import config from '@/config'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ||
-                   import.meta.env.VITE_PUBLIC_SUPABASE_URL
-
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY ||
-                       import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY
+const supabaseUrl = config.supabase.url
+const supabaseAnonKey = config.supabase.anonKey
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Missing Supabase environment variables')
