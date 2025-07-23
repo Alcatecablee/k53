@@ -338,9 +338,14 @@ export default function Index() {
 
               <div className="bg-slate-800 border border-black">
                 <div className="bg-slate-700 p-6">
-                  <h3 className="text-xl font-bold uppercase tracking-wide text-white">
+                  <h3 className="text-xl font-bold uppercase tracking-wide text-white mb-3">
                     K53 Examination Structure
                   </h3>
+                  <div className="bg-white text-slate-900 p-2 text-center">
+                    <div className="text-sm font-bold uppercase tracking-wide">
+                      Free and unlimited for all users
+                    </div>
+                  </div>
                 </div>
 
                 <div className="divide-y divide-slate-700">
