@@ -529,9 +529,11 @@ export default function Practice() {
                 <Badge className="bg-white/20 text-white uppercase tracking-wide border border-white/30">
                   {currentItem?.category.replace("_", " ")}
                 </Badge>
-                <div className="text-sm text-slate-200 uppercase tracking-wide">
-                  {currentQuestion + 1}/{totalItems}
-                </div>
+                {testMode !== "scenarios" && (
+                  <div className="text-sm text-slate-200 uppercase tracking-wide">
+                    {currentQuestion + 1}/{totalItems}
+                  </div>
+                )}
               </div>
               <CardTitle className="text-2xl font-bold leading-relaxed">
                 {testMode === "scenarios" && currentS ? currentS.title : currentItem?.question}
