@@ -23,7 +23,17 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Index() {
-  const { user, signOut } = useAuth();
+  // Safe useAuth call with error handling for HMR issues
+  let user = null;
+  let signOut = async () => {};
+
+  try {
+    const auth = useAuth();
+    user = auth.user;
+    signOut = auth.signOut;
+  } catch (error) {
+    console.warn('Auth context not available, continuing without authentication:', error);
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
