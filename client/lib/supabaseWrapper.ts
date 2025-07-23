@@ -2,17 +2,19 @@
 import { createClient } from "@supabase/supabase-js";
 import { env } from "./env";
 
-// Get validated environment configuration
-const { supabaseUrl, supabaseAnonKey } = env;
+// Get environment configuration (may be null in demo mode)
+const { supabaseUrl, supabaseAnonKey, isConfigured } = env;
 
-// Create the original client
-const originalSupabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-  },
-});
+// Create the original client (only if environment is configured)
+const originalSupabase = isConfigured && supabaseUrl && supabaseAnonKey
+  ? createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true,
+      },
+    })
+  : null;
 
 // Global offline state
 let isOfflineMode = false;
