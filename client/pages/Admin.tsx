@@ -70,17 +70,17 @@ export default function Admin() {
 
       // Get today's signups (handle missing tables)
       const today = new Date().toISOString().split("T")[0];
-      const { count: todaySignups } = await supabase
-        .from("user_progress")
-        .select("user_id", { count: "exact", head: true })
-        .gte("created_at", today)
-        .catch(() => ({ count: 0 }));
+      const { count: todaySignups } = await (supabaseClient
+        ?.from("user_progress")
+        ?.select("user_id", { count: "exact", head: true })
+        ?.gte("created_at", today)
+        ?.catch(() => ({ count: 0 })) || Promise.resolve({ count: 0 }));
 
       // Calculate conversion rate (simplified)
-      const userProgressData = await supabase
-        .from("user_progress")
-        .select("user_id")
-        .catch(() => ({ data: [] }));
+      const userProgressData = await (supabaseClient
+        ?.from("user_progress")
+        ?.select("user_id")
+        ?.catch(() => ({ data: [] })) || Promise.resolve({ data: [] }));
       const totalUniqueUsers = new Set(
         userProgressData.data?.map((u) => u.user_id) || [],
       ).size;
