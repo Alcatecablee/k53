@@ -7,6 +7,12 @@ import {
   cancelSubscription,
   getPaymentHistory
 } from "./routes/paypal";
+import {
+  authenticatedValidateScenarioAccess,
+  authenticatedRecordScenarioUsage,
+  authenticatedGetUserSubscriptionDetails,
+  authenticatedGetUserUsageStats,
+} from "./routes/subscriptions";
 
 export function createServer() {
   const app = express();
