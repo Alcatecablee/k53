@@ -865,6 +865,45 @@ export default function Documentation() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
+          {/* Quick Access Section */}
+          <Card className="border border-black bg-slate-800 mb-8">
+            <CardContent className="p-6">
+              <h2 className="text-xl font-bold text-white mb-4 uppercase tracking-wide">
+                Quick Access
+              </h2>
+              <div className="grid md:grid-cols-4 gap-4">
+                <Button
+                  onClick={() => setActiveSection("getting-started")}
+                  className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                >
+                  <PlayCircle className="h-4 w-4 mr-2" />
+                  Getting Started
+                </Button>
+                <Button
+                  onClick={() => setActiveSection("k53-information")}
+                  className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  K53 Info
+                </Button>
+                <Button
+                  onClick={() => setActiveSection("faq")}
+                  className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                >
+                  <HelpCircle className="h-4 w-4 mr-2" />
+                  FAQ
+                </Button>
+                <Button
+                  onClick={() => setActiveSection("support")}
+                  className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                >
+                  <Phone className="h-4 w-4 mr-2" />
+                  Support
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="grid lg:grid-cols-4 gap-8">
             {/* Sidebar Navigation */}
             <div className="lg:col-span-1">
