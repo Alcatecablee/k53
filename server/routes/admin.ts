@@ -42,7 +42,7 @@ export const getDashboardStats: RequestHandler = async (req, res) => {
       .select("*", { count: "exact", head: true });
 
     // Get active subscriptions count
-    const { count: activeSubscriptions } = await supabaseAdmin
+    const { count: activeSubscriptions } = await supabaseClient
       .from("user_subscriptions")
       .select("*", { count: "exact", head: true })
       .eq("status", "active")
