@@ -269,8 +269,8 @@ export function Auth({ onAuthSuccess }: AuthProps) {
             )}
 
             {success && (
-              <div className="p-3 bg-green-50 border border-green-200 rounded flex items-start space-x-2">
-                <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+              <div className="p-3 bg-slate-800 border border-slate-600 rounded flex items-start space-x-2">
+                <CheckCircle className="h-4 w-4 text-slate-300 mt-0.5 flex-shrink-0" />
                 <p className="text-green-700 text-sm">{success}</p>
               </div>
             )}
