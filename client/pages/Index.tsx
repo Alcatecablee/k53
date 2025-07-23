@@ -158,10 +158,7 @@ export default function Index() {
           </div>
         </header>
 
-        {/* Demo Mode Indicator */}
-        <div className="container mx-auto px-4 pt-4">
-          <DemoModeIndicator />
-        </div>
+
 
         {/* Hero Section */}
         <section className="bg-slate-900 py-20">
