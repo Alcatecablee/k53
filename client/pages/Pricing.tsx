@@ -609,11 +609,11 @@ function PricingComponent() {
 
           {/* PayPal Checkout Modal */}
           {selectedPlan && selectedPlan !== "free" && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-              <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="p-6">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold text-slate-900">
+            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+              <div className="bg-slate-800 border-2 border-black max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="bg-slate-700 border-b border-black p-6">
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-2xl font-bold text-white uppercase tracking-wide">
                       Subscribe to{" "}
                       {
                         SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
@@ -623,27 +623,64 @@ function PricingComponent() {
                     <Button
                       variant="ghost"
                       onClick={() => setSelectedPlan(null)}
-                      className="text-slate-600 hover:text-slate-900"
+                      className="text-slate-300 hover:text-white hover:bg-slate-600 font-bold text-xl"
                     >
                       ✕
                     </Button>
                   </div>
+                </div>
 
-                  <PayPalCheckout
-                    planId={selectedPlan}
-                    planName={
-                      SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
-                        ?.name || ""
-                    }
-                    amount={
-                      SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
-                        ?.price_cents || 0
-                    }
-                    currency="ZAR"
-                    onSuccess={handlePaymentSuccess}
-                    onError={handlePaymentError}
-                    onCancel={handlePaymentCancel}
-                  />
+                <div className="p-6 bg-slate-800">
+                  {/* Plan Summary */}
+                  <div className="bg-slate-700 border border-black p-4 mb-6">
+                    <div className="text-center">
+                      <h3 className="text-white font-bold uppercase tracking-wide mb-2">
+                        Selected Plan
+                      </h3>
+                      <div className="text-3xl font-bold text-white mb-2">
+                        {SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.name}
+                      </div>
+                      <div className="text-2xl font-bold text-white">
+                        {formatPrice(SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.price_cents || 0)}
+                        <span className="text-lg font-normal text-slate-300">/month</span>
+                      </div>
+                      <div className="text-sm text-slate-400 uppercase tracking-wide mt-2">
+                        Billed monthly • Cancel anytime
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Payment Section */}
+                  <div className="bg-slate-900 border border-black p-4">
+                    <h4 className="text-white font-bold uppercase tracking-wide mb-4 text-center">
+                      Complete Payment
+                    </h4>
+
+                    <PayPalCheckout
+                      planId={selectedPlan}
+                      planName={
+                        SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
+                          ?.name || ""
+                      }
+                      amount={
+                        SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
+                          ?.price_cents || 0
+                      }
+                      currency="ZAR"
+                      onSuccess={handlePaymentSuccess}
+                      onError={handlePaymentError}
+                      onCancel={handlePaymentCancel}
+                    />
+
+                    <div className="mt-4 text-center">
+                      <p className="text-slate-400 text-xs uppercase tracking-wide">
+                        Secure payment processed by PayPal
+                      </p>
+                      <p className="text-slate-400 text-xs mt-1">
+                        You can cancel your subscription at any time
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
