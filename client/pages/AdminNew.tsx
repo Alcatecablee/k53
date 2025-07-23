@@ -171,67 +171,13 @@ export default function AdminNew() {
     try {
       setLoading(true);
 
-      // Get total users count
-      const { count: totalUsers } = await supabase
-        .from("user_subscriptions")
-        .select("*", { count: "exact", head: true });
-
-      // Get active subscriptions count
-      const { count: activeSubscriptions } = await supabase
-        .from("user_subscriptions")
-        .select("*", { count: "exact", head: true })
-        .eq("status", "active")
-        .in("plan_type", ["basic", "pro"]);
-
-      // Get total revenue
-      const { data: revenueData } = await supabase
-        .from("payments")
-        .select("amount_cents")
-        .eq("status", "completed");
-
-      const totalRevenue =
-        revenueData?.reduce((sum, payment) => sum + payment.amount_cents, 0) ||
-        0;
-
-      // Get today's signups
-      const today = new Date().toISOString().split("T")[0];
-      const { count: todaySignups } = await supabase
-        .from("user_subscriptions")
-        .select("*", { count: "exact", head: true })
-        .gte("created_at", today);
-
-      // Get top locations
-      const { data: locationData } = await supabase
-        .from("user_subscriptions")
-        .select("location")
-        .not("location", "is", null);
-
-      const locationCounts =
-        locationData?.reduce((acc: any, user) => {
-          acc[user.location] = (acc[user.location] || 0) + 1;
-          return acc;
-        }, {}) || {};
-
-      const topLocations = Object.entries(locationCounts)
-        .map(([city, count]) => ({ city, count: count as number }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 5);
-
-      const realStats: DashboardStats = {
-        totalUsers: totalUsers || 0,
-        activeSubscriptions: activeSubscriptions || 0,
-        totalRevenue: totalRevenue,
-        todaySignups: todaySignups || 0,
-        conversionRate: totalUsers
-          ? ((activeSubscriptions || 0) / totalUsers) * 100
-          : 0,
-        churnRate: 3.2,
-        avgSessionTime: 847,
-        topLocations: topLocations,
-        monthlyGrowth: 23.4,
-      };
-
-      setStats(realStats);
+      const response = await fetch('/api/admin/dashboard-stats');
+      if (response.ok) {
+        const stats = await response.json();
+        setStats(stats);
+      } else {
+        console.error("Failed to load dashboard data");
+      }
     } catch (error) {
       console.error("Error loading dashboard data:", error);
     } finally {
