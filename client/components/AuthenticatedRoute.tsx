@@ -45,24 +45,24 @@ export function AuthenticatedRoute({ children }: AuthenticatedRouteProps) {
           <Auth onAuthSuccess={() => window.location.reload()} />
 
           {showOfflineOption && (
-            <Card className="border-orange-200 bg-orange-50">
+            <Card className="border-slate-600 bg-slate-800">
               <CardHeader className="text-center pb-3">
-                <div className="w-12 h-12 bg-orange-100 border-2 border-orange-300 flex items-center justify-center mx-auto mb-2">
-                  <WifiOff className="h-6 w-6 text-orange-600" />
+                <div className="w-12 h-12 bg-slate-700 border-2 border-slate-600 flex items-center justify-center mx-auto mb-2">
+                  <WifiOff className="h-6 w-6 text-slate-300" />
                 </div>
-                <CardTitle className="text-orange-800 text-lg">
+                <CardTitle className="text-slate-200 text-lg">
                   Connection Issues?
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="text-orange-700 text-sm mb-4">
+                <p className="text-slate-300 text-sm mb-4">
                   Having trouble connecting? You can still practice offline with
                   limited features.
                 </p>
                 <Button
                   onClick={() => setOfflineMode(true)}
                   variant="outline"
-                  className="w-full border-orange-300 text-orange-700 hover:bg-orange-100"
+                  className="w-full border-slate-600 text-slate-300 hover:bg-slate-700"
                 >
                   <AlertTriangle className="h-4 w-4 mr-2" />
                   Continue in Offline Mode
