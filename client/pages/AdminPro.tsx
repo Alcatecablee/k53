@@ -99,6 +99,7 @@ export default function AdminPro() {
   const [logType, setLogType] = useState<'database' | 'error' | 'access' | 'security'>('database');
   const [realTimeData, setRealTimeData] = useState<any[]>([]);
   const [autoRefresh, setAutoRefresh] = useState(true);
+  const [contentStats, setContentStats] = useState<any>(null);
 
   // Check if user has admin privileges
   const isAdmin = user?.email === "admin@superk53.com" || process.env.NODE_ENV === "development";
