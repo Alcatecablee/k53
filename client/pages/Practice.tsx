@@ -114,21 +114,28 @@ function PracticeComponent() {
     }
   };
 
-  const generateTest = (fullTest: boolean = false) => {
+  const generateTest = async (fullTest: boolean = false) => {
     setIsFullTest(fullTest);
     setTestMode("questions");
 
-    if (fullTest) {
-      const randomTest = generateRandomTest(8, 28, 28);
-      console.log("Official test randomized order (first 10):",
-        randomTest.slice(0, 10).map(q => q.id));
-      setTestQuestions(randomTest);
-    } else {
-      const randomTest = generateRandomTest(2, 5, 5);
-      console.log("Practice test randomized order:",
-        randomTest.map(q => q.id));
-      setTestQuestions(randomTest);
+    try {
+      if (fullTest) {
+        const randomTest = await getQuestions(8, 28, 28);
+        console.log("Official test randomized order (first 10):",
+          randomTest.slice(0, 10).map(q => q.id));
+        setTestQuestions(randomTest);
+      } else {
+        const randomTest = await getQuestions(2, 5, 5);
+        console.log("Practice test randomized order:",
+          randomTest.map(q => q.id));
+        setTestQuestions(randomTest);
+      }
+    } catch (error) {
+      console.error('Error generating test:', error);
+      // Fallback to empty array
+      setTestQuestions([]);
     }
+
     setTestScenarios([]);
     setTestStarted(true);
     setCurrentQuestion(0);
