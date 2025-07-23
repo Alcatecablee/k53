@@ -136,7 +136,7 @@ export const createPayPalOrder: RequestHandler = async (req, res) => {
     }
 
     // Store pending payment in database
-    await supabase.from("payments").insert({
+    await getSupabaseClient().from("payments").insert({
       user_id: userId,
       amount_cents: plan.price_cents,
       currency: "ZAR",
@@ -248,7 +248,7 @@ export const capturePayPalOrder: RequestHandler = async (req, res) => {
         .eq("user_id", userId);
     } else {
       // Create new subscription
-      await supabase.from("user_subscriptions").insert({
+      await getSupabaseClient().from("user_subscriptions").insert({
         user_id: userId,
         plan_type: planId,
         status: "active",
