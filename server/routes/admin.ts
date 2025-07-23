@@ -21,7 +21,8 @@ const getSupabaseAdmin = () => {
 // Get dashboard statistics
 export const getDashboardStats: RequestHandler = async (req, res) => {
   try {
-    if (!supabaseAdmin) {
+    const supabaseClient = getSupabaseAdmin();
+    if (!supabaseClient) {
       return res.json({
         totalUsers: 0,
         activeSubscriptions: 0,
