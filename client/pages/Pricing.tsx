@@ -6,8 +6,8 @@ import { ArrowLeft, Check, Star, MapPin, Zap, Users, Crown } from "lucide-react"
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthenticatedRoute } from "@/components/AuthenticatedRoute";
-import { SUBSCRIPTION_PLANS, SCENARIO_PACKS, formatPrice } from "@/types/subscription";
-import { getUserSubscription, canAccessScenarios } from "@/services/subscriptionService";
+import { SUBSCRIPTION_PLANS, SCENARIO_PACKS } from "@/types/subscription";
+import { getUserSubscription, canAccessScenarios, formatPrice } from "@/services/subscriptionService";
 
 function PricingComponent() {
   const { user } = useAuth();
