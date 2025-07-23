@@ -8,11 +8,8 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY ||
                        import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY ||
                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx4endha2V1c2FueHF1aHNoY3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzAxNTIsImV4cCI6MjA2ODgwNjE1Mn0.WzlkTGbselENSvmDG0oD7xEM1s6ZnJtY1TgBiGHuXVE'
 
-console.log('Supabase URL:', supabaseUrl)
-console.log('Supabase Key present:', !!supabaseAnonKey)
-
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing Supabase environment variables', { supabaseUrl, supabaseAnonKey: !!supabaseAnonKey })
+  console.error('Missing Supabase environment variables')
   throw new Error('Missing Supabase environment variables')
 }
 
