@@ -80,13 +80,15 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     currency: "ZAR",
     billing_cycle: "monthly",
     features: [
+      "Unlimited official assessments (64 questions)",
+      "Unlimited practice assessments (12 questions)",
       "5 scenarios per day",
       "Basic progress tracking",
       "Location-aware scenarios",
       "Standard explanations",
     ],
     max_scenarios_per_day: 5,
-    max_questions_per_day: 10,
+    max_questions_per_day: -1, // -1 means unlimited
     includes_all_packs: false,
   },
   {
