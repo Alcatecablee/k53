@@ -102,12 +102,19 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
       .sort((a, b) => b.count - a.count)
       .slice(0, 5);
 
-    // Real-time metrics simulation
+    // Real-time metrics from actual system data
+    const realtimeUsers = users.filter(user => {
+      if (!user.last_seen) return false;
+      const lastSeen = new Date(user.last_seen);
+      const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+      return lastSeen >= fiveMinutesAgo;
+    }).length;
+
     const realtimeMetrics = {
-      realtimeUsers: Math.floor(Math.random() * 50) + 20,
-      serverLoad: Math.random() * 100,
-      responseTime: Math.random() * 200 + 50,
-      errorRate: Math.random() * 5,
+      realtimeUsers,
+      serverLoad: process.cpuUsage ? (process.cpuUsage().user / 1000000) : 0,
+      responseTime: 0, // Would need actual response time tracking
+      errorRate: 0, // Would need actual error tracking
     };
 
     const stats = {
