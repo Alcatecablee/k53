@@ -103,7 +103,7 @@ export function DataTable<T extends Record<string, any>>({
 
     // Apply column filters
     Object.entries(filters).forEach(([key, value]) => {
-      if (value) {
+      if (value && value !== 'all') {
         filtered = filtered.filter(row =>
           String(row[key]).toLowerCase().includes(value.toLowerCase())
         );
