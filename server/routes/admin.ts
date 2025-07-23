@@ -59,13 +59,13 @@ export const getDashboardStats: RequestHandler = async (req, res) => {
 
     // Get today's signups
     const today = new Date().toISOString().split("T")[0];
-    const { count: todaySignups } = await supabaseAdmin
+    const { count: todaySignups } = await supabaseClient
       .from("user_subscriptions")
       .select("*", { count: "exact", head: true })
       .gte("created_at", today);
 
     // Get top locations
-    const { data: locationData } = await supabaseAdmin
+    const { data: locationData } = await supabaseClient
       .from("user_subscriptions")
       .select("location")
       .not("location", "is", null);
