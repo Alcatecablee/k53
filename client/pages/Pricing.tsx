@@ -577,8 +577,8 @@ function PricingComponent() {
                         }
                         className={`w-full font-medium uppercase tracking-wide transition-all duration-300 ${
                           plan.popular
-                            ? "bg-white text-slate-900 hover:bg-slate-100 hover:scale-105"
-                            : "border border-black text-slate-300 hover:bg-slate-700 hover:text-white hover:scale-105"
+                            ? "bg-white text-slate-900 hover:bg-slate-100"
+                            : "border border-black text-slate-300 hover:bg-slate-700 hover:text-white"
                         }`}
                         variant={plan.popular ? "default" : "outline"}
                       >
