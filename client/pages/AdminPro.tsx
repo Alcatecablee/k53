@@ -169,12 +169,14 @@ export default function AdminPro() {
         safeFetch("/api/enterprise/payments?limit=5"),
       ]);
 
-      const recentUsers = usersRes.status === 'fulfilled' && usersRes.value.ok
-        ? await usersRes.value.json().catch(() => [])
-        : [];
-      const recentPayments = paymentsRes.status === 'fulfilled' && paymentsRes.value.ok
-        ? await paymentsRes.value.json().catch(() => [])
-        : [];
+      const recentUsers =
+        usersRes.status === "fulfilled" && usersRes.value.ok
+          ? await usersRes.value.json().catch(() => [])
+          : [];
+      const recentPayments =
+        paymentsRes.status === "fulfilled" && paymentsRes.value.ok
+          ? await paymentsRes.value.json().catch(() => [])
+          : [];
 
       const activities = [];
 
@@ -221,12 +223,18 @@ export default function AdminPro() {
         safeFetch("/api/content/scenarios"),
       ]);
 
-      const questionsData = questionsRes.status === 'fulfilled' && questionsRes.value.ok
-        ? await questionsRes.value.json().catch(() => ({ stats: { total: 0 } }))
-        : { stats: { total: 0 } };
-      const scenariosData = scenariosRes.status === 'fulfilled' && scenariosRes.value.ok
-        ? await scenariosRes.value.json().catch(() => ({ stats: { total: 0 } }))
-        : { stats: { total: 0 } };
+      const questionsData =
+        questionsRes.status === "fulfilled" && questionsRes.value.ok
+          ? await questionsRes.value
+              .json()
+              .catch(() => ({ stats: { total: 0 } }))
+          : { stats: { total: 0 } };
+      const scenariosData =
+        scenariosRes.status === "fulfilled" && scenariosRes.value.ok
+          ? await scenariosRes.value
+              .json()
+              .catch(() => ({ stats: { total: 0 } }))
+          : { stats: { total: 0 } };
 
       const stats = {
         questions: questionsData.stats?.total || 0,
@@ -454,12 +462,16 @@ export default function AdminPro() {
       });
 
       if (response.ok) {
-        const result = await response.json().catch(() => ({ imported: 0, errors: 0 }));
+        const result = await response
+          .json()
+          .catch(() => ({ imported: 0, errors: 0 }));
         alert(
           `Successfully imported ${result.imported} records! ${result.errors} errors.`,
         );
       } else {
-        throw new Error(`Import failed: ${response.statusText || "Unknown error"}`);
+        throw new Error(
+          `Import failed: ${response.statusText || "Unknown error"}`,
+        );
       }
     } catch (error) {
       console.error("CSV upload error:", error);
@@ -482,7 +494,9 @@ export default function AdminPro() {
         await loadUsers();
         return result;
       } else {
-        throw new Error(`Update failed: ${response.statusText || "Unknown error"}`);
+        throw new Error(
+          `Update failed: ${response.statusText || "Unknown error"}`,
+        );
       }
     } catch (error) {
       console.error("User update error:", error);
@@ -508,7 +522,9 @@ export default function AdminPro() {
         await loadUsers(); // Refresh data
         return result;
       } else {
-        throw new Error(`Bulk operation failed: ${response.statusText || "Unknown error"}`);
+        throw new Error(
+          `Bulk operation failed: ${response.statusText || "Unknown error"}`,
+        );
       }
     } catch (error) {
       console.error("Bulk operation error:", error);
@@ -530,7 +546,9 @@ export default function AdminPro() {
         alert("Cache cleared successfully!");
         await loadAllData(); // Refresh all data
       } else {
-        throw new Error(`Cache clear failed: ${response.statusText || "Unknown error"}`);
+        throw new Error(
+          `Cache clear failed: ${response.statusText || "Unknown error"}`,
+        );
       }
     } catch (error) {
       console.error("Cache clear error:", error);
