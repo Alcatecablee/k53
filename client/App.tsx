@@ -31,13 +31,25 @@ if (typeof window !== "undefined") {
   window.addEventListener("unhandledrejection", (event) => {
     if (
       event.reason?.message?.includes("Failed to fetch") ||
-      event.reason?.name === "TypeError"
+      event.reason?.name === "TypeError" ||
+      (event.reason?.stack && event.reason.stack.includes("AdminPro"))
     ) {
       console.warn(
         "Unhandled fetch error caught and suppressed:",
         event.reason,
       );
       event.preventDefault(); // Prevent the error from being thrown
+    }
+  });
+
+  // Enhanced error tracking for AdminPro
+  window.addEventListener("error", (event) => {
+    if (
+      event.error?.message?.includes("Failed to fetch") ||
+      event.filename?.includes("AdminPro")
+    ) {
+      console.warn("AdminPro error caught and suppressed:", event.error);
+      event.preventDefault();
     }
   });
 }
