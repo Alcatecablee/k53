@@ -35,5 +35,11 @@ export function createServer() {
   app.post("/api/paypal/cancel-subscription", cancelSubscription);
   app.get("/api/paypal/payment-history/:userId", getPaymentHistory);
 
+  // Subscription enforcement routes
+  app.get("/api/subscriptions/validate-scenario-access", authenticatedValidateScenarioAccess);
+  app.post("/api/subscriptions/record-scenario-usage", authenticatedRecordScenarioUsage);
+  app.get("/api/subscriptions/details", authenticatedGetUserSubscriptionDetails);
+  app.get("/api/subscriptions/usage-stats", authenticatedGetUserUsageStats);
+
   return app;
 }
