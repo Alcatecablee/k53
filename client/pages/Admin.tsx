@@ -32,7 +32,8 @@ export default function Admin() {
   const [recentPayments, setRecentPayments] = useState<any[]>([]);
 
   // Simple admin check - in production, implement proper role-based access
-  const isAdmin = user?.email?.includes("admin") || user?.email?.includes("owner");
+  // For now, allow any authenticated user to see the dashboard
+  const isAdmin = !!user;
 
   useEffect(() => {
     if (!isAdmin) return;
