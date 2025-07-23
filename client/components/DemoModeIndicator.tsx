@@ -56,9 +56,14 @@ export function DemoModeIndicator() {
               progress saving, and premium subscriptions are limited.
             </p>
             {envStatus.missingVars.length > 0 && (
-              <p className="mt-2">
-                <strong>Missing configuration:</strong> {envStatus.missingVars.join(', ')}
-              </p>
+              <div className="mt-2">
+                <p>
+                  <strong>Missing configuration:</strong> {envStatus.missingVars.join(', ')}
+                </p>
+                <p className="mt-1 text-xs">
+                  Set these environment variables in your Fly.dev dashboard and redeploy.
+                </p>
+              </div>
             )}
           </div>
           <div className="mt-4 flex items-center space-x-2">
@@ -66,12 +71,24 @@ export function DemoModeIndicator() {
               size="sm"
               variant="outline"
               className="bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200"
+              onClick={refreshEnvironment}
+              disabled={isRefreshing}
+            >
+              <RefreshCw className={`h-4 w-4 mr-1 ${isRefreshing ? 'animate-spin' : ''}`} />
+              {isRefreshing ? 'Checking...' : 'Refresh Status'}
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200"
               asChild
             >
               <a
-                href="https://github.com/your-repo/superk53#security-setup"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#fly-setup"
+                onClick={(e) => {
+                  e.preventDefault();
+                  alert('Check FLY_SETUP.md in your project for detailed instructions on setting Fly.dev environment variables.');
+                }}
               >
                 <Settings className="h-4 w-4 mr-1" />
                 Setup Guide
