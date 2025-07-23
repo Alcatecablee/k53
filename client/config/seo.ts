@@ -145,6 +145,7 @@ export const SEO_CONFIG = {
       ],
       priority: 1.0,
       changefreq: "weekly",
+      noIndex: false,
     },
 
     practice: {
@@ -161,6 +162,7 @@ export const SEO_CONFIG = {
       ],
       priority: 0.9,
       changefreq: "daily",
+      noIndex: false,
     },
 
     documentation: {
@@ -176,6 +178,7 @@ export const SEO_CONFIG = {
       ],
       priority: 0.8,
       changefreq: "weekly",
+      noIndex: false,
     },
 
     dltc: {
@@ -192,6 +195,7 @@ export const SEO_CONFIG = {
       ],
       priority: 0.8,
       changefreq: "monthly",
+      noIndex: false,
     },
 
     pricing: {
@@ -207,6 +211,7 @@ export const SEO_CONFIG = {
       ],
       priority: 0.7,
       changefreq: "monthly",
+      noIndex: false,
     },
 
     progress: {
@@ -223,6 +228,7 @@ export const SEO_CONFIG = {
       ],
       priority: 0.6,
       changefreq: "weekly",
+      noIndex: false,
     },
 
     profile: {
