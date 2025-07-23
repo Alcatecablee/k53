@@ -717,7 +717,7 @@ function PricingComponent() {
                 </p>
                 <Button
                   asChild
-                  className="bg-white text-slate-800 hover:bg-slate-100 font-semibold px-8 py-3 transition-all duration-300 hover:scale-105"
+                  className="bg-white text-slate-800 hover:bg-slate-100 font-semibold px-8 py-3 transition-all duration-300"
                 >
                   <Link to="/practice">Start Practicing Now</Link>
                 </Button>
