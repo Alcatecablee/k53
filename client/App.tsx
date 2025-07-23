@@ -21,6 +21,11 @@ import { addResourceHints } from "./utils/seoUtils";
 
 const queryClient = new QueryClient();
 
+// Initialize SEO resource hints
+if (typeof window !== 'undefined') {
+  addResourceHints();
+}
+
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
