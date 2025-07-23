@@ -49,7 +49,7 @@ export const getDashboardStats: RequestHandler = async (req, res) => {
       .in("plan_type", ["basic", "pro"]);
 
     // Get total revenue
-    const { data: revenueData } = await supabaseAdmin
+    const { data: revenueData } = await supabaseClient
       .from("payments")
       .select("amount_cents")
       .eq("status", "completed");
