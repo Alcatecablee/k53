@@ -1,6 +1,10 @@
 // Re-export from the wrapper for backwards compatibility
 export { supabase } from "./supabaseWrapper";
 
+// Also export the original client for direct database access
+import { supabase as supabaseWrapper } from "./supabaseWrapper";
+export const supabaseClient = supabaseWrapper._client;
+
 // Database types
 export interface User {
   id: string;
