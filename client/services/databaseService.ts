@@ -29,8 +29,8 @@ export const saveUserProgress = async (progressData: {
       return null;
     }
 
-    const { data, error } = await Promise.race([
-      supabase
+    const { data, error } = supabaseClient ? await Promise.race([
+      supabaseClient
         .from("user_progress")
         .insert({
           user_id: user.id,
@@ -42,7 +42,7 @@ export const saveUserProgress = async (progressData: {
       new Promise((_, reject) =>
         setTimeout(() => reject(new Error("Database timeout")), 5000),
       ),
-    ]);
+    ]) : { data: null, error: new Error("Database not available") };
 
     if (error) {
       console.warn("Failed to save progress to database:", error);
