@@ -263,7 +263,7 @@ export const userAction: RequestHandler = async (req, res) => {
         break;
 
       case "cancelSubscription":
-        await supabaseAdmin
+        await supabaseClient
           .from("user_subscriptions")
           .update({ status: "cancelled" })
           .eq("id", userId);
