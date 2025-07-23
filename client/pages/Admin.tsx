@@ -85,13 +85,14 @@ export default function Admin() {
         ? ((activeSubscriptions || 0) / totalUniqueUsers) * 100 
         : 0;
 
-      // Get recent payments
+      // Get recent payments (handle missing tables)
       const { data: recentPaymentsData } = await supabase
         .from("payments")
         .select("*")
         .eq("status", "completed")
         .order("created_at", { ascending: false })
-        .limit(10);
+        .limit(10)
+        .catch(() => ({ data: [] }));
 
       setStats({
         totalUsers: totalUniqueUsers,
