@@ -368,7 +368,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                   variant="outline"
                   className="border-gray-300"
                 >
-                  <Cancel className="w-4 h-4 mr-2" />
+                  <X className="w-4 h-4 mr-2" />
                   Cancel
                 </Button>
               </>
