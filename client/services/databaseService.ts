@@ -10,21 +10,44 @@ export const saveUserProgress = async (progressData: {
   passed: boolean;
   location_used?: string;
 }) => {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error('User not authenticated');
+  try {
+    const { data: { user }, error: userError } = await Promise.race([
+      supabase.auth.getUser(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Database timeout')), 3000)
+      )
+    ]);
 
-  const { data, error } = await supabase
-    .from('user_progress')
-    .insert({
-      user_id: user.id,
-      ...progressData,
-      completed_at: new Date().toISOString(),
-    })
-    .select()
-    .single();
+    if (userError || !user) {
+      console.warn('User not authenticated, progress not saved to database');
+      return null;
+    }
 
-  if (error) throw error;
-  return data;
+    const { data, error } = await Promise.race([
+      supabase
+        .from('user_progress')
+        .insert({
+          user_id: user.id,
+          ...progressData,
+          completed_at: new Date().toISOString(),
+        })
+        .select()
+        .single(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Database timeout')), 5000)
+      )
+    ]);
+
+    if (error) {
+      console.warn('Failed to save progress to database:', error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.warn('Database unavailable, progress not saved:', error);
+    return null;
+  }
 };
 
 export const getUserProgress = async (limit = 20) => {
