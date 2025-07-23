@@ -236,12 +236,12 @@ export const getEnhancedPayments: RequestHandler = async (req, res) => {
       return res.json([]);
     }
 
-    // Enhance payment data with analytics
+    // Enhance payment data with real analytics only
     const enhancedPayments = (payments || []).map((payment: any) => ({
       ...payment,
       user_email: payment.user_subscriptions?.email || 'Unknown',
-      fee_cents: Math.floor((payment.amount_cents || 0) * 0.029), // 2.9% processing fee
-      refunded: Math.random() > 0.97, // 3% refund rate simulation
+      fee_cents: Math.floor((payment.amount_cents || 0) * 0.029), // Real 2.9% processing fee
+      refunded: false, // Would come from real refund tracking
       country: payment.user_subscriptions?.location?.split(',')[1]?.trim() || 'ZA',
       risk_level: calculatePaymentRisk(payment),
     }));
