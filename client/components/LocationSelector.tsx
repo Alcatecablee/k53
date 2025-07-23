@@ -84,7 +84,7 @@ export function LocationSelector({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-2xl border-2 border-slate-800 bg-white max-h-[90vh] overflow-y-auto">
+      <Card className="w-full max-w-2xl border-2 border-black-800 bg-white max-h-[90vh] overflow-y-auto">
         <CardHeader className="bg-slate-800 text-white p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -114,7 +114,7 @@ export function LocationSelector({
             <h3 className="text-lg font-bold text-slate-800 uppercase tracking-wide">
               Auto-Detect Location
             </h3>
-            <div className="bg-slate-100 p-4 rounded border-2 border-slate-300">
+            <div className="bg-slate-100 p-4 rounded border-2 border-black-300">
               <p className="text-slate-700 text-sm mb-4">
                 Enable location services to automatically find scenarios for
                 your area, like load shedding in Pretoria or potholes on the N2.
@@ -151,9 +151,9 @@ export function LocationSelector({
             <h3 className="text-lg font-bold text-slate-800 uppercase tracking-wide">
               Or Select Manually
             </h3>
-            <div className="bg-slate-100 p-4 rounded border-2 border-slate-300">
+            <div className="bg-slate-100 p-4 rounded border-2 border-black-300">
               <Select onValueChange={handleManualSelect}>
-                <SelectTrigger className="w-full border-2 border-slate-300 bg-white">
+                <SelectTrigger className="w-full border-2 border-black-300 bg-white">
                   <SelectValue placeholder="Choose your city..." />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
@@ -200,11 +200,11 @@ export function LocationSelector({
           )}
 
           {/* Action Buttons */}
-          <div className="flex space-x-4 pt-4 border-t border-slate-200">
+          <div className="flex space-x-4 pt-4 border-t border-black-200">
             <Button
               variant="outline"
               onClick={onClose}
-              className="flex-1 border-2 border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold uppercase tracking-wide"
+              className="flex-1 border-2 border-black-300 text-slate-700 hover:bg-slate-100 font-semibold uppercase tracking-wide"
             >
               Cancel
             </Button>
@@ -218,7 +218,7 @@ export function LocationSelector({
           </div>
 
           {/* Privacy Note */}
-          <div className="text-xs text-slate-500 text-center pt-2 border-t border-slate-200">
+          <div className="text-xs text-slate-500 text-center pt-2 border-t border-black-200">
             Your location is only used to provide relevant scenarios and is
             stored locally on your device.
           </div>
