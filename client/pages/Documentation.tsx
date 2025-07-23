@@ -954,6 +954,15 @@ export default function Documentation() {
             <div className="lg:col-span-3">
               {currentSection && (
                 <div className="space-y-8">
+                  {/* Breadcrumb Navigation */}
+                  <div className="flex items-center space-x-2 text-sm text-slate-400">
+                    <Link to="/" className="hover:text-white">Home</Link>
+                    <ChevronRight className="h-4 w-4" />
+                    <Link to="/docs" className="hover:text-white">Documentation</Link>
+                    <ChevronRight className="h-4 w-4" />
+                    <span className="text-white">{currentSection.title}</span>
+                  </div>
+
                   {/* Section Header */}
                   <Card className="border border-black bg-slate-800">
                     <CardHeader className="bg-slate-700 text-white p-8">
