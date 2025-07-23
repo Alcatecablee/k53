@@ -60,7 +60,7 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
     }
 
     // Get user's subscription
-    const { data: subscription, error: subError } = await supabase
+    const { data: subscription, error: subError } = await getSupabaseClient()
       .from("user_subscriptions")
       .select("*")
       .eq("user_id", userId)
