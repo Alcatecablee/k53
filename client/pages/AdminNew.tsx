@@ -167,6 +167,11 @@ export default function AdminNew() {
     checkSystemHealth();
   }, [isAdmin]);
 
+  useEffect(() => {
+    if (!isAdmin) return;
+    loadUsers();
+  }, [searchTerm, filterStatus, isAdmin]);
+
   const loadDashboardData = async () => {
     try {
       setLoading(true);
