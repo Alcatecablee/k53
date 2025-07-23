@@ -97,19 +97,32 @@ export const updateUserProfile = async (updates: {
 };
 
 export const getUserProfile = async () => {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error('User not authenticated');
+  try {
+    const { data: { user }, error } = await Promise.race([
+      supabase.auth.getUser(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Database timeout')), 3000)
+      )
+    ]);
 
-  return {
-    id: user.id,
-    email: user.email,
-    full_name: user.user_metadata?.full_name,
-    location_city: user.user_metadata?.location_city,
-    location_region: user.user_metadata?.location_region,
-    location_neighborhood: user.user_metadata?.location_neighborhood,
-    location: user.user_metadata?.location,
-    created_at: user.created_at,
-  };
+    if (error || !user) {
+      throw new Error('User not authenticated or database unavailable');
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      full_name: user.user_metadata?.full_name,
+      location_city: user.user_metadata?.location_city,
+      location_region: user.user_metadata?.location_region,
+      location_neighborhood: user.user_metadata?.location_neighborhood,
+      location: user.user_metadata?.location,
+      created_at: user.created_at,
+    };
+  } catch (error) {
+    console.warn('Database service unavailable:', error);
+    throw error;
+  }
 };
 
 // Scenario Tracking Functions
