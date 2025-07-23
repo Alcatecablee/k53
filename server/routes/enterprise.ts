@@ -173,7 +173,7 @@ export const getEnhancedUsers: RequestHandler = async (req, res) => {
       return res.json([]);
     }
 
-    // Enhance user data with calculated metrics
+    // Enhance user data with calculated metrics from real data only
     const enhancedUsers = (users || []).map((user: any) => {
       const userPayments = user.payments || [];
       const totalSpent = userPayments
@@ -183,7 +183,7 @@ export const getEnhancedUsers: RequestHandler = async (req, res) => {
       return {
         ...user,
         totalSpent,
-        sessionsToday: Math.floor(Math.random() * 10), // This would come from session tracking
+        sessionsToday: 0, // Real session tracking would go here
         riskScore: calculateRiskScore(user, userPayments),
         lastPayment: userPayments[0]?.created_at || null,
         paymentCount: userPayments.length,
