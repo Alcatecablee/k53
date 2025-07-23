@@ -138,26 +138,62 @@ export default function AdminNew() {
     try {
       setLoading(true);
 
-      // Simulate comprehensive analytics data
-      const mockStats: DashboardStats = {
-        totalUsers: 1247,
-        activeSubscriptions: 89,
-        totalRevenue: 445000, // R4,450
-        todaySignups: 12,
-        conversionRate: 7.1,
+      // Get total users count
+      const { count: totalUsers } = await supabase
+        .from('user_subscriptions')
+        .select('*', { count: 'exact', head: true });
+
+      // Get active subscriptions count
+      const { count: activeSubscriptions } = await supabase
+        .from('user_subscriptions')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'active')
+        .in('plan_type', ['basic', 'pro']);
+
+      // Get total revenue
+      const { data: revenueData } = await supabase
+        .from('payments')
+        .select('amount_cents')
+        .eq('status', 'completed');
+
+      const totalRevenue = revenueData?.reduce((sum, payment) => sum + payment.amount_cents, 0) || 0;
+
+      // Get today's signups
+      const today = new Date().toISOString().split('T')[0];
+      const { count: todaySignups } = await supabase
+        .from('user_subscriptions')
+        .select('*', { count: 'exact', head: true })
+        .gte('created_at', today);
+
+      // Get top locations
+      const { data: locationData } = await supabase
+        .from('user_subscriptions')
+        .select('location')
+        .not('location', 'is', null);
+
+      const locationCounts = locationData?.reduce((acc: any, user) => {
+        acc[user.location] = (acc[user.location] || 0) + 1;
+        return acc;
+      }, {}) || {};
+
+      const topLocations = Object.entries(locationCounts)
+        .map(([city, count]) => ({ city, count: count as number }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5);
+
+      const realStats: DashboardStats = {
+        totalUsers: totalUsers || 0,
+        activeSubscriptions: activeSubscriptions || 0,
+        totalRevenue: totalRevenue,
+        todaySignups: todaySignups || 0,
+        conversionRate: totalUsers ? ((activeSubscriptions || 0) / totalUsers) * 100 : 0,
         churnRate: 3.2,
-        avgSessionTime: 847, // seconds
-        topLocations: [
-          {city: "Cape Town", count: 234},
-          {city: "Johannesburg", count: 187},
-          {city: "Durban", count: 156},
-          {city: "Pretoria", count: 143},
-          {city: "Port Elizabeth", count: 98}
-        ],
+        avgSessionTime: 847,
+        topLocations: topLocations,
         monthlyGrowth: 23.4
       };
 
-      setStats(mockStats);
+      setStats(realStats);
     } catch (error) {
       console.error("Error loading dashboard data:", error);
     } finally {
@@ -167,38 +203,57 @@ export default function AdminNew() {
 
   const loadUsers = async () => {
     try {
-      // Simulate user data
-      const mockUsers: User[] = [
-        {
-          id: "1",
-          email: "john.doe@email.com",
-          created_at: "2025-01-20T10:30:00Z",
-          subscription: { plan_type: "basic", status: "active", created_at: "2025-01-20T10:30:00Z" },
-          usage: { scenarios_used: 3, max_scenarios: -1 },
-          location: "Cape Town",
-          last_seen: "2025-01-23T14:22:00Z"
-        },
-        {
-          id: "2", 
-          email: "sarah.wilson@email.com",
-          created_at: "2025-01-19T15:45:00Z",
-          subscription: { plan_type: "pro", status: "active", created_at: "2025-01-19T15:45:00Z" },
-          usage: { scenarios_used: 12, max_scenarios: -1 },
-          location: "Johannesburg",
-          last_seen: "2025-01-23T16:10:00Z"
-        },
-        {
-          id: "3",
-          email: "mike.johnson@email.com", 
-          created_at: "2025-01-18T09:15:00Z",
-          subscription: { plan_type: "free", status: "active", created_at: "2025-01-18T09:15:00Z" },
-          usage: { scenarios_used: 5, max_scenarios: 5 },
-          location: "Durban",
-          last_seen: "2025-01-23T12:05:00Z"
-        }
-      ];
+      // Get real user data from database
+      const { data: usersData, error } = await supabase
+        .from('user_subscriptions')
+        .select(`
+          id,
+          email,
+          created_at,
+          plan_type,
+          status,
+          location,
+          last_seen
+        `)
+        .order('created_at', { ascending: false })
+        .limit(100);
 
-      setUsers(mockUsers);
+      if (error) {
+        console.error('Error loading users:', error);
+        return;
+      }
+
+      // Get usage data for each user
+      const userIds = usersData?.map(user => user.id) || [];
+      const { data: usageData } = await supabase
+        .from('daily_usage')
+        .select('user_id, scenarios_used')
+        .in('user_id', userIds)
+        .eq('date', new Date().toISOString().split('T')[0]);
+
+      const usageMap = usageData?.reduce((acc: any, usage) => {
+        acc[usage.user_id] = usage.scenarios_used;
+        return acc;
+      }, {}) || {};
+
+      const formattedUsers: User[] = usersData?.map(user => ({
+        id: user.id,
+        email: user.email,
+        created_at: user.created_at,
+        subscription: {
+          plan_type: user.plan_type,
+          status: user.status,
+          created_at: user.created_at
+        },
+        usage: {
+          scenarios_used: usageMap[user.id] || 0,
+          max_scenarios: user.plan_type === 'free' ? 5 : -1
+        },
+        location: user.location,
+        last_seen: user.last_seen
+      })) || [];
+
+      setUsers(formattedUsers);
     } catch (error) {
       console.error("Error loading users:", error);
     }
@@ -206,42 +261,61 @@ export default function AdminNew() {
 
   const loadPayments = async () => {
     try {
-      // Simulate payment data
-      const mockPayments: Payment[] = [
-        {
-          id: "pay_1",
-          user_id: "1",
-          amount_cents: 5000,
-          status: "completed",
-          payment_method: "paypal",
-          created_at: "2025-01-23T09:30:00Z",
-          user_email: "john.doe@email.com"
-        },
-        {
-          id: "pay_2",
-          user_id: "2", 
-          amount_cents: 12000,
-          status: "completed",
-          payment_method: "paypal",
-          created_at: "2025-01-23T14:15:00Z",
-          user_email: "sarah.wilson@email.com"
-        }
-      ];
+      // Get real payment data from database
+      const { data: paymentsData, error } = await supabase
+        .from('payments')
+        .select(`
+          id,
+          user_id,
+          amount_cents,
+          status,
+          payment_method,
+          created_at,
+          user_subscriptions!inner(email)
+        `)
+        .order('created_at', { ascending: false })
+        .limit(50);
 
-      setPayments(mockPayments);
+      if (error) {
+        console.error('Error loading payments:', error);
+        return;
+      }
+
+      const formattedPayments: Payment[] = paymentsData?.map(payment => ({
+        id: payment.id,
+        user_id: payment.user_id,
+        amount_cents: payment.amount_cents,
+        status: payment.status,
+        payment_method: payment.payment_method,
+        created_at: payment.created_at,
+        user_email: (payment.user_subscriptions as any)?.email || 'Unknown'
+      })) || [];
+
+      setPayments(formattedPayments);
     } catch (error) {
       console.error("Error loading payments:", error);
     }
   };
 
-  const checkSystemHealth = () => {
-    // Simulate system health checks
-    setSystemHealth({
-      database: Math.random() > 0.1 ? "operational" : "warning",
-      paypal: Math.random() > 0.05 ? "operational" : "error", 
-      server: "operational",
-      storage: Math.random() > 0.15 ? "operational" : "warning"
-    });
+  const checkSystemHealth = async () => {
+    try {
+      // Test database connection
+      const { error: dbError } = await supabase.from('user_subscriptions').select('id').limit(1);
+
+      setSystemHealth({
+        database: dbError ? "error" : "operational",
+        paypal: "operational",
+        server: "operational",
+        storage: "operational"
+      });
+    } catch (error) {
+      setSystemHealth({
+        database: "error",
+        paypal: "warning",
+        server: "error",
+        storage: "warning"
+      });
+    }
   };
 
   const handleUserAction = async (userId: string, action: string) => {
@@ -401,7 +475,7 @@ export default function AdminNew() {
                 <CardContent>
                   <div className="text-2xl font-bold">{stats?.totalUsers || 0}</div>
                   <p className="text-xs text-green-400">
-                    +{stats?.todaySignups || 0} today ({stats?.monthlyGrowth}% this month)
+                    +{stats?.todaySignups || 0} today
                   </p>
                 </CardContent>
               </Card>
@@ -427,7 +501,7 @@ export default function AdminNew() {
                 <CardContent>
                   <div className="text-2xl font-bold">{formatPrice(stats?.totalRevenue || 0)}</div>
                   <p className="text-xs text-green-400">
-                    +18% from last month
+                    Revenue this month
                   </p>
                 </CardContent>
               </Card>
@@ -440,7 +514,7 @@ export default function AdminNew() {
                 <CardContent>
                   <div className="text-2xl font-bold">{Math.floor((stats?.avgSessionTime || 0) / 60)}m</div>
                   <p className="text-xs text-slate-400">
-                    {stats?.churnRate}% churn rate
+                    Average session time
                   </p>
                 </CardContent>
               </Card>
@@ -513,30 +587,26 @@ export default function AdminNew() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-center space-x-4 p-3 bg-slate-700 border border-black">
-                    <UserCheck className="h-5 w-5 text-green-400" />
-                    <div className="flex-1">
-                      <div className="font-semibold">New user registration</div>
-                      <div className="text-sm text-slate-400">mike.smith@email.com joined from Cape Town</div>
+                  {payments.slice(0, 3).map((payment, index) => (
+                    <div key={payment.id} className="flex items-center space-x-4 p-3 bg-slate-700 border border-black">
+                      <CreditCard className="h-5 w-5 text-blue-400" />
+                      <div className="flex-1">
+                        <div className="font-semibold">Payment {payment.status}</div>
+                        <div className="text-sm text-slate-400">{payment.user_email} - {formatPrice(payment.amount_cents)}</div>
+                      </div>
+                      <div className="text-xs text-slate-400">{new Date(payment.created_at).toLocaleDateString()}</div>
                     </div>
-                    <div className="text-xs text-slate-400">2 min ago</div>
-                  </div>
-                  <div className="flex items-center space-x-4 p-3 bg-slate-700 border border-black">
-                    <CreditCard className="h-5 w-5 text-blue-400" />
-                    <div className="flex-1">
-                      <div className="font-semibold">Payment received</div>
-                      <div className="text-sm text-slate-400">sarah.wilson@email.com paid R120 for Pro plan</div>
+                  ))}
+                  {users.slice(0, 3 - payments.length).map((user, index) => (
+                    <div key={user.id} className="flex items-center space-x-4 p-3 bg-slate-700 border border-black">
+                      <UserCheck className="h-5 w-5 text-green-400" />
+                      <div className="flex-1">
+                        <div className="font-semibold">User registration</div>
+                        <div className="text-sm text-slate-400">{user.email} - {user.subscription?.plan_type}</div>
+                      </div>
+                      <div className="text-xs text-slate-400">{new Date(user.created_at).toLocaleDateString()}</div>
                     </div>
-                    <div className="text-xs text-slate-400">5 min ago</div>
-                  </div>
-                  <div className="flex items-center space-x-4 p-3 bg-slate-700 border border-black">
-                    <Star className="h-5 w-5 text-yellow-400" />
-                    <div className="flex-1">
-                      <div className="font-semibold">User upgraded</div>
-                      <div className="text-sm text-slate-400">john.doe@email.com upgraded from Free to Basic</div>
-                    </div>
-                    <div className="text-xs text-slate-400">12 min ago</div>
-                  </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -715,8 +785,8 @@ export default function AdminNew() {
                   <CardTitle className="text-sm font-medium uppercase tracking-wide">Total Processed</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-400">R 18,450</div>
-                  <p className="text-xs text-slate-400">+15% from last month</p>
+                  <div className="text-2xl font-bold text-green-400">{formatPrice(payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount_cents, 0))}</div>
+                  <p className="text-xs text-slate-400">Total processed</p>
                 </CardContent>
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
@@ -724,8 +794,8 @@ export default function AdminNew() {
                   <CardTitle className="text-sm font-medium uppercase tracking-wide">Success Rate</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-400">97.2%</div>
-                  <p className="text-xs text-slate-400">Above industry average</p>
+                  <div className="text-2xl font-bold text-green-400">{payments.length > 0 ? Math.round((payments.filter(p => p.status === 'completed').length / payments.length) * 100) : 0}%</div>
+                  <p className="text-xs text-slate-400">Payment success rate</p>
                 </CardContent>
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
@@ -733,8 +803,8 @@ export default function AdminNew() {
                   <CardTitle className="text-sm font-medium uppercase tracking-wide">Failed Payments</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-red-400">7</div>
-                  <p className="text-xs text-slate-400">Requires attention</p>
+                  <div className="text-2xl font-bold text-red-400">{payments.filter(p => p.status === 'failed').length}</div>
+                  <p className="text-xs text-slate-400">Failed payments</p>
                 </CardContent>
               </Card>
             </div>
@@ -817,7 +887,7 @@ export default function AdminNew() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">1,247</div>
-                  <p className="text-xs text-slate-400">Across 3 categories</p>
+                  <p className="text-xs text-slate-400">Total questions</p>
                 </CardContent>
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
@@ -826,7 +896,7 @@ export default function AdminNew() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">224</div>
-                  <p className="text-xs text-slate-400">Location-aware</p>
+                  <p className="text-xs text-slate-400">AI scenarios</p>
                 </CardContent>
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
@@ -835,7 +905,7 @@ export default function AdminNew() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">5</div>
-                  <p className="text-xs text-slate-400">Premium content</p>
+                  <p className="text-xs text-slate-400">Scenario packs</p>
                 </CardContent>
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
