@@ -185,13 +185,14 @@ export const getUsers: RequestHandler = async (req, res) => {
 // Get payments
 export const getPayments: RequestHandler = async (req, res) => {
   try {
-    if (!supabaseAdmin) {
+    const supabaseClient = getSupabaseAdmin();
+    if (!supabaseClient) {
       return res.json([]);
     }
 
     const { limit = 50 } = req.query;
 
-    const { data: paymentsData, error } = await supabaseAdmin
+    const { data: paymentsData, error } = await supabaseClient
       .from("payments")
       .select(
         `
