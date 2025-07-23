@@ -362,7 +362,10 @@ export default function AdminNew() {
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh
               </Button>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Button
+                onClick={() => alert('Notifications feature coming soon!')}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+              >
                 <Bell className="h-4 w-4 mr-2" />
                 Notifications
               </Button>
@@ -646,7 +649,10 @@ export default function AdminNew() {
                   <Download className="h-4 w-4 mr-2" />
                   Export
                 </Button>
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                <Button
+                  onClick={() => alert('Add User feature coming soon!')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add User
                 </Button>
@@ -858,6 +864,10 @@ export default function AdminNew() {
                   Export
                 </Button>
                 <Button
+                  onClick={() => {
+                    alert('PayPal sync initiated!');
+                    loadPayments();
+                  }}
                   variant="outline"
                   className="border-gray-300 text-gray-700"
                 >
@@ -989,6 +999,7 @@ export default function AdminNew() {
                         </TableCell>
                         <TableCell>
                           <Button
+                            onClick={() => alert(`Viewing payment details for ${payment.id}`)}
                             size="sm"
                             variant="outline"
                             className="border-gray-300 text-gray-700"
