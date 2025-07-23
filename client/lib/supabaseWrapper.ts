@@ -112,39 +112,64 @@ export const supabase = {
       );
     },
 
-    signUp: (credentials: any) =>
-      safeOperation(
-        () => supabaseClient?.auth.signUp(credentials),
+    signUp: (credentials: any) => {
+      if (!supabaseClient || clientInitializationFailed) {
+        return Promise.resolve({
+          data: { user: null, session: null },
+          error: { message: "Authentication unavailable" },
+        });
+      }
+      return safeOperation(
+        () => supabaseClient.auth.signUp(credentials),
         {
           data: { user: null, session: null },
           error: { message: "Authentication unavailable" },
         },
         "signUp"
-      ),
+      );
+    },
 
-    signInWithPassword: (credentials: any) =>
-      safeOperation(
-        () => supabaseClient?.auth.signInWithPassword(credentials),
+    signInWithPassword: (credentials: any) => {
+      if (!supabaseClient || clientInitializationFailed) {
+        return Promise.resolve({
+          data: { user: null, session: null },
+          error: { message: "Authentication unavailable" },
+        });
+      }
+      return safeOperation(
+        () => supabaseClient.auth.signInWithPassword(credentials),
         {
           data: { user: null, session: null },
           error: { message: "Authentication unavailable" },
         },
         "signIn"
-      ),
+      );
+    },
 
-    signOut: () =>
-      safeOperation(
-        () => supabaseClient?.auth.signOut(),
+    signOut: () => {
+      if (!supabaseClient || clientInitializationFailed) {
+        return Promise.resolve({ error: null });
+      }
+      return safeOperation(
+        () => supabaseClient.auth.signOut(),
         { error: null },
         "signOut"
-      ),
+      );
+    },
 
-    updateUser: (updates: any) =>
-      safeOperation(
-        () => supabaseClient?.auth.updateUser(updates),
+    updateUser: (updates: any) => {
+      if (!supabaseClient || clientInitializationFailed) {
+        return Promise.resolve({
+          data: { user: null },
+          error: { message: "Update unavailable" }
+        });
+      }
+      return safeOperation(
+        () => supabaseClient.auth.updateUser(updates),
         { data: { user: null }, error: { message: "Update unavailable" } },
         "updateUser"
-      ),
+      );
+    },
 
     onAuthStateChange: (callback: any) => {
       if (!supabaseClient) {
