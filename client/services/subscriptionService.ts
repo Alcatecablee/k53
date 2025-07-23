@@ -32,15 +32,14 @@ export const getUserSubscription =
         return offlineSubscription;
       }
 
-      const {
-        data: { user },
-        error,
-      } = await Promise.race([
+      const authResult = await Promise.race([
         supabase.auth.getUser(),
         new Promise((_, reject) =>
           setTimeout(() => reject(new Error("Auth timeout")), 3000),
         ),
       ]);
+
+      const { data: { user }, error } = authResult as any;
 
       if (error || !user) {
         console.warn("Auth error, falling back to offline mode");
