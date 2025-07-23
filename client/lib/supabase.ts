@@ -1,9 +1,19 @@
 // Re-export from the wrapper for backwards compatibility
 export { supabase } from "./supabaseWrapper";
 
-// Also export the original client for direct database access
+// Safe export of the original client for direct database access
 import { supabase as supabaseWrapper } from "./supabaseWrapper";
-export const supabaseClient = supabaseWrapper._client;
+
+// Only export the client if it exists and is properly configured
+export const supabaseClient = (() => {
+  try {
+    const client = supabaseWrapper._client;
+    return client && typeof client === 'object' ? client : null;
+  } catch (error) {
+    console.warn("Error accessing Supabase client:", error);
+    return null;
+  }
+})();
 
 // Database types
 export interface User {
