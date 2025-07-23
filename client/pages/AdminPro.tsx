@@ -470,7 +470,7 @@ export default function AdminPro() {
   // Real user update handler
   const handleUserUpdate = async (user: EnhancedUser) => {
     try {
-      const response = await fetch(`/api/enterprise/users/${user.id}`, {
+      const response = await safeFetch(`/api/enterprise/users/${user.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
@@ -496,7 +496,7 @@ export default function AdminPro() {
     data?: any,
   ) => {
     try {
-      const response = await fetch("/api/enterprise/users/bulk", {
+      const response = await safeFetch("/api/enterprise/users/bulk", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ operation, userIds, data }),
@@ -517,7 +517,7 @@ export default function AdminPro() {
   // Cache management
   const clearSystemCache = async (pattern?: string) => {
     try {
-      const response = await fetch("/api/enterprise/cache/clear", {
+      const response = await safeFetch("/api/enterprise/cache/clear", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ pattern }),
