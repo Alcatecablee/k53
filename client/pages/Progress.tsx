@@ -23,28 +23,54 @@ import {
 import { Link } from "react-router-dom";
 
 export default function ProgressPage() {
-  // Mock user progress data (will be replaced with Supabase data)
-  const userStats = {
-    level: 12,
-    currentXP: 2450,
-    nextLevelXP: 3000,
-    streak: 7,
-    testsCompleted: 23,
-    averageScore: 82,
-    totalStudyTime: 145, // minutes
-    bestCategory: "Vehicle Controls",
-    weakestCategory: "Road Signs",
+  const [userStats, setUserStats] = useState({
+    level: 0,
+    currentXP: 0,
+    nextLevelXP: 1000,
+    streak: 0,
+    testsCompleted: 0,
+    averageScore: 0,
+    totalStudyTime: 0,
+    bestCategory: "Unknown",
+    weakestCategory: "Unknown",
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadUserProgress();
+  }, []);
+
+  const loadUserProgress = async () => {
+    try {
+      // This would require a proper user session
+      // For now, show empty stats since we're removing mock data
+      setUserStats({
+        level: 1,
+        currentXP: 0,
+        nextLevelXP: 1000,
+        streak: 0,
+        testsCompleted: 0,
+        averageScore: 0,
+        totalStudyTime: 0,
+        bestCategory: "Not determined",
+        weakestCategory: "Not determined",
+      });
+    } catch (error) {
+      console.error('Error loading user progress:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const weeklyProgress = [
-    { day: "Mon", xp: 120 },
-    { day: "Tue", xp: 85 },
-    { day: "Wed", xp: 200 },
+  const [weeklyProgress, setWeeklyProgress] = useState([
+    { day: "Mon", xp: 0 },
+    { day: "Tue", xp: 0 },
+    { day: "Wed", xp: 0 },
     { day: "Thu", xp: 0 },
-    { day: "Fri", xp: 150 },
-    { day: "Sat", xp: 180 },
-    { day: "Sun", xp: 95 },
-  ];
+    { day: "Fri", xp: 0 },
+    { day: "Sat", xp: 0 },
+    { day: "Sun", xp: 0 },
+  ]);
 
   const achievements = [
     {
