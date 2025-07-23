@@ -215,13 +215,12 @@ function PricingComponent() {
               {SUBSCRIPTION_PLANS.map((plan) => (
                 <Card
                   key={plan.id}
-                  className={`border-2 relative ${plan.popular ? "border-orange-500 bg-orange-50" : "border-black bg-white"}`}
+                  className={`border relative ${plan.popular ? "border-white bg-slate-700" : "border-black bg-slate-800"}`}
                 >
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <Badge className="bg-orange-500 text-white px-4 py-1">
-                        <Star className="h-3 w-3 mr-1" />
-                        Most Popular
+                      <Badge className="bg-white text-slate-900 border border-black px-4 py-1 font-bold uppercase tracking-wide">
+                        Recommended tier
                       </Badge>
                     </div>
                   )}
