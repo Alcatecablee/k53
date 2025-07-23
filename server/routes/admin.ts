@@ -189,7 +189,7 @@ export const getPayments: RequestHandler = async (req, res) => {
 
     if (error) {
       console.error('Error loading payments:', error);
-      return res.status(500).json({ error: "Failed to load payments" });
+      return res.json([]);
     }
 
     const formattedPayments = paymentsData?.map(payment => ({
