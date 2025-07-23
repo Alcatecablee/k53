@@ -58,15 +58,25 @@ export function StudyMaterials() {
       return;
     }
 
-    // Create a mock download for demo purposes
-    const link = document.createElement("a");
-    link.href = "#";
-    link.download = `superk53-${materialId}.pdf`;
-
-    // In a real implementation, this would be an actual file URL
-    alert(
-      `Download started: ${materialId}.pdf\n\nNote: This is a demo version. Premium materials require subscription.`,
-    );
+    // Real download implementation would fetch from secure storage
+    try {
+      // This would be implemented with actual file serving
+      const response = await fetch(`/api/materials/${materialId}`);
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `superk53-${materialId}.pdf`;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      } else {
+        alert("Material not available. Please contact support.");
+      }
+    } catch (error) {
+      console.error("Download failed:", error);
+      alert("Download failed. Please try again later.");
+    }
   };
 
   return (
