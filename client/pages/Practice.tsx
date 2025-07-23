@@ -765,6 +765,15 @@ export default function Practice() {
           </Card>
         </div>
       </div>
+
+      {/* Location Selector Modal */}
+      {showLocationSelector && (
+        <LocationSelector
+          onLocationSelected={handleLocationSelected}
+          onClose={() => setShowLocationSelector(false)}
+          currentLocation={userLocation}
+        />
+      )}
     </div>
   );
 }
