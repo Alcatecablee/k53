@@ -75,7 +75,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     id: "free",
     name: "Free Practice",
-    description: "Perfect for getting started",
+    description: "Basic assessment preparation",
     price_cents: 0,
     currency: "ZAR",
     billing_cycle: "monthly",
@@ -90,10 +90,29 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     includes_all_packs: false,
   },
   {
+    id: "light",
+    name: "SuperK53 Light",
+    description: "Enhanced practice for regular learners",
+    price_cents: 2900, // R29
+    currency: "ZAR",
+    billing_cycle: "monthly",
+    features: [
+      "15 scenarios per day",
+      "Unlimited questions",
+      "Enhanced progress tracking",
+      "Location-specific content",
+      "Detailed explanations",
+    ],
+    max_scenarios_per_day: 15,
+    max_questions_per_day: -1,
+    includes_all_packs: false,
+    popular: true,
+  },
+  {
     id: "basic",
-    name: "SuperK53 Basic",
+    name: "SuperK53 Standard",
     description: "Unlimited practice for serious learners",
-    price_cents: 5000, // R50
+    price_cents: 7900, // R79
     currency: "ZAR",
     billing_cycle: "monthly",
     features: [
@@ -107,7 +126,6 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     max_scenarios_per_day: -1, // -1 means unlimited
     max_questions_per_day: -1,
     includes_all_packs: false,
-    popular: true,
   },
   {
     id: "pro",
