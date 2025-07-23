@@ -93,7 +93,7 @@ function ProfileComponent() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-slate-800 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-black-800 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-slate-600 font-semibold uppercase tracking-wide">
             Loading Profile...
           </p>
@@ -105,7 +105,7 @@ function ProfileComponent() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8">
+      <div className="bg-white border-b-2 border-black-800 shadow-sm mb-8">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <Button
@@ -144,7 +144,7 @@ function ProfileComponent() {
         <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
           {/* Profile Info */}
           <div className="md:col-span-2 space-y-6">
-            <Card className="border-2 border-slate-800">
+            <Card className="border-2 border-black-800">
               <CardHeader className="bg-slate-800 text-white">
                 <CardTitle className="flex items-center space-x-2">
                   <User className="h-5 w-5" />
@@ -192,7 +192,7 @@ function ProfileComponent() {
             </Card>
 
             {/* Location Settings */}
-            <Card className="border-2 border-slate-800">
+            <Card className="border-2 border-black-800">
               <CardHeader className="bg-slate-800 text-white">
                 <CardTitle className="flex items-center space-x-2">
                   <MapPin className="h-5 w-5" />
@@ -216,7 +216,7 @@ function ProfileComponent() {
                         onClick={() => setShowLocationSelector(true)}
                         variant="outline"
                         size="sm"
-                        className="border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white"
+                        className="border-black-800 text-slate-800 hover:bg-slate-800 hover:text-white"
                       >
                         <Settings className="h-4 w-4 mr-1" />
                         Change
@@ -234,7 +234,7 @@ function ProfileComponent() {
 
           {/* Stats Sidebar */}
           <div className="space-y-6">
-            <Card className="border-2 border-slate-800">
+            <Card className="border-2 border-black-800">
               <CardHeader className="bg-slate-800 text-white text-center">
                 <CardTitle>Practice Stats</CardTitle>
               </CardHeader>
