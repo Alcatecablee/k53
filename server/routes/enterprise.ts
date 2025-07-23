@@ -6,8 +6,11 @@ let supabase: any = null;
 
 const getEnterpriseDatabase = () => {
   if (!supabase) {
-    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+    const supabaseUrl =
+      process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+    const supabaseServiceKey =
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.VITE_SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseServiceKey) {
       return null;
@@ -38,12 +41,12 @@ const setCache = (key: string, data: any, ttlMinutes: number = 5) => {
 const getCache = (key: string): any | null => {
   const entry = cache.get(key);
   if (!entry) return null;
-  
+
   if (Date.now() - entry.timestamp > entry.ttl) {
     cache.delete(key);
     return null;
   }
-  
+
   return entry.data;
 };
 
@@ -57,8 +60,8 @@ const invalidateCache = (pattern: string) => {
 
 // Enhanced dashboard statistics with real persistence
 export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
-  const cacheKey = 'dashboard_stats';
-  
+  const cacheKey = "dashboard_stats";
+
   try {
     // Check cache first
     const cachedData = getCache(cacheKey);
@@ -72,23 +75,44 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
     }
 
     // Get real data from multiple tables with parallel queries
-    const [usersResult, subscriptionsResult, paymentsResult, usageResult] = await Promise.allSettled([
-      db.from("user_subscriptions").select("*"),
-      db.from("user_subscriptions").select("*").neq("plan_type", "free").eq("status", "active"),
-      db.from("payments").select("*").eq("status", "completed"),
-      db.from("daily_usage").select("*").eq("date", new Date().toISOString().split("T")[0])
-    ]);
+    const [usersResult, subscriptionsResult, paymentsResult, usageResult] =
+      await Promise.allSettled([
+        db.from("user_subscriptions").select("*"),
+        db
+          .from("user_subscriptions")
+          .select("*")
+          .neq("plan_type", "free")
+          .eq("status", "active"),
+        db.from("payments").select("*").eq("status", "completed"),
+        db
+          .from("daily_usage")
+          .select("*")
+          .eq("date", new Date().toISOString().split("T")[0]),
+      ]);
 
-    const users = usersResult.status === 'fulfilled' ? usersResult.value.data || [] : [];
-    const activeSubscriptions = subscriptionsResult.status === 'fulfilled' ? subscriptionsResult.value.data || [] : [];
-    const completedPayments = paymentsResult.status === 'fulfilled' ? paymentsResult.value.data || [] : [];
-    const todayUsage = usageResult.status === 'fulfilled' ? usageResult.value.data || [] : [];
+    const users =
+      usersResult.status === "fulfilled" ? usersResult.value.data || [] : [];
+    const activeSubscriptions =
+      subscriptionsResult.status === "fulfilled"
+        ? subscriptionsResult.value.data || []
+        : [];
+    const completedPayments =
+      paymentsResult.status === "fulfilled"
+        ? paymentsResult.value.data || []
+        : [];
+    const todayUsage =
+      usageResult.status === "fulfilled" ? usageResult.value.data || [] : [];
 
     // Calculate enhanced metrics
-    const totalRevenue = completedPayments.reduce((sum, payment) => sum + (payment.amount_cents || 0), 0);
+    const totalRevenue = completedPayments.reduce(
+      (sum, payment) => sum + (payment.amount_cents || 0),
+      0,
+    );
     const today = new Date().toISOString().split("T")[0];
-    const todaySignups = users.filter(user => user.created_at?.startsWith(today)).length;
-    
+    const todaySignups = users.filter((user) =>
+      user.created_at?.startsWith(today),
+    ).length;
+
     // Location analysis
     const locationCounts = users.reduce((acc: any, user) => {
       if (user.location) {
@@ -103,7 +127,7 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
       .slice(0, 5);
 
     // Real-time metrics from actual system data
-    const realtimeUsers = users.filter(user => {
+    const realtimeUsers = users.filter((user) => {
       if (!user.last_seen) return false;
       const lastSeen = new Date(user.last_seen);
       const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
@@ -122,7 +146,10 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
       activeSubscriptions: activeSubscriptions.length,
       totalRevenue,
       todaySignups,
-      conversionRate: users.length > 0 ? (activeSubscriptions.length / users.length) * 100 : 0,
+      conversionRate:
+        users.length > 0
+          ? (activeSubscriptions.length / users.length) * 100
+          : 0,
       churnRate: 3.2, // This would require historical analysis
       avgSessionTime: 847, // This would come from session tracking
       topLocations,
@@ -198,7 +225,7 @@ export const getEnhancedUsers: RequestHandler = async (req, res) => {
     const enhancedUsers = (users || []).map((user: any) => {
       const userPayments = userPaymentsMap[user.user_id] || [];
       const totalSpent = userPayments
-        .filter((p: any) => p.status === 'completed')
+        .filter((p: any) => p.status === "completed")
         .reduce((sum: number, p: any) => sum + (p.amount_cents || 0), 0);
 
       return {
@@ -255,7 +282,9 @@ export const getEnhancedPayments: RequestHandler = async (req, res) => {
     }
 
     // Get user emails separately to avoid join issues
-    const userIds = [...new Set((payments || []).map((p: any) => p.user_id).filter(Boolean))];
+    const userIds = [
+      ...new Set((payments || []).map((p: any) => p.user_id).filter(Boolean)),
+    ];
     let userEmailMap: Record<string, string> = {};
 
     if (userIds.length > 0) {
@@ -267,7 +296,7 @@ export const getEnhancedPayments: RequestHandler = async (req, res) => {
       userEmailMap = (users || []).reduce((acc: any, user: any) => {
         acc[user.user_id] = {
           email: user.email,
-          location: user.location
+          location: user.location,
         };
         return acc;
       }, {});
@@ -278,10 +307,10 @@ export const getEnhancedPayments: RequestHandler = async (req, res) => {
       const userInfo = userEmailMap[payment.user_id] || {};
       return {
         ...payment,
-        user_email: userInfo.email || 'Unknown',
+        user_email: userInfo.email || "Unknown",
         fee_cents: Math.floor((payment.amount_cents || 0) * 0.029), // Real 2.9% processing fee
         refunded: false, // Would come from real refund tracking
-        country: userInfo.location?.split(',')[1]?.trim() || 'ZA',
+        country: userInfo.location?.split(",")[1]?.trim() || "ZA",
         risk_level: calculatePaymentRisk(payment),
       };
     });
@@ -308,11 +337,15 @@ export const getRealTimeMetrics: RequestHandler = async (req, res) => {
     // Get real data from database for metrics
     const [usersResult, paymentsResult] = await Promise.allSettled([
       db.from("user_subscriptions").select("created_at, last_seen"),
-      db.from("payments").select("created_at, amount_cents, status")
+      db.from("payments").select("created_at, amount_cents, status"),
     ]);
 
-    const users = usersResult.status === 'fulfilled' ? usersResult.value.data || [] : [];
-    const payments = paymentsResult.status === 'fulfilled' ? paymentsResult.value.data || [] : [];
+    const users =
+      usersResult.status === "fulfilled" ? usersResult.value.data || [] : [];
+    const payments =
+      paymentsResult.status === "fulfilled"
+        ? paymentsResult.value.data || []
+        : [];
 
     // Calculate real metrics for the last 12 intervals
     const metrics = [];
@@ -321,22 +354,30 @@ export const getRealTimeMetrics: RequestHandler = async (req, res) => {
       const intervalStart = new Date(timestamp.getTime() - 5 * 60000);
 
       // Count users active in this interval (simplified - would need session tracking)
-      const activeUsers = users.filter(user =>
-        user.last_seen && new Date(user.last_seen) >= intervalStart && new Date(user.last_seen) <= timestamp
+      const activeUsers = users.filter(
+        (user) =>
+          user.last_seen &&
+          new Date(user.last_seen) >= intervalStart &&
+          new Date(user.last_seen) <= timestamp,
       ).length;
 
       // Count payments in this interval
-      const intervalPayments = payments.filter(payment =>
-        new Date(payment.created_at) >= intervalStart && new Date(payment.created_at) <= timestamp
+      const intervalPayments = payments.filter(
+        (payment) =>
+          new Date(payment.created_at) >= intervalStart &&
+          new Date(payment.created_at) <= timestamp,
       );
 
       const intervalRevenue = intervalPayments
-        .filter(p => p.status === 'completed')
+        .filter((p) => p.status === "completed")
         .reduce((sum, p) => sum + (p.amount_cents || 0), 0);
 
       metrics.push({
         timestamp: timestamp.toISOString(),
-        name: timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        name: timestamp.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
         users: activeUsers,
         revenue: intervalRevenue,
         requests: intervalPayments.length,
@@ -366,9 +407,9 @@ export const updateEnhancedUser: RequestHandler = async (req, res) => {
     }
 
     // Validate updates
-    const allowedFields = ['email', 'location', 'plan_type', 'status'];
+    const allowedFields = ["email", "location", "plan_type", "status"];
     const sanitizedUpdates = Object.keys(updates)
-      .filter(key => allowedFields.includes(key))
+      .filter((key) => allowedFields.includes(key))
       .reduce((obj: any, key) => {
         obj[key] = updates[key];
         return obj;
@@ -389,8 +430,8 @@ export const updateEnhancedUser: RequestHandler = async (req, res) => {
     }
 
     // Invalidate related cache entries
-    invalidateCache('enhanced_users');
-    invalidateCache('dashboard_stats');
+    invalidateCache("enhanced_users");
+    invalidateCache("dashboard_stats");
 
     res.json({ success: true, user: data });
   } catch (error) {
@@ -412,7 +453,7 @@ export const bulkUserOperation: RequestHandler = async (req, res) => {
     let results = [];
 
     switch (operation) {
-      case 'bulk_update':
+      case "bulk_update":
         const { data: updatedUsers, error: updateError } = await db
           .from("user_subscriptions")
           .update({ ...data, updated_at: new Date().toISOString() })
@@ -423,11 +464,11 @@ export const bulkUserOperation: RequestHandler = async (req, res) => {
         results = updatedUsers;
         break;
 
-      case 'bulk_delete':
+      case "bulk_delete":
         // In a real system, you'd soft delete or archive
         const { data: deletedUsers, error: deleteError } = await db
           .from("user_subscriptions")
-          .update({ status: 'deleted', updated_at: new Date().toISOString() })
+          .update({ status: "deleted", updated_at: new Date().toISOString() })
           .in("user_id", userIds)
           .select();
 
@@ -435,23 +476,28 @@ export const bulkUserOperation: RequestHandler = async (req, res) => {
         results = deletedUsers;
         break;
 
-      case 'export':
+      case "export":
         const { data: exportUsers, error: exportError } = await db
           .from("user_subscriptions")
           .select("*")
           .in("user_id", userIds);
 
         if (exportError) throw exportError;
-        
-        // Generate CSV
-        const csvHeaders = Object.keys(exportUsers[0] || {}).join(',');
-        const csvRows = exportUsers.map((user: any) => 
-          Object.values(user).map(val => `"${val}"`).join(',')
-        );
-        const csv = [csvHeaders, ...csvRows].join('\n');
 
-        res.setHeader('Content-Type', 'text/csv');
-        res.setHeader('Content-Disposition', 'attachment; filename="users_export.csv"');
+        // Generate CSV
+        const csvHeaders = Object.keys(exportUsers[0] || {}).join(",");
+        const csvRows = exportUsers.map((user: any) =>
+          Object.values(user)
+            .map((val) => `"${val}"`)
+            .join(","),
+        );
+        const csv = [csvHeaders, ...csvRows].join("\n");
+
+        res.setHeader("Content-Type", "text/csv");
+        res.setHeader(
+          "Content-Disposition",
+          'attachment; filename="users_export.csv"',
+        );
         return res.send(csv);
 
       default:
@@ -459,14 +505,14 @@ export const bulkUserOperation: RequestHandler = async (req, res) => {
     }
 
     // Invalidate cache
-    invalidateCache('enhanced_users');
-    invalidateCache('dashboard_stats');
+    invalidateCache("enhanced_users");
+    invalidateCache("dashboard_stats");
 
-    res.json({ 
-      success: true, 
-      operation, 
+    res.json({
+      success: true,
+      operation,
       affected: results.length,
-      results: results.slice(0, 10) // Return first 10 for confirmation
+      results: results.slice(0, 10), // Return first 10 for confirmation
     });
   } catch (error) {
     console.error("Bulk operation error:", error);
@@ -477,7 +523,7 @@ export const bulkUserOperation: RequestHandler = async (req, res) => {
 // Helper functions
 const calculateRiskScore = (user: any, payments: any[]): number => {
   let score = 0;
-  
+
   // Account age factor
   const accountAge = Date.now() - new Date(user.created_at).getTime();
   const daysSinceCreation = accountAge / (1000 * 60 * 60 * 24);
@@ -485,7 +531,7 @@ const calculateRiskScore = (user: any, payments: any[]): number => {
   else if (daysSinceCreation < 30) score += 15;
 
   // Payment behavior
-  const failedPayments = payments.filter(p => p.status === 'failed').length;
+  const failedPayments = payments.filter((p) => p.status === "failed").length;
   score += failedPayments * 20;
 
   // Location factor (simplified)
@@ -494,14 +540,15 @@ const calculateRiskScore = (user: any, payments: any[]): number => {
   return Math.min(100, score);
 };
 
-const calculatePaymentRisk = (payment: any): 'low' | 'medium' | 'high' => {
+const calculatePaymentRisk = (payment: any): "low" | "medium" | "high" => {
   const amount = payment.amount_cents || 0;
   const isLargeAmount = amount > 20000; // > R200
-  const isRecent = Date.now() - new Date(payment.created_at).getTime() < 24 * 60 * 60 * 1000;
-  
-  if (isLargeAmount && isRecent) return 'high';
-  if (isLargeAmount || isRecent) return 'medium';
-  return 'low';
+  const isRecent =
+    Date.now() - new Date(payment.created_at).getTime() < 24 * 60 * 60 * 1000;
+
+  if (isLargeAmount && isRecent) return "high";
+  if (isLargeAmount || isRecent) return "medium";
+  return "low";
 };
 
 const generateMockStats = () => ({
@@ -523,20 +570,23 @@ const generateMockStats = () => ({
 // Cache management endpoints
 export const clearCache: RequestHandler = async (req, res) => {
   const { pattern } = req.body;
-  
+
   if (pattern) {
     invalidateCache(pattern);
   } else {
     cache.clear();
   }
-  
-  res.json({ success: true, message: `Cache ${pattern ? 'pattern' : 'all'} cleared` });
+
+  res.json({
+    success: true,
+    message: `Cache ${pattern ? "pattern" : "all"} cleared`,
+  });
 };
 
 export const getCacheStats: RequestHandler = async (req, res) => {
   const stats = {
     totalEntries: cache.size,
-    entries: Array.from(cache.keys()).map(key => {
+    entries: Array.from(cache.keys()).map((key) => {
       const entry = cache.get(key);
       return {
         key,
@@ -546,6 +596,6 @@ export const getCacheStats: RequestHandler = async (req, res) => {
       };
     }),
   };
-  
+
   res.json(stats);
 };

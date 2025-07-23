@@ -1,7 +1,15 @@
-import React, { useState, useCallback, useRef } from 'react';
-import { Upload, X, FileText, Image, AlertCircle, CheckCircle, Download } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
+import React, { useState, useCallback, useRef } from "react";
+import {
+  Upload,
+  X,
+  FileText,
+  Image,
+  AlertCircle,
+  CheckCircle,
+  Download,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 interface FileUploadProps {
   accept?: string;
@@ -18,7 +26,7 @@ interface FileUploadProps {
 interface UploadFile extends File {
   id: string;
   progress: number;
-  status: 'pending' | 'uploading' | 'completed' | 'error';
+  status: "pending" | "uploading" | "completed" | "error";
   error?: string;
   result?: any;
 }
@@ -32,7 +40,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   onComplete,
   onError,
   className = "",
-  disabled = false
+  disabled = false,
 }) => {
   const [files, setFiles] = useState<UploadFile[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -43,90 +51,102 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     ...file,
     id: Math.random().toString(36).substr(2, 9),
     progress: 0,
-    status: 'pending'
+    status: "pending",
   });
 
   const validateFile = (file: File): string | null => {
     if (file.size > maxSize * 1024 * 1024) {
       return `File size exceeds ${maxSize}MB limit`;
     }
-    
+
     if (accept !== "*/*") {
-      const acceptedTypes = accept.split(',').map(type => type.trim());
+      const acceptedTypes = accept.split(",").map((type) => type.trim());
       const fileType = file.type;
-      const fileExtension = `.${file.name.split('.').pop()?.toLowerCase()}`;
-      
-      const isAccepted = acceptedTypes.some(type => {
-        if (type.startsWith('.')) {
+      const fileExtension = `.${file.name.split(".").pop()?.toLowerCase()}`;
+
+      const isAccepted = acceptedTypes.some((type) => {
+        if (type.startsWith(".")) {
           return type === fileExtension;
         }
-        if (type.includes('*')) {
-          const baseType = type.split('/')[0];
+        if (type.includes("*")) {
+          const baseType = type.split("/")[0];
           return fileType.startsWith(baseType);
         }
         return type === fileType;
       });
-      
+
       if (!isAccepted) {
         return `File type not accepted. Accepted types: ${accept}`;
       }
     }
-    
+
     return null;
   };
 
-  const handleFiles = useCallback((newFiles: FileList | File[]) => {
-    const fileArray = Array.from(newFiles);
-    
-    if (files.length + fileArray.length > maxFiles) {
-      onError?.(`Maximum ${maxFiles} files allowed`);
-      return;
-    }
+  const handleFiles = useCallback(
+    (newFiles: FileList | File[]) => {
+      const fileArray = Array.from(newFiles);
 
-    const validatedFiles: UploadFile[] = [];
-    
-    for (const file of fileArray) {
-      const error = validateFile(file);
-      if (error) {
-        onError?.(error);
-        continue;
+      if (files.length + fileArray.length > maxFiles) {
+        onError?.(`Maximum ${maxFiles} files allowed`);
+        return;
       }
-      validatedFiles.push(createFileWithId(file));
-    }
 
-    setFiles(prev => [...prev, ...validatedFiles]);
-  }, [files.length, maxFiles, maxSize, accept, onError]);
+      const validatedFiles: UploadFile[] = [];
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    
-    if (disabled) return;
-    
-    const droppedFiles = e.dataTransfer.files;
-    handleFiles(droppedFiles);
-  }, [disabled, handleFiles]);
+      for (const file of fileArray) {
+        const error = validateFile(file);
+        if (error) {
+          onError?.(error);
+          continue;
+        }
+        validatedFiles.push(createFileWithId(file));
+      }
 
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    if (!disabled) {
-      setIsDragOver(true);
-    }
-  }, [disabled]);
+      setFiles((prev) => [...prev, ...validatedFiles]);
+    },
+    [files.length, maxFiles, maxSize, accept, onError],
+  );
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragOver(false);
+
+      if (disabled) return;
+
+      const droppedFiles = e.dataTransfer.files;
+      handleFiles(droppedFiles);
+    },
+    [disabled, handleFiles],
+  );
+
+  const handleDragOver = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      if (!disabled) {
+        setIsDragOver(true);
+      }
+    },
+    [disabled],
+  );
 
   const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
   }, []);
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      handleFiles(e.target.files);
-    }
-  }, [handleFiles]);
+  const handleFileSelect = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        handleFiles(e.target.files);
+      }
+    },
+    [handleFiles],
+  );
 
   const removeFile = (fileId: string) => {
-    setFiles(prev => prev.filter(f => f.id !== fileId));
+    setFiles((prev) => prev.filter((f) => f.id !== fileId));
   };
 
   const uploadFiles = async () => {
@@ -136,44 +156,59 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     const results: any[] = [];
 
     for (const file of files) {
-      if (file.status !== 'pending') continue;
+      if (file.status !== "pending") continue;
 
-      setFiles(prev => prev.map(f => 
-        f.id === file.id ? { ...f, status: 'uploading' as const, progress: 0 } : f
-      ));
+      setFiles((prev) =>
+        prev.map((f) =>
+          f.id === file.id
+            ? { ...f, status: "uploading" as const, progress: 0 }
+            : f,
+        ),
+      );
 
       try {
         // Simulate upload progress
         const progressInterval = setInterval(() => {
-          setFiles(prev => prev.map(f => {
-            if (f.id === file.id && f.progress < 90) {
-              return { ...f, progress: f.progress + Math.random() * 10 };
-            }
-            return f;
-          }));
+          setFiles((prev) =>
+            prev.map((f) => {
+              if (f.id === file.id && f.progress < 90) {
+                return { ...f, progress: f.progress + Math.random() * 10 };
+              }
+              return f;
+            }),
+          );
         }, 200);
 
         const result = await onUpload([file]);
         clearInterval(progressInterval);
 
-        setFiles(prev => prev.map(f => 
-          f.id === file.id ? { 
-            ...f, 
-            status: 'completed' as const, 
-            progress: 100,
-            result 
-          } : f
-        ));
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.id === file.id
+              ? {
+                  ...f,
+                  status: "completed" as const,
+                  progress: 100,
+                  result,
+                }
+              : f,
+          ),
+        );
 
         results.push(result);
       } catch (error) {
-        setFiles(prev => prev.map(f => 
-          f.id === file.id ? { 
-            ...f, 
-            status: 'error' as const,
-            error: error instanceof Error ? error.message : 'Upload failed'
-          } : f
-        ));
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.id === file.id
+              ? {
+                  ...f,
+                  status: "error" as const,
+                  error:
+                    error instanceof Error ? error.message : "Upload failed",
+                }
+              : f,
+          ),
+        );
       }
     }
 
@@ -182,7 +217,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   const getFileIcon = (file: UploadFile) => {
-    if (file.type.startsWith('image/')) {
+    if (file.type.startsWith("image/")) {
       return <Image className="w-6 h-6 text-blue-500" />;
     }
     return <FileText className="w-6 h-6 text-gray-500" />;
@@ -190,9 +225,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
   const getStatusIcon = (file: UploadFile) => {
     switch (file.status) {
-      case 'completed':
+      case "completed":
         return <CheckCircle className="w-5 h-5 text-green-500" />;
-      case 'error':
+      case "error":
         return <AlertCircle className="w-5 h-5 text-red-500" />;
       default:
         return null;
@@ -200,15 +235,15 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return "0 Bytes";
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
-  const completedFiles = files.filter(f => f.status === 'completed');
-  const hasErrors = files.some(f => f.status === 'error');
+  const completedFiles = files.filter((f) => f.status === "completed");
+  const hasErrors = files.some((f) => f.status === "error");
 
   return (
     <div className={`space-y-4 ${className}`}>
@@ -219,11 +254,12 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         onDragLeave={handleDragLeave}
         className={`
           relative border-2 border-dashed rounded-lg p-8 text-center transition-colors
-          ${isDragOver 
-            ? 'border-blue-500 bg-blue-50' 
-            : 'border-gray-300 hover:border-gray-400'
+          ${
+            isDragOver
+              ? "border-blue-500 bg-blue-50"
+              : "border-gray-300 hover:border-gray-400"
           }
-          ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+          ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
         `}
         onClick={() => !disabled && fileInputRef.current?.click()}
       >
@@ -236,18 +272,18 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           className="hidden"
           disabled={disabled}
         />
-        
-        <Upload className={`w-12 h-12 mx-auto mb-4 ${
-          isDragOver ? 'text-blue-500' : 'text-gray-400'
-        }`} />
-        
+
+        <Upload
+          className={`w-12 h-12 mx-auto mb-4 ${
+            isDragOver ? "text-blue-500" : "text-gray-400"
+          }`}
+        />
+
         <div className="space-y-2">
           <p className="text-lg font-medium text-gray-900">
-            {isDragOver ? 'Drop files here' : 'Drag and drop files here'}
+            {isDragOver ? "Drop files here" : "Drag and drop files here"}
           </p>
-          <p className="text-sm text-gray-500">
-            or click to browse files
-          </p>
+          <p className="text-sm text-gray-500">or click to browse files</p>
           <p className="text-xs text-gray-400">
             Max {maxFiles} files, {maxSize}MB each. Accepted: {accept}
           </p>
@@ -265,10 +301,14 @@ export const FileUpload: React.FC<FileUploadProps> = ({
               {onUpload && (
                 <Button
                   onClick={uploadFiles}
-                  disabled={isUploading || disabled || files.every(f => f.status !== 'pending')}
+                  disabled={
+                    isUploading ||
+                    disabled ||
+                    files.every((f) => f.status !== "pending")
+                  }
                   className="bg-blue-600 hover:bg-blue-700 text-white"
                 >
-                  {isUploading ? 'Uploading...' : 'Upload Files'}
+                  {isUploading ? "Uploading..." : "Upload Files"}
                 </Button>
               )}
               <Button
@@ -288,10 +328,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                 key={file.id}
                 className="flex items-center space-x-4 p-4 bg-white border border-gray-200 rounded-lg"
               >
-                <div className="flex-shrink-0">
-                  {getFileIcon(file)}
-                </div>
-                
+                <div className="flex-shrink-0">{getFileIcon(file)}</div>
+
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
                     <p className="text-sm font-medium text-gray-900 truncate">
@@ -299,7 +337,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                     </p>
                     <div className="flex items-center space-x-2">
                       {getStatusIcon(file)}
-                      {file.status === 'pending' && (
+                      {file.status === "pending" && (
                         <Button
                           onClick={() => removeFile(file.id)}
                           size="sm"
@@ -311,26 +349,30 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
                     <span>{formatFileSize(file.size)}</span>
                     <span className="capitalize">{file.status}</span>
                   </div>
-                  
-                  {file.status === 'uploading' && (
+
+                  {file.status === "uploading" && (
                     <Progress value={file.progress} className="h-2" />
                   )}
-                  
-                  {file.status === 'error' && file.error && (
+
+                  {file.status === "error" && file.error && (
                     <p className="text-xs text-red-600 mt-1">{file.error}</p>
                   )}
-                  
-                  {file.status === 'completed' && file.result && (
+
+                  {file.status === "completed" && file.result && (
                     <div className="flex items-center justify-between mt-2">
-                      <p className="text-xs text-green-600">Upload successful</p>
+                      <p className="text-xs text-green-600">
+                        Upload successful
+                      </p>
                       {file.result.downloadUrl && (
                         <Button
-                          onClick={() => window.open(file.result.downloadUrl, '_blank')}
+                          onClick={() =>
+                            window.open(file.result.downloadUrl, "_blank")
+                          }
                           size="sm"
                           variant="outline"
                           className="border-gray-300"
@@ -352,9 +394,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       {files.length > 0 && (
         <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
           <div className="flex items-center space-x-4 text-sm">
-            <span className="text-gray-600">
-              Total: {files.length} files
-            </span>
+            <span className="text-gray-600">Total: {files.length} files</span>
             {completedFiles.length > 0 && (
               <span className="text-green-600">
                 ✓ {completedFiles.length} completed
@@ -362,13 +402,16 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             )}
             {hasErrors && (
               <span className="text-red-600">
-                ✗ {files.filter(f => f.status === 'error').length} failed
+                ✗ {files.filter((f) => f.status === "error").length} failed
               </span>
             )}
           </div>
-          
+
           <div className="text-sm text-gray-500">
-            {formatFileSize(files.reduce((total, file) => total + file.size, 0))} total
+            {formatFileSize(
+              files.reduce((total, file) => total + file.size, 0),
+            )}{" "}
+            total
           </div>
         </div>
       )}
@@ -386,7 +429,7 @@ interface CSVUploadProps {
 export const CSVUpload: React.FC<CSVUploadProps> = ({
   onComplete,
   onError,
-  className = ""
+  className = "",
 }) => {
   const [csvData, setCsvData] = useState<string[][]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
@@ -396,37 +439,37 @@ export const CSVUpload: React.FC<CSVUploadProps> = ({
     const file = files[0];
     if (!file) return;
 
-    if (!file.name.toLowerCase().endsWith('.csv')) {
-      throw new Error('Please select a CSV file');
+    if (!file.name.toLowerCase().endsWith(".csv")) {
+      throw new Error("Please select a CSV file");
     }
 
     const text = await file.text();
-    const lines = text.split('\n').filter(line => line.trim());
-    
+    const lines = text.split("\n").filter((line) => line.trim());
+
     if (lines.length === 0) {
-      throw new Error('CSV file is empty');
+      throw new Error("CSV file is empty");
     }
 
-    const parsedData = lines.map(line => {
+    const parsedData = lines.map((line) => {
       // Simple CSV parsing - in production, use a proper CSV parser
       const values = [];
-      let current = '';
+      let current = "";
       let inQuotes = false;
-      
+
       for (let i = 0; i < line.length; i++) {
         const char = line[i];
         if (char === '"') {
           inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
+        } else if (char === "," && !inQuotes) {
           values.push(current.trim());
-          current = '';
+          current = "";
         } else {
           current += char;
         }
       }
       values.push(current.trim());
-      
-      return values.map(val => val.replace(/^"|"$/g, ''));
+
+      return values.map((val) => val.replace(/^"|"$/g, ""));
     });
 
     setHeaders(parsedData[0] || []);
@@ -437,10 +480,10 @@ export const CSVUpload: React.FC<CSVUploadProps> = ({
   };
 
   const processData = () => {
-    const processed = csvData.map(row => {
+    const processed = csvData.map((row) => {
       const obj: any = {};
       headers.forEach((header, index) => {
-        obj[header] = row[index] || '';
+        obj[header] = row[index] || "";
       });
       return obj;
     });

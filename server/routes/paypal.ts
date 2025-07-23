@@ -1,9 +1,13 @@
 import { RequestHandler } from "express";
 
 // PayPal API configuration
-const PAYPAL_CLIENT_ID = process.env.VITE_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID;
+const PAYPAL_CLIENT_ID =
+  process.env.VITE_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
-const PAYPAL_ENVIRONMENT = process.env.VITE_PAYPAL_ENVIRONMENT || process.env.PAYPAL_ENVIRONMENT || "sandbox";
+const PAYPAL_ENVIRONMENT =
+  process.env.VITE_PAYPAL_ENVIRONMENT ||
+  process.env.PAYPAL_ENVIRONMENT ||
+  "sandbox";
 
 // Create PayPal order
 export const createPayPalOrder: RequestHandler = async (req, res) => {
@@ -22,13 +26,13 @@ export const createPayPalOrder: RequestHandler = async (req, res) => {
       amount,
       currency,
       userId,
-      orderId: mockOrderId
+      orderId: mockOrderId,
     });
 
-    res.json({ 
+    res.json({
       orderID: mockOrderId,
       status: "CREATED",
-      message: "Mock PayPal order created successfully"
+      message: "Mock PayPal order created successfully",
     });
   } catch (error) {
     console.error("Create PayPal order error:", error);
@@ -52,7 +56,7 @@ export const capturePayPalOrder: RequestHandler = async (req, res) => {
       orderID,
       planId,
       userId,
-      paymentId: mockPaymentId
+      paymentId: mockPaymentId,
     });
 
     res.json({

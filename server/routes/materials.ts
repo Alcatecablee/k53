@@ -22,7 +22,7 @@ export const getMaterial: RequestHandler = async (req, res) => {
       "road-signs": {
         id: "road-signs",
         title: "Road Signs Reference",
-        type: "pdf", 
+        type: "pdf",
         size: "1.8 MB",
         description: "Complete road signs reference guide",
         downloadUrl: "/materials/road-signs.pdf",
@@ -31,10 +31,10 @@ export const getMaterial: RequestHandler = async (req, res) => {
         id: "rules-of-road",
         title: "Rules of the Road",
         type: "pdf",
-        size: "3.1 MB", 
+        size: "3.1 MB",
         description: "Complete rules of the road manual",
         downloadUrl: "/materials/rules-of-road.pdf",
-      }
+      },
     };
 
     const material = materials[materialId];
@@ -46,7 +46,7 @@ export const getMaterial: RequestHandler = async (req, res) => {
     res.json({
       success: true,
       material,
-      message: "Material information retrieved successfully"
+      message: "Material information retrieved successfully",
     });
   } catch (error) {
     console.error("Get material error:", error);
@@ -67,7 +67,7 @@ export const listMaterials: RequestHandler = async (req, res) => {
       },
       {
         id: "road-signs",
-        title: "Road Signs Reference", 
+        title: "Road Signs Reference",
         type: "pdf",
         size: "1.8 MB",
         description: "Complete road signs reference guide",
@@ -78,13 +78,13 @@ export const listMaterials: RequestHandler = async (req, res) => {
         type: "pdf",
         size: "3.1 MB",
         description: "Complete rules of the road manual",
-      }
+      },
     ];
 
     res.json({
       success: true,
       materials,
-      count: materials.length
+      count: materials.length,
     });
   } catch (error) {
     console.error("List materials error:", error);

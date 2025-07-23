@@ -6,8 +6,10 @@ let supabase: any = null;
 
 const getDatabase = () => {
   if (!supabase) {
-    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+    const supabaseUrl =
+      process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+    const supabaseKey =
+      process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
       return null;
@@ -73,7 +75,8 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
     }
 
     // Check if user has active subscription
-    const isSubscribed = subscription?.plan_type !== "free" && subscription?.status === "active";
+    const isSubscribed =
+      subscription?.plan_type !== "free" && subscription?.status === "active";
 
     if (isSubscribed) {
       return res.json({
@@ -112,7 +115,10 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
       currentUsage = newUsage || { scenarios_used: 0, max_scenarios: 5 };
     }
 
-    const remaining = Math.max(0, currentUsage.max_scenarios - currentUsage.scenarios_used);
+    const remaining = Math.max(
+      0,
+      currentUsage.max_scenarios - currentUsage.scenarios_used,
+    );
 
     res.json({
       allowed: remaining > 0,
@@ -156,7 +162,8 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
       .eq("user_id", userId)
       .single();
 
-    const isSubscribed = subscription?.plan_type !== "free" && subscription?.status === "active";
+    const isSubscribed =
+      subscription?.plan_type !== "free" && subscription?.status === "active";
 
     if (isSubscribed) {
       return res.json({
@@ -194,7 +201,9 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
       .select()
       .single();
 
-    const remaining = updatedUsage ? Math.max(0, updatedUsage.max_scenarios - updatedUsage.scenarios_used) : 4;
+    const remaining = updatedUsage
+      ? Math.max(0, updatedUsage.max_scenarios - updatedUsage.scenarios_used)
+      : 4;
 
     res.json({
       success: true,
@@ -213,5 +222,11 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
 };
 
 // Apply auth middleware to routes
-export const authenticatedValidateScenarioAccess = [requireAuth, validateScenarioAccess];
-export const authenticatedRecordScenarioUsage = [requireAuth, recordScenarioUsage];
+export const authenticatedValidateScenarioAccess = [
+  requireAuth,
+  validateScenarioAccess,
+];
+export const authenticatedRecordScenarioUsage = [
+  requireAuth,
+  recordScenarioUsage,
+];

@@ -6,8 +6,10 @@ let supabase: any = null;
 
 const getDatabase = () => {
   if (!supabase) {
-    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+    const supabaseUrl =
+      process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+    const supabaseKey =
+      process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
       return null;
@@ -31,7 +33,12 @@ const questionBank = [
   {
     id: 2,
     question: "When must you use your headlights?",
-    options: ["Only at night", "During rain", "30 minutes after sunset", "All of the above"],
+    options: [
+      "Only at night",
+      "During rain",
+      "30 minutes after sunset",
+      "All of the above",
+    ],
     correct: 3,
     category: "lighting",
     difficulty: "medium",
@@ -50,7 +57,8 @@ const scenarios = [
   {
     id: 1,
     title: "City Intersection Navigation",
-    description: "Navigate through a busy 4-way intersection with traffic lights",
+    description:
+      "Navigate through a busy 4-way intersection with traffic lights",
     difficulty: "medium",
     location: "cape_town",
     type: "intersection",
@@ -80,23 +88,27 @@ const scenarios = [
 export const getQuestionBank: RequestHandler = async (req, res) => {
   try {
     const { category, difficulty, limit = 50 } = req.query;
-    
+
     let filteredQuestions = [...questionBank];
-    
+
     if (category) {
-      filteredQuestions = filteredQuestions.filter(q => q.category === category);
+      filteredQuestions = filteredQuestions.filter(
+        (q) => q.category === category,
+      );
     }
-    
+
     if (difficulty) {
-      filteredQuestions = filteredQuestions.filter(q => q.difficulty === difficulty);
+      filteredQuestions = filteredQuestions.filter(
+        (q) => q.difficulty === difficulty,
+      );
     }
-    
+
     const questions = filteredQuestions.slice(0, Number(limit));
-    
+
     const stats = {
       total: questionBank.length,
-      categories: [...new Set(questionBank.map(q => q.category))],
-      difficulties: [...new Set(questionBank.map(q => q.difficulty))],
+      categories: [...new Set(questionBank.map((q) => q.category))],
+      difficulties: [...new Set(questionBank.map((q) => q.difficulty))],
       filtered: questions.length,
     };
 
@@ -106,19 +118,29 @@ export const getQuestionBank: RequestHandler = async (req, res) => {
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Get question bank error:', error);
-    res.status(500).json({ error: 'Failed to get question bank' });
+    console.error("Get question bank error:", error);
+    res.status(500).json({ error: "Failed to get question bank" });
   }
 };
 
 // Export questions as CSV
 export const exportQuestions: RequestHandler = async (req, res) => {
   try {
-    const { format = 'csv' } = req.query;
-    
-    if (format === 'csv') {
-      const headers = ['ID', 'Question', 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Correct', 'Category', 'Difficulty'];
-      const rows = questionBank.map(q => [
+    const { format = "csv" } = req.query;
+
+    if (format === "csv") {
+      const headers = [
+        "ID",
+        "Question",
+        "Option 1",
+        "Option 2",
+        "Option 3",
+        "Option 4",
+        "Correct",
+        "Category",
+        "Difficulty",
+      ];
+      const rows = questionBank.map((q) => [
         q.id,
         `"${q.question}"`,
         `"${q.options[0]}"`,
@@ -129,11 +151,16 @@ export const exportQuestions: RequestHandler = async (req, res) => {
         q.category,
         q.difficulty,
       ]);
-      
-      const csv = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
-      
-      res.setHeader('Content-Type', 'text/csv');
-      res.setHeader('Content-Disposition', `attachment; filename="questions_${new Date().toISOString().split('T')[0]}.csv"`);
+
+      const csv = [headers.join(","), ...rows.map((row) => row.join(","))].join(
+        "\n",
+      );
+
+      res.setHeader("Content-Type", "text/csv");
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="questions_${new Date().toISOString().split("T")[0]}.csv"`,
+      );
       res.send(csv);
     } else {
       res.json({
@@ -143,8 +170,8 @@ export const exportQuestions: RequestHandler = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error('Export questions error:', error);
-    res.status(500).json({ error: 'Failed to export questions' });
+    console.error("Export questions error:", error);
+    res.status(500).json({ error: "Failed to export questions" });
   }
 };
 
@@ -152,35 +179,35 @@ export const exportQuestions: RequestHandler = async (req, res) => {
 export const importQuestions: RequestHandler = async (req, res) => {
   try {
     const { csvData } = req.body;
-    
+
     if (!csvData) {
-      return res.status(400).json({ error: 'CSV data is required' });
+      return res.status(400).json({ error: "CSV data is required" });
     }
-    
-    const lines = csvData.split('\n').filter((line: string) => line.trim());
-    const headers = lines[0].split(',');
-    
+
+    const lines = csvData.split("\n").filter((line: string) => line.trim());
+    const headers = lines[0].split(",");
+
     const imported = [];
     const errors = [];
-    
+
     for (let i = 1; i < lines.length; i++) {
       try {
-        const values = lines[i].split(',');
+        const values = lines[i].split(",");
         const question = {
           id: questionBank.length + imported.length + 1,
-          question: values[1]?.replace(/"/g, ''),
+          question: values[1]?.replace(/"/g, ""),
           options: [
-            values[2]?.replace(/"/g, ''),
-            values[3]?.replace(/"/g, ''),
-            values[4]?.replace(/"/g, ''),
-            values[5]?.replace(/"/g, ''),
+            values[2]?.replace(/"/g, ""),
+            values[3]?.replace(/"/g, ""),
+            values[4]?.replace(/"/g, ""),
+            values[5]?.replace(/"/g, ""),
           ],
           correct: parseInt(values[6]) - 1, // Convert to 0-based index
-          category: values[7] || 'general',
-          difficulty: values[8] || 'medium',
+          category: values[7] || "general",
+          difficulty: values[8] || "medium",
         };
-        
-        if (question.question && question.options.every(opt => opt)) {
+
+        if (question.question && question.options.every((opt) => opt)) {
           imported.push(question);
           questionBank.push(question);
         } else {
@@ -190,7 +217,7 @@ export const importQuestions: RequestHandler = async (req, res) => {
         errors.push(`Line ${i + 1}: ${err}`);
       }
     }
-    
+
     res.json({
       success: true,
       imported: imported.length,
@@ -199,8 +226,8 @@ export const importQuestions: RequestHandler = async (req, res) => {
       total: questionBank.length,
     });
   } catch (error) {
-    console.error('Import questions error:', error);
-    res.status(500).json({ error: 'Failed to import questions' });
+    console.error("Import questions error:", error);
+    res.status(500).json({ error: "Failed to import questions" });
   }
 };
 
@@ -208,27 +235,31 @@ export const importQuestions: RequestHandler = async (req, res) => {
 export const getScenarios: RequestHandler = async (req, res) => {
   try {
     const { location, type, active } = req.query;
-    
+
     let filteredScenarios = [...scenarios];
-    
+
     if (location) {
-      filteredScenarios = filteredScenarios.filter(s => s.location === location);
+      filteredScenarios = filteredScenarios.filter(
+        (s) => s.location === location,
+      );
     }
-    
+
     if (type) {
-      filteredScenarios = filteredScenarios.filter(s => s.type === type);
+      filteredScenarios = filteredScenarios.filter((s) => s.type === type);
     }
-    
+
     if (active !== undefined) {
-      filteredScenarios = filteredScenarios.filter(s => s.active === (active === 'true'));
+      filteredScenarios = filteredScenarios.filter(
+        (s) => s.active === (active === "true"),
+      );
     }
-    
+
     const stats = {
       total: scenarios.length,
-      active: scenarios.filter(s => s.active).length,
-      locations: [...new Set(scenarios.map(s => s.location))],
-      types: [...new Set(scenarios.map(s => s.type))],
-      difficulties: [...new Set(scenarios.map(s => s.difficulty))],
+      active: scenarios.filter((s) => s.active).length,
+      locations: [...new Set(scenarios.map((s) => s.location))],
+      types: [...new Set(scenarios.map((s) => s.type))],
+      difficulties: [...new Set(scenarios.map((s) => s.difficulty))],
     };
 
     res.json({
@@ -237,8 +268,8 @@ export const getScenarios: RequestHandler = async (req, res) => {
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Get scenarios error:', error);
-    res.status(500).json({ error: 'Failed to get scenarios' });
+    console.error("Get scenarios error:", error);
+    res.status(500).json({ error: "Failed to get scenarios" });
   }
 };
 
@@ -246,31 +277,33 @@ export const getScenarios: RequestHandler = async (req, res) => {
 export const addScenario: RequestHandler = async (req, res) => {
   try {
     const { title, description, difficulty, location, type } = req.body;
-    
+
     if (!title || !description) {
-      return res.status(400).json({ error: 'Title and description are required' });
+      return res
+        .status(400)
+        .json({ error: "Title and description are required" });
     }
-    
+
     const newScenario = {
       id: scenarios.length + 1,
       title,
       description,
-      difficulty: difficulty || 'medium',
-      location: location || 'general',
-      type: type || 'general',
+      difficulty: difficulty || "medium",
+      location: location || "general",
+      type: type || "general",
       active: true,
     };
-    
+
     scenarios.push(newScenario);
-    
+
     res.json({
       success: true,
       scenario: newScenario,
-      message: 'Scenario added successfully',
+      message: "Scenario added successfully",
     });
   } catch (error) {
-    console.error('Add scenario error:', error);
-    res.status(500).json({ error: 'Failed to add scenario' });
+    console.error("Add scenario error:", error);
+    res.status(500).json({ error: "Failed to add scenario" });
   }
 };
 
@@ -279,23 +312,25 @@ export const updateScenario: RequestHandler = async (req, res) => {
   try {
     const { scenarioId } = req.params;
     const updates = req.body;
-    
-    const scenarioIndex = scenarios.findIndex(s => s.id === parseInt(scenarioId));
-    
+
+    const scenarioIndex = scenarios.findIndex(
+      (s) => s.id === parseInt(scenarioId),
+    );
+
     if (scenarioIndex === -1) {
-      return res.status(404).json({ error: 'Scenario not found' });
+      return res.status(404).json({ error: "Scenario not found" });
     }
-    
+
     scenarios[scenarioIndex] = { ...scenarios[scenarioIndex], ...updates };
-    
+
     res.json({
       success: true,
       scenario: scenarios[scenarioIndex],
-      message: 'Scenario updated successfully',
+      message: "Scenario updated successfully",
     });
   } catch (error) {
-    console.error('Update scenario error:', error);
-    res.status(500).json({ error: 'Failed to update scenario' });
+    console.error("Update scenario error:", error);
+    res.status(500).json({ error: "Failed to update scenario" });
   }
 };
 
@@ -305,26 +340,26 @@ export const getContentStats: RequestHandler = async (req, res) => {
     const stats = {
       questions: {
         total: questionBank.length,
-        categories: [...new Set(questionBank.map(q => q.category))].length,
+        categories: [...new Set(questionBank.map((q) => q.category))].length,
         difficulties: {
-          easy: questionBank.filter(q => q.difficulty === 'easy').length,
-          medium: questionBank.filter(q => q.difficulty === 'medium').length,
-          hard: questionBank.filter(q => q.difficulty === 'hard').length,
+          easy: questionBank.filter((q) => q.difficulty === "easy").length,
+          medium: questionBank.filter((q) => q.difficulty === "medium").length,
+          hard: questionBank.filter((q) => q.difficulty === "hard").length,
         },
       },
       scenarios: {
         total: scenarios.length,
-        active: scenarios.filter(s => s.active).length,
-        locations: [...new Set(scenarios.map(s => s.location))].length,
-        types: [...new Set(scenarios.map(s => s.type))].length,
+        active: scenarios.filter((s) => s.active).length,
+        locations: [...new Set(scenarios.map((s) => s.location))].length,
+        types: [...new Set(scenarios.map((s) => s.type))].length,
       },
-      languages: ['en', 'af', 'zu'],
+      languages: ["en", "af", "zu"],
       lastUpdated: new Date().toISOString(),
     };
 
     res.json(stats);
   } catch (error) {
-    console.error('Get content stats error:', error);
-    res.status(500).json({ error: 'Failed to get content statistics' });
+    console.error("Get content stats error:", error);
+    res.status(500).json({ error: "Failed to get content statistics" });
   }
 };

@@ -20,14 +20,8 @@ import {
   authenticatedValidateScenarioAccess,
   authenticatedRecordScenarioUsage,
 } from "./routes/subscriptions";
-import {
-  createPayPalOrder,
-  capturePayPalOrder,
-} from "./routes/paypal";
-import {
-  getMaterial,
-  listMaterials,
-} from "./routes/materials";
+import { createPayPalOrder, capturePayPalOrder } from "./routes/paypal";
+import { getMaterial, listMaterials } from "./routes/materials";
 import {
   getDatabaseLogs,
   backupDatabase,
@@ -91,8 +85,14 @@ export function createServer() {
   app.post("/api/admin/users/:userId/action", userAction);
 
   // Subscription routes
-  app.get("/api/subscriptions/validate-scenario-access", authenticatedValidateScenarioAccess);
-  app.post("/api/subscriptions/record-scenario-usage", authenticatedRecordScenarioUsage);
+  app.get(
+    "/api/subscriptions/validate-scenario-access",
+    authenticatedValidateScenarioAccess,
+  );
+  app.post(
+    "/api/subscriptions/record-scenario-usage",
+    authenticatedRecordScenarioUsage,
+  );
 
   // PayPal routes
   app.post("/api/paypal/create-order", createPayPalOrder);

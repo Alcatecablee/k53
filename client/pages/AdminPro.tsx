@@ -31,9 +31,21 @@ import { useAuth } from "@/contexts/AuthContext";
 import { formatPrice } from "@/services/subscriptionService";
 
 // Import our enterprise components
-import { MetricChart, RealTimeMetric, ActivityFeed, ProgressRing } from "@/components/admin/Charts";
-import { DataTable, DataTableColumn, StatusBadge } from "@/components/admin/DataTable";
-import { UserDetailModal, SystemLogModal } from "@/components/admin/AdvancedModal";
+import {
+  MetricChart,
+  RealTimeMetric,
+  ActivityFeed,
+  ProgressRing,
+} from "@/components/admin/Charts";
+import {
+  DataTable,
+  DataTableColumn,
+  StatusBadge,
+} from "@/components/admin/DataTable";
+import {
+  UserDetailModal,
+  SystemLogModal,
+} from "@/components/admin/AdvancedModal";
 import { FileUpload, CSVUpload } from "@/components/admin/FileUpload";
 
 // Enhanced interfaces for enterprise data
@@ -96,19 +108,23 @@ export default function AdminPro() {
   const [payments, setPayments] = useState<EnhancedPayment[]>([]);
   const [selectedUser, setSelectedUser] = useState<EnhancedUser | null>(null);
   const [logModalOpen, setLogModalOpen] = useState(false);
-  const [logType, setLogType] = useState<'database' | 'error' | 'access' | 'security'>('database');
+  const [logType, setLogType] = useState<
+    "database" | "error" | "access" | "security"
+  >("database");
   const [realTimeData, setRealTimeData] = useState<any[]>([]);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [contentStats, setContentStats] = useState<any>(null);
 
   // Check if user has admin privileges
-  const isAdmin = user?.email === "admin@superk53.com" || process.env.NODE_ENV === "development";
+  const isAdmin =
+    user?.email === "admin@superk53.com" ||
+    process.env.NODE_ENV === "development";
 
   // Enhanced data loading with real-time updates
   useEffect(() => {
     if (!isAdmin) return;
     loadAllData();
-    
+
     if (autoRefresh) {
       const interval = setInterval(loadRealTimeData, 5000);
       return () => clearInterval(interval);
@@ -133,12 +149,12 @@ export default function AdminPro() {
       // Load real activity from multiple sources
       const [usersRes, paymentsRes] = await Promise.all([
         fetch("/api/enterprise/users?limit=5"),
-        fetch("/api/enterprise/payments?limit=5")
+        fetch("/api/enterprise/payments?limit=5"),
       ]);
 
       const [recentUsers, recentPayments] = await Promise.all([
         usersRes.ok ? usersRes.json() : [],
-        paymentsRes.ok ? paymentsRes.json() : []
+        paymentsRes.ok ? paymentsRes.json() : [],
       ]);
 
       const activities = [];
@@ -147,11 +163,11 @@ export default function AdminPro() {
       recentUsers.slice(0, 3).forEach((user: any) => {
         activities.push({
           id: `user_${user.id}`,
-          type: 'user',
-          title: 'New user registration',
-          description: `${user.email} joined with ${user.subscription?.plan_type || 'free'} plan`,
+          type: "user",
+          title: "New user registration",
+          description: `${user.email} joined with ${user.subscription?.plan_type || "free"} plan`,
           timestamp: user.created_at,
-          severity: 'success',
+          severity: "success",
         });
       });
 
@@ -159,16 +175,19 @@ export default function AdminPro() {
       recentPayments.slice(0, 3).forEach((payment: any) => {
         activities.push({
           id: `payment_${payment.id}`,
-          type: 'payment',
-          title: 'Payment processed',
+          type: "payment",
+          title: "Payment processed",
           description: `${formatPrice(payment.amount_cents)} payment ${payment.status}`,
           timestamp: payment.created_at,
-          severity: payment.status === 'completed' ? 'success' : 'warning',
+          severity: payment.status === "completed" ? "success" : "warning",
         });
       });
 
       // Sort by timestamp and take latest
-      activities.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      activities.sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      );
       setActivityItems(activities.slice(0, 6));
     } catch (error) {
       console.error("Error loading activity feed:", error);
@@ -180,12 +199,12 @@ export default function AdminPro() {
     try {
       const [questionsRes, scenariosRes] = await Promise.all([
         fetch("/api/content/questions"),
-        fetch("/api/content/scenarios")
+        fetch("/api/content/scenarios"),
       ]);
 
       const [questionsData, scenariosData] = await Promise.all([
         questionsRes.ok ? questionsRes.json() : { stats: { total: 0 } },
-        scenariosRes.ok ? scenariosRes.json() : { stats: { total: 0 } }
+        scenariosRes.ok ? scenariosRes.json() : { stats: { total: 0 } },
       ]);
 
       const stats = {
@@ -258,8 +277,8 @@ export default function AdminPro() {
   // Enhanced user table columns
   const userColumns: DataTableColumn<EnhancedUser>[] = [
     {
-      key: 'email',
-      title: 'User',
+      key: "email",
+      title: "User",
       sortable: true,
       render: (email, user) => (
         <div>
@@ -271,49 +290,57 @@ export default function AdminPro() {
       ),
     },
     {
-      key: 'subscription.plan_type',
-      title: 'Plan',
+      key: "subscription.plan_type",
+      title: "Plan",
       sortable: true,
       filterable: true,
       render: (_, user) => (
-        <StatusBadge 
-          status={user.subscription?.plan_type || 'free'}
+        <StatusBadge
+          status={user.subscription?.plan_type || "free"}
           variant={
-            user.subscription?.plan_type === 'pro' ? 'success' :
-            user.subscription?.plan_type === 'basic' ? 'info' : 'warning'
+            user.subscription?.plan_type === "pro"
+              ? "success"
+              : user.subscription?.plan_type === "basic"
+                ? "info"
+                : "warning"
           }
         />
       ),
     },
     {
-      key: 'totalSpent',
-      title: 'Total Spent',
+      key: "totalSpent",
+      title: "Total Spent",
       sortable: true,
       render: (value) => formatPrice(value),
     },
     {
-      key: 'sessionsToday',
-      title: 'Sessions Today',
+      key: "sessionsToday",
+      title: "Sessions Today",
       sortable: true,
-      align: 'center' as const,
+      align: "center" as const,
     },
     {
-      key: 'riskScore',
-      title: 'Risk Score',
+      key: "riskScore",
+      title: "Risk Score",
       sortable: true,
       render: (score) => (
         <div className="flex items-center space-x-2">
-          <div className={`w-3 h-3 rounded-full ${
-            score < 30 ? 'bg-green-400' :
-            score < 70 ? 'bg-yellow-400' : 'bg-red-400'
-          }`} />
+          <div
+            className={`w-3 h-3 rounded-full ${
+              score < 30
+                ? "bg-green-400"
+                : score < 70
+                  ? "bg-yellow-400"
+                  : "bg-red-400"
+            }`}
+          />
           <span>{score}</span>
         </div>
       ),
     },
     {
-      key: 'location',
-      title: 'Location',
+      key: "location",
+      title: "Location",
       sortable: true,
       filterable: true,
     },
@@ -322,45 +349,45 @@ export default function AdminPro() {
   // Enhanced payment table columns
   const paymentColumns: DataTableColumn<EnhancedPayment>[] = [
     {
-      key: 'id',
-      title: 'Payment ID',
+      key: "id",
+      title: "Payment ID",
       render: (id) => (
         <span className="font-mono text-sm">{id.substring(0, 8)}...</span>
       ),
     },
     {
-      key: 'user_email',
-      title: 'Customer',
+      key: "user_email",
+      title: "Customer",
       sortable: true,
     },
     {
-      key: 'amount_cents',
-      title: 'Amount',
+      key: "amount_cents",
+      title: "Amount",
       sortable: true,
       render: (amount) => formatPrice(amount),
     },
     {
-      key: 'fee_cents',
-      title: 'Fee',
+      key: "fee_cents",
+      title: "Fee",
       sortable: true,
       render: (fee) => formatPrice(fee),
     },
     {
-      key: 'status',
-      title: 'Status',
+      key: "status",
+      title: "Status",
       sortable: true,
       filterable: true,
       render: (status) => <StatusBadge status={status} />,
     },
     {
-      key: 'country',
-      title: 'Country',
+      key: "country",
+      title: "Country",
       sortable: true,
       filterable: true,
     },
     {
-      key: 'created_at',
-      title: 'Date',
+      key: "created_at",
+      title: "Date",
       sortable: true,
       render: (date) => new Date(date).toLocaleDateString(),
     },
@@ -372,17 +399,19 @@ export default function AdminPro() {
   // Real CSV upload handler
   const handleCSVUpload = async (data: any[]) => {
     try {
-      const response = await fetch('/api/content/questions/import', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/content/questions/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ csvData: data }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        alert(`Successfully imported ${result.imported} records! ${result.errors} errors.`);
+        alert(
+          `Successfully imported ${result.imported} records! ${result.errors} errors.`,
+        );
       } else {
-        throw new Error('Import failed');
+        throw new Error("Import failed");
       }
     } catch (error) {
       alert(`Import failed: ${error}`);
@@ -393,8 +422,8 @@ export default function AdminPro() {
   const handleUserUpdate = async (user: EnhancedUser) => {
     try {
       const response = await fetch(`/api/enterprise/users/${user.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
       });
 
@@ -404,7 +433,7 @@ export default function AdminPro() {
         await loadUsers();
         return result;
       } else {
-        throw new Error('Update failed');
+        throw new Error("Update failed");
       }
     } catch (error) {
       throw error;
@@ -412,11 +441,15 @@ export default function AdminPro() {
   };
 
   // Bulk operations handler
-  const handleBulkOperation = async (operation: string, userIds: string[], data?: any) => {
+  const handleBulkOperation = async (
+    operation: string,
+    userIds: string[],
+    data?: any,
+  ) => {
     try {
-      const response = await fetch('/api/enterprise/users/bulk', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/enterprise/users/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ operation, userIds, data }),
       });
 
@@ -425,7 +458,7 @@ export default function AdminPro() {
         await loadUsers(); // Refresh data
         return result;
       } else {
-        throw new Error('Bulk operation failed');
+        throw new Error("Bulk operation failed");
       }
     } catch (error) {
       throw error;
@@ -435,18 +468,18 @@ export default function AdminPro() {
   // Cache management
   const clearSystemCache = async (pattern?: string) => {
     try {
-      const response = await fetch('/api/enterprise/cache/clear', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/enterprise/cache/clear", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ pattern }),
       });
 
       if (response.ok) {
-        alert('Cache cleared successfully!');
+        alert("Cache cleared successfully!");
         await loadAllData(); // Refresh all data
       }
     } catch (error) {
-      alert('Failed to clear cache');
+      alert("Failed to clear cache");
     }
   };
 
@@ -455,9 +488,16 @@ export default function AdminPro() {
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <Card className="border border-red-200 bg-white max-w-md shadow-lg">
           <CardContent className="p-8 text-center">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-4">Access Denied</h1>
-            <p className="text-gray-600 mb-6">You don't have permission to access this page.</p>
-            <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
+            <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+              Access Denied
+            </h1>
+            <p className="text-gray-600 mb-6">
+              You don't have permission to access this page.
+            </p>
+            <Button
+              asChild
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
               <Link to="/">Return Home</Link>
             </Button>
           </CardContent>
@@ -472,7 +512,11 @@ export default function AdminPro() {
       <div className="bg-slate-800 border-b border-slate-700 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Button asChild variant="ghost" className="text-slate-300 hover:text-white">
+            <Button
+              asChild
+              variant="ghost"
+              className="text-slate-300 hover:text-white"
+            >
               <Link to="/">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Portal
@@ -480,17 +524,23 @@ export default function AdminPro() {
             </Button>
 
             <div className="text-center">
-              <h1 className="text-2xl font-bold text-white">SuperK53 Admin Pro</h1>
-              <p className="text-slate-400 text-sm">Enterprise Management Console</p>
+              <h1 className="text-2xl font-bold text-white">
+                SuperK53 Admin Pro
+              </h1>
+              <p className="text-slate-400 text-sm">
+                Enterprise Management Console
+              </p>
             </div>
 
             <div className="flex items-center space-x-3">
               <Button
                 onClick={() => setAutoRefresh(!autoRefresh)}
                 variant="outline"
-                className={`border-slate-600 ${autoRefresh ? 'text-green-400' : 'text-slate-400'}`}
+                className={`border-slate-600 ${autoRefresh ? "text-green-400" : "text-slate-400"}`}
               >
-                <RefreshCw className={`h-4 w-4 mr-2 ${autoRefresh ? 'animate-spin' : ''}`} />
+                <RefreshCw
+                  className={`h-4 w-4 mr-2 ${autoRefresh ? "animate-spin" : ""}`}
+                />
                 Auto-refresh
               </Button>
               <Button
@@ -503,7 +553,12 @@ export default function AdminPro() {
               </Button>
               <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                 <Bell className="h-4 w-4 mr-2" />
-                Alerts ({activityItems.filter(item => item.severity === 'warning').length})
+                Alerts (
+                {
+                  activityItems.filter((item) => item.severity === "warning")
+                    .length
+                }
+                )
               </Button>
             </div>
           </div>
@@ -511,30 +566,52 @@ export default function AdminPro() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="space-y-6"
+        >
           {/* Enhanced Tab Navigation */}
           <TabsList className="grid w-full grid-cols-6 bg-slate-800 border border-slate-700">
-            <TabsTrigger value="overview" className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger
+              value="overview"
+              className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+            >
               <TrendingUp className="h-4 w-4 mr-2" />
               Overview
             </TabsTrigger>
-            <TabsTrigger value="users" className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger
+              value="users"
+              className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+            >
               <Users className="h-4 w-4 mr-2" />
               Users
             </TabsTrigger>
-            <TabsTrigger value="payments" className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger
+              value="payments"
+              className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+            >
               <CreditCard className="h-4 w-4 mr-2" />
               Payments
             </TabsTrigger>
-            <TabsTrigger value="content" className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger
+              value="content"
+              className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+            >
               <BookOpen className="h-4 w-4 mr-2" />
               Content
             </TabsTrigger>
-            <TabsTrigger value="system" className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger
+              value="system"
+              className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+            >
               <Monitor className="h-4 w-4 mr-2" />
               System
             </TabsTrigger>
-            <TabsTrigger value="settings" className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger
+              value="settings"
+              className="text-slate-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+            >
               <Settings className="h-4 w-4 mr-2" />
               Settings
             </TabsTrigger>
@@ -599,25 +676,38 @@ export default function AdminPro() {
             {/* Performance Dashboard */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2">
-                <ActivityFeed items={activityItems} title="Live Activity Feed" />
+                <ActivityFeed
+                  items={activityItems}
+                  title="Live Activity Feed"
+                />
               </div>
               <div className="space-y-6">
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">System Health</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    System Health
+                  </h3>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">CPU Usage</span>
-                      <ProgressRing 
-                        progress={stats?.serverLoad || 0} 
-                        size={60} 
-                        color={stats?.serverLoad && stats.serverLoad > 80 ? "#EF4444" : "#10B981"}
+                      <ProgressRing
+                        progress={stats?.serverLoad || 0}
+                        size={60}
+                        color={
+                          stats?.serverLoad && stats.serverLoad > 80
+                            ? "#EF4444"
+                            : "#10B981"
+                        }
                       />
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">Error Rate</span>
-                      <span className={`text-lg font-bold ${
-                        (stats?.errorRate || 0) > 3 ? 'text-red-600' : 'text-green-600'
-                      }`}>
+                      <span
+                        className={`text-lg font-bold ${
+                          (stats?.errorRate || 0) > 3
+                            ? "text-red-600"
+                            : "text-green-600"
+                        }`}
+                      >
                         {(stats?.errorRate || 0).toFixed(2)}%
                       </span>
                     </div>
@@ -638,23 +728,23 @@ export default function AdminPro() {
               pageSize={15}
               onView={(user) => setSelectedUser(user)}
               onEdit={async (user) => {
-                const newEmail = prompt('Enter new email:', user.email);
+                const newEmail = prompt("Enter new email:", user.email);
                 if (newEmail && newEmail !== user.email) {
                   try {
                     await handleUserUpdate({ ...user, email: newEmail });
-                    alert('User updated successfully!');
+                    alert("User updated successfully!");
                   } catch (error) {
-                    alert('Failed to update user');
+                    alert("Failed to update user");
                   }
                 }
               }}
               onDelete={async (user) => {
                 if (confirm(`Are you sure you want to delete ${user.email}?`)) {
                   try {
-                    await handleBulkOperation('bulk_delete', [user.id]);
-                    alert('User deleted successfully!');
+                    await handleBulkOperation("bulk_delete", [user.id]);
+                    alert("User deleted successfully!");
                   } catch (error) {
-                    alert('Failed to delete user');
+                    alert("Failed to delete user");
                   }
                 }
               }}
@@ -672,7 +762,9 @@ export default function AdminPro() {
               exportable={true}
               pageSize={20}
               onView={(payment) => {
-                alert(`Payment Details:\n\nID: ${payment.id}\nAmount: ${formatPrice(payment.amount_cents)}\nFee: ${formatPrice(payment.fee_cents)}\nStatus: ${payment.status}\nCountry: ${payment.country}\nDate: ${new Date(payment.created_at).toLocaleString()}`);
+                alert(
+                  `Payment Details:\n\nID: ${payment.id}\nAmount: ${formatPrice(payment.amount_cents)}\nFee: ${formatPrice(payment.fee_cents)}\nStatus: ${payment.status}\nCountry: ${payment.country}\nDate: ${new Date(payment.created_at).toLocaleString()}`,
+                );
               }}
               loading={loading}
             />
@@ -705,10 +797,13 @@ export default function AdminPro() {
                   {contentStats ? (
                     <MetricChart
                       data={[
-                        { name: 'Questions', value: contentStats.questions },
-                        { name: 'Scenarios', value: contentStats.scenarios },
-                        { name: 'Study Materials', value: contentStats.studyMaterials },
-                        { name: 'Videos', value: contentStats.videos },
+                        { name: "Questions", value: contentStats.questions },
+                        { name: "Scenarios", value: contentStats.scenarios },
+                        {
+                          name: "Study Materials",
+                          value: contentStats.studyMaterials,
+                        },
+                        { name: "Videos", value: contentStats.videos },
                       ]}
                       title=""
                       type="pie"
@@ -716,7 +811,9 @@ export default function AdminPro() {
                     />
                   ) : (
                     <div className="h-[250px] flex items-center justify-center">
-                      <p className="text-gray-500">Loading content statistics...</p>
+                      <p className="text-gray-500">
+                        Loading content statistics...
+                      </p>
                     </div>
                   )}
                 </CardContent>
@@ -729,7 +826,7 @@ export default function AdminPro() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <Button
                 onClick={() => {
-                  setLogType('database');
+                  setLogType("database");
                   setLogModalOpen(true);
                 }}
                 className="h-24 bg-blue-600 hover:bg-blue-700 text-white flex flex-col items-center justify-center"
@@ -739,7 +836,7 @@ export default function AdminPro() {
               </Button>
               <Button
                 onClick={() => {
-                  setLogType('error');
+                  setLogType("error");
                   setLogModalOpen(true);
                 }}
                 className="h-24 bg-red-600 hover:bg-red-700 text-white flex flex-col items-center justify-center"
@@ -749,7 +846,7 @@ export default function AdminPro() {
               </Button>
               <Button
                 onClick={() => {
-                  setLogType('security');
+                  setLogType("security");
                   setLogModalOpen(true);
                 }}
                 className="h-24 bg-purple-600 hover:bg-purple-700 text-white flex flex-col items-center justify-center"
@@ -759,7 +856,11 @@ export default function AdminPro() {
               </Button>
               <Button
                 onClick={() => {
-                  if (confirm('Clear all system cache? This will refresh all data.')) {
+                  if (
+                    confirm(
+                      "Clear all system cache? This will refresh all data.",
+                    )
+                  ) {
                     clearSystemCache();
                   }
                 }}
@@ -780,7 +881,9 @@ export default function AdminPro() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">Advanced configuration options coming soon...</p>
+                <p className="text-gray-600">
+                  Advanced configuration options coming soon...
+                </p>
               </CardContent>
             </Card>
           </TabsContent>

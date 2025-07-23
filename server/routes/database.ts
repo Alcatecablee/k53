@@ -6,8 +6,10 @@ let supabase: any = null;
 
 const getDatabase = () => {
   if (!supabase) {
-    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+    const supabaseUrl =
+      process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+    const supabaseKey =
+      process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
       return null;
@@ -23,9 +25,9 @@ export const databaseHealthCheck: RequestHandler = async (req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
-      return res.status(503).json({ 
-        status: "error", 
-        message: "Database not configured" 
+      return res.status(503).json({
+        status: "error",
+        message: "Database not configured",
       });
     }
 
@@ -36,22 +38,22 @@ export const databaseHealthCheck: RequestHandler = async (req, res) => {
       .limit(1);
 
     if (error) {
-      return res.status(503).json({ 
-        status: "error", 
+      return res.status(503).json({
+        status: "error",
         message: "Database connection failed",
-        error: error.message 
+        error: error.message,
       });
     }
 
-    res.json({ 
-      status: "ok", 
-      message: "Database connection successful" 
+    res.json({
+      status: "ok",
+      message: "Database connection successful",
     });
   } catch (error) {
-    res.status(503).json({ 
-      status: "error", 
+    res.status(503).json({
+      status: "error",
       message: "Database health check failed",
-      error: error instanceof Error ? error.message : "Unknown error"
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -64,21 +66,27 @@ export const getDatabaseStats: RequestHandler = async (req, res) => {
       return res.json({
         users: 0,
         payments: 0,
-        subscriptions: 0
+        subscriptions: 0,
       });
     }
 
     // Get basic counts
-    const [usersResult, paymentsResult, subscriptionsResult] = await Promise.all([
-      db.from("user_subscriptions").select("*", { count: "exact", head: true }),
-      db.from("payments").select("*", { count: "exact", head: true }),
-      db.from("user_subscriptions").select("*", { count: "exact", head: true }).neq("plan_type", "free")
-    ]);
+    const [usersResult, paymentsResult, subscriptionsResult] =
+      await Promise.all([
+        db
+          .from("user_subscriptions")
+          .select("*", { count: "exact", head: true }),
+        db.from("payments").select("*", { count: "exact", head: true }),
+        db
+          .from("user_subscriptions")
+          .select("*", { count: "exact", head: true })
+          .neq("plan_type", "free"),
+      ]);
 
     res.json({
       users: usersResult.count || 0,
       payments: paymentsResult.count || 0,
-      subscriptions: subscriptionsResult.count || 0
+      subscriptions: subscriptionsResult.count || 0,
     });
   } catch (error) {
     console.error("Database stats error:", error);
@@ -107,7 +115,7 @@ export const upsertUser: RequestHandler = async (req, res) => {
         email,
         plan_type,
         status,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .select()
       .single();
@@ -176,7 +184,7 @@ export const deleteUser: RequestHandler = async (req, res) => {
     // Delete related data first
     await Promise.all([
       db.from("daily_usage").delete().eq("user_id", userId),
-      db.from("payments").delete().eq("user_id", userId)
+      db.from("payments").delete().eq("user_id", userId),
     ]);
 
     // Delete user subscription
@@ -210,20 +218,17 @@ export const testTables: RequestHandler = async (req, res) => {
 
     for (const table of tables) {
       try {
-        const { data, error } = await db
-          .from(table)
-          .select("*")
-          .limit(1);
-        
+        const { data, error } = await db.from(table).select("*").limit(1);
+
         results[table] = {
           status: error ? "error" : "ok",
           error: error?.message,
-          hasData: data && data.length > 0
+          hasData: data && data.length > 0,
         };
       } catch (err) {
         results[table] = {
           status: "error",
-          error: err instanceof Error ? err.message : "Unknown error"
+          error: err instanceof Error ? err.message : "Unknown error",
         };
       }
     }

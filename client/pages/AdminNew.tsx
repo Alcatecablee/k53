@@ -363,7 +363,7 @@ export default function AdminNew() {
                 Refresh
               </Button>
               <Button
-                onClick={() => alert('Notifications feature coming soon!')}
+                onClick={() => alert("Notifications feature coming soon!")}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
                 <Bell className="h-4 w-4 mr-2" />
@@ -650,7 +650,7 @@ export default function AdminNew() {
                   Export
                 </Button>
                 <Button
-                  onClick={() => alert('Add User feature coming soon!')}
+                  onClick={() => alert("Add User feature coming soon!")}
                   className="bg-blue-600 hover:bg-blue-700 text-white"
                 >
                   <Plus className="h-4 w-4 mr-2" />
@@ -865,7 +865,7 @@ export default function AdminNew() {
                 </Button>
                 <Button
                   onClick={() => {
-                    alert('PayPal sync initiated!');
+                    alert("PayPal sync initiated!");
                     loadPayments();
                   }}
                   variant="outline"
@@ -999,7 +999,9 @@ export default function AdminNew() {
                         </TableCell>
                         <TableCell>
                           <Button
-                            onClick={() => alert(`Viewing payment details for ${payment.id}`)}
+                            onClick={() =>
+                              alert(`Viewing payment details for ${payment.id}`)
+                            }
                             size="sm"
                             variant="outline"
                             className="border-gray-300 text-gray-700"
@@ -1024,7 +1026,7 @@ export default function AdminNew() {
               </h2>
               <div className="flex items-center space-x-2">
                 <Button
-                  onClick={() => alert('Import Questions feature coming soon!')}
+                  onClick={() => alert("Import Questions feature coming soon!")}
                   variant="outline"
                   className="text-slate-300"
                 >
@@ -1033,23 +1035,31 @@ export default function AdminNew() {
                 </Button>
                 <Button
                   onClick={async () => {
-                    const title = prompt('Enter scenario title:');
-                    const description = prompt('Enter scenario description:');
+                    const title = prompt("Enter scenario title:");
+                    const description = prompt("Enter scenario description:");
                     if (title && description) {
                       try {
-                        const response = await fetch('/api/content/scenarios', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ title, description, difficulty: 'medium', location: 'general', type: 'general' }),
+                        const response = await fetch("/api/content/scenarios", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            title,
+                            description,
+                            difficulty: "medium",
+                            location: "general",
+                            type: "general",
+                          }),
                         });
                         const data = await response.json();
                         if (data.success) {
-                          alert(`Scenario "${data.scenario.title}" created successfully!`);
+                          alert(
+                            `Scenario "${data.scenario.title}" created successfully!`,
+                          );
                         } else {
-                          alert('Failed to create scenario');
+                          alert("Failed to create scenario");
                         }
                       } catch (error) {
-                        alert('Failed to create scenario');
+                        alert("Failed to create scenario");
                       }
                     }
                   }}
@@ -1121,11 +1131,13 @@ export default function AdminNew() {
                   <Button
                     onClick={async () => {
                       try {
-                        const response = await fetch('/api/content/questions');
+                        const response = await fetch("/api/content/questions");
                         const data = await response.json();
-                        alert(`Question Bank:\n\nTotal Questions: ${data.stats?.total || 0}\nCategories: ${data.stats?.categories?.length || 0}\nDifficulties: ${data.stats?.difficulties?.length || 0}\n\nFirst 3 questions loaded. Question editor interface coming soon!`);
+                        alert(
+                          `Question Bank:\n\nTotal Questions: ${data.stats?.total || 0}\nCategories: ${data.stats?.categories?.length || 0}\nDifficulties: ${data.stats?.difficulties?.length || 0}\n\nFirst 3 questions loaded. Question editor interface coming soon!`,
+                        );
                       } catch (error) {
-                        alert('Failed to load question bank');
+                        alert("Failed to load question bank");
                       }
                     }}
                     className="w-full bg-white text-slate-900 hover:bg-slate-100"
@@ -1136,20 +1148,22 @@ export default function AdminNew() {
                   <Button
                     onClick={async () => {
                       try {
-                        const response = await fetch('/api/content/questions/export?format=csv');
+                        const response = await fetch(
+                          "/api/content/questions/export?format=csv",
+                        );
                         if (response.ok) {
                           const blob = await response.blob();
                           const url = URL.createObjectURL(blob);
-                          const a = document.createElement('a');
+                          const a = document.createElement("a");
                           a.href = url;
-                          a.download = `questions_${new Date().toISOString().split('T')[0]}.csv`;
+                          a.download = `questions_${new Date().toISOString().split("T")[0]}.csv`;
                           a.click();
-                          alert('Questions exported successfully!');
+                          alert("Questions exported successfully!");
                         } else {
-                          alert('Failed to export questions');
+                          alert("Failed to export questions");
                         }
                       } catch (error) {
-                        alert('Failed to export questions');
+                        alert("Failed to export questions");
                       }
                     }}
                     variant="outline"
@@ -1160,27 +1174,32 @@ export default function AdminNew() {
                   </Button>
                   <Button
                     onClick={() => {
-                      const input = document.createElement('input');
-                      input.type = 'file';
-                      input.accept = '.csv';
+                      const input = document.createElement("input");
+                      input.type = "file";
+                      input.accept = ".csv";
                       input.onchange = async (e: any) => {
                         const file = e.target.files[0];
                         if (file) {
                           const text = await file.text();
                           try {
-                            const response = await fetch('/api/content/questions/import', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({ csvData: text }),
-                            });
+                            const response = await fetch(
+                              "/api/content/questions/import",
+                              {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ csvData: text }),
+                              },
+                            );
                             const data = await response.json();
                             if (data.success) {
-                              alert(`Import completed!\n\nImported: ${data.imported} questions\nErrors: ${data.errors}\nTotal questions: ${data.total}`);
+                              alert(
+                                `Import completed!\n\nImported: ${data.imported} questions\nErrors: ${data.errors}\nTotal questions: ${data.total}`,
+                              );
                             } else {
-                              alert('Import failed');
+                              alert("Import failed");
                             }
                           } catch (error) {
-                            alert('Failed to import CSV');
+                            alert("Failed to import CSV");
                           }
                         }
                       };
@@ -1204,13 +1223,20 @@ export default function AdminNew() {
                   <Button
                     onClick={async () => {
                       try {
-                        const response = await fetch('/api/content/scenarios');
+                        const response = await fetch("/api/content/scenarios");
                         const data = await response.json();
                         const scenarios = data.scenarios || [];
-                        const scenarioText = scenarios.map(s => `${s.title} (${s.difficulty}) - ${s.active ? 'ACTIVE' : 'INACTIVE'}`).join('\n');
-                        alert(`Scenario Manager:\n\nTotal: ${data.stats?.total || 0}\nActive: ${data.stats?.active || 0}\nLocations: ${data.stats?.locations || 0}\nTypes: ${data.stats?.types || 0}\n\nScenarios:\n${scenarioText || 'No scenarios found'}`);
+                        const scenarioText = scenarios
+                          .map(
+                            (s) =>
+                              `${s.title} (${s.difficulty}) - ${s.active ? "ACTIVE" : "INACTIVE"}`,
+                          )
+                          .join("\n");
+                        alert(
+                          `Scenario Manager:\n\nTotal: ${data.stats?.total || 0}\nActive: ${data.stats?.active || 0}\nLocations: ${data.stats?.locations || 0}\nTypes: ${data.stats?.types || 0}\n\nScenarios:\n${scenarioText || "No scenarios found"}`,
+                        );
                       } catch (error) {
-                        alert('Failed to load scenarios');
+                        alert("Failed to load scenarios");
                       }
                     }}
                     className="w-full bg-white text-slate-900 hover:bg-slate-100"
@@ -1219,7 +1245,7 @@ export default function AdminNew() {
                     Manage Scenarios
                   </Button>
                   <Button
-                    onClick={() => alert('Location Settings coming soon!')}
+                    onClick={() => alert("Location Settings coming soon!")}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
@@ -1227,7 +1253,7 @@ export default function AdminNew() {
                     Location Settings
                   </Button>
                   <Button
-                    onClick={() => alert('Scenario Packs Manager coming soon!')}
+                    onClick={() => alert("Scenario Packs Manager coming soon!")}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
@@ -1306,11 +1332,15 @@ export default function AdminNew() {
                   <Button
                     onClick={async () => {
                       try {
-                        const response = await fetch('/api/system/database/logs');
+                        const response = await fetch(
+                          "/api/system/database/logs",
+                        );
                         const data = await response.json();
-                        alert(`Database Logs:\n\nConnection Count: ${data.metrics?.connectionCount || 0}\nQuery Count: ${data.metrics?.queryCount || 0}\nAvg Response Time: ${data.metrics?.avgResponseTime || 0}ms\n\nRecent Logs: ${data.logs?.length || 0} entries`);
+                        alert(
+                          `Database Logs:\n\nConnection Count: ${data.metrics?.connectionCount || 0}\nQuery Count: ${data.metrics?.queryCount || 0}\nAvg Response Time: ${data.metrics?.avgResponseTime || 0}ms\n\nRecent Logs: ${data.logs?.length || 0} entries`,
+                        );
                       } catch (error) {
-                        alert('Failed to fetch database logs');
+                        alert("Failed to fetch database logs");
                       }
                     }}
                     variant="outline"
@@ -1322,24 +1352,32 @@ export default function AdminNew() {
                   <Button
                     onClick={async () => {
                       try {
-                        const response = await fetch('/api/system/database/backup', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                        });
+                        const response = await fetch(
+                          "/api/system/database/backup",
+                          {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                          },
+                        );
                         const data = await response.json();
                         if (data.success) {
-                          const blob = new Blob([JSON.stringify(data.backup, null, 2)], { type: 'application/json' });
+                          const blob = new Blob(
+                            [JSON.stringify(data.backup, null, 2)],
+                            { type: "application/json" },
+                          );
                           const url = URL.createObjectURL(blob);
-                          const a = document.createElement('a');
+                          const a = document.createElement("a");
                           a.href = url;
-                          a.download = `database_backup_${new Date().toISOString().split('T')[0]}.json`;
+                          a.download = `database_backup_${new Date().toISOString().split("T")[0]}.json`;
                           a.click();
-                          alert(`Backup created successfully!\nSize: ${Math.round(data.size / 1024)}KB`);
+                          alert(
+                            `Backup created successfully!\nSize: ${Math.round(data.size / 1024)}KB`,
+                          );
                         } else {
-                          alert('Backup failed');
+                          alert("Backup failed");
                         }
                       } catch (error) {
-                        alert('Failed to create backup');
+                        alert("Failed to create backup");
                       }
                     }}
                     variant="outline"
@@ -1350,21 +1388,30 @@ export default function AdminNew() {
                   </Button>
                   <Button
                     onClick={async () => {
-                      if (confirm('Toggle maintenance mode? This will affect site availability.')) {
+                      if (
+                        confirm(
+                          "Toggle maintenance mode? This will affect site availability.",
+                        )
+                      ) {
                         try {
-                          const response = await fetch('/api/system/maintenance', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ enabled: true }),
-                          });
+                          const response = await fetch(
+                            "/api/system/maintenance",
+                            {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ enabled: true }),
+                            },
+                          );
                           const data = await response.json();
                           if (data.success) {
-                            alert(`Maintenance mode ${data.maintenanceMode ? 'enabled' : 'disabled'}!`);
+                            alert(
+                              `Maintenance mode ${data.maintenanceMode ? "enabled" : "disabled"}!`,
+                            );
                           } else {
-                            alert('Failed to toggle maintenance mode');
+                            alert("Failed to toggle maintenance mode");
                           }
                         } catch (error) {
-                          alert('Failed to toggle maintenance mode');
+                          alert("Failed to toggle maintenance mode");
                         }
                       }
                     }}
@@ -1386,12 +1433,14 @@ export default function AdminNew() {
                   <Button
                     onClick={async () => {
                       try {
-                        const response = await fetch('/api/system/performance');
+                        const response = await fetch("/api/system/performance");
                         const data = await response.json();
                         const metrics = data.metrics;
-                        alert(`Performance Metrics:\n\nCPU Usage: ${metrics.cpu?.usage?.toFixed(1)}%\nMemory Used: ${Math.round((metrics.memory?.used || 0) / 1024 / 1024 / 1024)}GB\nDisk Used: ${Math.round((metrics.disk?.used || 0) / 1024 / 1024 / 1024)}GB\nUptime: ${Math.round((metrics.uptime || 0) / 3600)}h\nConnections: ${metrics.network?.connections || 0}`);
+                        alert(
+                          `Performance Metrics:\n\nCPU Usage: ${metrics.cpu?.usage?.toFixed(1)}%\nMemory Used: ${Math.round((metrics.memory?.used || 0) / 1024 / 1024 / 1024)}GB\nDisk Used: ${Math.round((metrics.disk?.used || 0) / 1024 / 1024 / 1024)}GB\nUptime: ${Math.round((metrics.uptime || 0) / 3600)}h\nConnections: ${metrics.network?.connections || 0}`,
+                        );
                       } catch (error) {
-                        alert('Failed to fetch performance metrics');
+                        alert("Failed to fetch performance metrics");
                       }
                     }}
                     variant="outline"
@@ -1403,13 +1452,20 @@ export default function AdminNew() {
                   <Button
                     onClick={async () => {
                       try {
-                        const response = await fetch('/api/system/logs/errors');
+                        const response = await fetch("/api/system/logs/errors");
                         const data = await response.json();
                         const recent = data.logs?.slice(0, 5) || [];
-                        const logText = recent.map(log => `[${new Date(log.timestamp).toLocaleTimeString()}] ${log.message}`).join('\n');
-                        alert(`Error Logs (${data.summary?.total || 0} total, ${data.summary?.last24h || 0} in 24h):\n\n${logText || 'No recent errors'}`);
+                        const logText = recent
+                          .map(
+                            (log) =>
+                              `[${new Date(log.timestamp).toLocaleTimeString()}] ${log.message}`,
+                          )
+                          .join("\n");
+                        alert(
+                          `Error Logs (${data.summary?.total || 0} total, ${data.summary?.last24h || 0} in 24h):\n\n${logText || "No recent errors"}`,
+                        );
                       } catch (error) {
-                        alert('Failed to fetch error logs');
+                        alert("Failed to fetch error logs");
                       }
                     }}
                     variant="outline"
@@ -1420,21 +1476,32 @@ export default function AdminNew() {
                   </Button>
                   <Button
                     onClick={async () => {
-                      if (confirm('Restart all services? This may cause temporary downtime.')) {
+                      if (
+                        confirm(
+                          "Restart all services? This may cause temporary downtime.",
+                        )
+                      ) {
                         try {
-                          const response = await fetch('/api/system/services/restart', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ services: ['api', 'database', 'cache'] }),
-                          });
+                          const response = await fetch(
+                            "/api/system/services/restart",
+                            {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({
+                                services: ["api", "database", "cache"],
+                              }),
+                            },
+                          );
                           const data = await response.json();
                           if (data.success) {
-                            alert(`${data.results?.length || 0} services restarted successfully!`);
+                            alert(
+                              `${data.results?.length || 0} services restarted successfully!`,
+                            );
                           } else {
-                            alert('Failed to restart services');
+                            alert("Failed to restart services");
                           }
                         } catch (error) {
-                          alert('Failed to restart services');
+                          alert("Failed to restart services");
                         }
                       }
                     }}
@@ -1455,22 +1522,29 @@ export default function AdminNew() {
                 <CardContent className="space-y-4">
                   <Button
                     onClick={async () => {
-                      alert('Security scan running... Please wait.');
+                      alert("Security scan running... Please wait.");
                       try {
-                        const response = await fetch('/api/system/security/scan', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                        });
+                        const response = await fetch(
+                          "/api/system/security/scan",
+                          {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                          },
+                        );
                         const data = await response.json();
                         if (data.success) {
                           const scan = data.scan;
-                          const vulnCount = Object.values(scan.vulnerabilities).reduce((a: any, b: any) => a + b, 0);
-                          alert(`Security Scan Complete!\n\nScan ID: ${scan.scanId}\nDuration: ${Math.round(scan.duration / 1000)}s\nVulnerabilities Found: ${vulnCount}\n\nCritical: ${scan.vulnerabilities.critical}\nHigh: ${scan.vulnerabilities.high}\nMedium: ${scan.vulnerabilities.medium}\nLow: ${scan.vulnerabilities.low}`);
+                          const vulnCount = Object.values(
+                            scan.vulnerabilities,
+                          ).reduce((a: any, b: any) => a + b, 0);
+                          alert(
+                            `Security Scan Complete!\n\nScan ID: ${scan.scanId}\nDuration: ${Math.round(scan.duration / 1000)}s\nVulnerabilities Found: ${vulnCount}\n\nCritical: ${scan.vulnerabilities.critical}\nHigh: ${scan.vulnerabilities.high}\nMedium: ${scan.vulnerabilities.medium}\nLow: ${scan.vulnerabilities.low}`,
+                          );
                         } else {
-                          alert('Security scan failed');
+                          alert("Security scan failed");
                         }
                       } catch (error) {
-                        alert('Failed to run security scan');
+                        alert("Failed to run security scan");
                       }
                     }}
                     variant="outline"
@@ -1482,13 +1556,20 @@ export default function AdminNew() {
                   <Button
                     onClick={async () => {
                       try {
-                        const response = await fetch('/api/system/logs/access');
+                        const response = await fetch("/api/system/logs/access");
                         const data = await response.json();
                         const recent = data.logs?.slice(0, 5) || [];
-                        const logText = recent.map(log => `[${new Date(log.timestamp).toLocaleTimeString()}] ${log.message} (${log.data?.ip || 'unknown IP'})`).join('\n');
-                        alert(`Access Logs (${data.summary?.total || 0} total, ${data.summary?.uniqueIPs || 0} unique IPs):\n\n${logText || 'No recent access logs'}`);
+                        const logText = recent
+                          .map(
+                            (log) =>
+                              `[${new Date(log.timestamp).toLocaleTimeString()}] ${log.message} (${log.data?.ip || "unknown IP"})`,
+                          )
+                          .join("\n");
+                        alert(
+                          `Access Logs (${data.summary?.total || 0} total, ${data.summary?.uniqueIPs || 0} unique IPs):\n\n${logText || "No recent access logs"}`,
+                        );
                       } catch (error) {
-                        alert('Failed to fetch access logs');
+                        alert("Failed to fetch access logs");
                       }
                     }}
                     variant="outline"
@@ -1500,13 +1581,22 @@ export default function AdminNew() {
                   <Button
                     onClick={async () => {
                       try {
-                        const response = await fetch('/api/system/security/threats');
+                        const response = await fetch(
+                          "/api/system/security/threats",
+                        );
                         const data = await response.json();
                         const threats = data.threats || [];
-                        const threatText = threats.map(threat => `${threat.type} (${threat.severity}) from ${threat.source} - ${threat.blocked ? 'BLOCKED' : 'ALLOWED'}`).join('\n');
-                        alert(`Threat Detection Report:\n\nTotal Threats: ${data.summary?.totalThreats || 0}\nCritical: ${data.summary?.criticalThreats || 0}\nBlocked: ${data.summary?.blockedThreats || 0}\n\nRecent Threats:\n${threatText || 'No recent threats'}`);
+                        const threatText = threats
+                          .map(
+                            (threat) =>
+                              `${threat.type} (${threat.severity}) from ${threat.source} - ${threat.blocked ? "BLOCKED" : "ALLOWED"}`,
+                          )
+                          .join("\n");
+                        alert(
+                          `Threat Detection Report:\n\nTotal Threats: ${data.summary?.totalThreats || 0}\nCritical: ${data.summary?.criticalThreats || 0}\nBlocked: ${data.summary?.blockedThreats || 0}\n\nRecent Threats:\n${threatText || "No recent threats"}`,
+                        );
                       } catch (error) {
-                        alert('Failed to fetch threat detection data');
+                        alert("Failed to fetch threat detection data");
                       }
                     }}
                     variant="outline"
@@ -1527,7 +1617,9 @@ export default function AdminNew() {
                 Platform Settings
               </h2>
               <Button
-                onClick={() => alert('Configuration export feature coming soon!')}
+                onClick={() =>
+                  alert("Configuration export feature coming soon!")
+                }
                 className="bg-white text-slate-900"
               >
                 <Download className="h-4 w-4 mr-2" />
@@ -1717,8 +1809,12 @@ export default function AdminNew() {
             <div className="flex justify-end space-x-4">
               <Button
                 onClick={() => {
-                  if (confirm('Reset all settings to defaults? This cannot be undone.')) {
-                    alert('Settings reset to defaults!');
+                  if (
+                    confirm(
+                      "Reset all settings to defaults? This cannot be undone.",
+                    )
+                  ) {
+                    alert("Settings reset to defaults!");
                   }
                 }}
                 variant="outline"
@@ -1727,7 +1823,7 @@ export default function AdminNew() {
                 Reset to Defaults
               </Button>
               <Button
-                onClick={() => alert('Settings saved successfully!')}
+                onClick={() => alert("Settings saved successfully!")}
                 className="bg-white text-slate-900"
               >
                 Save All Settings

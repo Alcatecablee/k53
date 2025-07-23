@@ -6,8 +6,10 @@ let supabase: any = null;
 
 const getDatabase = () => {
   if (!supabase) {
-    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+    const supabaseUrl =
+      process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+    const supabaseKey =
+      process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
       return null;
@@ -37,33 +39,48 @@ export const getDashboardStats: RequestHandler = async (req, res) => {
     }
 
     // Get basic counts with error handling
-    const [usersResult, subscriptionsResult, paymentsResult] = await Promise.allSettled([
-      db.from("user_subscriptions").select("*", { count: "exact", head: true }),
-      db.from("user_subscriptions").select("*", { count: "exact", head: true }).neq("plan_type", "free").eq("status", "active"),
-      db.from("payments").select("amount_cents").eq("status", "completed")
-    ]);
+    const [usersResult, subscriptionsResult, paymentsResult] =
+      await Promise.allSettled([
+        db
+          .from("user_subscriptions")
+          .select("*", { count: "exact", head: true }),
+        db
+          .from("user_subscriptions")
+          .select("*", { count: "exact", head: true })
+          .neq("plan_type", "free")
+          .eq("status", "active"),
+        db.from("payments").select("amount_cents").eq("status", "completed"),
+      ]);
 
-    const totalUsers = usersResult.status === 'fulfilled' ? (usersResult.value.count || 0) : 0;
-    const activeSubscriptions = subscriptionsResult.status === 'fulfilled' ? (subscriptionsResult.value.count || 0) : 0;
-    
+    const totalUsers =
+      usersResult.status === "fulfilled" ? usersResult.value.count || 0 : 0;
+    const activeSubscriptions =
+      subscriptionsResult.status === "fulfilled"
+        ? subscriptionsResult.value.count || 0
+        : 0;
+
     let totalRevenue = 0;
-    if (paymentsResult.status === 'fulfilled' && paymentsResult.value.data) {
-      totalRevenue = paymentsResult.value.data.reduce((sum: number, payment: any) => sum + (payment.amount_cents || 0), 0);
+    if (paymentsResult.status === "fulfilled" && paymentsResult.value.data) {
+      totalRevenue = paymentsResult.value.data.reduce(
+        (sum: number, payment: any) => sum + (payment.amount_cents || 0),
+        0,
+      );
     }
 
     // Get today's signups
     const today = new Date().toISOString().split("T")[0];
-    const { count: todaySignups } = await db
+    const { count: todaySignups } = (await db
       .from("user_subscriptions")
       .select("*", { count: "exact", head: true })
-      .gte("created_at", today) || { count: 0 };
+      .gte("created_at", today)) || { count: 0 };
 
     const stats = {
       totalUsers,
       activeSubscriptions,
       totalRevenue,
       todaySignups: todaySignups || 0,
-      conversionRate: totalUsers > 0 ? (activeSubscriptions / totalUsers) * 100 : 0,
+      conversionRate:
+        totalUsers > 0 ? (activeSubscriptions / totalUsers) * 100 : 0,
       churnRate: 3.2,
       avgSessionTime: 847,
       topLocations: [],
@@ -155,14 +172,16 @@ export const getPayments: RequestHandler = async (req, res) => {
 
     const { data: paymentsData, error } = await db
       .from("payments")
-      .select(`
+      .select(
+        `
         id,
         user_id,
         amount_cents,
         status,
         payment_method,
         created_at
-      `)
+      `,
+      )
       .order("created_at", { ascending: false })
       .limit(Number(limit));
 
@@ -254,7 +273,10 @@ export const userAction: RequestHandler = async (req, res) => {
         break;
       case "resetPassword":
         // Would typically trigger password reset email
-        return res.json({ success: true, message: "Password reset email sent" });
+        return res.json({
+          success: true,
+          message: "Password reset email sent",
+        });
       default:
         return res.status(400).json({ error: "Invalid action" });
     }
