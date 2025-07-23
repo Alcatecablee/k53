@@ -86,7 +86,7 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
 
     // Check daily usage for free users
     const today = new Date().toISOString().split("T")[0];
-    const { data: usage, error: usageError } = await supabase
+    const { data: usage, error: usageError } = await getSupabaseClient()
       .from("daily_usage")
       .select("*")
       .eq("user_id", userId)
@@ -101,7 +101,7 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
     let currentUsage = usage;
     if (!currentUsage) {
       // Create new usage record for today
-      const { data: newUsage, error: createError } = await supabase
+      const { data: newUsage, error: createError } = await getSupabaseClient()
         .from("daily_usage")
         .insert({
           user_id: userId,
@@ -179,7 +179,7 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
     const today = new Date().toISOString().split("T")[0];
 
     // First get current usage, then increment
-    const { data: currentUsage } = await supabase
+    const { data: currentUsage } = await getSupabaseClient()
       .from("daily_usage")
       .select("scenarios_used")
       .eq("user_id", userId)
@@ -188,7 +188,7 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
 
     const newCount = (currentUsage?.scenarios_used || 0) + 1;
 
-    const { data: updatedUsage, error } = await supabase
+    const { data: updatedUsage, error } = await getSupabaseClient()
       .from("daily_usage")
       .update({
         scenarios_used: newCount,
@@ -229,7 +229,7 @@ export const getUserSubscriptionDetails: RequestHandler = async (req, res) => {
       return res.status(401).json({ error: "User not authenticated" });
     }
 
-    const { data: subscription, error } = await supabase
+    const { data: subscription, error } = await getSupabaseClient()
       .from("user_subscriptions")
       .select("*")
       .eq("user_id", userId)
@@ -273,7 +273,7 @@ export const getUserUsageStats: RequestHandler = async (req, res) => {
     const today = new Date().toISOString().split("T")[0];
 
     // Get today's usage
-    const { data: todayUsage, error: todayError } = await supabase
+    const { data: todayUsage, error: todayError } = await getSupabaseClient()
       .from("daily_usage")
       .select("*")
       .eq("user_id", userId)
@@ -289,7 +289,7 @@ export const getUserUsageStats: RequestHandler = async (req, res) => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-    const { data: usageHistory, error: historyError } = await supabase
+    const { data: usageHistory, error: historyError } = await getSupabaseClient()
       .from("daily_usage")
       .select("*")
       .eq("user_id", userId)
