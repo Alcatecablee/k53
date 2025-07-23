@@ -100,6 +100,7 @@ function PricingComponent() {
       return;
     }
     setSelectedPlan(planId);
+    setModalStep('confirm');
     setPaymentError(null);
     setPaymentSuccess(null);
   };
