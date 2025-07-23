@@ -42,6 +42,8 @@ import {
   updateDailyUsage,
   getUserSubscription,
 } from "@/services/subscriptionService";
+import { SEO } from "@/components/SEO";
+import { SEO_CONFIGS } from "@/hooks/useSEO";
 
 interface TestResult {
   category: string;
