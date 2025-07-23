@@ -394,15 +394,15 @@ export default function AdminNew() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-slate-800 border-b border-black shadow-sm mb-8">
-        <div className="container mx-auto px-4 py-6">
+      <div className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Button
               asChild
               variant="ghost"
-              className="text-slate-300 hover:text-white font-medium uppercase tracking-wide"
+              className="text-gray-600 hover:text-gray-900 font-medium"
             >
               <Link to="/">
                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -411,53 +411,53 @@ export default function AdminNew() {
             </Button>
 
             <div className="text-center">
-              <h1 className="text-2xl font-bold text-white uppercase tracking-wide">
-                SuperK53 Admin Dashboard
+              <h1 className="text-2xl font-semibold text-gray-900">
+                SuperK53 Administration
               </h1>
-              <p className="text-slate-400 uppercase text-sm tracking-wide">
-                Advanced Business Management
+              <p className="text-gray-600 text-sm">
+                Business Management Console
               </p>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <Button onClick={loadDashboardData} variant="outline" className="text-slate-300">
+            <div className="flex items-center space-x-3">
+              <Button onClick={loadDashboardData} variant="outline" className="border-gray-300 text-gray-700">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh
               </Button>
-              <Button className="bg-white text-slate-900">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                 <Bell className="h-4 w-4 mr-2" />
-                Alerts
+                Notifications
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           {/* Tab Navigation */}
-          <TabsList className="grid w-full grid-cols-6 bg-slate-800 border border-black">
-            <TabsTrigger value="overview" className="text-white data-[state=active]:bg-white data-[state=active]:text-slate-900">
+          <TabsList className="grid w-full grid-cols-6 bg-white border border-gray-200 rounded-lg">
+            <TabsTrigger value="overview" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
               <BarChart3 className="h-4 w-4 mr-2" />
               Overview
             </TabsTrigger>
-            <TabsTrigger value="users" className="text-white data-[state=active]:bg-white data-[state=active]:text-slate-900">
+            <TabsTrigger value="users" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
               <Users className="h-4 w-4 mr-2" />
               Users
             </TabsTrigger>
-            <TabsTrigger value="payments" className="text-white data-[state=active]:bg-white data-[state=active]:text-slate-900">
+            <TabsTrigger value="payments" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
               <CreditCard className="h-4 w-4 mr-2" />
               Payments
             </TabsTrigger>
-            <TabsTrigger value="content" className="text-white data-[state=active]:bg-white data-[state=active]:text-slate-900">
+            <TabsTrigger value="content" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
               <BookOpen className="h-4 w-4 mr-2" />
               Content
             </TabsTrigger>
-            <TabsTrigger value="system" className="text-white data-[state=active]:bg-white data-[state=active]:text-slate-900">
+            <TabsTrigger value="system" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
               <Monitor className="h-4 w-4 mr-2" />
               System
             </TabsTrigger>
-            <TabsTrigger value="settings" className="text-white data-[state=active]:bg-white data-[state=active]:text-slate-900">
+            <TabsTrigger value="settings" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
               <Settings className="h-4 w-4 mr-2" />
               Settings
             </TabsTrigger>
@@ -467,53 +467,53 @@ export default function AdminNew() {
           <TabsContent value="overview" className="space-y-6">
             {/* Enhanced Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="border-2 border-black bg-slate-800 text-white">
+              <Card className="border border-gray-200 bg-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">Total Users</CardTitle>
-                  <Users className="h-4 w-4 text-slate-400" />
+                  <CardTitle className="text-sm font-medium text-gray-600">Total Users</CardTitle>
+                  <Users className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{stats?.totalUsers || 0}</div>
-                  <p className="text-xs text-green-400">
+                  <div className="text-2xl font-bold text-gray-900">{stats?.totalUsers || 0}</div>
+                  <p className="text-xs text-gray-500">
                     +{stats?.todaySignups || 0} today
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-black bg-slate-800 text-white">
+              <Card className="border border-gray-200 bg-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">Active Subscriptions</CardTitle>
-                  <Crown className="h-4 w-4 text-slate-400" />
+                  <CardTitle className="text-sm font-medium text-gray-600">Active Subscriptions</CardTitle>
+                  <Crown className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{stats?.activeSubscriptions || 0}</div>
-                  <p className="text-xs text-slate-400">
-                    {stats?.conversionRate}% conversion rate
+                  <div className="text-2xl font-bold text-gray-900">{stats?.activeSubscriptions || 0}</div>
+                  <p className="text-xs text-gray-500">
+                    {stats?.conversionRate.toFixed(1)}% conversion rate
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-black bg-slate-800 text-white">
+              <Card className="border border-gray-200 bg-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">Monthly Revenue</CardTitle>
-                  <DollarSign className="h-4 w-4 text-slate-400" />
+                  <CardTitle className="text-sm font-medium text-gray-600">Monthly Revenue</CardTitle>
+                  <DollarSign className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{formatPrice(stats?.totalRevenue || 0)}</div>
-                  <p className="text-xs text-green-400">
+                  <div className="text-2xl font-bold text-gray-900">{formatPrice(stats?.totalRevenue || 0)}</div>
+                  <p className="text-xs text-gray-500">
                     Revenue this month
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-black bg-slate-800 text-white">
+              <Card className="border border-gray-200 bg-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">Avg Session Time</CardTitle>
-                  <Clock className="h-4 w-4 text-slate-400" />
+                  <CardTitle className="text-sm font-medium text-gray-600">Avg Session Time</CardTitle>
+                  <Clock className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{Math.floor((stats?.avgSessionTime || 0) / 60)}m</div>
-                  <p className="text-xs text-slate-400">
+                  <div className="text-2xl font-bold text-gray-900">{Math.floor((stats?.avgSessionTime || 0) / 60)}m</div>
+                  <p className="text-xs text-gray-500">
                     Average session time
                   </p>
                 </CardContent>
