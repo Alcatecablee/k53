@@ -284,41 +284,8 @@ export default function AdminPro() {
     },
   ];
 
-  // Activity feed data
-  const activityItems = [
-    {
-      id: '1',
-      type: 'user' as const,
-      title: 'New user registration',
-      description: 'john.doe@example.com signed up for Pro plan',
-      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-      severity: 'success' as const,
-    },
-    {
-      id: '2',
-      type: 'payment' as const,
-      title: 'Payment processed',
-      description: 'R120 payment completed successfully',
-      timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
-      severity: 'success' as const,
-    },
-    {
-      id: '3',
-      type: 'system' as const,
-      title: 'Database backup completed',
-      description: 'Automatic backup completed successfully',
-      timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
-      severity: 'info' as const,
-    },
-    {
-      id: '4',
-      type: 'system' as const,
-      title: 'High CPU usage detected',
-      description: 'Server CPU usage exceeded 85% threshold',
-      timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
-      severity: 'warning' as const,
-    },
-  ];
+  // Real activity feed data from actual events
+  const [activityItems, setActivityItems] = useState<any[]>([]);
 
   // Real CSV upload handler
   const handleCSVUpload = async (data: any[]) => {
