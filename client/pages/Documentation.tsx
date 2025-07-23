@@ -834,8 +834,26 @@ export default function Documentation() {
 
   const currentSection = documentationSections.find(section => section.id === activeSection);
 
+  const breadcrumbItems = [
+    { name: 'Home', url: 'https://superk53.co.za' },
+    { name: 'Documentation', url: 'https://superk53.co.za/docs' },
+    { name: currentSection?.title || 'Getting Started', url: `https://superk53.co.za/docs#${activeSection}` }
+  ];
+
+  // FAQ data for structured data
+  const faqData = [
+    { question: 'Is SuperK53 officially recognized?', answer: 'Yes, SuperK53 is certified by the Department of Transport and aligned with current K53 regulations and testing standards.' },
+    { question: 'How accurate are the practice tests?', answer: 'Our tests are based on official K53 curriculum and updated regularly to match current examination standards.' },
+    { question: 'Can I use this on my mobile phone?', answer: 'Yes, SuperK53 is fully responsive and works on smartphones, tablets, and desktop computers.' },
+    { question: 'How many times can I take practice tests?', answer: 'Unlimited! You can take as many practice and official simulation tests as you want.' }
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-900">
+    <>
+      <SEO {...SEO_CONFIGS.documentation} />
+      <BreadcrumbSEO items={breadcrumbItems} />
+      {activeSection === 'faq' && <FAQSEO faqs={faqData} />}
+      <div className="min-h-screen bg-slate-900">
       {/* Header */}
       <header className="bg-slate-800 border-b border-black sticky top-0 z-50">
         <div className="container mx-auto px-4 py-6">
@@ -1018,5 +1036,6 @@ export default function Documentation() {
         </div>
       </div>
     </div>
+    </>
   );
 }
