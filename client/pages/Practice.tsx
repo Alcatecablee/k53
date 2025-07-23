@@ -57,6 +57,8 @@ function PracticeComponent() {
   const [testMode, setTestMode] = useState<TestMode>("questions");
   const [showLocationSelector, setShowLocationSelector] = useState(false);
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [usageInfo, setUsageInfo] = useState<any>(null);
+  const [subscription, setSubscription] = useState<any>(null);
 
   const { user, signOut } = useAuth();
 
