@@ -526,11 +526,15 @@ export default function AdminPro() {
       });
 
       if (response.ok) {
+        const result = await response.json().catch(() => ({ success: true }));
         alert("Cache cleared successfully!");
         await loadAllData(); // Refresh all data
+      } else {
+        throw new Error(`Cache clear failed: ${response.statusText || "Unknown error"}`);
       }
     } catch (error) {
-      alert("Failed to clear cache");
+      console.error("Cache clear error:", error);
+      alert(`Failed to clear cache: ${error}`);
     }
   };
 
