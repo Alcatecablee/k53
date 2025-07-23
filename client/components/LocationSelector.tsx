@@ -200,7 +200,7 @@ export function LocationSelector({
           )}
 
           {/* Action Buttons */}
-          <div className="flex space-x-4 pt-4 border-t border-black-200">
+          <div className="flex space-x-4 pt-4 border-t border-black">
             <Button
               variant="outline"
               onClick={onClose}
@@ -218,7 +218,7 @@ export function LocationSelector({
           </div>
 
           {/* Privacy Note */}
-          <div className="text-xs text-slate-500 text-center pt-2 border-t border-black-200">
+          <div className="text-xs text-slate-500 text-center pt-2 border-t border-black">
             Your location is only used to provide relevant scenarios and is
             stored locally on your device.
           </div>
