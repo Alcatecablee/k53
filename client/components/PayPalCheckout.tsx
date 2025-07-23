@@ -111,8 +111,11 @@ export function PayPalCheckout({
         <CardContent className="p-6 text-center">
           <AlertCircle className="h-8 w-8 text-red-600 mx-auto mb-3" />
           <h3 className="font-bold text-red-800 mb-2">Payment System Unavailable</h3>
-          <p className="text-red-700 text-sm">
+          <p className="text-red-700 text-sm mb-3">
             PayPal configuration is missing. Please contact support.
+          </p>
+          <p className="text-xs text-red-600">
+            Debug: Client ID {env.paypal.clientId ? 'present' : 'missing'}
           </p>
         </CardContent>
       </Card>
