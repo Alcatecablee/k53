@@ -6,10 +6,41 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   ArrowLeft,
   Users,
@@ -75,7 +106,7 @@ interface DashboardStats {
   conversionRate: number;
   churnRate: number;
   avgSessionTime: number;
-  topLocations: Array<{city: string, count: number}>;
+  topLocations: Array<{ city: string; count: number }>;
   monthlyGrowth: number;
 }
 
@@ -120,11 +151,13 @@ export default function AdminNew() {
     database: "operational",
     paypal: "operational",
     server: "operational",
-    storage: "operational"
+    storage: "operational",
   });
 
   // Check if user has admin privileges
-  const isAdmin = user?.email === 'admin@superk53.com' || process.env.NODE_ENV === 'development';
+  const isAdmin =
+    user?.email === "admin@superk53.com" ||
+    process.env.NODE_ENV === "development";
 
   useEffect(() => {
     if (!isAdmin) return;
@@ -140,41 +173,44 @@ export default function AdminNew() {
 
       // Get total users count
       const { count: totalUsers } = await supabase
-        .from('user_subscriptions')
-        .select('*', { count: 'exact', head: true });
+        .from("user_subscriptions")
+        .select("*", { count: "exact", head: true });
 
       // Get active subscriptions count
       const { count: activeSubscriptions } = await supabase
-        .from('user_subscriptions')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'active')
-        .in('plan_type', ['basic', 'pro']);
+        .from("user_subscriptions")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "active")
+        .in("plan_type", ["basic", "pro"]);
 
       // Get total revenue
       const { data: revenueData } = await supabase
-        .from('payments')
-        .select('amount_cents')
-        .eq('status', 'completed');
+        .from("payments")
+        .select("amount_cents")
+        .eq("status", "completed");
 
-      const totalRevenue = revenueData?.reduce((sum, payment) => sum + payment.amount_cents, 0) || 0;
+      const totalRevenue =
+        revenueData?.reduce((sum, payment) => sum + payment.amount_cents, 0) ||
+        0;
 
       // Get today's signups
-      const today = new Date().toISOString().split('T')[0];
+      const today = new Date().toISOString().split("T")[0];
       const { count: todaySignups } = await supabase
-        .from('user_subscriptions')
-        .select('*', { count: 'exact', head: true })
-        .gte('created_at', today);
+        .from("user_subscriptions")
+        .select("*", { count: "exact", head: true })
+        .gte("created_at", today);
 
       // Get top locations
       const { data: locationData } = await supabase
-        .from('user_subscriptions')
-        .select('location')
-        .not('location', 'is', null);
+        .from("user_subscriptions")
+        .select("location")
+        .not("location", "is", null);
 
-      const locationCounts = locationData?.reduce((acc: any, user) => {
-        acc[user.location] = (acc[user.location] || 0) + 1;
-        return acc;
-      }, {}) || {};
+      const locationCounts =
+        locationData?.reduce((acc: any, user) => {
+          acc[user.location] = (acc[user.location] || 0) + 1;
+          return acc;
+        }, {}) || {};
 
       const topLocations = Object.entries(locationCounts)
         .map(([city, count]) => ({ city, count: count as number }))
@@ -186,11 +222,13 @@ export default function AdminNew() {
         activeSubscriptions: activeSubscriptions || 0,
         totalRevenue: totalRevenue,
         todaySignups: todaySignups || 0,
-        conversionRate: totalUsers ? ((activeSubscriptions || 0) / totalUsers) * 100 : 0,
+        conversionRate: totalUsers
+          ? ((activeSubscriptions || 0) / totalUsers) * 100
+          : 0,
         churnRate: 3.2,
         avgSessionTime: 847,
         topLocations: topLocations,
-        monthlyGrowth: 23.4
+        monthlyGrowth: 23.4,
       };
 
       setStats(realStats);
@@ -205,8 +243,9 @@ export default function AdminNew() {
     try {
       // Get real user data from database
       const { data: usersData, error } = await supabase
-        .from('user_subscriptions')
-        .select(`
+        .from("user_subscriptions")
+        .select(
+          `
           id,
           email,
           created_at,
@@ -214,44 +253,47 @@ export default function AdminNew() {
           status,
           location,
           last_seen
-        `)
-        .order('created_at', { ascending: false })
+        `,
+        )
+        .order("created_at", { ascending: false })
         .limit(100);
 
       if (error) {
-        console.error('Error loading users:', error);
+        console.error("Error loading users:", error);
         return;
       }
 
       // Get usage data for each user
-      const userIds = usersData?.map(user => user.id) || [];
+      const userIds = usersData?.map((user) => user.id) || [];
       const { data: usageData } = await supabase
-        .from('daily_usage')
-        .select('user_id, scenarios_used')
-        .in('user_id', userIds)
-        .eq('date', new Date().toISOString().split('T')[0]);
+        .from("daily_usage")
+        .select("user_id, scenarios_used")
+        .in("user_id", userIds)
+        .eq("date", new Date().toISOString().split("T")[0]);
 
-      const usageMap = usageData?.reduce((acc: any, usage) => {
-        acc[usage.user_id] = usage.scenarios_used;
-        return acc;
-      }, {}) || {};
+      const usageMap =
+        usageData?.reduce((acc: any, usage) => {
+          acc[usage.user_id] = usage.scenarios_used;
+          return acc;
+        }, {}) || {};
 
-      const formattedUsers: User[] = usersData?.map(user => ({
-        id: user.id,
-        email: user.email,
-        created_at: user.created_at,
-        subscription: {
-          plan_type: user.plan_type,
-          status: user.status,
-          created_at: user.created_at
-        },
-        usage: {
-          scenarios_used: usageMap[user.id] || 0,
-          max_scenarios: user.plan_type === 'free' ? 5 : -1
-        },
-        location: user.location,
-        last_seen: user.last_seen
-      })) || [];
+      const formattedUsers: User[] =
+        usersData?.map((user) => ({
+          id: user.id,
+          email: user.email,
+          created_at: user.created_at,
+          subscription: {
+            plan_type: user.plan_type,
+            status: user.status,
+            created_at: user.created_at,
+          },
+          usage: {
+            scenarios_used: usageMap[user.id] || 0,
+            max_scenarios: user.plan_type === "free" ? 5 : -1,
+          },
+          location: user.location,
+          last_seen: user.last_seen,
+        })) || [];
 
       setUsers(formattedUsers);
     } catch (error) {
@@ -263,8 +305,9 @@ export default function AdminNew() {
     try {
       // Get real payment data from database
       const { data: paymentsData, error } = await supabase
-        .from('payments')
-        .select(`
+        .from("payments")
+        .select(
+          `
           id,
           user_id,
           amount_cents,
@@ -272,24 +315,26 @@ export default function AdminNew() {
           payment_method,
           created_at,
           user_subscriptions!inner(email)
-        `)
-        .order('created_at', { ascending: false })
+        `,
+        )
+        .order("created_at", { ascending: false })
         .limit(50);
 
       if (error) {
-        console.error('Error loading payments:', error);
+        console.error("Error loading payments:", error);
         return;
       }
 
-      const formattedPayments: Payment[] = paymentsData?.map(payment => ({
-        id: payment.id,
-        user_id: payment.user_id,
-        amount_cents: payment.amount_cents,
-        status: payment.status,
-        payment_method: payment.payment_method,
-        created_at: payment.created_at,
-        user_email: (payment.user_subscriptions as any)?.email || 'Unknown'
-      })) || [];
+      const formattedPayments: Payment[] =
+        paymentsData?.map((payment) => ({
+          id: payment.id,
+          user_id: payment.user_id,
+          amount_cents: payment.amount_cents,
+          status: payment.status,
+          payment_method: payment.payment_method,
+          created_at: payment.created_at,
+          user_email: (payment.user_subscriptions as any)?.email || "Unknown",
+        })) || [];
 
       setPayments(formattedPayments);
     } catch (error) {
@@ -300,20 +345,23 @@ export default function AdminNew() {
   const checkSystemHealth = async () => {
     try {
       // Test database connection
-      const { error: dbError } = await supabase.from('user_subscriptions').select('id').limit(1);
+      const { error: dbError } = await supabase
+        .from("user_subscriptions")
+        .select("id")
+        .limit(1);
 
       setSystemHealth({
         database: dbError ? "error" : "operational",
         paypal: "operational",
         server: "operational",
-        storage: "operational"
+        storage: "operational",
       });
     } catch (error) {
       setSystemHealth({
         database: "error",
         paypal: "warning",
         server: "error",
-        storage: "warning"
+        storage: "warning",
       });
     }
   };
@@ -349,20 +397,23 @@ export default function AdminNew() {
     const data = type === "users" ? users : payments;
     const csv = [
       Object.keys(data[0] || {}).join(","),
-      ...data.map(item => Object.values(item).join(","))
+      ...data.map((item) => Object.values(item).join(",")),
     ].join("\n");
-    
+
     const blob = new Blob([csv], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${type}_export_${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `${type}_export_${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
   };
 
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterStatus === "all" || user.subscription?.status === filterStatus;
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch = user.email
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesFilter =
+      filterStatus === "all" || user.subscription?.status === filterStatus;
     return matchesSearch && matchesFilter;
   });
 
@@ -371,9 +422,16 @@ export default function AdminNew() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="border border-red-200 bg-white max-w-md shadow-lg">
           <CardContent className="p-8 text-center">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-4">Access Denied</h1>
-            <p className="text-gray-600 mb-6">You don't have permission to access this page.</p>
-            <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
+            <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+              Access Denied
+            </h1>
+            <p className="text-gray-600 mb-6">
+              You don't have permission to access this page.
+            </p>
+            <Button
+              asChild
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
               <Link to="/">Return Home</Link>
             </Button>
           </CardContent>
@@ -420,7 +478,11 @@ export default function AdminNew() {
             </div>
 
             <div className="flex items-center space-x-3">
-              <Button onClick={loadDashboardData} variant="outline" className="border-gray-300 text-gray-700">
+              <Button
+                onClick={loadDashboardData}
+                variant="outline"
+                className="border-gray-300 text-gray-700"
+              >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh
               </Button>
@@ -434,30 +496,52 @@ export default function AdminNew() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="space-y-6"
+        >
           {/* Tab Navigation */}
           <TabsList className="grid w-full grid-cols-6 bg-white border border-gray-200 rounded-lg">
-            <TabsTrigger value="overview" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
+            <TabsTrigger
+              value="overview"
+              className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200"
+            >
               <BarChart3 className="h-4 w-4 mr-2" />
               Overview
             </TabsTrigger>
-            <TabsTrigger value="users" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
+            <TabsTrigger
+              value="users"
+              className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200"
+            >
               <Users className="h-4 w-4 mr-2" />
               Users
             </TabsTrigger>
-            <TabsTrigger value="payments" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
+            <TabsTrigger
+              value="payments"
+              className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200"
+            >
               <CreditCard className="h-4 w-4 mr-2" />
               Payments
             </TabsTrigger>
-            <TabsTrigger value="content" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
+            <TabsTrigger
+              value="content"
+              className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200"
+            >
               <BookOpen className="h-4 w-4 mr-2" />
               Content
             </TabsTrigger>
-            <TabsTrigger value="system" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
+            <TabsTrigger
+              value="system"
+              className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200"
+            >
               <Monitor className="h-4 w-4 mr-2" />
               System
             </TabsTrigger>
-            <TabsTrigger value="settings" className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200">
+            <TabsTrigger
+              value="settings"
+              className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200"
+            >
               <Settings className="h-4 w-4 mr-2" />
               Settings
             </TabsTrigger>
@@ -469,11 +553,15 @@ export default function AdminNew() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card className="border border-gray-200 bg-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600">Total Users</CardTitle>
+                  <CardTitle className="text-sm font-medium text-gray-600">
+                    Total Users
+                  </CardTitle>
                   <Users className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">{stats?.totalUsers || 0}</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {stats?.totalUsers || 0}
+                  </div>
                   <p className="text-xs text-gray-500">
                     +{stats?.todaySignups || 0} today
                   </p>
@@ -482,11 +570,15 @@ export default function AdminNew() {
 
               <Card className="border border-gray-200 bg-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600">Active Subscriptions</CardTitle>
+                  <CardTitle className="text-sm font-medium text-gray-600">
+                    Active Subscriptions
+                  </CardTitle>
                   <Crown className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">{stats?.activeSubscriptions || 0}</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {stats?.activeSubscriptions || 0}
+                  </div>
                   <p className="text-xs text-gray-500">
                     {stats?.conversionRate.toFixed(1)}% conversion rate
                   </p>
@@ -495,27 +587,31 @@ export default function AdminNew() {
 
               <Card className="border border-gray-200 bg-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600">Monthly Revenue</CardTitle>
+                  <CardTitle className="text-sm font-medium text-gray-600">
+                    Monthly Revenue
+                  </CardTitle>
                   <DollarSign className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">{formatPrice(stats?.totalRevenue || 0)}</div>
-                  <p className="text-xs text-gray-500">
-                    Revenue this month
-                  </p>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {formatPrice(stats?.totalRevenue || 0)}
+                  </div>
+                  <p className="text-xs text-gray-500">Revenue this month</p>
                 </CardContent>
               </Card>
 
               <Card className="border border-gray-200 bg-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600">Avg Session Time</CardTitle>
+                  <CardTitle className="text-sm font-medium text-gray-600">
+                    Avg Session Time
+                  </CardTitle>
                   <Clock className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">{Math.floor((stats?.avgSessionTime || 0) / 60)}m</div>
-                  <p className="text-xs text-gray-500">
-                    Average session time
-                  </p>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {Math.floor((stats?.avgSessionTime || 0) / 60)}m
+                  </div>
+                  <p className="text-xs text-gray-500">Average session time</p>
                 </CardContent>
               </Card>
             </div>
@@ -524,22 +620,31 @@ export default function AdminNew() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-lg font-semibold text-gray-900">Top Locations</CardTitle>
+                  <CardTitle className="text-lg font-semibold text-gray-900">
+                    Top Locations
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {stats?.topLocations.map((location, index) => (
-                      <div key={index} className="flex items-center justify-between">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between"
+                      >
                         <div className="flex items-center space-x-3">
                           <MapPin className="h-4 w-4 text-gray-400" />
                           <span className="text-gray-900">{location.city}</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-gray-500">{location.count} users</span>
+                          <span className="text-sm text-gray-500">
+                            {location.count} users
+                          </span>
                           <div className="w-16 h-2 bg-gray-200 rounded">
                             <div
                               className="h-full bg-blue-600 rounded"
-                              style={{ width: `${(location.count / (stats?.topLocations[0]?.count || 1)) * 100}%` }}
+                              style={{
+                                width: `${(location.count / (stats?.topLocations[0]?.count || 1)) * 100}%`,
+                              }}
                             ></div>
                           </div>
                         </div>
@@ -551,29 +656,45 @@ export default function AdminNew() {
 
               <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-lg font-semibold text-gray-900">System Performance</CardTitle>
+                  <CardTitle className="text-lg font-semibold text-gray-900">
+                    System Performance
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
                       <Database className="h-6 w-6 mx-auto mb-2 text-blue-600" />
-                      <div className="text-lg font-semibold text-gray-900">99.9%</div>
-                      <div className="text-xs text-gray-500">Database Uptime</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        99.9%
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        Database Uptime
+                      </div>
                     </div>
                     <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
                       <Server className="h-6 w-6 mx-auto mb-2 text-blue-600" />
-                      <div className="text-lg font-semibold text-gray-900">156ms</div>
-                      <div className="text-xs text-gray-500">Avg Response Time</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        156ms
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        Avg Response Time
+                      </div>
                     </div>
                     <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
                       <HardDrive className="h-6 w-6 mx-auto mb-2 text-amber-600" />
-                      <div className="text-lg font-semibold text-gray-900">67%</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        67%
+                      </div>
                       <div className="text-xs text-gray-500">Storage Used</div>
                     </div>
                     <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
                       <Wifi className="h-6 w-6 mx-auto mb-2 text-blue-600" />
-                      <div className="text-lg font-semibold text-gray-900">1.2k</div>
-                      <div className="text-xs text-gray-500">Active Sessions</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        1.2k
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        Active Sessions
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -583,28 +704,49 @@ export default function AdminNew() {
             {/* Recent Activity */}
             <Card className="border border-gray-200 bg-white">
               <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900">Recent Activity</CardTitle>
+                <CardTitle className="text-lg font-semibold text-gray-900">
+                  Recent Activity
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   {payments.slice(0, 3).map((payment, index) => (
-                    <div key={payment.id} className="flex items-center space-x-4 p-3 bg-gray-50 border border-gray-100 rounded">
+                    <div
+                      key={payment.id}
+                      className="flex items-center space-x-4 p-3 bg-gray-50 border border-gray-100 rounded"
+                    >
                       <CreditCard className="h-5 w-5 text-blue-600" />
                       <div className="flex-1">
-                        <div className="font-medium text-gray-900">Payment {payment.status}</div>
-                        <div className="text-sm text-gray-600">{payment.user_email} - {formatPrice(payment.amount_cents)}</div>
+                        <div className="font-medium text-gray-900">
+                          Payment {payment.status}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          {payment.user_email} -{" "}
+                          {formatPrice(payment.amount_cents)}
+                        </div>
                       </div>
-                      <div className="text-xs text-gray-500">{new Date(payment.created_at).toLocaleDateString()}</div>
+                      <div className="text-xs text-gray-500">
+                        {new Date(payment.created_at).toLocaleDateString()}
+                      </div>
                     </div>
                   ))}
                   {users.slice(0, 3 - payments.length).map((user, index) => (
-                    <div key={user.id} className="flex items-center space-x-4 p-3 bg-gray-50 border border-gray-100 rounded">
+                    <div
+                      key={user.id}
+                      className="flex items-center space-x-4 p-3 bg-gray-50 border border-gray-100 rounded"
+                    >
                       <UserCheck className="h-5 w-5 text-blue-600" />
                       <div className="flex-1">
-                        <div className="font-medium text-gray-900">User registration</div>
-                        <div className="text-sm text-gray-600">{user.email} - {user.subscription?.plan_type}</div>
+                        <div className="font-medium text-gray-900">
+                          User registration
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          {user.email} - {user.subscription?.plan_type}
+                        </div>
                       </div>
-                      <div className="text-xs text-gray-500">{new Date(user.created_at).toLocaleDateString()}</div>
+                      <div className="text-xs text-gray-500">
+                        {new Date(user.created_at).toLocaleDateString()}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -616,9 +758,15 @@ export default function AdminNew() {
           <TabsContent value="users" className="space-y-6">
             {/* User Management Header */}
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold text-gray-900">User Management</h2>
+              <h2 className="text-2xl font-semibold text-gray-900">
+                User Management
+              </h2>
               <div className="flex items-center space-x-3">
-                <Button onClick={() => exportData("users")} variant="outline" className="border-gray-300 text-gray-700">
+                <Button
+                  onClick={() => exportData("users")}
+                  variant="outline"
+                  className="border-gray-300 text-gray-700"
+                >
                   <Download className="h-4 w-4 mr-2" />
                   Export
                 </Button>
@@ -634,7 +782,12 @@ export default function AdminNew() {
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4">
                   <div className="flex-1">
-                    <Label htmlFor="search" className="text-gray-700 font-medium">Search Users</Label>
+                    <Label
+                      htmlFor="search"
+                      className="text-gray-700 font-medium"
+                    >
+                      Search Users
+                    </Label>
                     <div className="relative mt-1">
                       <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                       <Input
@@ -647,8 +800,16 @@ export default function AdminNew() {
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="filter" className="text-gray-700 font-medium">Filter by Status</Label>
-                    <Select value={filterStatus} onValueChange={setFilterStatus}>
+                    <Label
+                      htmlFor="filter"
+                      className="text-gray-700 font-medium"
+                    >
+                      Filter by Status
+                    </Label>
+                    <Select
+                      value={filterStatus}
+                      onValueChange={setFilterStatus}
+                    >
                       <SelectTrigger className="w-48 border-gray-300 bg-white text-gray-900 mt-1">
                         <SelectValue />
                       </SelectTrigger>
@@ -670,48 +831,75 @@ export default function AdminNew() {
                 <Table>
                   <TableHeader>
                     <TableRow className="border-gray-200">
-                      <TableHead className="text-gray-700 font-medium">User</TableHead>
-                      <TableHead className="text-gray-700 font-medium">Subscription</TableHead>
-                      <TableHead className="text-gray-700 font-medium">Usage</TableHead>
-                      <TableHead className="text-gray-700 font-medium">Location</TableHead>
-                      <TableHead className="text-gray-700 font-medium">Last Seen</TableHead>
-                      <TableHead className="text-gray-700 font-medium">Actions</TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        User
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Subscription
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Usage
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Location
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Last Seen
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Actions
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredUsers.map((user) => (
-                      <TableRow key={user.id} className="border-gray-100 hover:bg-gray-50">
+                      <TableRow
+                        key={user.id}
+                        className="border-gray-100 hover:bg-gray-50"
+                      >
                         <TableCell>
                           <div>
-                            <div className="font-medium text-gray-900">{user.email}</div>
+                            <div className="font-medium text-gray-900">
+                              {user.email}
+                            </div>
                             <div className="text-sm text-gray-500">
-                              Joined {new Date(user.created_at).toLocaleDateString()}
+                              Joined{" "}
+                              {new Date(user.created_at).toLocaleDateString()}
                             </div>
                           </div>
                         </TableCell>
                         <TableCell>
                           <Badge
                             className={
-                              user.subscription?.plan_type === "pro" ? "bg-purple-100 text-purple-800 border-purple-200" :
-                              user.subscription?.plan_type === "basic" ? "bg-blue-100 text-blue-800 border-blue-200" :
-                              "bg-gray-100 text-gray-800 border-gray-200"
+                              user.subscription?.plan_type === "pro"
+                                ? "bg-purple-100 text-purple-800 border-purple-200"
+                                : user.subscription?.plan_type === "basic"
+                                  ? "bg-blue-100 text-blue-800 border-blue-200"
+                                  : "bg-gray-100 text-gray-800 border-gray-200"
                             }
                           >
-                            {user.subscription?.plan_type?.toUpperCase() || "FREE"}
+                            {user.subscription?.plan_type?.toUpperCase() ||
+                              "FREE"}
                           </Badge>
                         </TableCell>
                         <TableCell>
                           <div className="text-sm">
                             <div className="text-gray-900 font-medium">
                               {user.usage?.scenarios_used || 0}/
-                              {user.usage?.max_scenarios === -1 ? "∞" : user.usage?.max_scenarios || 5}
+                              {user.usage?.max_scenarios === -1
+                                ? "∞"
+                                : user.usage?.max_scenarios || 5}
                             </div>
                             <div className="text-gray-500">scenarios</div>
                           </div>
                         </TableCell>
-                        <TableCell className="text-gray-900">{user.location || "Unknown"}</TableCell>
+                        <TableCell className="text-gray-900">
+                          {user.location || "Unknown"}
+                        </TableCell>
                         <TableCell className="text-gray-500">
-                          {user.last_seen ? new Date(user.last_seen).toLocaleDateString() : "Never"}
+                          {user.last_seen
+                            ? new Date(user.last_seen).toLocaleDateString()
+                            : "Never"}
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-2">
@@ -727,27 +915,40 @@ export default function AdminNew() {
                               size="sm"
                               variant="outline"
                               className="border-gray-300 text-gray-700"
-                              onClick={() => handleUserAction(user.id, "resetPassword")}
+                              onClick={() =>
+                                handleUserAction(user.id, "resetPassword")
+                              }
                             >
                               <Mail className="h-3 w-3" />
                             </Button>
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <Button size="sm" variant="outline" className="border-red-300 text-red-700 hover:bg-red-50">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="border-red-300 text-red-700 hover:bg-red-50"
+                                >
                                   <Ban className="h-3 w-3" />
                                 </Button>
                               </AlertDialogTrigger>
                               <AlertDialogContent className="bg-white">
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle className="text-gray-900">Ban User</AlertDialogTitle>
+                                  <AlertDialogTitle className="text-gray-900">
+                                    Ban User
+                                  </AlertDialogTitle>
                                   <AlertDialogDescription className="text-gray-600">
-                                    Are you sure you want to ban {user.email}? This will immediately revoke their access.
+                                    Are you sure you want to ban {user.email}?
+                                    This will immediately revoke their access.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel className="border-gray-300">Cancel</AlertDialogCancel>
+                                  <AlertDialogCancel className="border-gray-300">
+                                    Cancel
+                                  </AlertDialogCancel>
                                   <AlertDialogAction
-                                    onClick={() => handleUserAction(user.id, "ban")}
+                                    onClick={() =>
+                                      handleUserAction(user.id, "ban")
+                                    }
                                     className="bg-red-600 hover:bg-red-700"
                                   >
                                     Ban User
@@ -768,13 +969,22 @@ export default function AdminNew() {
           {/* Payments Tab */}
           <TabsContent value="payments" className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold text-gray-900">Payment Management</h2>
+              <h2 className="text-2xl font-semibold text-gray-900">
+                Payment Management
+              </h2>
               <div className="flex items-center space-x-3">
-                <Button onClick={() => exportData("payments")} variant="outline" className="border-gray-300 text-gray-700">
+                <Button
+                  onClick={() => exportData("payments")}
+                  variant="outline"
+                  className="border-gray-300 text-gray-700"
+                >
                   <Download className="h-4 w-4 mr-2" />
                   Export
                 </Button>
-                <Button variant="outline" className="border-gray-300 text-gray-700">
+                <Button
+                  variant="outline"
+                  className="border-gray-300 text-gray-700"
+                >
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Sync PayPal
                 </Button>
@@ -785,28 +995,52 @@ export default function AdminNew() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium text-gray-600">Total Processed</CardTitle>
+                  <CardTitle className="text-sm font-medium text-gray-600">
+                    Total Processed
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">{formatPrice(payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount_cents, 0))}</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {formatPrice(
+                      payments
+                        .filter((p) => p.status === "completed")
+                        .reduce((sum, p) => sum + p.amount_cents, 0),
+                    )}
+                  </div>
                   <p className="text-xs text-gray-500">Total processed</p>
                 </CardContent>
               </Card>
               <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium text-gray-600">Success Rate</CardTitle>
+                  <CardTitle className="text-sm font-medium text-gray-600">
+                    Success Rate
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">{payments.length > 0 ? Math.round((payments.filter(p => p.status === 'completed').length / payments.length) * 100) : 0}%</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {payments.length > 0
+                      ? Math.round(
+                          (payments.filter((p) => p.status === "completed")
+                            .length /
+                            payments.length) *
+                            100,
+                        )
+                      : 0}
+                    %
+                  </div>
                   <p className="text-xs text-gray-500">Payment success rate</p>
                 </CardContent>
               </Card>
               <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium text-gray-600">Failed Payments</CardTitle>
+                  <CardTitle className="text-sm font-medium text-gray-600">
+                    Failed Payments
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-red-600">{payments.filter(p => p.status === 'failed').length}</div>
+                  <div className="text-2xl font-bold text-red-600">
+                    {payments.filter((p) => p.status === "failed").length}
+                  </div>
                   <p className="text-xs text-gray-500">Failed payments</p>
                 </CardContent>
               </Card>
@@ -818,21 +1052,44 @@ export default function AdminNew() {
                 <Table>
                   <TableHeader>
                     <TableRow className="border-gray-200">
-                      <TableHead className="text-gray-700 font-medium">Payment ID</TableHead>
-                      <TableHead className="text-gray-700 font-medium">User</TableHead>
-                      <TableHead className="text-gray-700 font-medium">Amount</TableHead>
-                      <TableHead className="text-gray-700 font-medium">Method</TableHead>
-                      <TableHead className="text-gray-700 font-medium">Status</TableHead>
-                      <TableHead className="text-gray-700 font-medium">Date</TableHead>
-                      <TableHead className="text-gray-700 font-medium">Actions</TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Payment ID
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        User
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Amount
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Method
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Status
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Date
+                      </TableHead>
+                      <TableHead className="text-gray-700 font-medium">
+                        Actions
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {payments.map((payment) => (
-                      <TableRow key={payment.id} className="border-gray-100 hover:bg-gray-50">
-                        <TableCell className="text-gray-900 font-mono text-sm">{payment.id}</TableCell>
-                        <TableCell className="text-gray-900">{payment.user_email}</TableCell>
-                        <TableCell className="text-gray-900 font-medium">{formatPrice(payment.amount_cents)}</TableCell>
+                      <TableRow
+                        key={payment.id}
+                        className="border-gray-100 hover:bg-gray-50"
+                      >
+                        <TableCell className="text-gray-900 font-mono text-sm">
+                          {payment.id}
+                        </TableCell>
+                        <TableCell className="text-gray-900">
+                          {payment.user_email}
+                        </TableCell>
+                        <TableCell className="text-gray-900 font-medium">
+                          {formatPrice(payment.amount_cents)}
+                        </TableCell>
                         <TableCell>
                           <Badge className="bg-blue-100 text-blue-800 border-blue-200">
                             {payment.payment_method.toUpperCase()}
@@ -841,9 +1098,11 @@ export default function AdminNew() {
                         <TableCell>
                           <Badge
                             className={
-                              payment.status === "completed" ? "bg-green-100 text-green-800 border-green-200" :
-                              payment.status === "failed" ? "bg-red-100 text-red-800 border-red-200" :
-                              "bg-yellow-100 text-yellow-800 border-yellow-200"
+                              payment.status === "completed"
+                                ? "bg-green-100 text-green-800 border-green-200"
+                                : payment.status === "failed"
+                                  ? "bg-red-100 text-red-800 border-red-200"
+                                  : "bg-yellow-100 text-yellow-800 border-yellow-200"
                             }
                           >
                             {payment.status.toUpperCase()}
@@ -853,7 +1112,11 @@ export default function AdminNew() {
                           {new Date(payment.created_at).toLocaleDateString()}
                         </TableCell>
                         <TableCell>
-                          <Button size="sm" variant="outline" className="border-gray-300 text-gray-700">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="border-gray-300 text-gray-700"
+                          >
                             <Eye className="h-3 w-3 mr-1" />
                             View
                           </Button>
@@ -869,7 +1132,9 @@ export default function AdminNew() {
           {/* Content Tab */}
           <TabsContent value="content" className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">Content Management</h2>
+              <h2 className="text-2xl font-bold text-white">
+                Content Management
+              </h2>
               <div className="flex items-center space-x-2">
                 <Button variant="outline" className="text-slate-300">
                   <Upload className="h-4 w-4 mr-2" />
@@ -886,7 +1151,9 @@ export default function AdminNew() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">K53 Questions</CardTitle>
+                  <CardTitle className="text-sm font-medium uppercase tracking-wide">
+                    K53 Questions
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">1,247</div>
@@ -895,7 +1162,9 @@ export default function AdminNew() {
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">AI Scenarios</CardTitle>
+                  <CardTitle className="text-sm font-medium uppercase tracking-wide">
+                    AI Scenarios
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">224</div>
@@ -904,7 +1173,9 @@ export default function AdminNew() {
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">Scenario Packs</CardTitle>
+                  <CardTitle className="text-sm font-medium uppercase tracking-wide">
+                    Scenario Packs
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">5</div>
@@ -913,7 +1184,9 @@ export default function AdminNew() {
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-sm font-medium uppercase tracking-wide">Languages</CardTitle>
+                  <CardTitle className="text-sm font-medium uppercase tracking-wide">
+                    Languages
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">3</div>
@@ -926,7 +1199,9 @@ export default function AdminNew() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">Question Management</CardTitle>
+                  <CardTitle className="text-xl font-bold uppercase tracking-wide">
+                    Question Management
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button className="w-full bg-white text-slate-900 hover:bg-slate-100">
@@ -945,7 +1220,9 @@ export default function AdminNew() {
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">Scenario Management</CardTitle>
+                  <CardTitle className="text-xl font-bold uppercase tracking-wide">
+                    Scenario Management
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button className="w-full bg-white text-slate-900 hover:bg-slate-100">
@@ -968,8 +1245,13 @@ export default function AdminNew() {
           {/* System Tab */}
           <TabsContent value="system" className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">System Monitoring</h2>
-              <Button onClick={checkSystemHealth} className="bg-white text-slate-900">
+              <h2 className="text-2xl font-bold text-white">
+                System Monitoring
+              </h2>
+              <Button
+                onClick={checkSystemHealth}
+                className="bg-white text-slate-900"
+              >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh Status
               </Button>
@@ -978,20 +1260,33 @@ export default function AdminNew() {
             {/* System Health */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {Object.entries(systemHealth).map(([service, status]) => (
-                <Card key={service} className="border-2 border-black bg-slate-800 text-white">
+                <Card
+                  key={service}
+                  className="border-2 border-black bg-slate-800 text-white"
+                >
                   <CardHeader>
-                    <CardTitle className="text-sm font-medium uppercase tracking-wide">{service}</CardTitle>
+                    <CardTitle className="text-sm font-medium uppercase tracking-wide">
+                      {service}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center space-x-2">
-                      {status === "operational" && <CheckCircle className="h-5 w-5 text-green-400" />}
-                      {status === "warning" && <AlertTriangle className="h-5 w-5 text-yellow-400" />}
-                      {status === "error" && <XCircle className="h-5 w-5 text-red-400" />}
-                      <Badge 
+                      {status === "operational" && (
+                        <CheckCircle className="h-5 w-5 text-green-400" />
+                      )}
+                      {status === "warning" && (
+                        <AlertTriangle className="h-5 w-5 text-yellow-400" />
+                      )}
+                      {status === "error" && (
+                        <XCircle className="h-5 w-5 text-red-400" />
+                      )}
+                      <Badge
                         className={
-                          status === "operational" ? "bg-green-600 text-white" :
-                          status === "warning" ? "bg-yellow-600 text-white" :
-                          "bg-red-600 text-white"
+                          status === "operational"
+                            ? "bg-green-600 text-white"
+                            : status === "warning"
+                              ? "bg-yellow-600 text-white"
+                              : "bg-red-600 text-white"
                         }
                       >
                         {status.toUpperCase()}
@@ -1006,7 +1301,9 @@ export default function AdminNew() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">Database</CardTitle>
+                  <CardTitle className="text-xl font-bold uppercase tracking-wide">
+                    Database
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button variant="outline" className="w-full text-slate-300">
@@ -1025,7 +1322,9 @@ export default function AdminNew() {
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">Server</CardTitle>
+                  <CardTitle className="text-xl font-bold uppercase tracking-wide">
+                    Server
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button variant="outline" className="w-full text-slate-300">
@@ -1044,7 +1343,9 @@ export default function AdminNew() {
               </Card>
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">Security</CardTitle>
+                  <CardTitle className="text-xl font-bold uppercase tracking-wide">
+                    Security
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button variant="outline" className="w-full text-slate-300">
@@ -1067,7 +1368,9 @@ export default function AdminNew() {
           {/* Settings Tab */}
           <TabsContent value="settings" className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">Platform Settings</h2>
+              <h2 className="text-2xl font-bold text-white">
+                Platform Settings
+              </h2>
               <Button className="bg-white text-slate-900">
                 <Download className="h-4 w-4 mr-2" />
                 Export Config
@@ -1078,11 +1381,15 @@ export default function AdminNew() {
               {/* General Settings */}
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">General Settings</CardTitle>
+                  <CardTitle className="text-xl font-bold uppercase tracking-wide">
+                    General Settings
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="site-name" className="text-white">Site Name</Label>
+                    <Label htmlFor="site-name" className="text-white">
+                      Site Name
+                    </Label>
                     <Input
                       id="site-name"
                       defaultValue="SuperK53"
@@ -1090,7 +1397,9 @@ export default function AdminNew() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="contact-email" className="text-white">Contact Email</Label>
+                    <Label htmlFor="contact-email" className="text-white">
+                      Contact Email
+                    </Label>
                     <Input
                       id="contact-email"
                       defaultValue="support@superk53.com"
@@ -1098,11 +1407,15 @@ export default function AdminNew() {
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="maintenance-mode" className="text-white">Maintenance Mode</Label>
+                    <Label htmlFor="maintenance-mode" className="text-white">
+                      Maintenance Mode
+                    </Label>
                     <Switch id="maintenance-mode" />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="new-registrations" className="text-white">Allow New Registrations</Label>
+                    <Label htmlFor="new-registrations" className="text-white">
+                      Allow New Registrations
+                    </Label>
                     <Switch id="new-registrations" defaultChecked />
                   </div>
                 </CardContent>
@@ -1111,11 +1424,15 @@ export default function AdminNew() {
               {/* Payment Settings */}
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">Payment Settings</CardTitle>
+                  <CardTitle className="text-xl font-bold uppercase tracking-wide">
+                    Payment Settings
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="basic-price" className="text-white">Basic Plan Price (cents)</Label>
+                    <Label htmlFor="basic-price" className="text-white">
+                      Basic Plan Price (cents)
+                    </Label>
                     <Input
                       id="basic-price"
                       defaultValue="5000"
@@ -1123,7 +1440,9 @@ export default function AdminNew() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="pro-price" className="text-white">Pro Plan Price (cents)</Label>
+                    <Label htmlFor="pro-price" className="text-white">
+                      Pro Plan Price (cents)
+                    </Label>
                     <Input
                       id="pro-price"
                       defaultValue="12000"
@@ -1131,7 +1450,9 @@ export default function AdminNew() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="free-scenarios" className="text-white">Free Daily Scenarios</Label>
+                    <Label htmlFor="free-scenarios" className="text-white">
+                      Free Daily Scenarios
+                    </Label>
                     <Input
                       id="free-scenarios"
                       defaultValue="5"
@@ -1139,7 +1460,9 @@ export default function AdminNew() {
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="paypal-enabled" className="text-white">PayPal Enabled</Label>
+                    <Label htmlFor="paypal-enabled" className="text-white">
+                      PayPal Enabled
+                    </Label>
                     <Switch id="paypal-enabled" defaultChecked />
                   </div>
                 </CardContent>
@@ -1148,11 +1471,15 @@ export default function AdminNew() {
               {/* Email Settings */}
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">Email Settings</CardTitle>
+                  <CardTitle className="text-xl font-bold uppercase tracking-wide">
+                    Email Settings
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="smtp-host" className="text-white">SMTP Host</Label>
+                    <Label htmlFor="smtp-host" className="text-white">
+                      SMTP Host
+                    </Label>
                     <Input
                       id="smtp-host"
                       placeholder="smtp.gmail.com"
@@ -1160,7 +1487,9 @@ export default function AdminNew() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="smtp-port" className="text-white">SMTP Port</Label>
+                    <Label htmlFor="smtp-port" className="text-white">
+                      SMTP Port
+                    </Label>
                     <Input
                       id="smtp-port"
                       defaultValue="587"
@@ -1168,11 +1497,15 @@ export default function AdminNew() {
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="email-notifications" className="text-white">Email Notifications</Label>
+                    <Label htmlFor="email-notifications" className="text-white">
+                      Email Notifications
+                    </Label>
                     <Switch id="email-notifications" defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="marketing-emails" className="text-white">Marketing Emails</Label>
+                    <Label htmlFor="marketing-emails" className="text-white">
+                      Marketing Emails
+                    </Label>
                     <Switch id="marketing-emails" />
                   </div>
                 </CardContent>
@@ -1181,11 +1514,15 @@ export default function AdminNew() {
               {/* Security Settings */}
               <Card className="border-2 border-black bg-slate-800 text-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">Security Settings</CardTitle>
+                  <CardTitle className="text-xl font-bold uppercase tracking-wide">
+                    Security Settings
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="session-timeout" className="text-white">Session Timeout (minutes)</Label>
+                    <Label htmlFor="session-timeout" className="text-white">
+                      Session Timeout (minutes)
+                    </Label>
                     <Input
                       id="session-timeout"
                       defaultValue="60"
@@ -1193,7 +1530,9 @@ export default function AdminNew() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="max-login-attempts" className="text-white">Max Login Attempts</Label>
+                    <Label htmlFor="max-login-attempts" className="text-white">
+                      Max Login Attempts
+                    </Label>
                     <Input
                       id="max-login-attempts"
                       defaultValue="5"
@@ -1201,11 +1540,15 @@ export default function AdminNew() {
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="two-factor" className="text-white">Require 2FA for Admin</Label>
+                    <Label htmlFor="two-factor" className="text-white">
+                      Require 2FA for Admin
+                    </Label>
                     <Switch id="two-factor" />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="api-rate-limit" className="text-white">API Rate Limiting</Label>
+                    <Label htmlFor="api-rate-limit" className="text-white">
+                      API Rate Limiting
+                    </Label>
                     <Switch id="api-rate-limit" defaultChecked />
                   </div>
                 </CardContent>
@@ -1227,10 +1570,15 @@ export default function AdminNew() {
 
       {/* User Detail Modal */}
       {selectedUser && (
-        <Dialog open={!!selectedUser} onOpenChange={() => setSelectedUser(null)}>
+        <Dialog
+          open={!!selectedUser}
+          onOpenChange={() => setSelectedUser(null)}
+        >
           <DialogContent className="bg-slate-800 border border-black text-white max-w-2xl">
             <DialogHeader>
-              <DialogTitle className="text-xl font-bold">User Details</DialogTitle>
+              <DialogTitle className="text-xl font-bold">
+                User Details
+              </DialogTitle>
               <DialogDescription className="text-slate-400">
                 Detailed information for {selectedUser.email}
               </DialogDescription>
@@ -1243,17 +1591,22 @@ export default function AdminNew() {
                 </div>
                 <div>
                   <Label className="text-white">User ID</Label>
-                  <div className="text-slate-300 font-mono">{selectedUser.id}</div>
+                  <div className="text-slate-300 font-mono">
+                    {selectedUser.id}
+                  </div>
                 </div>
                 <div>
                   <Label className="text-white">Subscription</Label>
                   <Badge className="bg-blue-600 text-white">
-                    {selectedUser.subscription?.plan_type?.toUpperCase() || "FREE"}
+                    {selectedUser.subscription?.plan_type?.toUpperCase() ||
+                      "FREE"}
                   </Badge>
                 </div>
                 <div>
                   <Label className="text-white">Location</Label>
-                  <div className="text-slate-300">{selectedUser.location || "Unknown"}</div>
+                  <div className="text-slate-300">
+                    {selectedUser.location || "Unknown"}
+                  </div>
                 </div>
               </div>
               <div>
@@ -1267,7 +1620,9 @@ export default function AdminNew() {
                   </div>
                   <div className="text-center p-3 bg-slate-700 border border-black">
                     <div className="text-lg font-bold text-white">
-                      {selectedUser.usage?.max_scenarios === -1 ? "∞" : selectedUser.usage?.max_scenarios || 5}
+                      {selectedUser.usage?.max_scenarios === -1
+                        ? "∞"
+                        : selectedUser.usage?.max_scenarios || 5}
                     </div>
                     <div className="text-xs text-slate-400">Daily Limit</div>
                   </div>
@@ -1284,7 +1639,11 @@ export default function AdminNew() {
               <Button variant="outline" onClick={() => setSelectedUser(null)}>
                 Close
               </Button>
-              <Button onClick={() => handleUserAction(selectedUser.id, "resetPassword")}>
+              <Button
+                onClick={() =>
+                  handleUserAction(selectedUser.id, "resetPassword")
+                }
+              >
                 Send Password Reset
               </Button>
             </DialogFooter>

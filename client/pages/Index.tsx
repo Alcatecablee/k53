@@ -158,8 +158,6 @@ export default function Index() {
           </div>
         </header>
 
-
-
         {/* Hero Section */}
         <section className="bg-slate-900 py-20">
           <div className="container mx-auto px-4">

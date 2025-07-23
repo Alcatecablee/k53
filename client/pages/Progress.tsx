@@ -57,7 +57,7 @@ export default function ProgressPage() {
         weakestCategory: "Not determined",
       });
     } catch (error) {
-      console.error('Error loading user progress:', error);
+      console.error("Error loading user progress:", error);
     } finally {
       setLoading(false);
     }
