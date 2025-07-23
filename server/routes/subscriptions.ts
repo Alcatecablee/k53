@@ -32,7 +32,7 @@ const requireAuth: RequestHandler = async (req, res, next) => {
     const {
       data: { user },
       error,
-    } = await supabase.auth.getUser(token);
+    } = await getSupabaseClient().auth.getUser(token);
 
     if (error) {
       console.error("Token validation error:", error);
