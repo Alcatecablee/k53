@@ -51,6 +51,14 @@ export default function Practice() {
   const [showLocationSelector, setShowLocationSelector] = useState(false);
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
 
+  // Load stored location on component mount
+  useEffect(() => {
+    const storedLocation = getStoredLocation();
+    if (storedLocation) {
+      setUserLocation(storedLocation);
+    }
+  }, []);
+
   const generateTest = (fullTest: boolean = false) => {
     setIsFullTest(fullTest);
     setTestMode("questions");
