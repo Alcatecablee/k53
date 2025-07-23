@@ -14,8 +14,10 @@ The app shows "Demo Mode Active" because while Supabase connection works, the pr
 3. Click **SQL Editor** in the left sidebar
 4. Click **New Query**
 
-### Step 2: Copy & Paste This SQL
-Copy the ENTIRE SQL below and paste it into the Supabase SQL Editor:
+### Step 2: Copy & Paste SQL
+Copy the ENTIRE SQL from `database/supabase-setup.sql` and paste it into the Supabase SQL Editor:
+
+Alternatively, copy the SQL below:
 
 ```sql
 -- SuperK53 Production Database Schema
