@@ -12,6 +12,8 @@ import {
   Crown,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SEO } from "@/components/SEO";
+import { SEO_CONFIGS } from "@/hooks/useSEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthenticatedRoute } from "@/components/AuthenticatedRoute";
 import { SUBSCRIPTION_PLANS, SCENARIO_PACKS } from "@/types/subscription";
