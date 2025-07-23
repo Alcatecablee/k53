@@ -145,7 +145,8 @@ const generateRandomTestFromDb = (questions: any[], controlsCount: number, signs
     question: q.question,
     options: q.options,
     correct: q.correct,
-    explanation: q.explanation
+    explanation: q.explanation,
+    language: q.language || 'en'
   }));
 
   const controlsQuestions = shuffleArray(convertedQuestions.filter(q => q.category === 'controls')).slice(0, controlsCount);
