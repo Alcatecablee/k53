@@ -153,6 +153,8 @@ export const updateDailyUsage = async (
 };
 
 // Check if user can access scenarios
+// NOTE: Question-based assessments (Practice & Official) are ALWAYS FREE and UNLIMITED for ALL users
+// Only scenario-based assessments have usage limits based on subscription tier
 export const canAccessScenarios = async (): Promise<{
   canAccess: boolean;
   remaining: number;
