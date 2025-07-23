@@ -339,16 +339,16 @@ export default function Practice() {
                         🔥 AI Scenarios
                       </h3>
                       <div className="text-3xl font-bold mb-1">
-                        126
+                        100+
                       </div>
                       <div className="text-xs uppercase tracking-wide mb-1">
-                        Real Situations
+                        AI-Generated Scenarios
                       </div>
                       <div className="text-xs text-white/80 mb-4 uppercase tracking-wide">
-                        Duration: ~75 Minutes
+                        Duration: Unlimited
                       </div>
                       <p className="text-white/90 mb-4 text-sm leading-relaxed">
-                        AI-generated real-world driving scenarios unique to South Africa.
+                        Endless AI-generated real-world driving scenarios unique to South Africa.
                       </p>
                       <Button
                         onClick={() => generateScenarioTest()}
@@ -507,7 +507,7 @@ export default function Practice() {
                 {testMode === "scenarios" ? "🔥 AI Scenarios" : (isFullTest ? "Official Assessment" : "Practice Mode")}
               </Badge>
               <div className="text-sm text-slate-600 uppercase tracking-wide">
-                {testMode === "scenarios" ? "Scenario" : "Question"} {currentQuestion + 1} of {totalItems}
+                {testMode === "scenarios" ? `AI Scenario ${currentQuestion + 1}` : `Question ${currentQuestion + 1} of ${totalItems}`}
               </div>
             </div>
 
