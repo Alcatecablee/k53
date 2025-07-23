@@ -9,6 +9,25 @@ import {
   deleteUser,
   testTables,
 } from "./routes/database";
+import {
+  getDashboardStats,
+  getUsers,
+  getPayments,
+  getSystemHealth,
+  userAction,
+} from "./routes/admin";
+import {
+  authenticatedValidateScenarioAccess,
+  authenticatedRecordScenarioUsage,
+} from "./routes/subscriptions";
+import {
+  createPayPalOrder,
+  capturePayPalOrder,
+} from "./routes/paypal";
+import {
+  getMaterial,
+  listMaterials,
+} from "./routes/materials";
 
 export function createServer() {
   const app = express();
