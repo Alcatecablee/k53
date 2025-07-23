@@ -147,23 +147,28 @@ function PracticeComponent() {
     setResults([]);
   };
 
-  const generateScenarioTest = () => {
+  const generateScenarioTest = async () => {
     setTestMode("scenarios");
     setIsFullTest(false);
 
-    // Use location-aware generation if user has a location set
-    const randomScenarios = userLocation
-      ? generateLocationAwareScenarioTest(226, userLocation.city, userLocation.region)
-      : generateRandomScenarioTest(226);
+    try {
+      // Use location-aware generation if user has a location set
+      const randomScenarios = await getScenarios(226, userLocation || undefined);
 
-    // Log first few scenario IDs for verification (can be removed later)
-    console.log("AI Scenarios randomized order (first 10):",
-      randomScenarios.slice(0, 10).map(s => s.id));
-    if (userLocation) {
-      console.log("Location-aware scenarios for:", userLocation.displayName);
+      // Log first few scenario IDs for verification (can be removed later)
+      console.log("AI Scenarios randomized order (first 10):",
+        randomScenarios.slice(0, 10).map(s => s.id));
+      if (userLocation) {
+        console.log("Location-aware scenarios for:", userLocation.displayName);
+      }
+
+      setTestScenarios(randomScenarios);
+    } catch (error) {
+      console.error('Error generating scenarios:', error);
+      // Fallback to empty array
+      setTestScenarios([]);
     }
 
-    setTestScenarios(randomScenarios);
     setTestQuestions([]);
     setTestStarted(true);
     setCurrentQuestion(0);
