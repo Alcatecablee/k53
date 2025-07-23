@@ -225,10 +225,7 @@ export const getEnhancedPayments: RequestHandler = async (req, res) => {
 
     let query = db
       .from("payments")
-      .select(`
-        *,
-        user_subscriptions!inner(email, location)
-      `)
+      .select("*")
       .order("created_at", { ascending: false })
       .range(Number(offset), Number(offset) + Number(limit) - 1);
 
