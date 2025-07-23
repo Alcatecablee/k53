@@ -85,7 +85,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await Promise.race([
+        supabase.auth.signOut(),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Sign out timeout')), 3000)
+        )
+      ]);
+    } catch (error) {
+      console.warn('Sign out error, clearing local session:', error);
+      // Clear local session even if remote sign out fails
+      setUser(null);
+    }
   };
 
   const value = {
