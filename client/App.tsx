@@ -11,6 +11,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import Practice from "./pages/Practice";
 import Progress from "./pages/Progress";
+import Profile from "./pages/Profile";
 import DLTC from "./pages/DLTC";
 import NotFound from "./pages/NotFound";
 
