@@ -44,10 +44,11 @@ export default function Admin() {
     try {
       setLoading(true);
 
-      // Get total users
+      // Get total users (handle case where tables don't exist yet)
       const { count: totalUsers } = await supabase
         .from("user_progress")
-        .select("user_id", { count: "exact", head: true });
+        .select("user_id", { count: "exact", head: true })
+        .catch(() => ({ count: 0 }));
 
       // Get active subscriptions
       const { data: subscriptions, count: activeSubscriptions } = await supabase
