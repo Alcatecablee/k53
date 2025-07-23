@@ -457,50 +457,50 @@ function PracticeComponent() {
                 </p>
               </CardHeader>
               <CardContent className="p-8">
-                <div className="bg-slate-100 p-6 mb-8">
-                  <h3 className="text-lg font-bold uppercase tracking-wide text-slate-800 mb-6 text-center">
+                <div className="bg-slate-700 border border-slate-600 p-6 mb-8">
+                  <h3 className="text-lg font-bold uppercase tracking-wide text-white mb-6 text-center">
                     Official Assessment Categories
                   </h3>
                   <div className="grid md:grid-cols-3 gap-6">
-                    <div className="text-center p-4 bg-white border-2 border-slate-300">
-                      <div className="w-12 h-12 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-3">
-                        <Settings className="w-6 h-6 text-slate-800" />
+                    <div className="text-center p-4 bg-slate-800 border border-slate-600">
+                      <div className="w-12 h-12 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-3">
+                        <Settings className="w-6 h-6 text-white" />
                       </div>
-                      <div className="font-bold text-slate-800 uppercase tracking-wide text-sm">
+                      <div className="font-bold text-white uppercase tracking-wide text-sm">
                         Vehicle Controls
                       </div>
-                      <div className="text-sm text-slate-600 mt-1">
+                      <div className="text-sm text-slate-300 mt-1">
                         8 Questions
                       </div>
-                      <div className="text-xs text-slate-500 uppercase tracking-wide">
+                      <div className="text-xs text-slate-400 uppercase tracking-wide">
                         Minimum Pass: 6/8 (75%)
                       </div>
                     </div>
-                    <div className="text-center p-4 bg-white border-2 border-slate-300">
-                      <div className="w-12 h-12 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-3">
-                        <Layers className="w-6 h-6 text-slate-800" />
+                    <div className="text-center p-4 bg-slate-800 border border-slate-600">
+                      <div className="w-12 h-12 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-3">
+                        <Layers className="w-6 h-6 text-white" />
                       </div>
-                      <div className="font-bold text-slate-800 uppercase tracking-wide text-sm">
+                      <div className="font-bold text-white uppercase tracking-wide text-sm">
                         Road Signs
                       </div>
-                      <div className="text-sm text-slate-600 mt-1">
+                      <div className="text-sm text-slate-300 mt-1">
                         28 Questions
                       </div>
-                      <div className="text-xs text-slate-500 uppercase tracking-wide">
+                      <div className="text-xs text-slate-400 uppercase tracking-wide">
                         Minimum Pass: 23/28 (82%)
                       </div>
                     </div>
-                    <div className="text-center p-4 bg-white border-2 border-slate-300">
-                      <div className="w-12 h-12 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-3">
-                        <ChartBarStacked className="w-6 h-6 text-slate-800" />
+                    <div className="text-center p-4 bg-slate-800 border border-slate-600">
+                      <div className="w-12 h-12 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-3">
+                        <ChartBarStacked className="w-6 h-6 text-white" />
                       </div>
-                      <div className="font-bold text-slate-800 uppercase tracking-wide text-sm">
+                      <div className="font-bold text-white uppercase tracking-wide text-sm">
                         Traffic Rules
                       </div>
-                      <div className="text-sm text-slate-600 mt-1">
+                      <div className="text-sm text-slate-300 mt-1">
                         28 Questions
                       </div>
-                      <div className="text-xs text-slate-500 uppercase tracking-wide">
+                      <div className="text-xs text-slate-400 uppercase tracking-wide">
                         Minimum Pass: 22/28 (79%)
                       </div>
                     </div>
