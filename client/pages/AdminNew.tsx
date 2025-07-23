@@ -522,23 +522,23 @@ export default function AdminNew() {
 
             {/* Top Locations & Growth Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="border-2 border-black bg-slate-800 text-white">
+              <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">Top Locations</CardTitle>
+                  <CardTitle className="text-lg font-semibold text-gray-900">Top Locations</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {stats?.topLocations.map((location, index) => (
                       <div key={index} className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                          <MapPin className="h-4 w-4 text-slate-400" />
-                          <span>{location.city}</span>
+                          <MapPin className="h-4 w-4 text-gray-400" />
+                          <span className="text-gray-900">{location.city}</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-slate-400">{location.count} users</span>
-                          <div className="w-16 h-2 bg-slate-700 rounded">
-                            <div 
-                              className="h-full bg-white rounded"
+                          <span className="text-sm text-gray-500">{location.count} users</span>
+                          <div className="w-16 h-2 bg-gray-200 rounded">
+                            <div
+                              className="h-full bg-blue-600 rounded"
                               style={{ width: `${(location.count / (stats?.topLocations[0]?.count || 1)) * 100}%` }}
                             ></div>
                           </div>
@@ -549,31 +549,31 @@ export default function AdminNew() {
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-black bg-slate-800 text-white">
+              <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold uppercase tracking-wide">System Performance</CardTitle>
+                  <CardTitle className="text-lg font-semibold text-gray-900">System Performance</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center p-4 bg-slate-700 border border-black">
-                      <Database className="h-6 w-6 mx-auto mb-2 text-green-400" />
-                      <div className="text-lg font-bold text-green-400">99.9%</div>
-                      <div className="text-xs text-slate-400">Database Uptime</div>
+                    <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
+                      <Database className="h-6 w-6 mx-auto mb-2 text-blue-600" />
+                      <div className="text-lg font-semibold text-gray-900">99.9%</div>
+                      <div className="text-xs text-gray-500">Database Uptime</div>
                     </div>
-                    <div className="text-center p-4 bg-slate-700 border border-black">
-                      <Server className="h-6 w-6 mx-auto mb-2 text-green-400" />
-                      <div className="text-lg font-bold text-green-400">156ms</div>
-                      <div className="text-xs text-slate-400">Avg Response Time</div>
+                    <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
+                      <Server className="h-6 w-6 mx-auto mb-2 text-blue-600" />
+                      <div className="text-lg font-semibold text-gray-900">156ms</div>
+                      <div className="text-xs text-gray-500">Avg Response Time</div>
                     </div>
-                    <div className="text-center p-4 bg-slate-700 border border-black">
-                      <HardDrive className="h-6 w-6 mx-auto mb-2 text-yellow-400" />
-                      <div className="text-lg font-bold text-yellow-400">67%</div>
-                      <div className="text-xs text-slate-400">Storage Used</div>
+                    <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
+                      <HardDrive className="h-6 w-6 mx-auto mb-2 text-amber-600" />
+                      <div className="text-lg font-semibold text-gray-900">67%</div>
+                      <div className="text-xs text-gray-500">Storage Used</div>
                     </div>
-                    <div className="text-center p-4 bg-slate-700 border border-black">
-                      <Wifi className="h-6 w-6 mx-auto mb-2 text-green-400" />
-                      <div className="text-lg font-bold text-green-400">1.2k</div>
-                      <div className="text-xs text-slate-400">Active Sessions</div>
+                    <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
+                      <Wifi className="h-6 w-6 mx-auto mb-2 text-blue-600" />
+                      <div className="text-lg font-semibold text-gray-900">1.2k</div>
+                      <div className="text-xs text-gray-500">Active Sessions</div>
                     </div>
                   </div>
                 </CardContent>
@@ -581,30 +581,30 @@ export default function AdminNew() {
             </div>
 
             {/* Recent Activity */}
-            <Card className="border-2 border-black bg-slate-800 text-white">
+            <Card className="border border-gray-200 bg-white">
               <CardHeader>
-                <CardTitle className="text-xl font-bold uppercase tracking-wide">Recent Activity</CardTitle>
+                <CardTitle className="text-lg font-semibold text-gray-900">Recent Activity</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {payments.slice(0, 3).map((payment, index) => (
-                    <div key={payment.id} className="flex items-center space-x-4 p-3 bg-slate-700 border border-black">
-                      <CreditCard className="h-5 w-5 text-blue-400" />
+                    <div key={payment.id} className="flex items-center space-x-4 p-3 bg-gray-50 border border-gray-100 rounded">
+                      <CreditCard className="h-5 w-5 text-blue-600" />
                       <div className="flex-1">
-                        <div className="font-semibold">Payment {payment.status}</div>
-                        <div className="text-sm text-slate-400">{payment.user_email} - {formatPrice(payment.amount_cents)}</div>
+                        <div className="font-medium text-gray-900">Payment {payment.status}</div>
+                        <div className="text-sm text-gray-600">{payment.user_email} - {formatPrice(payment.amount_cents)}</div>
                       </div>
-                      <div className="text-xs text-slate-400">{new Date(payment.created_at).toLocaleDateString()}</div>
+                      <div className="text-xs text-gray-500">{new Date(payment.created_at).toLocaleDateString()}</div>
                     </div>
                   ))}
                   {users.slice(0, 3 - payments.length).map((user, index) => (
-                    <div key={user.id} className="flex items-center space-x-4 p-3 bg-slate-700 border border-black">
-                      <UserCheck className="h-5 w-5 text-green-400" />
+                    <div key={user.id} className="flex items-center space-x-4 p-3 bg-gray-50 border border-gray-100 rounded">
+                      <UserCheck className="h-5 w-5 text-blue-600" />
                       <div className="flex-1">
-                        <div className="font-semibold">User registration</div>
-                        <div className="text-sm text-slate-400">{user.email} - {user.subscription?.plan_type}</div>
+                        <div className="font-medium text-gray-900">User registration</div>
+                        <div className="text-sm text-gray-600">{user.email} - {user.subscription?.plan_type}</div>
                       </div>
-                      <div className="text-xs text-slate-400">{new Date(user.created_at).toLocaleDateString()}</div>
+                      <div className="text-xs text-gray-500">{new Date(user.created_at).toLocaleDateString()}</div>
                     </div>
                   ))}
                 </div>
@@ -616,13 +616,13 @@ export default function AdminNew() {
           <TabsContent value="users" className="space-y-6">
             {/* User Management Header */}
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">User Management</h2>
-              <div className="flex items-center space-x-2">
-                <Button onClick={() => exportData("users")} variant="outline" className="text-slate-300">
+              <h2 className="text-2xl font-semibold text-gray-900">User Management</h2>
+              <div className="flex items-center space-x-3">
+                <Button onClick={() => exportData("users")} variant="outline" className="border-gray-300 text-gray-700">
                   <Download className="h-4 w-4 mr-2" />
                   Export
                 </Button>
-                <Button className="bg-white text-slate-900">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                   <Plus className="h-4 w-4 mr-2" />
                   Add User
                 </Button>
