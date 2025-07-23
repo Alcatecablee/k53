@@ -340,8 +340,8 @@ export const getRealTimeMetrics: RequestHandler = async (req, res) => {
         users: activeUsers,
         revenue: intervalRevenue,
         requests: intervalPayments.length,
-        cpu_usage: process.cpuUsage ? (process.cpuUsage().user / 1000000) : 0,
-        memory_usage: process.memoryUsage ? (process.memoryUsage().heapUsed / process.memoryUsage().heapTotal * 100) : 0,
+        cpu_usage: 0, // Would need actual CPU monitoring
+        memory_usage: 0, // Would need actual memory monitoring
         response_time: 0, // Would need actual response time tracking
         error_rate: 0, // Would need actual error tracking
       });
