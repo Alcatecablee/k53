@@ -76,8 +76,9 @@ export default function Admin() {
         .catch(() => ({ count: 0 }));
 
       // Calculate conversion rate (simplified)
+      const userProgressData = await supabase.from("user_progress").select("user_id").catch(() => ({ data: [] }));
       const totalUniqueUsers = new Set(
-        (await supabase.from("user_progress").select("user_id")).data?.map(u => u.user_id) || []
+        userProgressData.data?.map(u => u.user_id) || []
       ).size;
       
       const conversionRate = totalUniqueUsers > 0 
