@@ -52,5 +52,24 @@ export function createServer() {
   app.get("/api/db/users/:userId", getUser);
   app.delete("/api/db/users/:userId", deleteUser);
 
+  // Admin routes
+  app.get("/api/admin/dashboard-stats", getDashboardStats);
+  app.get("/api/admin/users", getUsers);
+  app.get("/api/admin/payments", getPayments);
+  app.get("/api/admin/system-health", getSystemHealth);
+  app.post("/api/admin/users/:userId/action", userAction);
+
+  // Subscription routes
+  app.get("/api/subscriptions/validate-scenario-access", authenticatedValidateScenarioAccess);
+  app.post("/api/subscriptions/record-scenario-usage", authenticatedRecordScenarioUsage);
+
+  // PayPal routes
+  app.post("/api/paypal/create-order", createPayPalOrder);
+  app.post("/api/paypal/capture-order", capturePayPalOrder);
+
+  // Materials routes
+  app.get("/api/materials", listMaterials);
+  app.get("/api/materials/:materialId", getMaterial);
+
   return app;
 }
