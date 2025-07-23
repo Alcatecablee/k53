@@ -273,7 +273,7 @@ function ProfileComponent() {
             <Card className="border-2 border-orange-300 bg-orange-50">
               <CardContent className="p-6 text-center">
                 <h3 className="font-bold text-orange-800 mb-2">
-                  🚀 Ready to Practice?
+                  Ready to Practice?
                 </h3>
                 <p className="text-orange-700 text-sm mb-4">
                   Continue improving your K53 skills with location-aware
