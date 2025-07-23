@@ -877,3 +877,11 @@ function PracticeComponent() {
     </div>
   );
 }
+
+export default function Practice() {
+  return (
+    <AuthenticatedRoute>
+      <PracticeComponent />
+    </AuthenticatedRoute>
+  );
+}
