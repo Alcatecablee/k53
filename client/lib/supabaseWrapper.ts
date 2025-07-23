@@ -7,6 +7,7 @@ const { supabaseUrl, supabaseAnonKey, isConfigured } = env;
 
 // Create the Supabase client (only if environment is configured)
 let supabaseClient: any = null;
+let clientInitializationFailed = false;
 
 if (isConfigured && supabaseUrl && supabaseAnonKey) {
   try {
@@ -17,9 +18,14 @@ if (isConfigured && supabaseUrl && supabaseAnonKey) {
         detectSessionInUrl: true,
       },
     });
+    console.log("Supabase client initialized successfully");
   } catch (error) {
     console.warn("Failed to create Supabase client:", error);
+    clientInitializationFailed = true;
+    supabaseClient = null;
   }
+} else {
+  console.warn("Supabase not configured - missing environment variables");
 }
 
 // Global offline state
