@@ -31,6 +31,7 @@ import {
   Download,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { StudyMaterials } from "@/components/StudyMaterials";
 
 interface DocSection {
   id: string;
