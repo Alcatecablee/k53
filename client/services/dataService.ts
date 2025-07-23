@@ -35,12 +35,6 @@ export const getScenarios = async (
         return useLocationAwareSelection(dbScenarios, count, userLocation);
       }
     }
-
-    if (!error && dbScenarios && dbScenarios.length > 0) {
-      console.log("Using database scenarios");
-      // Use database scenarios with location awareness
-      return useLocationAwareSelection(dbScenarios, count, userLocation);
-    }
   } catch (error) {
     console.log("Database unavailable, using local scenarios");
   }
@@ -67,18 +61,20 @@ export const getQuestions = async (
 ) => {
   try {
     // Try to fetch from database first
-    const { data: dbQuestions, error } = await supabase
-      .from("questions")
-      .select("*");
+    if (supabaseClient) {
+      const { data: dbQuestions, error } = await supabaseClient
+        .from("questions")
+        .select("*");
 
-    if (!error && dbQuestions && dbQuestions.length > 0) {
-      console.log("Using database questions");
-      return generateRandomTestFromDb(
-        dbQuestions,
-        controlsCount,
-        signsCount,
-        rulesCount,
-      );
+      if (!error && dbQuestions && dbQuestions.length > 0) {
+        console.log("Using database questions");
+        return generateRandomTestFromDb(
+          dbQuestions,
+          controlsCount,
+          signsCount,
+          rulesCount,
+        );
+      }
     }
   } catch (error) {
     console.log("Database unavailable, using local questions");
