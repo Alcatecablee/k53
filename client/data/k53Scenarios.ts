@@ -28,7 +28,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "M1 Highway Traffic Jam",
     scenario:
       "You're driving on the M1 highway in Johannesburg during rush hour. Traffic is stop-and-go, and you're in bumper-to-bumper traffic near the Sandton exit. The car in front suddenly brakes hard.",
-    question: "What's the safest following distance in heavy Johannesburg traffic?",
+    question:
+      "What's the safest following distance in heavy Johannesburg traffic?",
     options: [
       "One car length at any speed",
       "Two-second rule minimum, more in heavy traffic",
@@ -56,7 +57,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Taxi Rank Navigation in Johannesburg CBD",
     scenario:
       "You're driving through the Johannesburg CBD near Park Station. There are multiple 'No Entry' signs, but you see taxis and some cars going through. You need to reach the Carlton Centre for a meeting.",
-    question: "How should you handle conflicting traffic signs in busy areas like Joburg CBD?",
+    question:
+      "How should you handle conflicting traffic signs in busy areas like Joburg CBD?",
     options: [
       "Follow the taxis - they know the local routes",
       "Strictly obey all posted signs regardless of other traffic",
@@ -5331,7 +5333,9 @@ export const generateLocationAwareScenarioTest = (
     scenarios = scenarios.filter((s) => s.category === category);
   }
 
-  console.log(`Filtering scenarios for: City="${userCity}", Region="${userRegion}"`);
+  console.log(
+    `Filtering scenarios for: City="${userCity}", Region="${userRegion}"`,
+  );
   console.log(`Total scenarios before location filtering: ${scenarios.length}`);
 
   // Score scenarios based on location relevance
@@ -5345,32 +5349,40 @@ export const generateLocationAwareScenarioTest = (
       matchReason = "no-location-data";
     } else {
       // Check for exact city match first
-      if (userCity && scenario.location.cities?.some(city =>
-        city.toLowerCase() === userCity.toLowerCase()
-      )) {
+      if (
+        userCity &&
+        scenario.location.cities?.some(
+          (city) => city.toLowerCase() === userCity.toLowerCase(),
+        )
+      ) {
         score = 10;
         matchReason = `city-match:${userCity}`;
       }
       // Check for region match
-      else if (userRegion && scenario.location.regions?.some(region =>
-        region.toLowerCase() === userRegion.toLowerCase()
-      )) {
+      else if (
+        userRegion &&
+        scenario.location.regions?.some(
+          (region) => region.toLowerCase() === userRegion.toLowerCase(),
+        )
+      ) {
         score = 8;
         matchReason = `region-match:${userRegion}`;
       }
       // Check if scenario mentions user's city in the text
-      else if (userCity && (
-        scenario.scenario.toLowerCase().includes(userCity.toLowerCase()) ||
-        scenario.title.toLowerCase().includes(userCity.toLowerCase())
-      )) {
+      else if (
+        userCity &&
+        (scenario.scenario.toLowerCase().includes(userCity.toLowerCase()) ||
+          scenario.title.toLowerCase().includes(userCity.toLowerCase()))
+      ) {
         score = 9;
         matchReason = `text-mention:${userCity}`;
       }
       // Check if scenario mentions user's region in the text
-      else if (userRegion && (
-        scenario.scenario.toLowerCase().includes(userRegion.toLowerCase()) ||
-        scenario.title.toLowerCase().includes(userRegion.toLowerCase())
-      )) {
+      else if (
+        userRegion &&
+        (scenario.scenario.toLowerCase().includes(userRegion.toLowerCase()) ||
+          scenario.title.toLowerCase().includes(userRegion.toLowerCase()))
+      ) {
         score = 7;
         matchReason = `text-mention:${userRegion}`;
       }
@@ -5380,37 +5392,50 @@ export const generateLocationAwareScenarioTest = (
         matchReason = "national";
       }
       // Regional scenarios in same province/area
-      else if (userRegion && scenario.location.regions?.some(region => {
-        // Additional regional matching logic
-        const userLower = userRegion.toLowerCase();
-        const scenarioLower = region.toLowerCase();
+      else if (
+        userRegion &&
+        scenario.location.regions?.some((region) => {
+          // Additional regional matching logic
+          const userLower = userRegion.toLowerCase();
+          const scenarioLower = region.toLowerCase();
 
-        // Check for partial matches for adjacent areas
-        if (userLower === "gauteng" && (
-          scenarioLower.includes("gauteng") ||
-          scenarioLower.includes("johannesburg") ||
-          scenarioLower.includes("pretoria") ||
-          scenarioLower.includes("sandton")
-        )) {
-          return true;
-        }
+          // Check for partial matches for adjacent areas
+          if (
+            userLower === "gauteng" &&
+            (scenarioLower.includes("gauteng") ||
+              scenarioLower.includes("johannesburg") ||
+              scenarioLower.includes("pretoria") ||
+              scenarioLower.includes("sandton"))
+          ) {
+            return true;
+          }
 
-        return false;
-      })) {
+          return false;
+        })
+      ) {
         score = 6;
         matchReason = "regional-proximity";
       }
       // Generic urban/rural context matching
       else if (scenario.context) {
-        if (userCity && ["Johannesburg", "Cape Town", "Durban", "Pretoria"].includes(userCity)) {
+        if (
+          userCity &&
+          ["Johannesburg", "Cape Town", "Durban", "Pretoria"].includes(userCity)
+        ) {
           // User is in major city
-          if (scenario.context === "urban" || scenario.context === "residential") {
+          if (
+            scenario.context === "urban" ||
+            scenario.context === "residential"
+          ) {
             score = 4;
             matchReason = "urban-context";
           }
         } else {
           // User is in smaller city/town
-          if (scenario.context === "rural" || scenario.context === "residential") {
+          if (
+            scenario.context === "rural" ||
+            scenario.context === "residential"
+          ) {
             score = 3;
             matchReason = "context-match";
           }
@@ -5427,7 +5452,7 @@ export const generateLocationAwareScenarioTest = (
       scenario,
       score,
       matchReason,
-      locationData: scenario.location
+      locationData: scenario.location,
     };
   });
 
@@ -5438,9 +5463,13 @@ export const generateLocationAwareScenarioTest = (
   const topScenarios = scoredScenarios.slice(0, Math.min(20, count * 2));
   console.log("Top scored scenarios:");
   topScenarios.forEach((item, index) => {
-    console.log(`${index + 1}. Score: ${item.score}, Reason: ${item.matchReason}, Title: ${item.scenario.title}`);
+    console.log(
+      `${index + 1}. Score: ${item.score}, Reason: ${item.matchReason}, Title: ${item.scenario.title}`,
+    );
     if (item.locationData) {
-      console.log(`   Location: Cities: [${item.locationData.cities?.join(', ') || 'none'}], Regions: [${item.locationData.regions?.join(', ') || 'none'}]`);
+      console.log(
+        `   Location: Cities: [${item.locationData.cities?.join(", ") || "none"}], Regions: [${item.locationData.regions?.join(", ") || "none"}]`,
+      );
     }
   });
 
@@ -5448,9 +5477,11 @@ export const generateLocationAwareScenarioTest = (
   const result: K53Scenario[] = [];
 
   // Take high-priority scenarios (score >= 8) first
-  const highPriority = scoredScenarios.filter(s => s.score >= 8);
-  const mediumPriority = scoredScenarios.filter(s => s.score >= 5 && s.score < 8);
-  const lowPriority = scoredScenarios.filter(s => s.score < 5);
+  const highPriority = scoredScenarios.filter((s) => s.score >= 8);
+  const mediumPriority = scoredScenarios.filter(
+    (s) => s.score >= 5 && s.score < 8,
+  );
+  const lowPriority = scoredScenarios.filter((s) => s.score < 5);
 
   // Shuffle each priority group
   const shuffledHigh = shuffleArray(highPriority);
@@ -5463,19 +5494,33 @@ export const generateLocationAwareScenarioTest = (
   const targetLow = count - targetHigh - targetMedium;
 
   // Add scenarios maintaining the priority distribution
-  result.push(...shuffledHigh.slice(0, Math.min(targetHigh, shuffledHigh.length)).map(s => s.scenario));
-  result.push(...shuffledMedium.slice(0, Math.min(targetMedium, shuffledMedium.length)).map(s => s.scenario));
-  result.push(...shuffledLow.slice(0, Math.min(targetLow, shuffledLow.length)).map(s => s.scenario));
+  result.push(
+    ...shuffledHigh
+      .slice(0, Math.min(targetHigh, shuffledHigh.length))
+      .map((s) => s.scenario),
+  );
+  result.push(
+    ...shuffledMedium
+      .slice(0, Math.min(targetMedium, shuffledMedium.length))
+      .map((s) => s.scenario),
+  );
+  result.push(
+    ...shuffledLow
+      .slice(0, Math.min(targetLow, shuffledLow.length))
+      .map((s) => s.scenario),
+  );
 
   // If we don't have enough scenarios, fill from remaining
   if (result.length < count) {
     const remaining = [...shuffledHigh, ...shuffledMedium, ...shuffledLow]
       .slice(result.length)
-      .map(s => s.scenario);
+      .map((s) => s.scenario);
     result.push(...remaining.slice(0, count - result.length));
   }
 
-  console.log(`Selected ${result.length} scenarios for user location: ${userCity}, ${userRegion}`);
+  console.log(
+    `Selected ${result.length} scenarios for user location: ${userCity}, ${userRegion}`,
+  );
 
   return result.slice(0, count);
 };

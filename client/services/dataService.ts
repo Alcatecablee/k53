@@ -107,8 +107,12 @@ const useLocationAwareSelection = (
 
   // Apply location-aware scoring if user location is available
   if (userLocation) {
-    console.log(`DB: Filtering scenarios for: City="${userLocation.city}", Region="${userLocation.region}"`);
-    console.log(`DB: Total scenarios before location filtering: ${convertedScenarios.length}`);
+    console.log(
+      `DB: Filtering scenarios for: City="${userLocation.city}", Region="${userLocation.region}"`,
+    );
+    console.log(
+      `DB: Total scenarios before location filtering: ${convertedScenarios.length}`,
+    );
 
     const scoredScenarios = convertedScenarios.map((scenario) => {
       let score = 0;
@@ -119,32 +123,50 @@ const useLocationAwareSelection = (
         matchReason = "no-location-data";
       } else {
         // Check for exact city match first
-        if (userLocation.city && scenario.location.cities?.some((city: string) =>
-          city.toLowerCase() === userLocation.city!.toLowerCase()
-        )) {
+        if (
+          userLocation.city &&
+          scenario.location.cities?.some(
+            (city: string) =>
+              city.toLowerCase() === userLocation.city!.toLowerCase(),
+          )
+        ) {
           score = 10;
           matchReason = `city-match:${userLocation.city}`;
         }
         // Check for region match
-        else if (userLocation.region && scenario.location.regions?.some((region: string) =>
-          region.toLowerCase() === userLocation.region!.toLowerCase()
-        )) {
+        else if (
+          userLocation.region &&
+          scenario.location.regions?.some(
+            (region: string) =>
+              region.toLowerCase() === userLocation.region!.toLowerCase(),
+          )
+        ) {
           score = 8;
           matchReason = `region-match:${userLocation.region}`;
         }
         // Check if scenario mentions user's city in the text
-        else if (userLocation.city && (
-          scenario.scenario.toLowerCase().includes(userLocation.city.toLowerCase()) ||
-          scenario.title.toLowerCase().includes(userLocation.city.toLowerCase())
-        )) {
+        else if (
+          userLocation.city &&
+          (scenario.scenario
+            .toLowerCase()
+            .includes(userLocation.city.toLowerCase()) ||
+            scenario.title
+              .toLowerCase()
+              .includes(userLocation.city.toLowerCase()))
+        ) {
           score = 9;
           matchReason = `text-mention:${userLocation.city}`;
         }
         // Check if scenario mentions user's region in the text
-        else if (userLocation.region && (
-          scenario.scenario.toLowerCase().includes(userLocation.region.toLowerCase()) ||
-          scenario.title.toLowerCase().includes(userLocation.region.toLowerCase())
-        )) {
+        else if (
+          userLocation.region &&
+          (scenario.scenario
+            .toLowerCase()
+            .includes(userLocation.region.toLowerCase()) ||
+            scenario.title
+              .toLowerCase()
+              .includes(userLocation.region.toLowerCase()))
+        ) {
           score = 7;
           matchReason = `text-mention:${userLocation.region}`;
         }
@@ -154,40 +176,54 @@ const useLocationAwareSelection = (
           matchReason = "national";
         }
         // Regional scenarios in same province/area
-        else if (userLocation.region && scenario.location.regions?.some((region: string) => {
-          const userLower = userLocation.region!.toLowerCase();
-          const scenarioLower = region.toLowerCase();
+        else if (
+          userLocation.region &&
+          scenario.location.regions?.some((region: string) => {
+            const userLower = userLocation.region!.toLowerCase();
+            const scenarioLower = region.toLowerCase();
 
-          // Check for partial matches for adjacent areas
-          if (userLower === "gauteng" && (
-            scenarioLower.includes("gauteng") ||
-            scenarioLower.includes("johannesburg") ||
-            scenarioLower.includes("pretoria") ||
-            scenarioLower.includes("sandton")
-          )) {
-            return true;
-          }
+            // Check for partial matches for adjacent areas
+            if (
+              userLower === "gauteng" &&
+              (scenarioLower.includes("gauteng") ||
+                scenarioLower.includes("johannesburg") ||
+                scenarioLower.includes("pretoria") ||
+                scenarioLower.includes("sandton"))
+            ) {
+              return true;
+            }
 
-          return false;
-        })) {
+            return false;
+          })
+        ) {
           score = 6;
           matchReason = "regional-proximity";
         }
         // Generic urban/rural context matching
         else if (scenario.context) {
-          if (userLocation.city && ["Johannesburg", "Cape Town", "Durban", "Pretoria"].includes(userLocation.city)) {
-            if (scenario.context === "urban" || scenario.context === "residential") {
+          if (
+            userLocation.city &&
+            ["Johannesburg", "Cape Town", "Durban", "Pretoria"].includes(
+              userLocation.city,
+            )
+          ) {
+            if (
+              scenario.context === "urban" ||
+              scenario.context === "residential"
+            ) {
               score = 4;
               matchReason = "urban-context";
             }
           } else {
-            if (scenario.context === "rural" || scenario.context === "residential") {
+            if (
+              scenario.context === "rural" ||
+              scenario.context === "residential"
+            ) {
               score = 3;
               matchReason = "context-match";
             }
           }
-        }
-        else {
+        } else {
           score = 2;
           matchReason = "has-location-no-match";
         }
@@ -203,15 +239,19 @@ const useLocationAwareSelection = (
     const topScenarios = scoredScenarios.slice(0, Math.min(10, count));
     console.log("DB: Top scored scenarios:");
     topScenarios.forEach((item, index) => {
-      console.log(`${index + 1}. Score: ${item.score}, Reason: ${item.matchReason}, Title: ${item.scenario.title}`);
+      console.log(
+        `${index + 1}. Score: ${item.score}, Reason: ${item.matchReason}, Title: ${item.scenario.title}`,
+      );
     });
 
     // Create weighted selection
     const result: any[] = [];
 
-    const highPriority = scoredScenarios.filter(s => s.score >= 8);
-    const mediumPriority = scoredScenarios.filter(s => s.score >= 5 && s.score < 8);
-    const lowPriority = scoredScenarios.filter(s => s.score < 5);
+    const highPriority = scoredScenarios.filter((s) => s.score >= 8);
+    const mediumPriority = scoredScenarios.filter(
+      (s) => s.score >= 5 && s.score < 8,
+    );
+    const lowPriority = scoredScenarios.filter((s) => s.score < 5);
 
     const shuffledHigh = shuffleArray(highPriority);
     const shuffledMedium = shuffleArray(mediumPriority);
@@ -221,14 +261,26 @@ const useLocationAwareSelection = (
     const targetMedium = Math.floor(count * 0.3);
     const targetLow = count - targetHigh - targetMedium;
 
-    result.push(...shuffledHigh.slice(0, Math.min(targetHigh, shuffledHigh.length)).map(s => s.scenario));
-    result.push(...shuffledMedium.slice(0, Math.min(targetMedium, shuffledMedium.length)).map(s => s.scenario));
-    result.push(...shuffledLow.slice(0, Math.min(targetLow, shuffledLow.length)).map(s => s.scenario));
+    result.push(
+      ...shuffledHigh
+        .slice(0, Math.min(targetHigh, shuffledHigh.length))
+        .map((s) => s.scenario),
+    );
+    result.push(
+      ...shuffledMedium
+        .slice(0, Math.min(targetMedium, shuffledMedium.length))
+        .map((s) => s.scenario),
+    );
+    result.push(
+      ...shuffledLow
+        .slice(0, Math.min(targetLow, shuffledLow.length))
+        .map((s) => s.scenario),
+    );
 
     if (result.length < count) {
       const remaining = [...shuffledHigh, ...shuffledMedium, ...shuffledLow]
         .slice(result.length)
-        .map(s => s.scenario);
+        .map((s) => s.scenario);
       result.push(...remaining.slice(0, count - result.length));
     }
 

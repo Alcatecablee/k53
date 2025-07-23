@@ -1,14 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Download, FileText, Car, Layers, Settings, CheckCircle } from "lucide-react";
+import {
+  Download,
+  FileText,
+  Car,
+  Layers,
+  Settings,
+  CheckCircle,
+} from "lucide-react";
 
 export function StudyMaterials() {
   const studyMaterials = [
     {
       id: "k53-guide",
       title: "Complete K53 Study Guide",
-      description: "Comprehensive guide covering all test categories with explanations",
+      description:
+        "Comprehensive guide covering all test categories with explanations",
       type: "PDF",
       size: "2.1 MB",
       icon: FileText,
@@ -54,9 +62,11 @@ export function StudyMaterials() {
     const link = document.createElement("a");
     link.href = "#";
     link.download = `superk53-${materialId}.pdf`;
-    
+
     // In a real implementation, this would be an actual file URL
-    alert(`Download started: ${materialId}.pdf\n\nNote: This is a demo version. Premium materials require subscription.`);
+    alert(
+      `Download started: ${materialId}.pdf\n\nNote: This is a demo version. Premium materials require subscription.`,
+    );
   };
 
   return (
@@ -66,9 +76,10 @@ export function StudyMaterials() {
           Study Materials
         </h4>
         <p className="text-slate-700 mb-6">
-          Download official study materials to enhance your K53 preparation. Materials are formatted for both digital study and printing.
+          Download official study materials to enhance your K53 preparation.
+          Materials are formatted for both digital study and printing.
         </p>
-        
+
         <div className="grid md:grid-cols-2 gap-4">
           {studyMaterials.map((material) => {
             const IconComponent = material.icon;
@@ -97,7 +108,7 @@ export function StudyMaterials() {
                     </div>
                   </div>
                 </div>
-                
+
                 <Button
                   onClick={() => handleDownload(material.id, material.premium)}
                   className={`w-full text-xs font-medium uppercase tracking-wide ${
@@ -114,7 +125,7 @@ export function StudyMaterials() {
             );
           })}
         </div>
-        
+
         <div className="bg-slate-100 border border-black p-4 mt-6">
           <div className="flex items-start space-x-3">
             <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
