@@ -5234,50 +5234,153 @@ export const generateLocationAwareScenarioTest = (
     scenarios = scenarios.filter((s) => s.category === category);
   }
 
+  console.log(`Filtering scenarios for: City="${userCity}", Region="${userRegion}"`);
+  console.log(`Total scenarios before location filtering: ${scenarios.length}`);
+
   // Score scenarios based on location relevance
   const scoredScenarios = scenarios.map((scenario) => {
-    let score = 1; // Base score for all scenarios
+    let score = 0; // Start with 0 to better differentiate
+    let matchReason = "no-location";
 
-    if (scenario.location) {
-      // City-specific scenarios get highest priority
-      if (userCity && scenario.location.cities?.includes(userCity)) {
-        score = 5;
+    if (!scenario.location) {
+      // Scenarios without location data get low priority
+      score = 1;
+      matchReason = "no-location-data";
+    } else {
+      // Check for exact city match first
+      if (userCity && scenario.location.cities?.some(city =>
+        city.toLowerCase() === userCity.toLowerCase()
+      )) {
+        score = 10;
+        matchReason = `city-match:${userCity}`;
       }
-      // Region-specific scenarios get medium priority
-      else if (userRegion && scenario.location.regions?.includes(userRegion)) {
-        score = 3;
+      // Check for region match
+      else if (userRegion && scenario.location.regions?.some(region =>
+        region.toLowerCase() === userRegion.toLowerCase()
+      )) {
+        score = 8;
+        matchReason = `region-match:${userRegion}`;
       }
-      // National scenarios get slight boost
+      // Check if scenario mentions user's city in the text
+      else if (userCity && (
+        scenario.scenario.toLowerCase().includes(userCity.toLowerCase()) ||
+        scenario.title.toLowerCase().includes(userCity.toLowerCase())
+      )) {
+        score = 9;
+        matchReason = `text-mention:${userCity}`;
+      }
+      // Check if scenario mentions user's region in the text
+      else if (userRegion && (
+        scenario.scenario.toLowerCase().includes(userRegion.toLowerCase()) ||
+        scenario.title.toLowerCase().includes(userRegion.toLowerCase())
+      )) {
+        score = 7;
+        matchReason = `text-mention:${userRegion}`;
+      }
+      // National or universal scenarios
       else if (scenario.location.specificity === "national") {
+        score = 5;
+        matchReason = "national";
+      }
+      // Regional scenarios in same province/area
+      else if (userRegion && scenario.location.regions?.some(region => {
+        // Additional regional matching logic
+        const userLower = userRegion.toLowerCase();
+        const scenarioLower = region.toLowerCase();
+
+        // Check for partial matches for adjacent areas
+        if (userLower === "gauteng" && (
+          scenarioLower.includes("gauteng") ||
+          scenarioLower.includes("johannesburg") ||
+          scenarioLower.includes("pretoria") ||
+          scenarioLower.includes("sandton")
+        )) {
+          return true;
+        }
+
+        return false;
+      })) {
+        score = 6;
+        matchReason = "regional-proximity";
+      }
+      // Generic urban/rural context matching
+      else if (scenario.context) {
+        if (userCity && ["Johannesburg", "Cape Town", "Durban", "Pretoria"].includes(userCity)) {
+          // User is in major city
+          if (scenario.context === "urban" || scenario.context === "residential") {
+            score = 4;
+            matchReason = "urban-context";
+          }
+        } else {
+          // User is in smaller city/town
+          if (scenario.context === "rural" || scenario.context === "residential") {
+            score = 3;
+            matchReason = "context-match";
+          }
+        }
+      }
+      // Fallback for scenarios with location data but no match
+      else {
         score = 2;
+        matchReason = "has-location-no-match";
       }
     }
 
-    return { scenario, score };
+    return {
+      scenario,
+      score,
+      matchReason,
+      locationData: scenario.location
+    };
   });
 
-  // Sort by score (highest first) then shuffle within score groups
+  // Sort by score (highest first)
   scoredScenarios.sort((a, b) => b.score - a.score);
 
-  // Group by score and shuffle within each group
-  const scoreGroups: { [score: number]: K53Scenario[] } = {};
-  scoredScenarios.forEach(({ scenario, score }) => {
-    if (!scoreGroups[score]) {
-      scoreGroups[score] = [];
+  // Log the scoring results for debugging
+  const topScenarios = scoredScenarios.slice(0, Math.min(20, count * 2));
+  console.log("Top scored scenarios:");
+  topScenarios.forEach((item, index) => {
+    console.log(`${index + 1}. Score: ${item.score}, Reason: ${item.matchReason}, Title: ${item.scenario.title}`);
+    if (item.locationData) {
+      console.log(`   Location: Cities: [${item.locationData.cities?.join(', ') || 'none'}], Regions: [${item.locationData.regions?.join(', ') || 'none'}]`);
     }
-    scoreGroups[score].push(scenario);
   });
 
-  // Shuffle each score group and flatten
-  const shuffledScenarios: K53Scenario[] = [];
-  Object.keys(scoreGroups)
-    .sort((a, b) => Number(b) - Number(a)) // Highest scores first
-    .forEach((score) => {
-      const shuffledGroup = shuffleArray(scoreGroups[Number(score)]);
-      shuffledScenarios.push(...shuffledGroup);
-    });
+  // Create a weighted selection to ensure variety
+  const result: K53Scenario[] = [];
 
-  return shuffledScenarios.slice(0, count);
+  // Take high-priority scenarios (score >= 8) first
+  const highPriority = scoredScenarios.filter(s => s.score >= 8);
+  const mediumPriority = scoredScenarios.filter(s => s.score >= 5 && s.score < 8);
+  const lowPriority = scoredScenarios.filter(s => s.score < 5);
+
+  // Shuffle each priority group
+  const shuffledHigh = shuffleArray(highPriority);
+  const shuffledMedium = shuffleArray(mediumPriority);
+  const shuffledLow = shuffleArray(lowPriority);
+
+  // Fill result with 60% high priority, 30% medium, 10% low (or available amounts)
+  const targetHigh = Math.floor(count * 0.6);
+  const targetMedium = Math.floor(count * 0.3);
+  const targetLow = count - targetHigh - targetMedium;
+
+  // Add scenarios maintaining the priority distribution
+  result.push(...shuffledHigh.slice(0, Math.min(targetHigh, shuffledHigh.length)).map(s => s.scenario));
+  result.push(...shuffledMedium.slice(0, Math.min(targetMedium, shuffledMedium.length)).map(s => s.scenario));
+  result.push(...shuffledLow.slice(0, Math.min(targetLow, shuffledLow.length)).map(s => s.scenario));
+
+  // If we don't have enough scenarios, fill from remaining
+  if (result.length < count) {
+    const remaining = [...shuffledHigh, ...shuffledMedium, ...shuffledLow]
+      .slice(result.length)
+      .map(s => s.scenario);
+    result.push(...remaining.slice(0, count - result.length));
+  }
+
+  console.log(`Selected ${result.length} scenarios for user location: ${userCity}, ${userRegion}`);
+
+  return result.slice(0, count);
 };
 
 export type { K53Scenario };
