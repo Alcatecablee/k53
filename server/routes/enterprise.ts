@@ -177,9 +177,26 @@ export const getEnhancedUsers: RequestHandler = async (req, res) => {
       return res.json([]);
     }
 
+    // Get payments separately for each user
+    const userIds = (users || []).map((u: any) => u.user_id).filter(Boolean);
+    let userPaymentsMap: Record<string, any[]> = {};
+
+    if (userIds.length > 0) {
+      const { data: allPayments } = await db
+        .from("payments")
+        .select("user_id, amount_cents, status, created_at")
+        .in("user_id", userIds);
+
+      userPaymentsMap = (allPayments || []).reduce((acc: any, payment: any) => {
+        if (!acc[payment.user_id]) acc[payment.user_id] = [];
+        acc[payment.user_id].push(payment);
+        return acc;
+      }, {});
+    }
+
     // Enhance user data with calculated metrics from real data only
     const enhancedUsers = (users || []).map((user: any) => {
-      const userPayments = user.payments || [];
+      const userPayments = userPaymentsMap[user.user_id] || [];
       const totalSpent = userPayments
         .filter((p: any) => p.status === 'completed')
         .reduce((sum: number, p: any) => sum + (p.amount_cents || 0), 0);
