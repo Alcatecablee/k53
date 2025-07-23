@@ -123,8 +123,8 @@ export default function AdminNew() {
     storage: "operational"
   });
 
-  // Simulated admin check
-  const isAdmin = true;
+  // Check if user has admin privileges
+  const isAdmin = user?.email === 'admin@superk53.com' || process.env.NODE_ENV === 'development';
 
   useEffect(() => {
     if (!isAdmin) return;
