@@ -10,7 +10,7 @@ interface K53Scenario {
   difficulty: "basic" | "intermediate" | "advanced";
   context: string; // e.g., "urban", "rural", "freeway", "residential"
   timeOfDay?: "morning" | "afternoon" | "evening" | "night";
-  weather?: "clear" | "rain" | "fog" | "wind";
+  weather?: "clear" | "rain" | "fog" | "wind" | "snow";
   language: "en" | "af" | "zu";
 }
 
