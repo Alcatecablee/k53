@@ -22,17 +22,17 @@ import { SEO } from "@/components/SEO";
 import { SEO_CONFIGS } from "@/hooks/useSEO";
 
 export default function DLTCPage() {
-  const mockDLTCs = [
+  const [dltcCenters, setDltcCenters] = useState([
     {
       id: 1,
       name: "Cape Town DLTC",
       address: "123 Main Road, Cape Town, 8001",
       phone: "021-123-4567",
       hours: "Mon-Fri: 8:00 AM - 4:00 PM, Sat: 8:00 AM - 12:00 PM",
-      distance: "2.3 km",
-      rating: 4.2,
-      busyLevel: "Moderate",
-      waitTime: "30-45 min",
+      distance: "Contact for location",
+      rating: 0,
+      busyLevel: "Contact for current status",
+      waitTime: "Contact for wait times",
       services: ["Learner's Test", "Driver's Test", "Renewals"],
     },
     {
@@ -41,10 +41,10 @@ export default function DLTCPage() {
       address: "456 CBD Street, Johannesburg, 2000",
       phone: "011-987-6543",
       hours: "Mon-Fri: 7:30 AM - 4:30 PM, Sat: 8:00 AM - 1:00 PM",
-      distance: "1.8 km",
-      rating: 3.8,
-      busyLevel: "Busy",
-      waitTime: "60-90 min",
+      distance: "Contact for location",
+      rating: 0,
+      busyLevel: "Contact for current status",
+      waitTime: "Contact for wait times",
       services: ["Learner's Test", "Driver's Test", "Renewals", "Eye Tests"],
     },
     {
@@ -53,10 +53,10 @@ export default function DLTCPage() {
       address: "789 Beach Road, Durban, 4001",
       phone: "031-555-7890",
       hours: "Mon-Fri: 8:00 AM - 4:00 PM, Sat: 8:00 AM - 12:00 PM",
-      distance: "5.1 km",
-      rating: 4.5,
-      busyLevel: "Quiet",
-      waitTime: "15-30 min",
+      distance: "Contact for location",
+      rating: 0,
+      busyLevel: "Contact for current status",
+      waitTime: "Contact for wait times",
       services: [
         "Learner's Test",
         "Driver's Test",
@@ -64,7 +64,7 @@ export default function DLTCPage() {
         "Motorcycle Tests",
       ],
     },
-  ];
+  ]);
 
   const testRequirements = [
     {
@@ -190,7 +190,7 @@ export default function DLTCPage() {
 
             {/* DLTC Directory */}
             <div className="grid lg:grid-cols-1 gap-6 mb-8">
-              {mockDLTCs.map((dltc) => (
+              {dltcCenters.map((dltc) => (
                 <Card
                   key={dltc.id}
                   className="border-2 border-black bg-white hover:shadow-lg transition-shadow"
