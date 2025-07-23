@@ -396,12 +396,12 @@ function PracticeComponent() {
       <div className="min-h-screen bg-slate-900">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
-          <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8 -mx-4 px-4 py-6">
+          <div className="bg-slate-800 border-b border-slate-700 mb-8 -mx-4 px-4 py-6">
             <div className="flex items-center justify-between">
               <Button
                 asChild
                 variant="ghost"
-                className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide"
+                className="text-slate-300 hover:text-white font-medium uppercase tracking-wide"
               >
                 <Link to="/">
                   <ArrowLeft className="h-4 w-4 mr-2" />
@@ -409,10 +409,10 @@ function PracticeComponent() {
                 </Link>
               </Button>
               <div className="text-center">
-                <h1 className="text-2xl font-bold text-slate-900 uppercase tracking-wide">
+                <h1 className="text-2xl font-bold text-white uppercase tracking-wide">
                   Assessment Selection Portal
                 </h1>
-                <p className="text-slate-600 uppercase text-sm tracking-wide">
+                <p className="text-slate-400 uppercase text-sm tracking-wide">
                   K53 Examination Preparation System
                 </p>
               </div>
@@ -423,7 +423,7 @@ function PracticeComponent() {
                       asChild
                       variant="ghost"
                       size="icon"
-                      className="text-slate-700 hover:text-slate-900"
+                      className="text-slate-300 hover:text-white hover:bg-slate-700"
                       title="View Profile"
                     >
                       <Link to="/profile">
@@ -434,7 +434,7 @@ function PracticeComponent() {
                       variant="ghost"
                       size="icon"
                       onClick={signOut}
-                      className="text-slate-700 hover:text-slate-900"
+                      className="text-slate-300 hover:text-white hover:bg-slate-700"
                       title="Sign Out"
                     >
                       <LogOut className="h-4 w-4" />
