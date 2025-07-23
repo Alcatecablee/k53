@@ -114,7 +114,7 @@ export function LocationSelector({
             <h3 className="text-lg font-bold text-slate-800 uppercase tracking-wide">
               Auto-Detect Location
             </h3>
-            <div className="bg-slate-100 p-4 rounded border-2 border-black-300">
+            <div className="bg-slate-100 p-4 rounded border-2 border-black">
               <p className="text-slate-700 text-sm mb-4">
                 Enable location services to automatically find scenarios for
                 your area, like load shedding in Pretoria or potholes on the N2.
@@ -151,9 +151,9 @@ export function LocationSelector({
             <h3 className="text-lg font-bold text-slate-800 uppercase tracking-wide">
               Or Select Manually
             </h3>
-            <div className="bg-slate-100 p-4 rounded border-2 border-black-300">
+            <div className="bg-slate-100 p-4 rounded border-2 border-black">
               <Select onValueChange={handleManualSelect}>
-                <SelectTrigger className="w-full border-2 border-black-300 bg-white">
+                <SelectTrigger className="w-full border-2 border-black bg-white">
                   <SelectValue placeholder="Choose your city..." />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
@@ -204,7 +204,7 @@ export function LocationSelector({
             <Button
               variant="outline"
               onClick={onClose}
-              className="flex-1 border-2 border-black-300 text-slate-700 hover:bg-slate-100 font-semibold uppercase tracking-wide"
+              className="flex-1 border-2 border-black text-slate-700 hover:bg-slate-100 font-semibold uppercase tracking-wide"
             >
               Cancel
             </Button>
