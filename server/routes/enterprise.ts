@@ -112,7 +112,7 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
 
     const realtimeMetrics = {
       realtimeUsers,
-      serverLoad: process.cpuUsage ? (process.cpuUsage().user / 1000000) : 0,
+      serverLoad: 0, // Would need actual CPU monitoring library
       responseTime: 0, // Would need actual response time tracking
       errorRate: 0, // Would need actual error tracking
     };
