@@ -123,6 +123,7 @@ export default function AdminPro() {
       loadPayments(),
       loadRealTimeData(),
       loadActivityFeed(),
+      loadContentStats(),
     ]);
     setLoading(false);
   };
