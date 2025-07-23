@@ -1,15 +1,20 @@
 // Supabase wrapper with comprehensive error handling and offline detection
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl =
-  import.meta.env.VITE_SUPABASE_URL ||
-  import.meta.env.VITE_PUBLIC_SUPABASE_URL ||
-  "https://lxzwakeusanxquhshcph.supabase.co";
+// Get Supabase configuration from environment variables
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const supabaseAnonKey =
-  import.meta.env.VITE_SUPABASE_ANON_KEY ||
-  import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY ||
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx4endha2V1c2FueHF1aHNoY3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzAxNTIsImV4cCI6MjA2ODgwNjE1Mn0.WzlkTGbselENSvmDG0oD7xEM1s6ZnJtY1TgBiGHuXVE";
+// Validate required environment variables
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error(
+    'Missing required environment variables. Please check your .env file:\n' +
+    '- VITE_SUPABASE_URL\n' +
+    '- VITE_SUPABASE_ANON_KEY\n\n' +
+    'Copy .env.example to .env and fill in your Supabase credentials.'
+  );
+  throw new Error('Missing Supabase configuration');
+}
 
 // Create the original client
 const originalSupabase = createClient(supabaseUrl, supabaseAnonKey, {
