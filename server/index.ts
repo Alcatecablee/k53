@@ -23,5 +23,11 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // PayPal payment routes
+  app.post("/api/paypal/create-order", createPayPalOrder);
+  app.post("/api/paypal/capture-order", capturePayPalOrder);
+  app.post("/api/paypal/cancel-subscription", cancelSubscription);
+  app.get("/api/paypal/payment-history/:userId", getPaymentHistory);
+
   return app;
 }
