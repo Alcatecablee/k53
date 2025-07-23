@@ -259,25 +259,51 @@ export const getEnhancedPayments: RequestHandler = async (req, res) => {
 export const getRealTimeMetrics: RequestHandler = async (req, res) => {
   try {
     const db = getEnterpriseDatabase();
-    
-    // Generate real-time data points
     const now = new Date();
+
+    if (!db) {
+      return res.json({ metrics: [], timestamp: now.toISOString() });
+    }
+
+    // Get real data from database for metrics
+    const [usersResult, paymentsResult] = await Promise.allSettled([
+      db.from("user_subscriptions").select("created_at, last_seen"),
+      db.from("payments").select("created_at, amount_cents, status")
+    ]);
+
+    const users = usersResult.status === 'fulfilled' ? usersResult.value.data || [] : [];
+    const payments = paymentsResult.status === 'fulfilled' ? paymentsResult.value.data || [] : [];
+
+    // Calculate real metrics for the last 12 intervals
     const metrics = [];
-    
     for (let i = 11; i >= 0; i--) {
-      const timestamp = new Date(now.getTime() - i * 5 * 60000); // 5-minute intervals
-      
-      // In a real implementation, these would be actual metrics from your monitoring system
+      const timestamp = new Date(now.getTime() - i * 5 * 60000);
+      const intervalStart = new Date(timestamp.getTime() - 5 * 60000);
+
+      // Count users active in this interval (simplified - would need session tracking)
+      const activeUsers = users.filter(user =>
+        user.last_seen && new Date(user.last_seen) >= intervalStart && new Date(user.last_seen) <= timestamp
+      ).length;
+
+      // Count payments in this interval
+      const intervalPayments = payments.filter(payment =>
+        new Date(payment.created_at) >= intervalStart && new Date(payment.created_at) <= timestamp
+      );
+
+      const intervalRevenue = intervalPayments
+        .filter(p => p.status === 'completed')
+        .reduce((sum, p) => sum + (p.amount_cents || 0), 0);
+
       metrics.push({
         timestamp: timestamp.toISOString(),
         name: timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        users: Math.floor(Math.random() * 50) + 20,
-        revenue: Math.floor(Math.random() * 1000) + 500,
-        requests: Math.floor(Math.random() * 200) + 100,
-        cpu_usage: Math.random() * 100,
-        memory_usage: Math.random() * 100,
-        response_time: Math.random() * 200 + 50,
-        error_rate: Math.random() * 5,
+        users: activeUsers,
+        revenue: intervalRevenue,
+        requests: intervalPayments.length,
+        cpu_usage: process.cpuUsage ? (process.cpuUsage().user / 1000000) : 0,
+        memory_usage: process.memoryUsage ? (process.memoryUsage().heapUsed / process.memoryUsage().heapTotal * 100) : 0,
+        response_time: 0, // Would need actual response time tracking
+        error_rate: 0, // Would need actual error tracking
       });
     }
 
