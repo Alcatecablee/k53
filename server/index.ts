@@ -28,6 +28,27 @@ import {
   getMaterial,
   listMaterials,
 } from "./routes/materials";
+import {
+  getDatabaseLogs,
+  backupDatabase,
+  toggleMaintenanceMode,
+  getPerformanceMetrics,
+  getErrorLogs,
+  restartServices,
+  runSecurityScan,
+  getAccessLogs,
+  getThreatDetection,
+  logAccess,
+} from "./routes/system";
+import {
+  getQuestionBank,
+  exportQuestions,
+  importQuestions,
+  getScenarios,
+  addScenario,
+  updateScenario,
+  getContentStats,
+} from "./routes/content";
 
 export function createServer() {
   const app = express();
