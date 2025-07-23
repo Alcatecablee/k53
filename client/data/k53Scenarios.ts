@@ -21,6 +21,91 @@ interface K53Scenario {
 }
 
 export const k53ScenarioBank: K53Scenario[] = [
+  // JOHANNESBURG-SPECIFIC SCENARIOS (for testing location awareness)
+  {
+    id: "SC_JHB001",
+    category: "controls",
+    title: "M1 Highway Traffic Jam",
+    scenario:
+      "You're driving on the M1 highway in Johannesburg during rush hour. Traffic is stop-and-go, and you're in bumper-to-bumper traffic near the Sandton exit. The car in front suddenly brakes hard.",
+    question: "What's the safest following distance in heavy Johannesburg traffic?",
+    options: [
+      "One car length at any speed",
+      "Two-second rule minimum, more in heavy traffic",
+      "Just close enough to prevent lane jumpers",
+      "Half a car length to keep traffic flowing",
+    ],
+    correct: 1,
+    explanation:
+      "Always maintain at least a 2-second following distance, and increase it in heavy traffic. This gives you time to react safely and prevents rear-end collisions common in Johannesburg's congested highways.",
+    difficulty: "intermediate",
+    context: "urban",
+    timeOfDay: "morning",
+    weather: "clear",
+    language: "en",
+    location: {
+      cities: ["Johannesburg"],
+      regions: ["Gauteng"],
+      landmarks: ["M1 highway", "Sandton"],
+      specificity: "city",
+    },
+  },
+  {
+    id: "SC_JHB002",
+    category: "signs",
+    title: "Taxi Rank Navigation in Johannesburg CBD",
+    scenario:
+      "You're driving through the Johannesburg CBD near Park Station. There are multiple 'No Entry' signs, but you see taxis and some cars going through. You need to reach the Carlton Centre for a meeting.",
+    question: "How should you handle conflicting traffic signs in busy areas like Joburg CBD?",
+    options: [
+      "Follow the taxis - they know the local routes",
+      "Strictly obey all posted signs regardless of other traffic",
+      "Ask a traffic officer if you see one",
+      "Use GPS to find an alternative route",
+    ],
+    correct: 1,
+    explanation:
+      "Always obey posted traffic signs regardless of what other drivers do. Unauthorized vehicles in restricted areas can face fines. Use alternative routes or public transport for CBD access.",
+    difficulty: "intermediate",
+    context: "urban",
+    timeOfDay: "afternoon",
+    weather: "clear",
+    language: "en",
+    location: {
+      cities: ["Johannesburg"],
+      regions: ["Gauteng"],
+      landmarks: ["Park Station", "Carlton Centre", "CBD"],
+      specificity: "city",
+    },
+  },
+  {
+    id: "SC_JHB003",
+    category: "rules",
+    title: "Robot Light at Fourways Intersection",
+    scenario:
+      "You're approaching the busy Fourways intersection in Johannesburg. The robot (traffic light) has just turned amber as you're about 30 meters away, traveling at 60km/h.",
+    question: "What should you do when approaching an amber robot at Fourways?",
+    options: [
+      "Speed up to get through before it turns red",
+      "Brake hard to stop before the line",
+      "Assess if you can stop safely - if not, proceed with caution",
+      "Flash your lights and continue through",
+    ],
+    correct: 2,
+    explanation:
+      "Amber means prepare to stop. If you can't stop safely without harsh braking, you may proceed with caution. Never speed up for an amber light as this increases accident risk.",
+    difficulty: "basic",
+    context: "urban",
+    timeOfDay: "evening",
+    weather: "clear",
+    language: "en",
+    location: {
+      cities: ["Johannesburg"],
+      regions: ["Gauteng"],
+      landmarks: ["Fourways", "intersection"],
+      specificity: "city",
+    },
+  },
   // VEHICLE CONTROLS SCENARIOS
   {
     id: "SC001",
