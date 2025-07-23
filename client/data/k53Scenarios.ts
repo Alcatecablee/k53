@@ -72,6 +72,12 @@ export const k53ScenarioBank: K53Scenario[] = [
     timeOfDay: "afternoon",
     weather: "clear",
     language: "en",
+    location: {
+      cities: ["Johannesburg", "Pretoria", "Cape Town", "Bloemfontein"],
+      regions: ["Gauteng", "Western Cape", "Free State"],
+      landmarks: ["N1 freeway", "national highway"],
+      specificity: "national",
+    },
   },
   {
     id: "SC003",
