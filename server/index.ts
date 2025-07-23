@@ -49,6 +49,16 @@ import {
   updateScenario,
   getContentStats,
 } from "./routes/content";
+import {
+  getEnhancedDashboardStats,
+  getEnhancedUsers,
+  getEnhancedPayments,
+  getRealTimeMetrics,
+  updateEnhancedUser,
+  bulkUserOperation,
+  clearCache,
+  getCacheStats,
+} from "./routes/enterprise";
 
 export function createServer() {
   const app = express();
