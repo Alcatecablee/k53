@@ -865,7 +865,7 @@ function PracticeComponent() {
             <div className="text-center">
               <Badge className="mb-2 bg-slate-800 text-white uppercase tracking-wide">
                 {testMode === "scenarios"
-                  ? "🔥 AI Scenarios"
+                  ? "AI Scenarios"
                   : isFullTest
                     ? "Official Assessment"
                     : "Practice Mode"}
