@@ -595,6 +595,12 @@ export default function Index() {
                 >
                   Testing Center Directory
                 </Link>
+                <Link
+                  to="/docs"
+                  className="block hover:text-white transition-colors uppercase tracking-wide text-sm"
+                >
+                  Platform Documentation
+                </Link>
                 <a
                   href="https://taxfy.co.za"
                   target="_blank"
