@@ -5,7 +5,7 @@ import {
   createPayPalOrder,
   capturePayPalOrder,
   cancelSubscription,
-  getPaymentHistory
+  getPaymentHistory,
 } from "./routes/paypal";
 import {
   authenticatedValidateScenarioAccess,
@@ -36,9 +36,18 @@ export function createServer() {
   app.get("/api/paypal/payment-history/:userId", getPaymentHistory);
 
   // Subscription enforcement routes
-  app.get("/api/subscriptions/validate-scenario-access", authenticatedValidateScenarioAccess);
-  app.post("/api/subscriptions/record-scenario-usage", authenticatedRecordScenarioUsage);
-  app.get("/api/subscriptions/details", authenticatedGetUserSubscriptionDetails);
+  app.get(
+    "/api/subscriptions/validate-scenario-access",
+    authenticatedValidateScenarioAccess,
+  );
+  app.post(
+    "/api/subscriptions/record-scenario-usage",
+    authenticatedRecordScenarioUsage,
+  );
+  app.get(
+    "/api/subscriptions/details",
+    authenticatedGetUserSubscriptionDetails,
+  );
   app.get("/api/subscriptions/usage-stats", authenticatedGetUserUsageStats);
 
   return app;

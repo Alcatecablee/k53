@@ -196,19 +196,26 @@ function PracticeComponent() {
   const generateScenarioTest = async () => {
     // Server-side validation for scenario access
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         alert("Please sign in to access scenarios");
         return;
       }
 
-      const { data: { session } } = await supabase.auth.getSession();
-      const response = await fetch("/api/subscriptions/validate-scenario-access", {
-        headers: {
-          "Authorization": `Bearer ${session?.access_token}`,
-          "Content-Type": "application/json",
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const response = await fetch(
+        "/api/subscriptions/validate-scenario-access",
+        {
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       const accessInfo = await response.json();
 
@@ -257,11 +264,13 @@ function PracticeComponent() {
 
       // Record scenario usage on server-side
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
         await fetch("/api/subscriptions/record-scenario-usage", {
           method: "POST",
           headers: {
-            "Authorization": `Bearer ${session?.access_token}`,
+            Authorization: `Bearer ${session?.access_token}`,
             "Content-Type": "application/json",
           },
         });

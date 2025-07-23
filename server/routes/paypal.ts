@@ -2,13 +2,18 @@ import { RequestHandler } from "express";
 import { createClient } from "@supabase/supabase-js";
 
 // PayPal API configuration
-const PAYPAL_CLIENT_ID = process.env.VITE_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID;
+const PAYPAL_CLIENT_ID =
+  process.env.VITE_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
-const PAYPAL_ENVIRONMENT = process.env.VITE_PAYPAL_ENVIRONMENT || process.env.PAYPAL_ENVIRONMENT || "sandbox";
+const PAYPAL_ENVIRONMENT =
+  process.env.VITE_PAYPAL_ENVIRONMENT ||
+  process.env.PAYPAL_ENVIRONMENT ||
+  "sandbox";
 
-const PAYPAL_BASE_URL = PAYPAL_ENVIRONMENT === "production" 
-  ? "https://api-m.paypal.com"
-  : "https://api-m.sandbox.paypal.com";
+const PAYPAL_BASE_URL =
+  PAYPAL_ENVIRONMENT === "production"
+    ? "https://api-m.paypal.com"
+    : "https://api-m.sandbox.paypal.com";
 
 // Supabase client for database operations
 const supabaseUrl = process.env.VITE_SUPABASE_URL!;
@@ -17,21 +22,25 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 // Get PayPal access token
 async function getPayPalAccessToken(): Promise<string> {
-  const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`).toString("base64");
-  
+  const auth = Buffer.from(
+    `${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`,
+  ).toString("base64");
+
   const response = await fetch(`${PAYPAL_BASE_URL}/v1/oauth2/token`, {
     method: "POST",
     headers: {
-      "Authorization": `Basic ${auth}`,
+      Authorization: `Basic ${auth}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: "grant_type=client_credentials",
   });
 
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(`PayPal auth error: ${data.error_description || data.error}`);
+    throw new Error(
+      `PayPal auth error: ${data.error_description || data.error}`,
+    );
   }
 
   return data.access_token;
@@ -48,8 +57,8 @@ export const createPayPalOrder: RequestHandler = async (req, res) => {
 
     // Get plan details for validation
     const planMap: Record<string, { name: string; price_cents: number }> = {
-      "basic": { name: "SuperK53 Basic", price_cents: 5000 },
-      "pro": { name: "SuperK53 Pro", price_cents: 12000 },
+      basic: { name: "SuperK53 Basic", price_cents: 5000 },
+      pro: { name: "SuperK53 Pro", price_cents: 12000 },
     };
 
     const plan = planMap[planId];
@@ -62,9 +71,10 @@ export const createPayPalOrder: RequestHandler = async (req, res) => {
     const paypalCurrency = currency === "ZAR" ? "USD" : currency; // Use USD for broader compatibility
 
     // Convert ZAR to USD for PayPal (dynamic rate would be better in production)
-    const finalAmount = currency === "ZAR"
-      ? (parseFloat(amount) * 0.055).toFixed(2) // R50 ≈ $2.75, R120 ≈ $6.60
-      : paypalAmount;
+    const finalAmount =
+      currency === "ZAR"
+        ? (parseFloat(amount) * 0.055).toFixed(2) // R50 ≈ $2.75, R120 ≈ $6.60
+        : paypalAmount;
 
     const accessToken = await getPayPalAccessToken();
 
@@ -97,7 +107,7 @@ export const createPayPalOrder: RequestHandler = async (req, res) => {
     const response = await fetch(`${PAYPAL_BASE_URL}/v2/checkout/orders`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
         "PayPal-Request-Id": `${userId}-${Date.now()}`, // Idempotency
       },
@@ -108,7 +118,9 @@ export const createPayPalOrder: RequestHandler = async (req, res) => {
 
     if (!response.ok) {
       console.error("PayPal order creation failed:", order);
-      return res.status(400).json({ error: order.message || "Failed to create PayPal order" });
+      return res
+        .status(400)
+        .json({ error: order.message || "Failed to create PayPal order" });
     }
 
     // Store pending payment in database
@@ -140,29 +152,34 @@ export const capturePayPalOrder: RequestHandler = async (req, res) => {
     const accessToken = await getPayPalAccessToken();
 
     // Capture the payment
-    const response = await fetch(`${PAYPAL_BASE_URL}/v2/checkout/orders/${orderID}/capture`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${PAYPAL_BASE_URL}/v2/checkout/orders/${orderID}/capture`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
 
     const captureData = await response.json();
 
     if (!response.ok) {
       console.error("PayPal capture failed:", captureData);
-      
+
       // Update payment status to failed
       await supabase
         .from("payments")
-        .update({ 
-          status: "failed", 
-          failure_reason: captureData.message || "Capture failed" 
+        .update({
+          status: "failed",
+          failure_reason: captureData.message || "Capture failed",
         })
         .eq("paypal_order_id", orderID);
 
-      return res.status(400).json({ error: captureData.message || "Payment capture failed" });
+      return res
+        .status(400)
+        .json({ error: captureData.message || "Payment capture failed" });
     }
 
     // Extract payment details
@@ -182,9 +199,12 @@ export const capturePayPalOrder: RequestHandler = async (req, res) => {
       .eq("paypal_order_id", orderID);
 
     // Create or update user subscription
-    const planMap: Record<string, { price_cents: number; billing_cycle: string }> = {
-      "basic": { price_cents: 5000, billing_cycle: "monthly" },
-      "pro": { price_cents: 12000, billing_cycle: "monthly" },
+    const planMap: Record<
+      string,
+      { price_cents: number; billing_cycle: string }
+    > = {
+      basic: { price_cents: 5000, billing_cycle: "monthly" },
+      pro: { price_cents: 12000, billing_cycle: "monthly" },
     };
 
     const plan = planMap[planId];
@@ -229,13 +249,16 @@ export const capturePayPalOrder: RequestHandler = async (req, res) => {
     }
 
     // Update daily usage limits for the user
-    const maxLimits = planId === "basic" ? { scenarios: -1, questions: -1 } : { scenarios: -1, questions: -1 };
-    
+    const maxLimits =
+      planId === "basic"
+        ? { scenarios: -1, questions: -1 }
+        : { scenarios: -1, questions: -1 };
+
     await supabase
       .from("daily_usage")
       .upsert({
         user_id: userId,
-        date: currentDate.toISOString().split('T')[0],
+        date: currentDate.toISOString().split("T")[0],
         scenarios_used: 0,
         questions_used: 0,
         max_scenarios: maxLimits.scenarios,
@@ -250,7 +273,6 @@ export const capturePayPalOrder: RequestHandler = async (req, res) => {
       planId,
       message: "Payment successful! Your subscription is now active.",
     });
-
   } catch (error) {
     console.error("Capture PayPal order error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -291,7 +313,6 @@ export const cancelSubscription: RequestHandler = async (req, res) => {
       .eq("user_id", userId);
 
     res.json({ success: true, message: "Subscription canceled successfully" });
-
   } catch (error) {
     console.error("Cancel subscription error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -318,7 +339,6 @@ export const getPaymentHistory: RequestHandler = async (req, res) => {
     }
 
     res.json({ payments });
-
   } catch (error) {
     console.error("Get payment history error:", error);
     res.status(500).json({ error: "Internal server error" });

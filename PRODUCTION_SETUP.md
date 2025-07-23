@@ -7,11 +7,12 @@
 ✅ **Database Schema** - Full subscription and payment tracking  
 ✅ **Server-Side Enforcement** - Unbypassable usage limits  
 ✅ **Real-Time Subscription Management** - Instant activation/cancellation  
-✅ **Row Level Security** - Database security implemented  
+✅ **Row Level Security** - Database security implemented
 
 ## 📋 Pre-Deployment Checklist
 
 ### 1. Database Setup (REQUIRED)
+
 Run this SQL in your Supabase SQL Editor:
 
 ```sql
@@ -20,6 +21,7 @@ Run this SQL in your Supabase SQL Editor:
 ```
 
 ### 2. Environment Variables
+
 Ensure these are set in your production environment:
 
 ```bash
@@ -39,6 +41,7 @@ VITE_API_URL=https://yourdomain.com/api
 ```
 
 ### 3. PayPal Configuration
+
 1. **Business Account**: Ensure your PayPal business account is verified
 2. **Webhook Setup**: Configure webhooks in PayPal dashboard for subscription events
 3. **Card Processing**: Verify card payments are enabled for your region
@@ -46,21 +49,25 @@ VITE_API_URL=https://yourdomain.com/api
 ## 💰 Monetization Model
 
 ### Free Tier
+
 - 5 AI scenarios per day
 - Unlimited K53 questions
 - Basic progress tracking
 
 ### SuperK53 Basic - R50/month
+
 - Unlimited scenarios and questions
 - Advanced progress tracking
 - Location-specific content
 
 ### SuperK53 Pro - R120/month
+
 - Everything in Basic
 - All scenario packs included
 - Priority support
 
 ### Scenario Packs - R20-R30 each
+
 - Location-specific driving scenarios
 - Cape Town, Johannesburg, Tembisa, Rural, Durban
 
@@ -70,11 +77,12 @@ VITE_API_URL=https://yourdomain.com/api
 ✅ **Server-Side Validation** - Usage limits enforced on backend  
 ✅ **JWT Authentication** - Secure API access  
 ✅ **Payment Security** - PayPal's secure payment processing  
-✅ **Environment Isolation** - No secrets in client code  
+✅ **Environment Isolation** - No secrets in client code
 
 ## 🛠 Technical Implementation
 
 ### Payment Flow
+
 1. User selects subscription plan
 2. PayPal checkout with card/guest priority
 3. Server validates and creates order
@@ -83,11 +91,13 @@ VITE_API_URL=https://yourdomain.com/api
 6. Usage limits immediately updated
 
 ### Subscription Enforcement
+
 - **Client-Side**: UI updates for better UX
 - **Server-Side**: API validation prevents bypassing
 - **Database**: RLS policies ensure data security
 
 ### API Endpoints
+
 ```
 POST /api/paypal/create-order
 POST /api/paypal/capture-order
@@ -111,20 +121,24 @@ Track these KPIs through the database:
 ## 🚀 Deployment Steps
 
 ### 1. Deploy Database Schema
+
 ```sql
 -- Run database/production-schema.sql in Supabase SQL Editor
 ```
 
 ### 2. Deploy Application
+
 ```bash
 npm run build
 npm run start
 ```
 
 ### 3. Configure PayPal Webhooks
+
 Set webhook URL to: `https://yourdomain.com/api/paypal/webhook`
 
 ### 4. Test Payment Flow
+
 1. Create test account
 2. Attempt free scenario usage (should work 5x)
 3. Try to exceed limit (should be blocked)
@@ -132,6 +146,7 @@ Set webhook URL to: `https://yourdomain.com/api/paypal/webhook`
 5. Verify unlimited access
 
 ### 5. Monitor and Optimize
+
 - Track conversion rates
 - Monitor payment failures
 - Analyze usage patterns
@@ -140,16 +155,19 @@ Set webhook URL to: `https://yourdomain.com/api/paypal/webhook`
 ## 🔧 Troubleshooting
 
 ### Payment Issues
+
 - **Card Declined**: Direct users to try different card or PayPal account
 - **Webhook Failures**: Check PayPal developer dashboard for errors
 - **Subscription Not Activated**: Verify database connection and API logs
 
 ### Access Issues
+
 - **Scenarios Blocked**: Check `daily_usage` table for current limits
 - **Subscription Not Recognized**: Verify `user_subscriptions` table status
 - **API Errors**: Check server logs for authentication issues
 
 ### Database Issues
+
 - **RLS Blocking Access**: Verify user authentication
 - **Missing Tables**: Re-run production schema SQL
 - **Performance**: Monitor query performance and add indexes if needed
@@ -157,16 +175,19 @@ Set webhook URL to: `https://yourdomain.com/api/paypal/webhook`
 ## 📈 Growth Strategy
 
 ### Phase 1: Launch (Week 1-2)
+
 - Deploy with current features
 - Monitor payment success rates
 - Fix any critical bugs
 
 ### Phase 2: Optimize (Week 3-4)
+
 - Analyze user behavior
 - A/B test pricing
 - Improve conversion funnel
 
 ### Phase 3: Scale (Month 2+)
+
 - Add new scenario packs
 - Implement referral system
 - Corporate/school licensing
@@ -174,11 +195,13 @@ Set webhook URL to: `https://yourdomain.com/api/paypal/webhook`
 ## 🎯 Success Metrics
 
 **Technical KPIs:**
+
 - Payment success rate > 95%
 - API response time < 200ms
 - Zero unauthorized access
 
 **Business KPIs:**
+
 - Free-to-paid conversion > 5%
 - Monthly churn rate < 10%
 - Average revenue per user > R40
@@ -186,6 +209,7 @@ Set webhook URL to: `https://yourdomain.com/api/paypal/webhook`
 ## 📞 Support
 
 For technical issues:
+
 1. Check server logs in hosting dashboard
 2. Verify database connectivity
 3. Test payment gateway status

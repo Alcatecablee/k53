@@ -115,15 +115,15 @@ async function setupTables() {
       answered_correctly BOOLEAN NOT NULL,
       time_taken INTEGER NOT NULL,
       completed_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
-    )`
+    )`,
   ];
 
   for (let i = 0; i < queries.length; i++) {
     try {
       console.log(`Creating table ${i + 1}/${queries.length}...`);
-      
-      const { error } = await supabase.rpc('exec_sql', { 
-        sql: queries[i] 
+
+      const { error } = await supabase.rpc("exec_sql", {
+        sql: queries[i],
       });
 
       if (error) {
@@ -161,24 +161,26 @@ async function executeDirectQuery(sql: string) {
     console.log("Attempting direct SQL execution...");
     // This is a workaround - in production you'd run this in Supabase SQL editor
   } catch (error) {
-    console.warn("Direct SQL execution failed. You may need to run the SQL manually in Supabase SQL Editor.");
+    console.warn(
+      "Direct SQL execution failed. You may need to run the SQL manually in Supabase SQL Editor.",
+    );
   }
 }
 
 async function setupRLS() {
   const rlsCommands = [
-    'ALTER TABLE public.user_subscriptions ENABLE ROW LEVEL SECURITY',
-    'ALTER TABLE public.daily_usage ENABLE ROW LEVEL SECURITY',
-    'ALTER TABLE public.payments ENABLE ROW LEVEL SECURITY',
-    'ALTER TABLE public.user_pack_purchases ENABLE ROW LEVEL SECURITY',
-    'ALTER TABLE public.user_progress ENABLE ROW LEVEL SECURITY',
-    'ALTER TABLE public.user_scenarios ENABLE ROW LEVEL SECURITY',
-    'ALTER TABLE public.scenario_packs ENABLE ROW LEVEL SECURITY',
+    "ALTER TABLE public.user_subscriptions ENABLE ROW LEVEL SECURITY",
+    "ALTER TABLE public.daily_usage ENABLE ROW LEVEL SECURITY",
+    "ALTER TABLE public.payments ENABLE ROW LEVEL SECURITY",
+    "ALTER TABLE public.user_pack_purchases ENABLE ROW LEVEL SECURITY",
+    "ALTER TABLE public.user_progress ENABLE ROW LEVEL SECURITY",
+    "ALTER TABLE public.user_scenarios ENABLE ROW LEVEL SECURITY",
+    "ALTER TABLE public.scenario_packs ENABLE ROW LEVEL SECURITY",
   ];
 
   for (const command of rlsCommands) {
     try {
-      await supabase.rpc('exec_sql', { sql: command });
+      await supabase.rpc("exec_sql", { sql: command });
     } catch (error) {
       console.warn("RLS setup note:", command);
     }
@@ -187,15 +189,15 @@ async function setupRLS() {
 
 async function createIndexes() {
   const indexes = [
-    'CREATE INDEX IF NOT EXISTS idx_user_subscriptions_user_id ON public.user_subscriptions(user_id)',
-    'CREATE INDEX IF NOT EXISTS idx_daily_usage_user_date ON public.daily_usage(user_id, date)',
-    'CREATE INDEX IF NOT EXISTS idx_payments_user_id ON public.payments(user_id)',
-    'CREATE INDEX IF NOT EXISTS idx_user_progress_user_id ON public.user_progress(user_id)',
+    "CREATE INDEX IF NOT EXISTS idx_user_subscriptions_user_id ON public.user_subscriptions(user_id)",
+    "CREATE INDEX IF NOT EXISTS idx_daily_usage_user_date ON public.daily_usage(user_id, date)",
+    "CREATE INDEX IF NOT EXISTS idx_payments_user_id ON public.payments(user_id)",
+    "CREATE INDEX IF NOT EXISTS idx_user_progress_user_id ON public.user_progress(user_id)",
   ];
 
   for (const index of indexes) {
     try {
-      await supabase.rpc('exec_sql', { sql: index });
+      await supabase.rpc("exec_sql", { sql: index });
     } catch (error) {
       console.warn("Index creation note:", index);
     }
@@ -206,28 +208,29 @@ async function insertDefaultData() {
   const packs = [
     {
       name: "Cape Town Coastal Pack",
-      description: "Coastal driving scenarios including baboon encounters and beach traffic",
+      description:
+        "Coastal driving scenarios including baboon encounters and beach traffic",
       location_region: "Western Cape",
       location_city: "Cape Town",
       scenario_count: 30,
-      price_cents: 3000
+      price_cents: 3000,
     },
     {
-      name: "Johannesburg Urban Pack", 
+      name: "Johannesburg Urban Pack",
       description: "City driving with taxi ranks and traffic complexities",
       location_region: "Gauteng",
       location_city: "Johannesburg",
       scenario_count: 28,
-      price_cents: 3000
-    }
+      price_cents: 3000,
+    },
   ];
 
   for (const pack of packs) {
     try {
       const { error } = await supabase
-        .from('scenario_packs')
-        .upsert(pack, { onConflict: 'name' });
-      
+        .from("scenario_packs")
+        .upsert(pack, { onConflict: "name" });
+
       if (error) {
         console.warn(`Scenario pack note: ${pack.name}`);
       } else {

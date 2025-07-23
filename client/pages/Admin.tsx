@@ -65,7 +65,8 @@ export default function Admin() {
         .eq("status", "completed")
         .catch(() => ({ data: [] }));
 
-      const totalRevenue = payments?.reduce((sum, p) => sum + p.amount_cents, 0) || 0;
+      const totalRevenue =
+        payments?.reduce((sum, p) => sum + p.amount_cents, 0) || 0;
 
       // Get today's signups (handle missing tables)
       const today = new Date().toISOString().split("T")[0];
@@ -76,14 +77,18 @@ export default function Admin() {
         .catch(() => ({ count: 0 }));
 
       // Calculate conversion rate (simplified)
-      const userProgressData = await supabase.from("user_progress").select("user_id").catch(() => ({ data: [] }));
+      const userProgressData = await supabase
+        .from("user_progress")
+        .select("user_id")
+        .catch(() => ({ data: [] }));
       const totalUniqueUsers = new Set(
-        userProgressData.data?.map(u => u.user_id) || []
+        userProgressData.data?.map((u) => u.user_id) || [],
       ).size;
-      
-      const conversionRate = totalUniqueUsers > 0 
-        ? ((activeSubscriptions || 0) / totalUniqueUsers) * 100 
-        : 0;
+
+      const conversionRate =
+        totalUniqueUsers > 0
+          ? ((activeSubscriptions || 0) / totalUniqueUsers) * 100
+          : 0;
 
       // Get recent payments (handle missing tables)
       const { data: recentPaymentsData } = await supabase
@@ -116,8 +121,12 @@ export default function Admin() {
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <Card className="border-2 border-red-300 bg-red-50 max-w-md">
           <CardContent className="p-8 text-center">
-            <h1 className="text-2xl font-bold text-red-800 mb-4">Access Denied</h1>
-            <p className="text-red-700 mb-6">You don't have permission to access this page.</p>
+            <h1 className="text-2xl font-bold text-red-800 mb-4">
+              Access Denied
+            </h1>
+            <p className="text-red-700 mb-6">
+              You don't have permission to access this page.
+            </p>
             <Button asChild className="bg-red-600 hover:bg-red-700">
               <Link to="/">Return Home</Link>
             </Button>
@@ -164,7 +173,10 @@ export default function Admin() {
               </p>
             </div>
 
-            <Button onClick={loadDashboardData} className="bg-white text-slate-900">
+            <Button
+              onClick={loadDashboardData}
+              className="bg-white text-slate-900"
+            >
               Refresh Data
             </Button>
           </div>
@@ -197,7 +209,9 @@ export default function Admin() {
               <CreditCard className="h-4 w-4 text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats?.activeSubscriptions || 0}</div>
+              <div className="text-2xl font-bold">
+                {stats?.activeSubscriptions || 0}
+              </div>
               <p className="text-xs text-slate-400">
                 {stats?.conversionRate.toFixed(1)}% conversion rate
               </p>
@@ -215,9 +229,7 @@ export default function Admin() {
               <div className="text-2xl font-bold">
                 {formatPrice(stats?.totalRevenue || 0)}
               </div>
-              <p className="text-xs text-slate-400">
-                Lifetime earnings
-              </p>
+              <p className="text-xs text-slate-400">Lifetime earnings</p>
             </CardContent>
           </Card>
 
@@ -229,10 +241,10 @@ export default function Admin() {
               <TrendingUp className="h-4 w-4 text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats?.todaySignups || 0}</div>
-              <p className="text-xs text-slate-400">
-                New users today
-              </p>
+              <div className="text-2xl font-bold">
+                {stats?.todaySignups || 0}
+              </div>
+              <p className="text-xs text-slate-400">New users today</p>
             </CardContent>
           </Card>
         </div>
@@ -248,7 +260,8 @@ export default function Admin() {
             <div className="space-y-4">
               {recentPayments.length === 0 ? (
                 <p className="text-slate-400 text-center py-8">
-                  No payments yet. Payments will appear here once users subscribe.
+                  No payments yet. Payments will appear here once users
+                  subscribe.
                 </p>
               ) : (
                 recentPayments.map((payment) => (
@@ -319,7 +332,9 @@ export default function Admin() {
               </div>
               <div>
                 <h3 className="font-semibold mb-3">Payment Gateway</h3>
-                <Badge className="bg-green-600 text-white">PayPal Connected</Badge>
+                <Badge className="bg-green-600 text-white">
+                  PayPal Connected
+                </Badge>
               </div>
             </div>
           </CardContent>

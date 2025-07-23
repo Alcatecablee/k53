@@ -60,7 +60,7 @@ export function PayPalCheckout({
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.error || "Failed to create order");
       }
@@ -91,7 +91,7 @@ export function PayPalCheckout({
       });
 
       const details = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(details.error || "Failed to capture payment");
       }
@@ -110,12 +110,14 @@ export function PayPalCheckout({
       <Card className="border-2 border-red-300 bg-red-50">
         <CardContent className="p-6 text-center">
           <AlertCircle className="h-8 w-8 text-red-600 mx-auto mb-3" />
-          <h3 className="font-bold text-red-800 mb-2">Payment System Unavailable</h3>
+          <h3 className="font-bold text-red-800 mb-2">
+            Payment System Unavailable
+          </h3>
           <p className="text-red-700 text-sm mb-3">
             PayPal configuration is missing. Please contact support.
           </p>
           <p className="text-xs text-red-600">
-            Debug: Client ID {env.paypal.clientId ? 'present' : 'missing'}
+            Debug: Client ID {env.paypal.clientId ? "present" : "missing"}
           </p>
         </CardContent>
       </Card>
@@ -153,7 +155,7 @@ export function PayPalCheckout({
                   Recommended for SA
                 </Badge>
               </div>
-              
+
               <Button
                 onClick={() => setShowPayPal(true)}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold"
@@ -162,7 +164,7 @@ export function PayPalCheckout({
                 <CreditCard className="h-5 w-5 mr-2" />
                 Pay with Card (Debit/Credit)
               </Button>
-              
+
               <p className="text-xs text-slate-600 text-center">
                 Secure payment processed by PayPal. No PayPal account required.
               </p>
@@ -174,7 +176,7 @@ export function PayPalCheckout({
                 <div className="flex items-center space-x-2 mb-2">
                   <span className="text-sm text-slate-600">Or use:</span>
                 </div>
-                
+
                 <Button
                   onClick={() => setShowPayPal(true)}
                   variant="outline"
@@ -195,7 +197,9 @@ export function PayPalCheckout({
         <Card className="border-2 border-black bg-white">
           <CardContent className="p-6">
             <div className="text-center mb-4">
-              <h3 className="font-semibold text-slate-900 mb-2">Complete Your Payment</h3>
+              <h3 className="font-semibold text-slate-900 mb-2">
+                Complete Your Payment
+              </h3>
               <p className="text-sm text-slate-600">
                 Choose your preferred payment method below
               </p>

@@ -10,14 +10,17 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 const requireAuth: RequestHandler = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ error: "No authorization token provided" });
     }
 
     const token = authHeader.substring(7);
 
     // Validate JWT token with Supabase
-    const { data: { user }, error } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser(token);
 
     if (error) {
       console.error("Token validation error:", error);
@@ -57,14 +60,15 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
     }
 
     // Check if user has active subscription
-    const isSubscribed = subscription?.plan_type !== "free" && subscription?.status === "active";
+    const isSubscribed =
+      subscription?.plan_type !== "free" && subscription?.status === "active";
 
     if (isSubscribed) {
-      return res.json({ 
-        allowed: true, 
-        remaining: -1, 
+      return res.json({
+        allowed: true,
+        remaining: -1,
         isSubscribed: true,
-        plan: subscription.plan_type 
+        plan: subscription.plan_type,
       });
     }
 
@@ -106,7 +110,10 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
       currentUsage = newUsage;
     }
 
-    const remaining = Math.max(0, currentUsage.max_scenarios - currentUsage.scenarios_used);
+    const remaining = Math.max(
+      0,
+      currentUsage.max_scenarios - currentUsage.scenarios_used,
+    );
 
     res.json({
       allowed: remaining > 0,
@@ -115,7 +122,6 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
       used: currentUsage.scenarios_used,
       max: currentUsage.max_scenarios,
     });
-
   } catch (error) {
     console.error("Validate scenario access error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -141,7 +147,7 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
     });
 
     if (!validationResponse.allowed) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         error: "Daily scenario limit reached",
         remaining: validationResponse.remaining,
         isSubscribed: validationResponse.isSubscribed,
@@ -150,10 +156,10 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
 
     // If user has unlimited access, no need to track usage
     if (validationResponse.isSubscribed) {
-      return res.json({ 
-        success: true, 
-        remaining: -1, 
-        message: "Unlimited access" 
+      return res.json({
+        success: true,
+        remaining: -1,
+        message: "Unlimited access",
       });
     }
 
@@ -186,7 +192,10 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
       return res.status(500).json({ error: "Database error" });
     }
 
-    const remaining = Math.max(0, updatedUsage.max_scenarios - updatedUsage.scenarios_used);
+    const remaining = Math.max(
+      0,
+      updatedUsage.max_scenarios - updatedUsage.scenarios_used,
+    );
 
     res.json({
       success: true,
@@ -194,7 +203,6 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
       used: updatedUsage.scenarios_used,
       max: updatedUsage.max_scenarios,
     });
-
   } catch (error) {
     console.error("Record scenario usage error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -229,12 +237,13 @@ export const getUserSubscriptionDetails: RequestHandler = async (req, res) => {
         currency: "ZAR",
         billing_cycle: "monthly",
         current_period_start: new Date().toISOString(),
-        current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        current_period_end: new Date(
+          Date.now() + 30 * 24 * 60 * 60 * 1000,
+        ).toISOString(),
       });
     }
 
     res.json(subscription);
-
   } catch (error) {
     console.error("Get subscription details error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -250,7 +259,7 @@ export const getUserUsageStats: RequestHandler = async (req, res) => {
     }
 
     const today = new Date().toISOString().split("T")[0];
-    
+
     // Get today's usage
     const { data: todayUsage, error: todayError } = await supabase
       .from("daily_usage")
@@ -267,7 +276,7 @@ export const getUserUsageStats: RequestHandler = async (req, res) => {
     // Get usage history (last 30 days)
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    
+
     const { data: usageHistory, error: historyError } = await supabase
       .from("daily_usage")
       .select("*")
@@ -281,9 +290,12 @@ export const getUserUsageStats: RequestHandler = async (req, res) => {
     }
 
     // Calculate statistics
-    const totalScenarios = usageHistory?.reduce((sum, day) => sum + day.scenarios_used, 0) || 0;
-    const totalQuestions = usageHistory?.reduce((sum, day) => sum + day.questions_used, 0) || 0;
-    const averageDaily = usageHistory?.length > 0 ? totalScenarios / usageHistory.length : 0;
+    const totalScenarios =
+      usageHistory?.reduce((sum, day) => sum + day.scenarios_used, 0) || 0;
+    const totalQuestions =
+      usageHistory?.reduce((sum, day) => sum + day.questions_used, 0) || 0;
+    const averageDaily =
+      usageHistory?.length > 0 ? totalScenarios / usageHistory.length : 0;
 
     res.json({
       today: {
@@ -291,7 +303,10 @@ export const getUserUsageStats: RequestHandler = async (req, res) => {
         questions_used: todayUsage?.questions_used || 0,
         max_scenarios: todayUsage?.max_scenarios || 5,
         max_questions: todayUsage?.max_questions || 10,
-        scenarios_remaining: Math.max(0, (todayUsage?.max_scenarios || 5) - (todayUsage?.scenarios_used || 0)),
+        scenarios_remaining: Math.max(
+          0,
+          (todayUsage?.max_scenarios || 5) - (todayUsage?.scenarios_used || 0),
+        ),
       },
       last30Days: {
         total_scenarios: totalScenarios,
@@ -301,7 +316,6 @@ export const getUserUsageStats: RequestHandler = async (req, res) => {
       },
       history: usageHistory || [],
     });
-
   } catch (error) {
     console.error("Get usage stats error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -309,7 +323,16 @@ export const getUserUsageStats: RequestHandler = async (req, res) => {
 };
 
 // Apply auth middleware to all routes that need it
-export const authenticatedValidateScenarioAccess = [requireAuth, validateScenarioAccess];
-export const authenticatedRecordScenarioUsage = [requireAuth, recordScenarioUsage];
-export const authenticatedGetUserSubscriptionDetails = [requireAuth, getUserSubscriptionDetails];
+export const authenticatedValidateScenarioAccess = [
+  requireAuth,
+  validateScenarioAccess,
+];
+export const authenticatedRecordScenarioUsage = [
+  requireAuth,
+  recordScenarioUsage,
+];
+export const authenticatedGetUserSubscriptionDetails = [
+  requireAuth,
+  getUserSubscriptionDetails,
+];
 export const authenticatedGetUserUsageStats = [requireAuth, getUserUsageStats];

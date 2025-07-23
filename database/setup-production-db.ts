@@ -13,7 +13,7 @@ if (!supabaseUrl || !supabaseServiceKey) {
   console.error(
     "Missing required environment variables for database setup:\n" +
       "- VITE_SUPABASE_URL\n" +
-      "- SUPABASE_SERVICE_ROLE_KEY\n"
+      "- SUPABASE_SERVICE_ROLE_KEY\n",
   );
   process.exit(1);
 }
@@ -25,7 +25,9 @@ async function executeSQL(sql: string, description: string) {
     console.log(`Creating ${description}...`);
     const { error } = await supabase.rpc("exec_sql", { sql });
     if (error) {
-      console.warn(`Note: ${description} may already exist or need manual creation`);
+      console.warn(
+        `Note: ${description} may already exist or need manual creation`,
+      );
       console.log("SQL:", sql);
     } else {
       console.log(`✅ ${description} created successfully`);
@@ -39,7 +41,8 @@ async function setupProductionDatabase() {
   console.log("🚀 Setting up production database schema...\n");
 
   // 1. User Subscriptions Table
-  await executeSQL(`
+  await executeSQL(
+    `
     CREATE TABLE IF NOT EXISTS public.user_subscriptions (
       id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -57,10 +60,13 @@ async function setupProductionDatabase() {
       updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
       UNIQUE(user_id)
     );
-  `, "user_subscriptions table");
+  `,
+    "user_subscriptions table",
+  );
 
   // 2. Daily Usage Tracking
-  await executeSQL(`
+  await executeSQL(
+    `
     CREATE TABLE IF NOT EXISTS public.daily_usage (
       id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -73,10 +79,13 @@ async function setupProductionDatabase() {
       updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
       UNIQUE(user_id, date)
     );
-  `, "daily_usage table");
+  `,
+    "daily_usage table",
+  );
 
   // 3. Payment Records
-  await executeSQL(`
+  await executeSQL(
+    `
     CREATE TABLE IF NOT EXISTS public.payments (
       id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -93,10 +102,13 @@ async function setupProductionDatabase() {
       created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
       updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
     );
-  `, "payments table");
+  `,
+    "payments table",
+  );
 
   // 4. Scenario Packs
-  await executeSQL(`
+  await executeSQL(
+    `
     CREATE TABLE IF NOT EXISTS public.scenario_packs (
       id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       name TEXT NOT NULL,
@@ -112,10 +124,13 @@ async function setupProductionDatabase() {
       created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
       updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
     );
-  `, "scenario_packs table");
+  `,
+    "scenario_packs table",
+  );
 
   // 5. User Pack Purchases
-  await executeSQL(`
+  await executeSQL(
+    `
     CREATE TABLE IF NOT EXISTS public.user_pack_purchases (
       id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -126,10 +141,13 @@ async function setupProductionDatabase() {
       purchased_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
       UNIQUE(user_id, pack_id)
     );
-  `, "user_pack_purchases table");
+  `,
+    "user_pack_purchases table",
+  );
 
   // 6. Update existing user_progress table
-  await executeSQL(`
+  await executeSQL(
+    `
     CREATE TABLE IF NOT EXISTS public.user_progress (
       id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -143,10 +161,13 @@ async function setupProductionDatabase() {
       created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
       updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
     );
-  `, "user_progress table");
+  `,
+    "user_progress table",
+  );
 
   // 7. User Scenarios (individual scenario attempts)
-  await executeSQL(`
+  await executeSQL(
+    `
     CREATE TABLE IF NOT EXISTS public.user_scenarios (
       id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -155,7 +176,9 @@ async function setupProductionDatabase() {
       time_taken INTEGER NOT NULL,
       completed_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
     );
-  `, "user_scenarios table");
+  `,
+    "user_scenarios table",
+  );
 
   // 8. Create RLS policies
   console.log("\n🔒 Setting up Row Level Security policies...");
@@ -164,67 +187,67 @@ async function setupProductionDatabase() {
     {
       table: "user_subscriptions",
       policies: [
-        "DROP POLICY IF EXISTS \"Users can view own subscription\" ON public.user_subscriptions",
-        "DROP POLICY IF EXISTS \"Users can insert own subscription\" ON public.user_subscriptions",
-        "DROP POLICY IF EXISTS \"Users can update own subscription\" ON public.user_subscriptions",
+        'DROP POLICY IF EXISTS "Users can view own subscription" ON public.user_subscriptions',
+        'DROP POLICY IF EXISTS "Users can insert own subscription" ON public.user_subscriptions',
+        'DROP POLICY IF EXISTS "Users can update own subscription" ON public.user_subscriptions',
         "ALTER TABLE public.user_subscriptions ENABLE ROW LEVEL SECURITY",
-        "CREATE POLICY \"Users can view own subscription\" ON public.user_subscriptions FOR SELECT USING (auth.uid() = user_id)",
-        "CREATE POLICY \"Users can insert own subscription\" ON public.user_subscriptions FOR INSERT WITH CHECK (auth.uid() = user_id)",
-        "CREATE POLICY \"Users can update own subscription\" ON public.user_subscriptions FOR UPDATE USING (auth.uid() = user_id)"
-      ]
+        'CREATE POLICY "Users can view own subscription" ON public.user_subscriptions FOR SELECT USING (auth.uid() = user_id)',
+        'CREATE POLICY "Users can insert own subscription" ON public.user_subscriptions FOR INSERT WITH CHECK (auth.uid() = user_id)',
+        'CREATE POLICY "Users can update own subscription" ON public.user_subscriptions FOR UPDATE USING (auth.uid() = user_id)',
+      ],
     },
     {
       table: "daily_usage",
       policies: [
-        "DROP POLICY IF EXISTS \"Users can view own usage\" ON public.daily_usage",
-        "DROP POLICY IF EXISTS \"Users can insert own usage\" ON public.daily_usage",
-        "DROP POLICY IF EXISTS \"Users can update own usage\" ON public.daily_usage",
+        'DROP POLICY IF EXISTS "Users can view own usage" ON public.daily_usage',
+        'DROP POLICY IF EXISTS "Users can insert own usage" ON public.daily_usage',
+        'DROP POLICY IF EXISTS "Users can update own usage" ON public.daily_usage',
         "ALTER TABLE public.daily_usage ENABLE ROW LEVEL SECURITY",
-        "CREATE POLICY \"Users can view own usage\" ON public.daily_usage FOR SELECT USING (auth.uid() = user_id)",
-        "CREATE POLICY \"Users can insert own usage\" ON public.daily_usage FOR INSERT WITH CHECK (auth.uid() = user_id)",
-        "CREATE POLICY \"Users can update own usage\" ON public.daily_usage FOR UPDATE USING (auth.uid() = user_id)"
-      ]
+        'CREATE POLICY "Users can view own usage" ON public.daily_usage FOR SELECT USING (auth.uid() = user_id)',
+        'CREATE POLICY "Users can insert own usage" ON public.daily_usage FOR INSERT WITH CHECK (auth.uid() = user_id)',
+        'CREATE POLICY "Users can update own usage" ON public.daily_usage FOR UPDATE USING (auth.uid() = user_id)',
+      ],
     },
     {
       table: "payments",
       policies: [
-        "DROP POLICY IF EXISTS \"Users can view own payments\" ON public.payments",
-        "DROP POLICY IF EXISTS \"Users can insert own payments\" ON public.payments",
+        'DROP POLICY IF EXISTS "Users can view own payments" ON public.payments',
+        'DROP POLICY IF EXISTS "Users can insert own payments" ON public.payments',
         "ALTER TABLE public.payments ENABLE ROW LEVEL SECURITY",
-        "CREATE POLICY \"Users can view own payments\" ON public.payments FOR SELECT USING (auth.uid() = user_id)",
-        "CREATE POLICY \"Users can insert own payments\" ON public.payments FOR INSERT WITH CHECK (auth.uid() = user_id)"
-      ]
+        'CREATE POLICY "Users can view own payments" ON public.payments FOR SELECT USING (auth.uid() = user_id)',
+        'CREATE POLICY "Users can insert own payments" ON public.payments FOR INSERT WITH CHECK (auth.uid() = user_id)',
+      ],
     },
     {
       table: "user_pack_purchases",
       policies: [
-        "DROP POLICY IF EXISTS \"Users can view own purchases\" ON public.user_pack_purchases",
-        "DROP POLICY IF EXISTS \"Users can insert own purchases\" ON public.user_pack_purchases",
+        'DROP POLICY IF EXISTS "Users can view own purchases" ON public.user_pack_purchases',
+        'DROP POLICY IF EXISTS "Users can insert own purchases" ON public.user_pack_purchases',
         "ALTER TABLE public.user_pack_purchases ENABLE ROW LEVEL SECURITY",
-        "CREATE POLICY \"Users can view own purchases\" ON public.user_pack_purchases FOR SELECT USING (auth.uid() = user_id)",
-        "CREATE POLICY \"Users can insert own purchases\" ON public.user_pack_purchases FOR INSERT WITH CHECK (auth.uid() = user_id)"
-      ]
+        'CREATE POLICY "Users can view own purchases" ON public.user_pack_purchases FOR SELECT USING (auth.uid() = user_id)',
+        'CREATE POLICY "Users can insert own purchases" ON public.user_pack_purchases FOR INSERT WITH CHECK (auth.uid() = user_id)',
+      ],
     },
     {
       table: "user_progress",
       policies: [
-        "DROP POLICY IF EXISTS \"Users can view own progress\" ON public.user_progress",
-        "DROP POLICY IF EXISTS \"Users can insert own progress\" ON public.user_progress",
+        'DROP POLICY IF EXISTS "Users can view own progress" ON public.user_progress',
+        'DROP POLICY IF EXISTS "Users can insert own progress" ON public.user_progress',
         "ALTER TABLE public.user_progress ENABLE ROW LEVEL SECURITY",
-        "CREATE POLICY \"Users can view own progress\" ON public.user_progress FOR SELECT USING (auth.uid() = user_id)",
-        "CREATE POLICY \"Users can insert own progress\" ON public.user_progress FOR INSERT WITH CHECK (auth.uid() = user_id)"
-      ]
+        'CREATE POLICY "Users can view own progress" ON public.user_progress FOR SELECT USING (auth.uid() = user_id)',
+        'CREATE POLICY "Users can insert own progress" ON public.user_progress FOR INSERT WITH CHECK (auth.uid() = user_id)',
+      ],
     },
     {
       table: "user_scenarios",
       policies: [
-        "DROP POLICY IF EXISTS \"Users can view own scenarios\" ON public.user_scenarios",
-        "DROP POLICY IF EXISTS \"Users can insert own scenarios\" ON public.user_scenarios",
+        'DROP POLICY IF EXISTS "Users can view own scenarios" ON public.user_scenarios',
+        'DROP POLICY IF EXISTS "Users can insert own scenarios" ON public.user_scenarios',
         "ALTER TABLE public.user_scenarios ENABLE ROW LEVEL SECURITY",
-        "CREATE POLICY \"Users can view own scenarios\" ON public.user_scenarios FOR SELECT USING (auth.uid() = user_id)",
-        "CREATE POLICY \"Users can insert own scenarios\" ON public.user_scenarios FOR INSERT WITH CHECK (auth.uid() = user_id)"
-      ]
-    }
+        'CREATE POLICY "Users can view own scenarios" ON public.user_scenarios FOR SELECT USING (auth.uid() = user_id)',
+        'CREATE POLICY "Users can insert own scenarios" ON public.user_scenarios FOR INSERT WITH CHECK (auth.uid() = user_id)',
+      ],
+    },
   ];
 
   for (const { table, policies } of rlsPolicies) {
@@ -243,7 +266,7 @@ async function setupProductionDatabase() {
 
   // 9. Create indexes for performance
   console.log("\n⚡ Creating database indexes...");
-  
+
   const indexes = [
     "CREATE INDEX IF NOT EXISTS idx_user_subscriptions_user_id ON public.user_subscriptions(user_id)",
     "CREATE INDEX IF NOT EXISTS idx_user_subscriptions_status ON public.user_subscriptions(status)",
@@ -252,7 +275,7 @@ async function setupProductionDatabase() {
     "CREATE INDEX IF NOT EXISTS idx_payments_subscription_id ON public.payments(subscription_id)",
     "CREATE INDEX IF NOT EXISTS idx_user_progress_user_id ON public.user_progress(user_id)",
     "CREATE INDEX IF NOT EXISTS idx_user_scenarios_user_id ON public.user_scenarios(user_id)",
-    "CREATE INDEX IF NOT EXISTS idx_user_pack_purchases_user_id ON public.user_pack_purchases(user_id)"
+    "CREATE INDEX IF NOT EXISTS idx_user_pack_purchases_user_id ON public.user_pack_purchases(user_id)",
   ];
 
   for (const index of indexes) {
@@ -268,37 +291,38 @@ async function setupProductionDatabase() {
 
   // 10. Insert default scenario packs
   console.log("\n📦 Setting up default scenario packs...");
-  
+
   const defaultPacks = [
     {
       name: "Cape Town Coastal Pack",
-      description: "Coastal driving scenarios including baboon encounters and beach traffic",
+      description:
+        "Coastal driving scenarios including baboon encounters and beach traffic",
       location_region: "Western Cape",
       location_city: "Cape Town",
       scenario_count: 30,
       price_cents: 3000,
       scenario_ids: [],
-      preview_scenarios: []
+      preview_scenarios: [],
     },
     {
-      name: "Johannesburg Urban Pack", 
+      name: "Johannesburg Urban Pack",
       description: "City driving with taxi ranks and traffic complexities",
       location_region: "Gauteng",
       location_city: "Johannesburg",
       scenario_count: 28,
       price_cents: 3000,
       scenario_ids: [],
-      preview_scenarios: []
+      preview_scenarios: [],
     },
     {
       name: "Tembisa Township Pack",
       description: "Real-world scenarios from Tembisa and surrounding areas",
-      location_region: "Gauteng", 
+      location_region: "Gauteng",
       location_city: "Tembisa",
       scenario_count: 25,
       price_cents: 2500,
       scenario_ids: [],
-      preview_scenarios: []
+      preview_scenarios: [],
     },
     {
       name: "Rural Roads Pack",
@@ -308,18 +332,18 @@ async function setupProductionDatabase() {
       scenario_count: 20,
       price_cents: 2000,
       scenario_ids: [],
-      preview_scenarios: []
+      preview_scenarios: [],
     },
     {
       name: "Durban Coastal Pack",
       description: "Beach traffic, holiday crowds, and coastal conditions",
       location_region: "KwaZulu-Natal",
-      location_city: "Durban", 
+      location_city: "Durban",
       scenario_count: 22,
       price_cents: 2500,
       scenario_ids: [],
-      preview_scenarios: []
-    }
+      preview_scenarios: [],
+    },
   ];
 
   for (const pack of defaultPacks) {
@@ -327,9 +351,11 @@ async function setupProductionDatabase() {
       const { error } = await supabase
         .from("scenario_packs")
         .upsert(pack, { onConflict: "name" });
-      
+
       if (error) {
-        console.warn(`Scenario pack note: ${pack.name} may need manual creation`);
+        console.warn(
+          `Scenario pack note: ${pack.name} may need manual creation`,
+        );
       } else {
         console.log(`✅ Created scenario pack: ${pack.name}`);
       }

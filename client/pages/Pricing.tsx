@@ -71,7 +71,9 @@ function PricingComponent() {
 
   const handlePaymentSuccess = async (details: any) => {
     console.log("Payment successful:", details);
-    setPaymentSuccess(`Payment successful! Your ${details.planId} subscription is now active.`);
+    setPaymentSuccess(
+      `Payment successful! Your ${details.planId} subscription is now active.`,
+    );
     setSelectedPlan(null);
 
     // Refresh subscription data
@@ -161,7 +163,9 @@ function PricingComponent() {
             <Card className="border-2 border-green-300 bg-green-50 mb-8 max-w-2xl mx-auto">
               <CardContent className="p-6 text-center">
                 <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                <h3 className="font-bold text-green-800 mb-2">Payment Successful!</h3>
+                <h3 className="font-bold text-green-800 mb-2">
+                  Payment Successful!
+                </h3>
                 <p className="text-green-700">{paymentSuccess}</p>
               </CardContent>
             </Card>
@@ -264,7 +268,10 @@ function PricingComponent() {
 
                     <Button
                       onClick={() => handleSubscribe(plan.id)}
-                      disabled={currentSubscription?.plan_type === plan.id || plan.id === "free"}
+                      disabled={
+                        currentSubscription?.plan_type === plan.id ||
+                        plan.id === "free"
+                      }
                       className={`w-full ${
                         plan.popular
                           ? "bg-orange-600 hover:bg-orange-700 text-white"
@@ -371,7 +378,11 @@ function PricingComponent() {
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold text-slate-900">
-                      Subscribe to {SUBSCRIPTION_PLANS.find(p => p.id === selectedPlan)?.name}
+                      Subscribe to{" "}
+                      {
+                        SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
+                          ?.name
+                      }
                     </h2>
                     <Button
                       variant="ghost"
@@ -384,8 +395,14 @@ function PricingComponent() {
 
                   <PayPalCheckout
                     planId={selectedPlan}
-                    planName={SUBSCRIPTION_PLANS.find(p => p.id === selectedPlan)?.name || ""}
-                    amount={SUBSCRIPTION_PLANS.find(p => p.id === selectedPlan)?.price_cents || 0}
+                    planName={
+                      SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
+                        ?.name || ""
+                    }
+                    amount={
+                      SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
+                        ?.price_cents || 0
+                    }
                     currency="ZAR"
                     onSuccess={handlePaymentSuccess}
                     onError={handlePaymentError}

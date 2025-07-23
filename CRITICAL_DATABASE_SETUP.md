@@ -1,20 +1,24 @@
 # 🚨 CRITICAL: Database Setup Required
 
 ## Current Status
+
 Your SuperK53 app is **production-ready** but the database tables need to be created manually in Supabase.
 
 ## Why Demo Mode is Showing
+
 The app shows "Demo Mode Active" because while Supabase connection works, the production tables don't exist yet.
 
 ## ✅ IMMEDIATE FIX (5 minutes)
 
 ### Step 1: Open Supabase SQL Editor
+
 1. Go to your Supabase project: https://supabase.com/dashboard/projects
 2. Find your project: `lxzwakeusanxquhshcph`
 3. Click **SQL Editor** in the left sidebar
 4. Click **New Query**
 
 ### Step 2: Copy & Paste SQL
+
 Copy the ENTIRE SQL from `database/supabase-setup.sql` and paste it into the Supabase SQL Editor:
 
 Alternatively, copy the SQL below:
@@ -194,7 +198,7 @@ CREATE INDEX IF NOT EXISTS idx_user_pack_purchases_user_id ON public.user_pack_p
 
 -- 11. Insert default scenario packs
 INSERT INTO public.scenario_packs (name, description, location_region, location_city, scenario_count, price_cents, scenario_ids, preview_scenarios)
-VALUES 
+VALUES
   ('Cape Town Coastal Pack', 'Coastal driving scenarios including baboon encounters and beach traffic', 'Western Cape', 'Cape Town', 30, 3000, '[]', '[]'),
   ('Johannesburg Urban Pack', 'City driving with taxi ranks and traffic complexities', 'Gauteng', 'Johannesburg', 28, 3000, '[]', '[]'),
   ('Tembisa Township Pack', 'Real-world scenarios from Tembisa and surrounding areas', 'Gauteng', 'Tembisa', 25, 2500, '[]', '[]'),
@@ -207,18 +211,22 @@ SELECT 'SuperK53 production database schema setup completed successfully!' AS st
 ```
 
 ### Step 3: Run the Query
+
 1. Click the **RUN** button (or press Ctrl+Enter)
 2. Wait for it to complete
 3. You should see "SuperK53 production database schema setup completed successfully!"
 
 ### Step 4: Refresh Your App
+
 1. Go back to your SuperK53 app
 2. Refresh the page
 3. The "Demo Mode" warning should disappear
 4. All payment and subscription features will now work!
 
 ## ✅ Verification
+
 After running the SQL, your app will have:
+
 - ✅ Real payment processing through PayPal
 - ✅ Subscription management and enforcement
 - ✅ User progress tracking
@@ -226,10 +234,13 @@ After running the SQL, your app will have:
 - ✅ Security policies protecting user data
 
 ## 🚀 Ready for Business!
+
 Once the database is set up, your SuperK53 app is **100% production-ready** and can start generating revenue immediately.
 
 ## 📞 Need Help?
+
 If you encounter any issues:
+
 1. Check the Supabase logs for error details
 2. Ensure you're using the correct project (lxzwakeusanxquhshcph)
 3. Verify you have admin access to the Supabase project
