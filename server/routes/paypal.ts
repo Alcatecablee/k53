@@ -2,9 +2,9 @@ import { RequestHandler } from "express";
 import { createClient } from "@supabase/supabase-js";
 
 // PayPal API configuration
-const PAYPAL_CLIENT_ID = process.env.VITE_PAYPAL_CLIENT_ID;
+const PAYPAL_CLIENT_ID = process.env.VITE_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
-const PAYPAL_ENVIRONMENT = process.env.VITE_PAYPAL_ENVIRONMENT || "sandbox";
+const PAYPAL_ENVIRONMENT = process.env.VITE_PAYPAL_ENVIRONMENT || process.env.PAYPAL_ENVIRONMENT || "sandbox";
 
 const PAYPAL_BASE_URL = PAYPAL_ENVIRONMENT === "production" 
   ? "https://api-m.paypal.com"
