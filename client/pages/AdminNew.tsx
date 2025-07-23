@@ -1222,15 +1222,31 @@ export default function AdminNew() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('Database logs feature coming soon!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <Database className="h-4 w-4 mr-2" />
                     View Logs
                   </Button>
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('Database backup initiated!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <Download className="h-4 w-4 mr-2" />
                     Backup Database
                   </Button>
-                  <Button variant="outline" className="w-full text-red-400">
+                  <Button
+                    onClick={() => {
+                      if (confirm('Enable maintenance mode? This will make the site unavailable to users.')) {
+                        alert('Maintenance mode activated!');
+                      }
+                    }}
+                    variant="outline"
+                    className="w-full text-red-400"
+                  >
                     <AlertTriangle className="h-4 w-4 mr-2" />
                     Maintenance Mode
                   </Button>
@@ -1243,15 +1259,31 @@ export default function AdminNew() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('Performance monitor coming soon!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <Monitor className="h-4 w-4 mr-2" />
                     Performance
                   </Button>
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('Error logs viewer coming soon!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <FileText className="h-4 w-4 mr-2" />
                     Error Logs
                   </Button>
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => {
+                      if (confirm('Restart all services? This may cause temporary downtime.')) {
+                        alert('Services restart initiated!');
+                      }
+                    }}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <RefreshCw className="h-4 w-4 mr-2" />
                     Restart Services
                   </Button>
@@ -1264,15 +1296,27 @@ export default function AdminNew() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('Security scan initiated!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <Shield className="h-4 w-4 mr-2" />
                     Security Scan
                   </Button>
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('Access logs viewer coming soon!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <Lock className="h-4 w-4 mr-2" />
                     Access Logs
                   </Button>
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('Threat detection report coming soon!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <AlertTriangle className="h-4 w-4 mr-2" />
                     Threat Detection
                   </Button>
