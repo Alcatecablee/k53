@@ -12,6 +12,12 @@ interface K53Scenario {
   timeOfDay?: "morning" | "afternoon" | "evening" | "night";
   weather?: "clear" | "rain" | "fog" | "wind" | "snow";
   language: "en" | "af" | "zu";
+  location?: {
+    cities?: string[]; // Cities where this scenario is most relevant
+    regions?: string[]; // Regions where this scenario applies
+    landmarks?: string[]; // Notable landmarks or road types
+    specificity?: "city" | "region" | "national"; // How specific the scenario is
+  };
 }
 
 export const k53ScenarioBank: K53Scenario[] = [
