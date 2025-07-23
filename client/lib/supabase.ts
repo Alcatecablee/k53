@@ -53,16 +53,26 @@ export interface UserScenario {
 
 // Helper function to get current user
 export const getCurrentUser = async () => {
-  const { supabase } = await import("./supabaseWrapper");
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
+  try {
+    const { supabase } = await import("./supabaseWrapper");
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    return user;
+  } catch (error) {
+    console.warn("Error getting current user:", error);
+    return null;
+  }
 };
 
 // Helper function to sign out
 export const signOut = async () => {
-  const { supabase } = await import("./supabaseWrapper");
-  const { error } = await supabase.auth.signOut();
-  return { error };
+  try {
+    const { supabase } = await import("./supabaseWrapper");
+    const { error } = await supabase.auth.signOut();
+    return { error };
+  } catch (error) {
+    console.warn("Error signing out:", error);
+    return { error: error as Error };
+  }
 };
