@@ -432,6 +432,9 @@ export default function Index() {
                           <div className="mt-2 text-sm text-slate-400">
                             28 Questions • Minimum Pass: 22/28 (79%)
                           </div>
+                          <div className="mt-2 bg-white text-slate-900 px-2 py-1 text-xs font-bold uppercase tracking-wide inline-block">
+                            Free unlimited
+                          </div>
                         </div>
                       </div>
                       <div className="text-right">
