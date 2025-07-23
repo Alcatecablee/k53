@@ -345,7 +345,7 @@ export default function Practice() {
                         Real Situations
                       </div>
                       <div className="text-xs text-white/80 mb-4 uppercase tracking-wide">
-                        Duration: ~45 Minutes
+                        Duration: ~75 Minutes
                       </div>
                       <p className="text-white/90 mb-4 text-sm leading-relaxed">
                         AI-generated real-world driving scenarios unique to South Africa.
