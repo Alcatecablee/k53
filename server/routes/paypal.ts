@@ -57,9 +57,14 @@ export const createPayPalOrder: RequestHandler = async (req, res) => {
       return res.status(400).json({ error: "Invalid plan ID" });
     }
 
-    // Validate amount matches plan price (in USD equivalent for PayPal)
-    // Note: For ZAR, we'll need to convert or use USD equivalent
-    const usdAmount = currency === "ZAR" ? (parseFloat(amount) * 0.055).toFixed(2) : amount;
+    // PayPal supports ZAR directly, no conversion needed
+    const paypalAmount = parseFloat(amount).toFixed(2);
+    const paypalCurrency = currency === "ZAR" ? "USD" : currency; // Use USD for broader compatibility
+
+    // Convert ZAR to USD for PayPal (dynamic rate would be better in production)
+    const finalAmount = currency === "ZAR"
+      ? (parseFloat(amount) * 0.055).toFixed(2) // R50 ≈ $2.75, R120 ≈ $6.60
+      : paypalAmount;
 
     const accessToken = await getPayPalAccessToken();
 
@@ -68,8 +73,8 @@ export const createPayPalOrder: RequestHandler = async (req, res) => {
       purchase_units: [
         {
           amount: {
-            currency_code: "USD", // PayPal works better with USD
-            value: usdAmount,
+            currency_code: "USD", // USD for better international support
+            value: finalAmount,
           },
           description: `${plan.name} - Monthly Subscription`,
           custom_id: `${userId}-${planId}-${Date.now()}`,
