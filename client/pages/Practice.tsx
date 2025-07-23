@@ -112,7 +112,8 @@ export default function Practice() {
   };
 
   const completeTest = () => {
-    const currentItems = testMode === "questions" ? testQuestions : testScenarios;
+    const currentItems =
+      testMode === "questions" ? testQuestions : testScenarios;
     const finalAnswers = [
       ...userAnswers,
       currentItems[currentQuestion].options.indexOf(selectedAnswer),
@@ -162,7 +163,8 @@ export default function Practice() {
       28,
     );
 
-    const itemsToProcess = testMode === "questions" ? testQuestions : testScenarios;
+    const itemsToProcess =
+      testMode === "questions" ? testQuestions : testScenarios;
     itemsToProcess.forEach((item, index) => {
       if (finalAnswers[index] === item.correct) {
         if (categories[item.category]) {
@@ -185,11 +187,17 @@ export default function Practice() {
     setTestCompleted(true);
   };
 
-  const currentQ = testMode === "questions" ? testQuestions[currentQuestion] : null;
-  const currentS = testMode === "scenarios" ? testScenarios[currentQuestion] : null;
+  const currentQ =
+    testMode === "questions" ? testQuestions[currentQuestion] : null;
+  const currentS =
+    testMode === "scenarios" ? testScenarios[currentQuestion] : null;
   const currentItem = currentQ || currentS;
-  const isCorrect = answered && currentItem && selectedAnswer === currentItem.options[currentItem.correct];
-  const totalItems = testMode === "questions" ? testQuestions.length : testScenarios.length;
+  const isCorrect =
+    answered &&
+    currentItem &&
+    selectedAnswer === currentItem.options[currentItem.correct];
+  const totalItems =
+    testMode === "questions" ? testQuestions.length : testScenarios.length;
   const progress = ((currentQuestion + 1) / totalItems) * 100;
 
   if (!testStarted) {
@@ -199,7 +207,11 @@ export default function Practice() {
           {/* Header */}
           <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8 -mx-4 px-4 py-6">
             <div className="flex items-center justify-between">
-              <Button asChild variant="ghost" className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide">
+              <Button
+                asChild
+                variant="ghost"
+                className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide"
+              >
                 <Link to="/">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Return to Portal
@@ -209,7 +221,9 @@ export default function Practice() {
                 <h1 className="text-2xl font-bold text-slate-900 uppercase tracking-wide">
                   Assessment Selection Portal
                 </h1>
-                <p className="text-slate-600 uppercase text-sm tracking-wide">K53 Examination Preparation System</p>
+                <p className="text-slate-600 uppercase text-sm tracking-wide">
+                  K53 Examination Preparation System
+                </p>
               </div>
               <div></div>
             </div>
@@ -222,7 +236,8 @@ export default function Practice() {
                   Assessment Type Selection
                 </CardTitle>
                 <p className="text-slate-200">
-                  Select your preferred examination format according to Department of Transport standards
+                  Select your preferred examination format according to
+                  Department of Transport standards
                 </p>
               </CardHeader>
               <CardContent className="p-8">
@@ -238,7 +253,9 @@ export default function Practice() {
                       <div className="font-bold text-slate-800 uppercase tracking-wide text-sm">
                         Vehicle Controls
                       </div>
-                      <div className="text-sm text-slate-600 mt-1">8 Questions</div>
+                      <div className="text-sm text-slate-600 mt-1">
+                        8 Questions
+                      </div>
                       <div className="text-xs text-slate-500 uppercase tracking-wide">
                         Minimum Pass: 6/8 (75%)
                       </div>
@@ -250,7 +267,9 @@ export default function Practice() {
                       <div className="font-bold text-slate-800 uppercase tracking-wide text-sm">
                         Road Signs
                       </div>
-                      <div className="text-sm text-slate-600 mt-1">28 Questions</div>
+                      <div className="text-sm text-slate-600 mt-1">
+                        28 Questions
+                      </div>
                       <div className="text-xs text-slate-500 uppercase tracking-wide">
                         Minimum Pass: 23/28 (82%)
                       </div>
@@ -262,7 +281,9 @@ export default function Practice() {
                       <div className="font-bold text-slate-800 uppercase tracking-wide text-sm">
                         Traffic Rules
                       </div>
-                      <div className="text-sm text-slate-600 mt-1">28 Questions</div>
+                      <div className="text-sm text-slate-600 mt-1">
+                        28 Questions
+                      </div>
                       <div className="text-xs text-slate-500 uppercase tracking-wide">
                         Minimum Pass: 22/28 (79%)
                       </div>
@@ -279,9 +300,7 @@ export default function Practice() {
                       <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
                         Practice Assessment
                       </h3>
-                      <div className="text-3xl font-bold mb-1">
-                        12
-                      </div>
+                      <div className="text-3xl font-bold mb-1">12</div>
                       <div className="text-xs uppercase tracking-wide mb-1">
                         Questions
                       </div>
@@ -318,7 +337,8 @@ export default function Practice() {
                         Duration: ~25 Minutes
                       </div>
                       <p className="text-slate-600 mb-4 text-sm leading-relaxed">
-                        Complete simulation adhering to Department of Transport standards.
+                        Complete simulation adhering to Department of Transport
+                        standards.
                       </p>
                       <Button
                         onClick={() => generateTest(true)}
@@ -338,9 +358,7 @@ export default function Practice() {
                       <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
                         🔥 AI Scenarios
                       </h3>
-                      <div className="text-3xl font-bold mb-1">
-                        100+
-                      </div>
+                      <div className="text-3xl font-bold mb-1">100+</div>
                       <div className="text-xs uppercase tracking-wide mb-1">
                         AI-Generated Scenarios
                       </div>
@@ -348,7 +366,8 @@ export default function Practice() {
                         Duration: Unlimited
                       </div>
                       <p className="text-white/90 mb-4 text-sm leading-relaxed">
-                        Endless AI-generated real-world driving scenarios unique to South Africa.
+                        Endless AI-generated real-world driving scenarios unique
+                        to South Africa.
                       </p>
                       <Button
                         onClick={() => generateScenarioTest()}
@@ -399,22 +418,21 @@ export default function Practice() {
                   </CardTitle>
 
                   <div className="text-6xl font-bold mb-4">
-                    <span className="text-white">
-                      {percentage}%
-                    </span>
+                    <span className="text-white">{percentage}%</span>
                   </div>
                   <p className="text-slate-200 text-lg uppercase tracking-wide">
                     {correctAnswers} of {totalQuestions} Questions Correct
                   </p>
 
                   <div className="mt-6 p-4 bg-white/20 border border-white/30">
-                    <p className={`font-bold text-lg uppercase tracking-wide ${
-                      overallPassed ? "text-white" : "text-white"
-                    }`}>
+                    <p
+                      className={`font-bold text-lg uppercase tracking-wide ${
+                        overallPassed ? "text-white" : "text-white"
+                      }`}
+                    >
                       {overallPassed
                         ? "Assessment Status: PASSED"
-                        : "Assessment Status: REQUIRES IMPROVEMENT"
-                      }
+                        : "Assessment Status: REQUIRES IMPROVEMENT"}
                     </p>
                   </div>
                 </div>
@@ -442,11 +460,13 @@ export default function Practice() {
                           <span className="text-slate-600 font-semibold">
                             {result.correct}/{result.total}
                           </span>
-                          <div className={`w-8 h-8 border-2 flex items-center justify-center ${
-                            result.passed
-                              ? "border-slate-800 bg-slate-100"
-                              : "border-red-500 bg-red-50"
-                          }`}>
+                          <div
+                            className={`w-8 h-8 border-2 flex items-center justify-center ${
+                              result.passed
+                                ? "border-slate-800 bg-slate-100"
+                                : "border-red-500 bg-red-50"
+                            }`}
+                          >
                             {result.passed ? (
                               <CheckCircle className="h-5 w-5 text-slate-800" />
                             ) : (
@@ -495,7 +515,11 @@ export default function Practice() {
       <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
-            <Button asChild variant="ghost" className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide">
+            <Button
+              asChild
+              variant="ghost"
+              className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide"
+            >
               <Link to="/">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Exit Assessment
@@ -504,10 +528,16 @@ export default function Practice() {
 
             <div className="text-center">
               <Badge className="mb-2 bg-slate-800 text-white uppercase tracking-wide">
-                {testMode === "scenarios" ? "🔥 AI Scenarios" : (isFullTest ? "Official Assessment" : "Practice Mode")}
+                {testMode === "scenarios"
+                  ? "🔥 AI Scenarios"
+                  : isFullTest
+                    ? "Official Assessment"
+                    : "Practice Mode"}
               </Badge>
               <div className="text-sm text-slate-600 uppercase tracking-wide">
-                {testMode === "scenarios" ? `AI Scenario ${currentQuestion + 1}` : `Question ${currentQuestion + 1} of ${totalItems}`}
+                {testMode === "scenarios"
+                  ? `AI Scenario ${currentQuestion + 1}`
+                  : `Question ${currentQuestion + 1} of ${totalItems}`}
               </div>
             </div>
 
@@ -524,7 +554,6 @@ export default function Practice() {
         </div>
       </div>
       <div className="container mx-auto px-4 py-6">
-
         {/* Question Card */}
         <div className="max-w-4xl mx-auto">
           <Card className="border-2 border-slate-800 bg-white">
@@ -540,7 +569,9 @@ export default function Practice() {
                 )}
               </div>
               <CardTitle className="text-2xl font-bold leading-relaxed">
-                {testMode === "scenarios" && currentS ? currentS.title : currentItem?.question}
+                {testMode === "scenarios" && currentS
+                  ? currentS.title
+                  : currentItem?.question}
               </CardTitle>
               {testMode === "scenarios" && currentS && (
                 <div className="mt-4 p-4 bg-white/10 border border-white/20 rounded">
@@ -622,9 +653,13 @@ export default function Practice() {
                   }`}
                 >
                   <div className="flex items-start space-x-4">
-                    <div className={`w-8 h-8 border-2 flex items-center justify-center ${
-                      isCorrect ? "border-slate-800 bg-slate-100" : "border-red-500 bg-red-50"
-                    }`}>
+                    <div
+                      className={`w-8 h-8 border-2 flex items-center justify-center ${
+                        isCorrect
+                          ? "border-slate-800 bg-slate-100"
+                          : "border-red-500 bg-red-50"
+                      }`}
+                    >
                       {isCorrect ? (
                         <CheckCircle className="h-5 w-5 text-slate-800" />
                       ) : (
@@ -632,9 +667,11 @@ export default function Practice() {
                       )}
                     </div>
                     <div>
-                      <div className={`font-bold mb-2 uppercase tracking-wide ${
-                        isCorrect ? "text-slate-800" : "text-red-700"
-                      }`}>
+                      <div
+                        className={`font-bold mb-2 uppercase tracking-wide ${
+                          isCorrect ? "text-slate-800" : "text-red-700"
+                        }`}
+                      >
                         {isCorrect ? "Correct Answer" : "Incorrect Answer"}
                       </div>
                       <div className="text-slate-700 leading-relaxed">
@@ -659,7 +696,9 @@ export default function Practice() {
                   className="w-full bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide py-4 text-lg"
                 >
                   {currentQuestion < totalItems - 1
-                    ? testMode === "scenarios" ? "Proceed to Next Scenario" : "Proceed to Next Question"
+                    ? testMode === "scenarios"
+                      ? "Proceed to Next Scenario"
+                      : "Proceed to Next Question"
                     : "Complete Assessment"}
                 </Button>
               )}

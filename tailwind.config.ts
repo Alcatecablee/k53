@@ -68,10 +68,10 @@ export default {
         },
       },
       backgroundImage: {
-        'dark-gradient': 'linear-gradient(to bottom right, #1F2A44, #000000)',
+        "dark-gradient": "linear-gradient(to bottom right, #1F2A44, #000000)",
       },
       boxShadow: {
-        'card': '0 4px 6px rgba(0, 0, 0, 0.2)',
+        card: "0 4px 6px rgba(0, 0, 0, 0.2)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -79,7 +79,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {

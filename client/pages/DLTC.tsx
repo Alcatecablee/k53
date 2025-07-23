@@ -100,15 +100,23 @@ export default function DLTCPage() {
         {/* Header */}
         <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8 -mx-4 px-4 py-6">
           <div className="flex items-center justify-between">
-            <Button asChild variant="ghost" className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide">
+            <Button
+              asChild
+              variant="ghost"
+              className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide"
+            >
               <Link to="/">
                 <Home className="h-5 w-5 mr-2" />
                 Return to Portal
               </Link>
             </Button>
             <div className="text-center">
-              <h1 className="text-3xl font-bold text-slate-900 uppercase tracking-wide">DLTC Directory</h1>
-              <p className="text-slate-600 uppercase text-sm tracking-wide">Official Testing Center Locator</p>
+              <h1 className="text-3xl font-bold text-slate-900 uppercase tracking-wide">
+                DLTC Directory
+              </h1>
+              <p className="text-slate-600 uppercase text-sm tracking-wide">
+                Official Testing Center Locator
+              </p>
             </div>
             <div></div>
           </div>
@@ -126,7 +134,8 @@ export default function DLTCPage() {
                   Official DLTC Network
                 </CardTitle>
                 <p className="text-slate-200 text-lg">
-                  Department of Transport Licensed Testing Centers - Republic of South Africa
+                  Department of Transport Licensed Testing Centers - Republic of
+                  South Africa
                 </p>
               </div>
             </CardHeader>
@@ -136,9 +145,7 @@ export default function DLTCPage() {
                   placeholder="Enter province, city, or postal code..."
                   className="flex-1 border-2 border-slate-300 focus:border-slate-800 text-slate-800 placeholder:text-slate-500"
                 />
-                <Button
-                  className="bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide px-8"
-                >
+                <Button className="bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide px-8">
                   <Search className="h-4 w-4 mr-2" />
                   Locate
                 </Button>
@@ -153,10 +160,14 @@ export default function DLTCPage() {
                 <Info className="h-6 w-6 text-white" />
               </div>
               <div className="text-slate-800">
-                <div className="font-bold uppercase tracking-wide mb-1">System Enhancement Notice</div>
+                <div className="font-bold uppercase tracking-wide mb-1">
+                  System Enhancement Notice
+                </div>
                 <div className="text-sm leading-relaxed">
-                  Advanced features in development: Real-time capacity monitoring, digital appointment scheduling,
-                  and integrated GPS navigation system for all registered DLTC facilities nationwide.
+                  Advanced features in development: Real-time capacity
+                  monitoring, digital appointment scheduling, and integrated GPS
+                  navigation system for all registered DLTC facilities
+                  nationwide.
                 </div>
               </div>
             </div>
@@ -176,13 +187,18 @@ export default function DLTCPage() {
                         {dltc.name}
                       </CardTitle>
                       <p className="text-slate-200">
-                        Distance: {dltc.distance} • License Code: DT-{dltc.id.toString().padStart(3, '0')}
+                        Distance: {dltc.distance} • License Code: DT-
+                        {dltc.id.toString().padStart(3, "0")}
                       </p>
                     </div>
                     <div className="text-right">
                       <div className="bg-white/20 border border-white/30 px-4 py-2 mb-2">
-                        <div className="text-lg font-bold">{dltc.rating}/5.0</div>
-                        <div className="text-xs uppercase tracking-wide">Rating</div>
+                        <div className="text-lg font-bold">
+                          {dltc.rating}/5.0
+                        </div>
+                        <div className="text-xs uppercase tracking-wide">
+                          Rating
+                        </div>
                       </div>
                       <Badge
                         className={`font-semibold uppercase tracking-wide ${
@@ -205,7 +221,9 @@ export default function DLTCPage() {
                       <div className="flex items-start space-x-3">
                         <MapPin className="h-5 w-5 text-slate-600 mt-1 flex-shrink-0" />
                         <div>
-                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-1">Physical Address</div>
+                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-1">
+                            Physical Address
+                          </div>
                           <p className="text-slate-600">{dltc.address}</p>
                         </div>
                       </div>
@@ -213,7 +231,9 @@ export default function DLTCPage() {
                       <div className="flex items-start space-x-3">
                         <Phone className="h-5 w-5 text-slate-600 mt-1 flex-shrink-0" />
                         <div>
-                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-1">Contact Number</div>
+                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-1">
+                            Contact Number
+                          </div>
                           <p className="text-slate-600">{dltc.phone}</p>
                         </div>
                       </div>
@@ -221,7 +241,9 @@ export default function DLTCPage() {
                       <div className="flex items-start space-x-3">
                         <Clock className="h-5 w-5 text-slate-600 mt-1 flex-shrink-0" />
                         <div>
-                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-1">Operating Hours</div>
+                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-1">
+                            Operating Hours
+                          </div>
                           <p className="text-slate-600">{dltc.hours}</p>
                         </div>
                       </div>
@@ -238,7 +260,9 @@ export default function DLTCPage() {
                           </span>
                         </div>
                         <div className="space-y-2">
-                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-2">Available Services</div>
+                          <div className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-2">
+                            Available Services
+                          </div>
                           <div className="flex flex-wrap gap-2">
                             {dltc.services.map((service, index) => (
                               <Badge
@@ -260,9 +284,7 @@ export default function DLTCPage() {
                           <Navigation className="h-4 w-4 mr-2" />
                           Navigate
                         </Button>
-                        <Button
-                          className="bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide"
-                        >
+                        <Button className="bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide">
                           <Phone className="h-4 w-4 mr-2" />
                           Contact
                         </Button>
@@ -289,7 +311,10 @@ export default function DLTCPage() {
                   {testRequirements.map((req, index) => {
                     const IconComponent = req.icon;
                     return (
-                      <div key={index} className="flex items-start space-x-4 p-4 border-2 border-slate-300">
+                      <div
+                        key={index}
+                        className="flex items-start space-x-4 p-4 border-2 border-slate-300"
+                      >
                         <div className="w-8 h-8 bg-slate-100 border-2 border-slate-800 flex items-center justify-center flex-shrink-0">
                           <IconComponent className="h-4 w-4 text-slate-800" />
                         </div>
@@ -297,9 +322,7 @@ export default function DLTCPage() {
                           <h3 className="font-bold text-slate-800 mb-1 uppercase tracking-wide">
                             {req.title}
                           </h3>
-                          <p className="text-slate-600">
-                            {req.description}
-                          </p>
+                          <p className="text-slate-600">{req.description}</p>
                         </div>
                       </div>
                     );
@@ -323,7 +346,9 @@ export default function DLTCPage() {
                       <div className="w-6 h-6 bg-slate-800 flex items-center justify-center mt-0.5 flex-shrink-0">
                         <div className="w-2 h-2 bg-white" />
                       </div>
-                      <span className="text-slate-700 leading-relaxed">{tip}</span>
+                      <span className="text-slate-700 leading-relaxed">
+                        {tip}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -341,8 +366,9 @@ export default function DLTCPage() {
                 Pre-Assessment Preparation
               </h3>
               <p className="mb-8 text-slate-200 text-lg leading-relaxed max-w-2xl mx-auto">
-                Ensure optimal assessment performance through comprehensive preparation using our
-                Department of Transport certified practice examination system.
+                Ensure optimal assessment performance through comprehensive
+                preparation using our Department of Transport certified practice
+                examination system.
               </p>
               <Button
                 asChild

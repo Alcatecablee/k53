@@ -28,7 +28,9 @@ export default function Index() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="w-14 h-14 bg-slate-800 flex items-center justify-center">
-                <div className="text-white font-bold text-lg tracking-wider">K53</div>
+                <div className="text-white font-bold text-lg tracking-wider">
+                  K53
+                </div>
               </div>
               <div className="border-l-2 border-slate-200 pl-4">
                 <h1 className="text-xl font-bold text-slate-900 tracking-tight">
@@ -90,8 +92,10 @@ export default function Index() {
                   </div>
                 </div>
                 <p className="text-xl text-slate-200 leading-relaxed max-w-3xl">
-                  Authorized practice testing platform in accordance with South African National Road Traffic Act.
-                  Comprehensive examination preparation covering all three mandatory assessment categories.
+                  Authorized practice testing platform in accordance with South
+                  African National Road Traffic Act. Comprehensive examination
+                  preparation covering all three mandatory assessment
+                  categories.
                 </p>
               </div>
             </div>
@@ -102,7 +106,8 @@ export default function Index() {
                   Candidate Assessment Portal
                 </h3>
                 <p className="text-slate-300 mb-6">
-                  Access comprehensive practice examinations aligned with current K53 regulations and assessment criteria.
+                  Access comprehensive practice examinations aligned with
+                  current K53 regulations and assessment criteria.
                 </p>
                 <Button
                   asChild
@@ -118,7 +123,8 @@ export default function Index() {
                   Testing Center Directory
                 </h3>
                 <p className="text-slate-600 mb-6">
-                  Locate authorized DLTC examination centers and schedule your official learner's license test.
+                  Locate authorized DLTC examination centers and schedule your
+                  official learner's license test.
                 </p>
                 <Button
                   asChild
@@ -138,20 +144,36 @@ export default function Index() {
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="text-center border-r border-slate-300 last:border-r-0">
-                  <div className="text-4xl font-bold text-slate-800 mb-2">150+</div>
-                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Assessment Items</div>
+                  <div className="text-4xl font-bold text-slate-800 mb-2">
+                    150+
+                  </div>
+                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">
+                    Assessment Items
+                  </div>
                 </div>
                 <div className="text-center border-r border-slate-300 last:border-r-0">
-                  <div className="text-4xl font-bold text-slate-800 mb-2">85%</div>
-                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Pass Rate</div>
+                  <div className="text-4xl font-bold text-slate-800 mb-2">
+                    85%
+                  </div>
+                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">
+                    Pass Rate
+                  </div>
                 </div>
                 <div className="text-center border-r border-slate-300 last:border-r-0">
-                  <div className="text-4xl font-bold text-slate-800 mb-2">3</div>
-                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Languages</div>
+                  <div className="text-4xl font-bold text-slate-800 mb-2">
+                    3
+                  </div>
+                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">
+                    Languages
+                  </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-slate-800 mb-2">50+</div>
-                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Test Centers</div>
+                  <div className="text-4xl font-bold text-slate-800 mb-2">
+                    50+
+                  </div>
+                  <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">
+                    Test Centers
+                  </div>
                 </div>
               </div>
             </div>
@@ -168,7 +190,9 @@ export default function Index() {
                 Official Assessment Categories
               </h2>
               <p className="text-lg text-slate-600 max-w-3xl">
-                Complete assessment preparation covering all mandatory examination sections as prescribed by the Department of Transport.
+                Complete assessment preparation covering all mandatory
+                examination sections as prescribed by the Department of
+                Transport.
               </p>
             </div>
 
@@ -191,7 +215,8 @@ export default function Index() {
                           Vehicle Controls
                         </h4>
                         <p className="text-slate-600 mt-1">
-                          Assessment of clutch operation, steering mechanisms, braking systems, and indicator controls
+                          Assessment of clutch operation, steering mechanisms,
+                          braking systems, and indicator controls
                         </p>
                         <div className="mt-2 text-sm text-slate-500">
                           8 Questions • Minimum Pass: 6/8 (75%)
@@ -220,7 +245,8 @@ export default function Index() {
                           Road Signs & Markings
                         </h4>
                         <p className="text-slate-600 mt-1">
-                          Regulatory signs, warning indicators, prohibition notices, and road surface markings
+                          Regulatory signs, warning indicators, prohibition
+                          notices, and road surface markings
                         </p>
                         <div className="mt-2 text-sm text-slate-500">
                           28 Questions • Minimum Pass: 23/28 (82%)
@@ -249,7 +275,8 @@ export default function Index() {
                           Traffic Regulations
                         </h4>
                         <p className="text-slate-600 mt-1">
-                          Speed limitations, following distances, parking regulations, and traffic law compliance
+                          Speed limitations, following distances, parking
+                          regulations, and traffic law compliance
                         </p>
                         <div className="mt-2 text-sm text-slate-500">
                           28 Questions • Minimum Pass: 22/28 (79%)
@@ -281,7 +308,8 @@ export default function Index() {
                 Official System Capabilities
               </h2>
               <p className="text-lg text-slate-600 max-w-3xl">
-                Comprehensive assessment platform features designed in accordance with Department of Transport standards.
+                Comprehensive assessment platform features designed in
+                accordance with Department of Transport standards.
               </p>
             </div>
 
@@ -294,7 +322,8 @@ export default function Index() {
                   Certified Content
                 </h3>
                 <p className="text-slate-600 text-center leading-relaxed">
-                  Assessment items based on official K53 learner's license curriculum as prescribed by the Department of Transport
+                  Assessment items based on official K53 learner's license
+                  curriculum as prescribed by the Department of Transport
                 </p>
               </div>
 
@@ -306,7 +335,8 @@ export default function Index() {
                   Immediate Evaluation
                 </h3>
                 <p className="text-slate-600 text-center leading-relaxed">
-                  Real-time assessment scoring with comprehensive explanatory feedback for all examination items
+                  Real-time assessment scoring with comprehensive explanatory
+                  feedback for all examination items
                 </p>
               </div>
 
@@ -318,7 +348,8 @@ export default function Index() {
                   Performance Analytics
                 </h3>
                 <p className="text-slate-600 text-center leading-relaxed">
-                  Advanced tracking and analysis of assessment performance across all mandatory categories
+                  Advanced tracking and analysis of assessment performance
+                  across all mandatory categories
                 </p>
               </div>
 
@@ -330,7 +361,8 @@ export default function Index() {
                   Center Directory
                 </h3>
                 <p className="text-slate-600 text-center leading-relaxed">
-                  Comprehensive database of authorized DLTC testing facilities with contact information
+                  Comprehensive database of authorized DLTC testing facilities
+                  with contact information
                 </p>
               </div>
             </div>
@@ -347,8 +379,9 @@ export default function Index() {
               Authorized Assessment Platform
             </h2>
             <p className="text-xl text-slate-200 mb-10 leading-relaxed">
-              Thousands of South African citizens have successfully obtained their learner's licenses
-              through this official Department of Transport certified preparation system.
+              Thousands of South African citizens have successfully obtained
+              their learner's licenses through this official Department of
+              Transport certified preparation system.
             </p>
             <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
               <Button
@@ -378,7 +411,9 @@ export default function Index() {
             <div>
               <div className="flex items-center space-x-4 mb-6">
                 <div className="w-12 h-12 bg-white flex items-center justify-center">
-                  <div className="text-slate-900 font-bold text-lg tracking-wider">K53</div>
+                  <div className="text-slate-900 font-bold text-lg tracking-wider">
+                    K53
+                  </div>
                 </div>
                 <div className="border-l-2 border-slate-700 pl-4">
                   <div className="font-bold text-white uppercase tracking-wide">
@@ -396,7 +431,9 @@ export default function Index() {
             </div>
 
             <div>
-              <h4 className="font-bold mb-6 uppercase tracking-wide text-white">Assessment Categories</h4>
+              <h4 className="font-bold mb-6 uppercase tracking-wide text-white">
+                Assessment Categories
+              </h4>
               <div className="space-y-3 text-slate-400">
                 <Link
                   to="/practice"
@@ -420,7 +457,9 @@ export default function Index() {
             </div>
 
             <div>
-              <h4 className="font-bold mb-6 uppercase tracking-wide text-white">System Resources</h4>
+              <h4 className="font-bold mb-6 uppercase tracking-wide text-white">
+                System Resources
+              </h4>
               <div className="space-y-3 text-slate-400">
                 <Link
                   to="/progress"
@@ -446,7 +485,9 @@ export default function Index() {
             </div>
 
             <div>
-              <h4 className="font-bold mb-6 uppercase tracking-wide text-white">Official Support</h4>
+              <h4 className="font-bold mb-6 uppercase tracking-wide text-white">
+                Official Support
+              </h4>
               <div className="space-y-3 text-slate-400">
                 <div className="flex items-center space-x-3">
                   <Phone className="h-4 w-4" />
@@ -468,10 +509,12 @@ export default function Index() {
           <div className="border-t-2 border-slate-800 mt-12 pt-8">
             <div className="text-center text-slate-400">
               <p className="text-sm uppercase tracking-wide">
-                &copy; 2025 Department of Transport K53 Assessment Portal • Republic of South Africa
+                &copy; 2025 Department of Transport K53 Assessment Portal •
+                Republic of South Africa
               </p>
               <p className="text-xs text-slate-500 mt-2">
-                Authorized digital platform for learner's license examination preparation
+                Authorized digital platform for learner's license examination
+                preparation
               </p>
             </div>
           </div>

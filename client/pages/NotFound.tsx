@@ -34,8 +34,9 @@ const NotFound = () => {
               Access Denied
             </h2>
             <p className="text-slate-600 mb-6 leading-relaxed">
-              The requested resource could not be located within the official K53 Assessment Portal system.
-              This may indicate an invalid URL or restricted access area.
+              The requested resource could not be located within the official
+              K53 Assessment Portal system. This may indicate an invalid URL or
+              restricted access area.
             </p>
             <div className="bg-slate-100 border-2 border-slate-300 p-4 mb-6">
               <p className="text-slate-700 text-sm">

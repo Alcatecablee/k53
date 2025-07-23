@@ -130,20 +130,30 @@ export default function ProgressPage() {
         {/* Header */}
         <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8 -mx-4 px-4 py-6">
           <div className="flex items-center justify-between">
-            <Button asChild variant="ghost" className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide">
+            <Button
+              asChild
+              variant="ghost"
+              className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide"
+            >
               <Link to="/">
                 <Home className="h-5 w-5 mr-2" />
                 Return to Portal
               </Link>
             </Button>
             <div className="text-center">
-              <h1 className="text-3xl font-bold text-slate-900 uppercase tracking-wide">Progress Analytics</h1>
-              <p className="text-slate-600 uppercase text-sm tracking-wide">K53 Assessment Performance Record</p>
+              <h1 className="text-3xl font-bold text-slate-900 uppercase tracking-wide">
+                Progress Analytics
+              </h1>
+              <p className="text-slate-600 uppercase text-sm tracking-wide">
+                K53 Assessment Performance Record
+              </p>
             </div>
             <div className="bg-slate-800 text-white px-4 py-2">
               <div className="text-center">
                 <div className="text-lg font-bold">{userStats.streak}</div>
-                <div className="text-xs uppercase tracking-wide">Day Streak</div>
+                <div className="text-xs uppercase tracking-wide">
+                  Day Streak
+                </div>
               </div>
             </div>
           </div>
@@ -199,7 +209,8 @@ export default function ProgressPage() {
               <div className="mt-8 bg-slate-100 p-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="text-slate-800 font-semibold uppercase tracking-wide">
-                    Experience Points: {userStats.currentXP} / {userStats.nextLevelXP}
+                    Experience Points: {userStats.currentXP} /{" "}
+                    {userStats.nextLevelXP}
                   </span>
                   <span className="text-slate-600 text-sm uppercase tracking-wide">
                     {userStats.nextLevelXP - userStats.currentXP} XP Required
@@ -220,22 +231,37 @@ export default function ProgressPage() {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div className="text-center border-r border-slate-300 last:border-r-0">
-                <div className="text-4xl font-bold text-slate-800 mb-2">{userStats.testsCompleted}</div>
-                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Assessments</div>
-              </div>
-              <div className="text-center border-r border-slate-300 last:border-r-0">
-                <div className="text-4xl font-bold text-slate-800 mb-2">{userStats.streak}</div>
-                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Day Streak</div>
+                <div className="text-4xl font-bold text-slate-800 mb-2">
+                  {userStats.testsCompleted}
+                </div>
+                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">
+                  Assessments
+                </div>
               </div>
               <div className="text-center border-r border-slate-300 last:border-r-0">
                 <div className="text-4xl font-bold text-slate-800 mb-2">
-                  {Math.floor(userStats.totalStudyTime / 60)}h {userStats.totalStudyTime % 60}m
+                  {userStats.streak}
                 </div>
-                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Study Time</div>
+                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">
+                  Day Streak
+                </div>
+              </div>
+              <div className="text-center border-r border-slate-300 last:border-r-0">
+                <div className="text-4xl font-bold text-slate-800 mb-2">
+                  {Math.floor(userStats.totalStudyTime / 60)}h{" "}
+                  {userStats.totalStudyTime % 60}m
+                </div>
+                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">
+                  Study Time
+                </div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-slate-800 mb-2">Top 15%</div>
-                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Ranking</div>
+                <div className="text-4xl font-bold text-slate-800 mb-2">
+                  Top 15%
+                </div>
+                <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">
+                  Ranking
+                </div>
               </div>
             </div>
           </div>
@@ -289,7 +315,10 @@ export default function ProgressPage() {
                 {categoryProgress.map((category, index) => {
                   const IconComponent = category.icon;
                   return (
-                    <div key={index} className="border-2 border-slate-300 p-6 hover:border-slate-800 transition-colors">
+                    <div
+                      key={index}
+                      className="border-2 border-slate-300 p-6 hover:border-slate-800 transition-colors"
+                    >
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-4">
                           <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center">
@@ -300,7 +329,8 @@ export default function ProgressPage() {
                               {category.name}
                             </h3>
                             <p className="text-slate-600 mt-1">
-                              {category.mastered} of {category.total} questions mastered
+                              {category.mastered} of {category.total} questions
+                              mastered
                             </p>
                           </div>
                         </div>
@@ -308,7 +338,9 @@ export default function ProgressPage() {
                           <div className="text-4xl font-bold text-slate-800 mb-1">
                             {category.progress}%
                           </div>
-                          <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">Proficiency</div>
+                          <div className="text-sm text-slate-600 uppercase tracking-wide font-medium">
+                            Proficiency
+                          </div>
                         </div>
                       </div>
                       <Progress value={category.progress} className="h-4" />
@@ -356,11 +388,13 @@ export default function ProgressPage() {
                         {achievement.description}
                       </p>
                       <div className="text-center mt-4">
-                        <Badge className={`uppercase tracking-wide font-semibold ${
-                          achievement.earned
-                            ? "bg-slate-800 text-white"
-                            : "bg-slate-300 text-slate-600"
-                        }`}>
+                        <Badge
+                          className={`uppercase tracking-wide font-semibold ${
+                            achievement.earned
+                              ? "bg-slate-800 text-white"
+                              : "bg-slate-300 text-slate-600"
+                          }`}
+                        >
                           {achievement.earned ? "Achieved" : "Locked"}
                         </Badge>
                       </div>
@@ -381,8 +415,9 @@ export default function ProgressPage() {
                 Continue Assessment Training
               </h3>
               <p className="mb-8 text-slate-200 text-lg leading-relaxed max-w-2xl mx-auto">
-                Recommended focus area: {userStats.weakestCategory}.
-                Continue regular practice sessions to maintain proficiency and improve overall assessment performance.
+                Recommended focus area: {userStats.weakestCategory}. Continue
+                regular practice sessions to maintain proficiency and improve
+                overall assessment performance.
               </p>
               <Button
                 asChild
