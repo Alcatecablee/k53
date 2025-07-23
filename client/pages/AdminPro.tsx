@@ -588,8 +588,27 @@ export default function AdminPro() {
               exportable={true}
               pageSize={15}
               onView={(user) => setSelectedUser(user)}
-              onEdit={(user) => console.log('Edit user:', user)}
-              onDelete={(user) => console.log('Delete user:', user)}
+              onEdit={async (user) => {
+                const newEmail = prompt('Enter new email:', user.email);
+                if (newEmail && newEmail !== user.email) {
+                  try {
+                    await handleUserUpdate({ ...user, email: newEmail });
+                    alert('User updated successfully!');
+                  } catch (error) {
+                    alert('Failed to update user');
+                  }
+                }
+              }}
+              onDelete={async (user) => {
+                if (confirm(`Are you sure you want to delete ${user.email}?`)) {
+                  try {
+                    await handleBulkOperation('bulk_delete', [user.id]);
+                    alert('User deleted successfully!');
+                  } catch (error) {
+                    alert('Failed to delete user');
+                  }
+                }
+              }}
               loading={loading}
             />
           </TabsContent>
@@ -603,7 +622,9 @@ export default function AdminPro() {
               searchable={true}
               exportable={true}
               pageSize={20}
-              onView={(payment) => console.log('View payment:', payment)}
+              onView={(payment) => {
+                alert(`Payment Details:\n\nID: ${payment.id}\nAmount: ${formatPrice(payment.amount_cents)}\nFee: ${formatPrice(payment.fee_cents)}\nStatus: ${payment.status}\nCountry: ${payment.country}\nDate: ${new Date(payment.created_at).toLocaleString()}`);
+              }}
               loading={loading}
             />
           </TabsContent>
