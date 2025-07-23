@@ -1,6 +1,12 @@
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import {
+  createPayPalOrder,
+  capturePayPalOrder,
+  cancelSubscription,
+  getPaymentHistory
+} from "./routes/paypal";
 
 export function createServer() {
   const app = express();
