@@ -102,7 +102,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md border-2 border-slate-800 bg-white">
+      <Card className="w-full max-w-md border-2 border-black-800 bg-white">
         <CardHeader className="bg-slate-800 text-white p-6">
           <CardTitle className="text-2xl font-bold uppercase tracking-wide text-center">
             {isSignUp ? "Create Account" : "Sign In"}
@@ -138,7 +138,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                         fullName: e.target.value,
                       }))
                     }
-                    className="pl-10 border-2 border-slate-300"
+                    className="pl-10 border-2 border-black-300"
                     required={isSignUp}
                   />
                 </div>
@@ -163,7 +163,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, email: e.target.value }))
                   }
-                  className="pl-10 border-2 border-slate-300"
+                  className="pl-10 border-2 border-black-300"
                   required
                 />
               </div>
@@ -194,7 +194,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                       password: e.target.value,
                     }))
                   }
-                  className="pl-10 pr-10 border-2 border-slate-300"
+                  className="pl-10 pr-10 border-2 border-black-300"
                   minLength={isSignUp ? 6 : undefined}
                   required
                 />
@@ -230,7 +230,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                       setFormData((prev) => ({ ...prev, location: value }))
                     }
                   >
-                    <SelectTrigger className="pl-10 border-2 border-slate-300">
+                    <SelectTrigger className="pl-10 border-2 border-black-300">
                       <SelectValue placeholder="Choose your city..." />
                     </SelectTrigger>
                     <SelectContent className="max-h-60">
