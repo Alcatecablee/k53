@@ -59,6 +59,10 @@ export default function Practice() {
     }
   }, []);
 
+  const handleLocationSelected = (location: UserLocation) => {
+    setUserLocation(location);
+  };
+
   const generateTest = (fullTest: boolean = false) => {
     setIsFullTest(fullTest);
     setTestMode("questions");
