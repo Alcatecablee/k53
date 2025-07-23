@@ -95,8 +95,8 @@ export default function Practice() {
 
     // Use location-aware generation if user has a location set
     const randomScenarios = userLocation
-      ? generateLocationAwareScenarioTest(206, userLocation.city, userLocation.region)
-      : generateRandomScenarioTest(206);
+      ? generateLocationAwareScenarioTest(211, userLocation.city, userLocation.region)
+      : generateRandomScenarioTest(211);
 
     // Log first few scenario IDs for verification (can be removed later)
     console.log("AI Scenarios randomized order (first 10):",
