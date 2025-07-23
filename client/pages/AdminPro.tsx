@@ -320,12 +320,85 @@ export default function AdminPro() {
     },
   ];
 
-  // CSV upload handler
+  // Real CSV upload handler
   const handleCSVUpload = async (data: any[]) => {
-    console.log('Importing CSV data:', data);
-    // Here you would send the data to your API
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate processing
-    alert(`Successfully imported ${data.length} records!`);
+    try {
+      const response = await fetch('/api/content/questions/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ csvData: data }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert(`Successfully imported ${result.imported} records! ${result.errors} errors.`);
+      } else {
+        throw new Error('Import failed');
+      }
+    } catch (error) {
+      alert(`Import failed: ${error}`);
+    }
+  };
+
+  // Real user update handler
+  const handleUserUpdate = async (user: EnhancedUser) => {
+    try {
+      const response = await fetch(`/api/enterprise/users/${user.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        // Refresh users list
+        await loadUsers();
+        return result;
+      } else {
+        throw new Error('Update failed');
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  // Bulk operations handler
+  const handleBulkOperation = async (operation: string, userIds: string[], data?: any) => {
+    try {
+      const response = await fetch('/api/enterprise/users/bulk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ operation, userIds, data }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        await loadUsers(); // Refresh data
+        return result;
+      } else {
+        throw new Error('Bulk operation failed');
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  // Cache management
+  const clearSystemCache = async (pattern?: string) => {
+    try {
+      const response = await fetch('/api/enterprise/cache/clear', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pattern }),
+      });
+
+      if (response.ok) {
+        alert('Cache cleared successfully!');
+        await loadAllData(); // Refresh all data
+      }
+    } catch (error) {
+      alert('Failed to clear cache');
+    }
   };
 
   if (!isAdmin) {
