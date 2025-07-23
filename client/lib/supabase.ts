@@ -1,27 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl =
-  import.meta.env.VITE_SUPABASE_URL ||
-  import.meta.env.VITE_PUBLIC_SUPABASE_URL ||
-  "https://lxzwakeusanxquhshcph.supabase.co";
-
-const supabaseAnonKey =
-  import.meta.env.VITE_SUPABASE_ANON_KEY ||
-  import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY ||
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx4endha2V1c2FueHF1aHNoY3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzAxNTIsImV4cCI6MjA2ODgwNjE1Mn0.WzlkTGbselENSvmDG0oD7xEM1s6ZnJtY1TgBiGHuXVE";
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error("Missing Supabase environment variables");
-  throw new Error("Missing Supabase environment variables");
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-  },
-});
+// Re-export from the wrapper for backwards compatibility
+export { supabase } from './supabaseWrapper'
 
 // Database types
 export interface User {
@@ -61,14 +39,14 @@ export interface UserScenario {
 
 // Helper function to get current user
 export const getCurrentUser = async () => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase } = await import('./supabaseWrapper');
+  const { data: { user } } = await supabase.auth.getUser();
   return user;
 };
 
 // Helper function to sign out
 export const signOut = async () => {
+  const { supabase } = await import('./supabaseWrapper');
   const { error } = await supabase.auth.signOut();
   return { error };
 };
