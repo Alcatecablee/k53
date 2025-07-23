@@ -498,6 +498,11 @@ export default function Documentation() {
           ),
         },
         {
+          id: "study-materials",
+          title: "Study Materials",
+          content: <StudyMaterials />,
+        },
+        {
           id: "payment-options",
           title: "Payment Options",
           content: (
