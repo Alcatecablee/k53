@@ -472,25 +472,19 @@ const calculatePaymentRisk = (payment: any): 'low' | 'medium' | 'high' => {
 };
 
 const generateMockStats = () => ({
-  totalUsers: 1247,
-  activeSubscriptions: 156,
-  totalRevenue: 187500,
-  todaySignups: 12,
-  conversionRate: 12.5,
-  churnRate: 3.2,
-  avgSessionTime: 847,
-  topLocations: [
-    { city: 'Cape Town', count: 89 },
-    { city: 'Johannesburg', count: 76 },
-    { city: 'Durban', count: 45 },
-    { city: 'Pretoria', count: 34 },
-    { city: 'Port Elizabeth', count: 23 }
-  ],
-  monthlyGrowth: 23.4,
-  realtimeUsers: Math.floor(Math.random() * 50) + 20,
-  serverLoad: Math.random() * 100,
-  responseTime: Math.random() * 200 + 50,
-  errorRate: Math.random() * 5,
+  totalUsers: 0,
+  activeSubscriptions: 0,
+  totalRevenue: 0,
+  todaySignups: 0,
+  conversionRate: 0,
+  churnRate: 0,
+  avgSessionTime: 0,
+  topLocations: [],
+  monthlyGrowth: 0,
+  realtimeUsers: 0,
+  serverLoad: 0,
+  responseTime: 0,
+  errorRate: 0,
 });
 
 // Cache management endpoints
