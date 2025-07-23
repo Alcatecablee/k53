@@ -193,7 +193,7 @@ export default function Practice() {
     }
   };
 
-  const completeTest = () => {
+  const completeTest = async () => {
     const currentItems =
       testMode === "questions" ? testQuestions : testScenarios;
     const finalAnswers = [
@@ -264,6 +264,31 @@ export default function Practice() {
         required: data.required,
         passed: data.correct >= data.required,
       }));
+
+    const totalCorrect = testResults.reduce((sum, r) => sum + r.correct, 0);
+    const totalQuestions = testResults.reduce((sum, r) => sum + r.total, 0);
+    const overallPassed = testResults.every((r) => r.passed);
+
+    // Save progress to database
+    if (user) {
+      try {
+        await saveUserProgress({
+          test_type: testMode,
+          score: totalCorrect,
+          total_questions: totalQuestions,
+          categories: Object.fromEntries(
+            testResults.map(r => [
+              r.category.toLowerCase(),
+              { correct: r.correct, total: r.total, required: r.required }
+            ])
+          ),
+          passed: overallPassed,
+          location_used: userLocation?.displayName,
+        });
+      } catch (error) {
+        console.error('Error saving progress:', error);
+      }
+    }
 
     setResults(testResults);
     setTestCompleted(true);
