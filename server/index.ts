@@ -25,5 +25,13 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Database routes
+  app.get("/api/db/health", databaseHealthCheck);
+  app.get("/api/db/stats", getDatabaseStats);
+  app.get("/api/db/test-tables", testTables);
+  app.post("/api/db/users", upsertUser);
+  app.get("/api/db/users/:userId", getUser);
+  app.delete("/api/db/users/:userId", deleteUser);
+
   return app;
 }
