@@ -160,13 +160,13 @@ function PricingComponent() {
         <div className="container mx-auto px-4 py-8">
           {/* Success/Error Messages */}
           {paymentSuccess && (
-            <Card className="border-2 border-green-300 bg-green-50 mb-8 max-w-2xl mx-auto">
+            <Card className="border-2 border-slate-600 bg-slate-800 mb-8 max-w-2xl mx-auto">
               <CardContent className="p-6 text-center">
-                <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                <h3 className="font-bold text-green-800 mb-2">
+                <CheckCircle className="h-8 w-8 text-slate-300 mx-auto mb-3" />
+                <h3 className="font-bold text-slate-200 mb-2">
                   Payment Successful!
                 </h3>
-                <p className="text-green-700">{paymentSuccess}</p>
+                <p className="text-slate-300">{paymentSuccess}</p>
               </CardContent>
             </Card>
           )}
