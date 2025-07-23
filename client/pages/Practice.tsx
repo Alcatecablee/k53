@@ -208,15 +208,22 @@ function PracticeComponent() {
 
     try {
       // Use location-aware generation if user has a location set
+      console.log("=== SCENARIO GENERATION DEBUG ===");
+      console.log("User location object:", userLocation);
+      if (userLocation) {
+        console.log(`City: "${userLocation.city}", Region: "${userLocation.region}"`);
+        console.log(`Display name: "${userLocation.displayName}"`);
+      }
+
       const randomScenarios = await getScenarios(
         226,
         userLocation || undefined,
       );
 
-      // Log first few scenario IDs for verification (can be removed later)
+      // Log first few scenario IDs and titles for verification
       console.log(
-        "AI Scenarios randomized order (first 10):",
-        randomScenarios.slice(0, 10).map((s) => s.id),
+        "Selected scenarios (first 10):",
+        randomScenarios.slice(0, 10).map((s) => ({ id: s.id, title: s.title })),
       );
       if (userLocation) {
         console.log("Location-aware scenarios for:", userLocation.displayName);
