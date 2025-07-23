@@ -206,7 +206,7 @@ export default function Index() {
                     Assessment Access Categories
                   </h2>
                   <p className="text-slate-300 mb-6">
-                    Basic practice allocation: 5 scenarios daily at no cost. Enhanced preparation available through certified premium access tiers.
+                    Official assessments (64 questions) and practice assessments (12 questions) are free and unlimited for all users. Scenario-based practice: 5 scenarios daily at no cost. Enhanced scenario access available through certified premium tiers.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <Button
