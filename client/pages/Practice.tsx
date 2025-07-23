@@ -503,7 +503,7 @@ function PracticeComponent() {
                       <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
                         🔥 AI Scenarios
                       </h3>
-                      <div className="text-3xl font-bold mb-1">200+</div>
+                      <div className="text-3xl font-bold mb-1">220+</div>
                       <div className="text-xs uppercase tracking-wide mb-1">
                         Location-Aware Scenarios
                       </div>
