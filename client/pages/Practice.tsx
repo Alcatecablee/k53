@@ -81,11 +81,17 @@ export default function Practice() {
     setTestMode("scenarios");
     setIsFullTest(false);
 
-    const randomScenarios = generateRandomScenarioTest(206); // Generate all 206 scenarios
+    // Use location-aware generation if user has a location set
+    const randomScenarios = userLocation
+      ? generateLocationAwareScenarioTest(206, userLocation.city, userLocation.region)
+      : generateRandomScenarioTest(206);
 
     // Log first few scenario IDs for verification (can be removed later)
     console.log("AI Scenarios randomized order (first 10):",
       randomScenarios.slice(0, 10).map(s => s.id));
+    if (userLocation) {
+      console.log("Location-aware scenarios for:", userLocation.displayName);
+    }
 
     setTestScenarios(randomScenarios);
     setTestQuestions([]);
