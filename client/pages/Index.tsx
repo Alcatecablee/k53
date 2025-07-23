@@ -90,6 +90,12 @@ export default function Index() {
                 >
                   Test Centers
                 </Link>
+                <Link
+                  to="/docs"
+                  className="text-slate-300 hover:text-white font-medium text-sm uppercase tracking-wide transition-colors"
+                >
+                  Documentation
+                </Link>
                 <a
                   href="https://taxfy.co.za"
                   target="_blank"
