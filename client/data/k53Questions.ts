@@ -1022,25 +1022,31 @@ export const getQuestionsByCategory = (
   return k53QuestionBank.filter((q) => q.category === category);
 };
 
+// Function to shuffle an array using Fisher-Yates algorithm
+const shuffleArray = <T>(array: T[]): T[] => {
+  const shuffled = [...array]; // Create a copy to avoid mutating the original
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 // Function to get a random selection of questions for a test
 export const generateRandomTest = (
   controlsCount: number = 8,
   signsCount: number = 28,
   rulesCount: number = 28,
 ): K53Question[] => {
-  const controlsQuestions = getQuestionsByCategory("controls")
-    .sort(() => Math.random() - 0.5)
+  const controlsQuestions = shuffleArray(getQuestionsByCategory("controls"))
     .slice(0, controlsCount);
-  const signsQuestions = getQuestionsByCategory("signs")
-    .sort(() => Math.random() - 0.5)
+  const signsQuestions = shuffleArray(getQuestionsByCategory("signs"))
     .slice(0, signsCount);
-  const rulesQuestions = getQuestionsByCategory("rules")
-    .sort(() => Math.random() - 0.5)
+  const rulesQuestions = shuffleArray(getQuestionsByCategory("rules"))
     .slice(0, rulesCount);
 
-  return [...controlsQuestions, ...signsQuestions, ...rulesQuestions].sort(
-    () => Math.random() - 0.5,
-  );
+  // Shuffle the final combined array as well for random question order
+  return shuffleArray([...controlsQuestions, ...signsQuestions, ...rulesQuestions]);
 };
 
 export type { K53Question };
