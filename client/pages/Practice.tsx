@@ -39,7 +39,7 @@ interface TestResult {
 
 type TestMode = "questions" | "scenarios";
 
-export default function Practice() {
+function PracticeComponent() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string>("");
   const [answered, setAnswered] = useState(false);
