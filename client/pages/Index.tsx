@@ -150,7 +150,7 @@ export default function Index() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             {/* Official Header */}
-            <div className="bg-slate-800 border border-slate-700 p-12 mb-12">
+            <div className="bg-slate-800 border border-black p-12 mb-12">
               <div className="max-w-4xl">
                 <div className="flex items-center mb-6">
                   <div className="w-2 h-16 bg-white mr-6"></div>
@@ -178,7 +178,7 @@ export default function Index() {
             </div>
 
             {/* Access Information */}
-            <div className="bg-slate-800 border border-slate-700 p-8 mb-8">
+            <div className="bg-slate-800 border border-black p-8 mb-8">
               <div className="max-w-4xl mx-auto text-center">
                 <h2 className="text-2xl font-bold mb-4 text-white">
                   Access Information
@@ -196,7 +196,7 @@ export default function Index() {
                   <Button
                     asChild
                     variant="outline"
-                    className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white"
+                    className="border-black text-slate-300 hover:bg-slate-700 hover:text-white"
                   >
                     <Link to="/pricing">View Premium Access</Link>
                   </Button>
@@ -206,7 +206,7 @@ export default function Index() {
 
             <div className="grid md:grid-cols-2 gap-8 mb-16">
               {/* Assessment Portal */}
-              <div className="bg-slate-800 border border-slate-700 text-white">
+              <div className="bg-slate-800 border border-black text-white">
                 <div className="bg-slate-700 p-6">
                   <h3 className="text-xl font-bold mb-2 uppercase tracking-wide">
                     Assessment Portal
@@ -231,7 +231,7 @@ export default function Index() {
               </div>
 
               {/* Testing Centers */}
-              <div className="bg-slate-800 border border-slate-700 text-white">
+              <div className="bg-slate-800 border border-black text-white">
                 <div className="bg-slate-700 p-6">
                   <h3 className="text-xl font-bold mb-2 uppercase tracking-wide">
                     Testing Center Directory
@@ -249,7 +249,7 @@ export default function Index() {
                     asChild
                     variant="outline"
                     size="lg"
-                    className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide w-full"
+                    className="border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide w-full"
                   >
                     <Link to="/dltc">Find Centers</Link>
                   </Button>
@@ -258,7 +258,7 @@ export default function Index() {
             </div>
 
             {/* Platform Statistics */}
-            <div className="bg-slate-800 border border-slate-700 p-8">
+            <div className="bg-slate-800 border border-black p-8">
               <h3 className="text-center text-lg font-bold uppercase tracking-wide text-white mb-8">
                 Platform Statistics
               </h3>
