@@ -524,9 +524,17 @@ function PracticeComponent() {
                 </CardHeader>
                 <CardContent className="p-8">
                   <div className="bg-slate-700 border border-black p-6 mb-8">
-                    <h3 className="text-lg font-bold uppercase tracking-wide text-white mb-6 text-center">
+                    <h3 className="text-lg font-bold uppercase tracking-wide text-white mb-4 text-center">
                       Official Assessment Categories
                     </h3>
+                    <div className="bg-white text-slate-900 p-3 text-center mb-4">
+                      <div className="text-sm font-bold uppercase tracking-wide">
+                        Free and unlimited for all users
+                      </div>
+                      <div className="text-xs uppercase tracking-wide">
+                        No subscription required
+                      </div>
+                    </div>
                     <div className="grid md:grid-cols-3 gap-6">
                       <div className="text-center p-4 bg-slate-800 border border-black">
                         <div className="w-12 h-12 bg-slate-700 border border-black flex items-center justify-center mx-auto mb-3">
