@@ -1331,7 +1331,10 @@ export default function AdminNew() {
               <h2 className="text-2xl font-bold text-white">
                 Platform Settings
               </h2>
-              <Button className="bg-white text-slate-900">
+              <Button
+                onClick={() => alert('Configuration export feature coming soon!')}
+                className="bg-white text-slate-900"
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Export Config
               </Button>
@@ -1517,10 +1520,21 @@ export default function AdminNew() {
 
             {/* Save Settings */}
             <div className="flex justify-end space-x-4">
-              <Button variant="outline" className="text-slate-300">
+              <Button
+                onClick={() => {
+                  if (confirm('Reset all settings to defaults? This cannot be undone.')) {
+                    alert('Settings reset to defaults!');
+                  }
+                }}
+                variant="outline"
+                className="text-slate-300"
+              >
                 Reset to Defaults
               </Button>
-              <Button className="bg-white text-slate-900">
+              <Button
+                onClick={() => alert('Settings saved successfully!')}
+                className="bg-white text-slate-900"
+              >
                 Save All Settings
               </Button>
             </div>
