@@ -610,60 +610,117 @@ function PricingComponent() {
             </Card>
           </div>
 
-          {/* PayPal Checkout Modal */}
+          {/* 2-Step Modal */}
           {selectedPlan && selectedPlan !== "free" && (
             <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50">
-              <div className="bg-slate-900 max-w-lg w-full">
-                {/* Simple header */}
-                <div className="flex justify-between items-center p-6 border-b border-slate-700">
+              <div className="bg-slate-900 w-full max-w-lg max-h-[90vh] flex flex-col">
+                {/* Header */}
+                <div className="flex justify-between items-center p-6 border-b border-slate-700 flex-shrink-0">
                   <h2 className="text-xl font-bold text-white uppercase tracking-wide">
-                    Subscribe to {SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.name}
+                    {modalStep === 'confirm' ? 'Confirm Subscription' : 'Complete Payment'}
                   </h2>
                   <button
-                    onClick={() => setSelectedPlan(null)}
+                    onClick={() => {
+                      setSelectedPlan(null);
+                      setModalStep('confirm');
+                    }}
                     className="text-slate-400 hover:text-white text-2xl"
                   >
                     ✕
                   </button>
                 </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  {/* Simple plan info */}
-                  <div className="text-center mb-6">
-                    <div className="text-3xl font-bold text-white mb-2">
-                      {formatPrice(SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.price_cents || 0)}
-                      <span className="text-lg font-normal text-slate-400">/month</span>
+                {/* Step 1: Confirmation */}
+                {modalStep === 'confirm' && (
+                  <div className="p-6 flex-1 overflow-y-auto">
+                    <div className="text-center mb-6">
+                      <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide">
+                        {SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.name}
+                      </h3>
+                      <div className="text-4xl font-bold text-white mb-2">
+                        {formatPrice(SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.price_cents || 0)}
+                        <span className="text-lg font-normal text-slate-400">/month</span>
+                      </div>
+                      <div className="text-slate-400 text-sm mb-6">
+                        Cancel anytime • No setup fees
+                      </div>
                     </div>
-                    <div className="text-slate-400 text-sm">
-                      Cancel anytime
+
+                    {/* Plan features */}
+                    <div className="bg-slate-800 border border-slate-700 p-4 mb-6">
+                      <h4 className="text-white font-bold uppercase tracking-wide mb-3 text-sm">
+                        What's Included:
+                      </h4>
+                      <ul className="space-y-2">
+                        {SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.features.slice(0, 4).map((feature, index) => (
+                          <li key={index} className="flex items-center space-x-2 text-sm">
+                            <Check className="h-3 w-3 text-white flex-shrink-0" />
+                            <span className="text-slate-300">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Continue button */}
+                    <Button
+                      onClick={() => setModalStep('payment')}
+                      className="w-full bg-white text-slate-900 hover:bg-slate-100 font-bold uppercase tracking-wide py-3"
+                    >
+                      Continue to Payment
+                    </Button>
+
+                    <div className="text-center mt-4">
+                      <p className="text-slate-500 text-xs">
+                        Secure payment processing by PayPal
+                      </p>
                     </div>
                   </div>
+                )}
 
-                  {/* Payment component */}
-                  <PayPalCheckout
-                    planId={selectedPlan}
-                    planName={
-                      SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
-                        ?.name || ""
-                    }
-                    amount={
-                      SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
-                        ?.price_cents || 0
-                    }
-                    currency="ZAR"
-                    onSuccess={handlePaymentSuccess}
-                    onError={handlePaymentError}
-                    onCancel={handlePaymentCancel}
-                  />
+                {/* Step 2: Payment */}
+                {modalStep === 'payment' && (
+                  <div className="flex-1 overflow-y-auto">
+                    <div className="p-6">
+                      {/* Back button */}
+                      <button
+                        onClick={() => setModalStep('confirm')}
+                        className="flex items-center text-slate-400 hover:text-white text-sm mb-4"
+                      >
+                        <ArrowLeft className="h-4 w-4 mr-1" />
+                        Back to plan details
+                      </button>
 
-                  {/* Simple footer */}
-                  <div className="text-center mt-4">
-                    <p className="text-slate-500 text-xs">
-                      Secure payment by PayPal
-                    </p>
+                      {/* Quick plan summary */}
+                      <div className="bg-slate-800 border border-slate-700 p-3 mb-6 text-center">
+                        <div className="text-white font-bold">
+                          {SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.name}
+                        </div>
+                        <div className="text-slate-300 text-sm">
+                          {formatPrice(SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.price_cents || 0)}/month
+                        </div>
+                      </div>
+
+                      {/* Payment form container with proper height */}
+                      <div className="min-h-[300px]">
+                        <PayPalCheckout
+                          planId={selectedPlan}
+                          planName={
+                            SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
+                              ?.name || ""
+                          }
+                          amount={
+                            SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
+                              ?.price_cents || 0
+                          }
+                          currency="ZAR"
+                          onSuccess={handlePaymentSuccess}
+                          onError={handlePaymentError}
+                          onCancel={handlePaymentCancel}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           )}
