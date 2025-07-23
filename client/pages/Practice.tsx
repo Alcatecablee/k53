@@ -72,7 +72,7 @@ export default function Practice() {
     setTestMode("scenarios");
     setIsFullTest(false);
 
-    const randomScenarios = generateRandomScenarioTest(75); // Generate all 75 scenarios
+    const randomScenarios = generateRandomScenarioTest(126); // Generate all 126 scenarios
     setTestScenarios(randomScenarios);
     setTestQuestions([]);
     setTestStarted(true);
