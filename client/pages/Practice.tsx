@@ -417,6 +417,17 @@ function PracticeComponent() {
                 </p>
               </div>
               <div className="flex items-center space-x-2">
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="icon"
+                  className="text-slate-300 hover:text-white hover:bg-slate-700"
+                  title="Documentation"
+                >
+                  <Link to="/docs">
+                    <BookOpen className="h-4 w-4" />
+                  </Link>
+                </Button>
                 {user && (
                   <>
                     <Button
