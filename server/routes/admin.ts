@@ -160,7 +160,7 @@ export const getUsers: RequestHandler = async (req, res) => {
     res.json(formattedUsers);
   } catch (error) {
     console.error("Error getting users:", error);
-    res.status(500).json({ error: "Failed to load users" });
+    res.json([]);
   }
 };
 
