@@ -16,10 +16,13 @@ import {
   Layers,
   ChartBarStacked,
   Car,
+  MapPin,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { K53Question, generateRandomTest } from "../data/k53Questions";
-import { K53Scenario, generateRandomScenarioTest } from "../data/k53Scenarios";
+import { K53Scenario, generateRandomScenarioTest, generateLocationAwareScenarioTest } from "../data/k53Scenarios";
+import { LocationSelector } from "@/components/LocationSelector";
+import { getStoredLocation, type UserLocation } from "@/services/locationService";
 
 interface TestResult {
   category: string;
