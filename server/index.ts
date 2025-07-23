@@ -13,6 +13,13 @@ import {
   authenticatedGetUserSubscriptionDetails,
   authenticatedGetUserUsageStats,
 } from "./routes/subscriptions";
+import {
+  getDashboardStats,
+  getUsers,
+  getPayments,
+  userAction,
+  getSystemHealth,
+} from "./routes/admin";
 
 export function createServer() {
   const app = express();
