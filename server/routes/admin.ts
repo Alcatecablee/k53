@@ -124,7 +124,7 @@ export const getUsers: RequestHandler = async (req, res) => {
 
     if (error) {
       console.error('Error loading users:', error);
-      return res.status(500).json({ error: "Failed to load users" });
+      return res.json([]);
     }
 
     // Get usage data for each user
