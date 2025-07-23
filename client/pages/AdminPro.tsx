@@ -702,17 +702,23 @@ export default function AdminPro() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <MetricChart
-                    data={[
-                      { name: 'Questions', value: 1247 },
-                      { name: 'Scenarios', value: 224 },
-                      { name: 'Study Materials', value: 89 },
-                      { name: 'Videos', value: 156 },
-                    ]}
-                    title=""
-                    type="pie"
-                    height={250}
-                  />
+                  {contentStats ? (
+                    <MetricChart
+                      data={[
+                        { name: 'Questions', value: contentStats.questions },
+                        { name: 'Scenarios', value: contentStats.scenarios },
+                        { name: 'Study Materials', value: contentStats.studyMaterials },
+                        { name: 'Videos', value: contentStats.videos },
+                      ]}
+                      title=""
+                      type="pie"
+                      height={250}
+                    />
+                  ) : (
+                    <div className="h-[250px] flex items-center justify-center">
+                      <p className="text-gray-500">Loading content statistics...</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
