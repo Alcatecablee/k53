@@ -77,31 +77,44 @@ export default function Index() {
                 </a>
               </nav>
 
-              {/* User Profile Icon */}
-              {user && (
-                <div className="flex items-center space-x-2 border-l-2 border-slate-200 pl-4">
+              {/* User Profile Icons */}
+              <div className="flex items-center space-x-2 border-l-2 border-slate-200 pl-4">
+                {user ? (
+                  <>
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="icon"
+                      className="text-slate-700 hover:text-slate-900"
+                      title="View Profile"
+                    >
+                      <Link to="/profile">
+                        <User className="h-5 w-5" />
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={signOut}
+                      className="text-slate-700 hover:text-slate-900"
+                      title="Sign Out"
+                    >
+                      <LogOut className="h-5 w-5" />
+                    </Button>
+                  </>
+                ) : (
                   <Button
                     asChild
                     variant="ghost"
-                    size="icon"
-                    className="text-slate-700 hover:text-slate-900"
-                    title="View Profile"
+                    className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide"
                   >
-                    <Link to="/profile">
-                      <User className="h-5 w-5" />
+                    <Link to="/practice">
+                      <User className="h-4 w-4 mr-2" />
+                      Sign In
                     </Link>
                   </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={signOut}
-                    className="text-slate-700 hover:text-slate-900"
-                    title="Sign Out"
-                  >
-                    <LogOut className="h-5 w-5" />
-                  </Button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
