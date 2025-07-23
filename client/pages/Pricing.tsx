@@ -612,7 +612,7 @@ function PricingComponent() {
               {SCENARIO_PACKS.map((pack, index) => (
                 <Card
                   key={index}
-                  className="border border-black bg-slate-800 hover:bg-slate-750 transition-all duration-300 hover:scale-102 hover:shadow-lg"
+                  className="border border-black bg-slate-800 hover:bg-slate-750 transition-all duration-300 hover:shadow-lg"
                 >
                   <CardHeader className="bg-slate-700 border-b border-black p-6">
                     <div className="flex items-start justify-between mb-3">
