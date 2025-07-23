@@ -718,7 +718,7 @@ function PracticeComponent() {
                       key={index}
                       className={`p-6 border-2 mb-4 last:mb-0 ${
                         result.passed
-                          ? "bg-white border-slate-300"
+                          ? "bg-white border-black"
                           : "bg-white border-red-300"
                       }`}
                     >
@@ -733,7 +733,7 @@ function PracticeComponent() {
                           <div
                             className={`w-8 h-8 border-2 flex items-center justify-center ${
                               result.passed
-                                ? "border-slate-800 bg-slate-100"
+                                ? "border-black bg-slate-100"
                                 : "border-red-500 bg-red-50"
                             }`}
                           >
@@ -760,7 +760,7 @@ function PracticeComponent() {
                   <Button
                     onClick={() => generateTest(isFullTest)}
                     variant="outline"
-                    className="flex-1 border-2 border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide py-3"
+                    className="flex-1 border-2 border-black text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide py-3"
                   >
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Retake Assessment
