@@ -244,14 +244,14 @@ export const userAction: RequestHandler = async (req, res) => {
 
     switch (action) {
       case "ban":
-        await supabaseAdmin
+        await supabaseClient
           .from("user_subscriptions")
           .update({ status: "banned" })
           .eq("id", userId);
         break;
 
       case "unban":
-        await supabaseAdmin
+        await supabaseClient
           .from("user_subscriptions")
           .update({ status: "active" })
           .eq("id", userId);
