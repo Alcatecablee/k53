@@ -165,8 +165,8 @@ export default function AdminPro() {
     try {
       // Load real activity from multiple sources with error handling
       const [usersRes, paymentsRes] = await Promise.allSettled([
-        fetch("/api/enterprise/users?limit=5").catch(() => ({ ok: false })),
-        fetch("/api/enterprise/payments?limit=5").catch(() => ({ ok: false })),
+        safeFetch("/api/enterprise/users?limit=5"),
+        safeFetch("/api/enterprise/payments?limit=5"),
       ]);
 
       const recentUsers = usersRes.status === 'fulfilled' && usersRes.value.ok
@@ -217,8 +217,8 @@ export default function AdminPro() {
   const loadContentStats = async () => {
     try {
       const [questionsRes, scenariosRes] = await Promise.allSettled([
-        fetch("/api/content/questions").catch(() => ({ ok: false })),
-        fetch("/api/content/scenarios").catch(() => ({ ok: false })),
+        safeFetch("/api/content/questions"),
+        safeFetch("/api/content/scenarios"),
       ]);
 
       const questionsData = questionsRes.status === 'fulfilled' && questionsRes.value.ok
@@ -249,7 +249,7 @@ export default function AdminPro() {
 
   const loadDashboardData = async () => {
     try {
-      const response = await fetch("/api/enterprise/dashboard-stats").catch(() => ({ ok: false }));
+      const response = await safeFetch("/api/enterprise/dashboard-stats");
       if (response.ok) {
         const data = await response.json().catch(() => null);
         if (data) {
@@ -279,7 +279,7 @@ export default function AdminPro() {
 
   const loadUsers = async () => {
     try {
-      const response = await fetch("/api/enterprise/users?limit=100").catch(() => ({ ok: false }));
+      const response = await safeFetch("/api/enterprise/users?limit=100");
       if (response.ok) {
         const data = await response.json().catch(() => []);
         setUsers(data);
@@ -294,7 +294,7 @@ export default function AdminPro() {
 
   const loadPayments = async () => {
     try {
-      const response = await fetch("/api/enterprise/payments?limit=100").catch(() => ({ ok: false }));
+      const response = await safeFetch("/api/enterprise/payments?limit=100");
       if (response.ok) {
         const data = await response.json().catch(() => []);
         setPayments(data);
@@ -309,7 +309,7 @@ export default function AdminPro() {
 
   const loadRealTimeData = async () => {
     try {
-      const response = await fetch("/api/enterprise/realtime-metrics").catch(() => ({ ok: false }));
+      const response = await safeFetch("/api/enterprise/realtime-metrics");
       if (response.ok) {
         const data = await response.json().catch(() => ({ metrics: [] }));
         setRealTimeData(data.metrics || []);
@@ -447,11 +447,11 @@ export default function AdminPro() {
   // Real CSV upload handler
   const handleCSVUpload = async (data: any[]) => {
     try {
-      const response = await fetch("/api/content/questions/import", {
+      const response = await safeFetch("/api/content/questions/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ csvData: data }),
-      }).catch(() => ({ ok: false, statusText: "Network Error" }));
+      });
 
       if (response.ok) {
         const result = await response.json().catch(() => ({ imported: 0, errors: 0 }));
