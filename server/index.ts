@@ -57,5 +57,12 @@ export function createServer() {
   );
   app.get("/api/subscriptions/usage-stats", authenticatedGetUserUsageStats);
 
+  // Admin routes
+  app.get("/api/admin/dashboard-stats", getDashboardStats);
+  app.get("/api/admin/users", getUsers);
+  app.get("/api/admin/payments", getPayments);
+  app.post("/api/admin/users/:userId/action", userAction);
+  app.get("/api/admin/system-health", getSystemHealth);
+
   return app;
 }
