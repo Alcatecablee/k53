@@ -145,7 +145,7 @@ export const getUsers: RequestHandler = async (req, res) => {
 
     // Get usage data for each user
     const userIds = usersData?.map((user) => user.id) || [];
-    const { data: usageData } = await supabaseAdmin
+    const { data: usageData } = await supabaseClient
       .from("daily_usage")
       .select("user_id, scenarios_used")
       .in("user_id", userIds)
