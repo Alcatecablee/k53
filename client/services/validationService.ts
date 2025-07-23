@@ -10,26 +10,26 @@ export const ValidationService = {
   // Password validation
   isValidPassword(password: string): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
-    
+
     if (password.length < 8) {
-      errors.push('Password must be at least 8 characters long');
+      errors.push("Password must be at least 8 characters long");
     }
-    
+
     if (!/[A-Z]/.test(password)) {
-      errors.push('Password must contain at least one uppercase letter');
+      errors.push("Password must contain at least one uppercase letter");
     }
-    
+
     if (!/[a-z]/.test(password)) {
-      errors.push('Password must contain at least one lowercase letter');
+      errors.push("Password must contain at least one lowercase letter");
     }
-    
+
     if (!/\d/.test(password)) {
-      errors.push('Password must contain at least one number');
+      errors.push("Password must contain at least one number");
     }
 
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   },
 
@@ -42,17 +42,27 @@ export const ValidationService = {
   sanitizeString(input: string): string {
     return input
       .trim()
-      .replace(/[<>]/g, '') // Remove potential HTML tags
-      .replace(/javascript:/gi, '') // Remove javascript: protocols
+      .replace(/[<>]/g, "") // Remove potential HTML tags
+      .replace(/javascript:/gi, "") // Remove javascript: protocols
       .slice(0, 1000); // Limit length
   },
 
   // Validate test parameters
-  isValidTestParams(controlsCount: number, signsCount: number, rulesCount: number): boolean {
+  isValidTestParams(
+    controlsCount: number,
+    signsCount: number,
+    rulesCount: number,
+  ): boolean {
     return (
-      Number.isInteger(controlsCount) && controlsCount >= 1 && controlsCount <= 20 &&
-      Number.isInteger(signsCount) && signsCount >= 1 && signsCount <= 50 &&
-      Number.isInteger(rulesCount) && rulesCount >= 1 && rulesCount <= 50
+      Number.isInteger(controlsCount) &&
+      controlsCount >= 1 &&
+      controlsCount <= 20 &&
+      Number.isInteger(signsCount) &&
+      signsCount >= 1 &&
+      signsCount <= 50 &&
+      Number.isInteger(rulesCount) &&
+      rulesCount >= 1 &&
+      rulesCount <= 50
     );
   },
 
@@ -68,22 +78,27 @@ export const ValidationService = {
     return (userId: string): boolean => {
       const now = Date.now();
       const userRequests = requests.get(userId) || [];
-      
+
       // Remove requests outside the window
-      const validRequests = userRequests.filter(time => now - time < windowMs);
-      
+      const validRequests = userRequests.filter(
+        (time) => now - time < windowMs,
+      );
+
       if (validRequests.length >= maxRequests) {
         return false; // Rate limit exceeded
       }
-      
+
       validRequests.push(now);
       requests.set(userId, validRequests);
       return true;
     };
-  }
+  },
 };
 
 // Clean up rate limiter data periodically
-setInterval(() => {
-  // This would clean up old rate limiter data in a production system
-}, 60 * 60 * 1000); // Every hour
+setInterval(
+  () => {
+    // This would clean up old rate limiter data in a production system
+  },
+  60 * 60 * 1000,
+); // Every hour

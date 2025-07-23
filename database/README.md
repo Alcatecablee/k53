@@ -8,14 +8,14 @@ This application uses Supabase as the database backend with the following featur
 ✅ **User Profiles** - Store location preferences and profile data  
 ✅ **Progress Tracking** - Save test results and performance analytics  
 ✅ **Location-Aware Scenarios** - Scenarios tailored to user's location  
-✅ **Offline Fallback** - Works with local data if database unavailable  
+✅ **Offline Fallback** - Works with local data if database unavailable
 
 ## Database Schema
 
 ### Core Tables
 
 1. **user_progress** - Stores test results and performance data
-2. **user_scenarios** - Tracks individual scenario attempts  
+2. **user_scenarios** - Tracks individual scenario attempts
 3. **scenarios** - Contains all K53 scenarios (226 total)
 4. **questions** - Contains all K53 questions
 
@@ -136,24 +136,28 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ## Features
 
 ### Authentication
+
 - ✅ Email/password registration and login
 - ✅ User profile management with location preferences
 - ✅ Session persistence and auto-refresh
 - ✅ Secure logout
 
 ### Location-Based Scenarios
+
 - ✅ 226 scenarios with location metadata
 - ✅ Smart prioritization (city > region > national)
 - ✅ Covers all 9 South African provinces
 - ✅ 30+ major cities and towns supported
 
 ### Progress Tracking
+
 - ✅ Test results saved to database
 - ✅ Performance analytics and statistics
 - ✅ Category-wise breakdown
 - ✅ Pass/fail tracking with required scores
 
 ### Offline Support
+
 - ✅ Application works without database connection
 - ✅ Graceful fallback to local scenario data
 - ✅ Local storage for user preferences

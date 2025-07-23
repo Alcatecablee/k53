@@ -19,7 +19,7 @@ class CacheService {
 
   get<T>(key: string): T | null {
     const entry = this.cache.get(key);
-    
+
     if (!entry) {
       return null;
     }
@@ -35,7 +35,7 @@ class CacheService {
 
   has(key: string): boolean {
     const entry = this.cache.get(key);
-    
+
     if (!entry) {
       return false;
     }
@@ -71,6 +71,9 @@ class CacheService {
 export const cacheService = new CacheService();
 
 // Auto cleanup every 10 minutes
-setInterval(() => {
-  cacheService.cleanup();
-}, 10 * 60 * 1000);
+setInterval(
+  () => {
+    cacheService.cleanup();
+  },
+  10 * 60 * 1000,
+);

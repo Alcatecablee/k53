@@ -10,16 +10,16 @@ class NetworkService {
   private status: NetworkStatus = {
     isOnline: navigator.onLine,
     isSupabaseReachable: false,
-    lastChecked: new Date()
+    lastChecked: new Date(),
   };
 
   private listeners: ((status: NetworkStatus) => void)[] = [];
 
   constructor() {
     // Listen for browser online/offline events
-    window.addEventListener('online', this.handleOnline.bind(this));
-    window.addEventListener('offline', this.handleOffline.bind(this));
-    
+    window.addEventListener("online", this.handleOnline.bind(this));
+    window.addEventListener("offline", this.handleOffline.bind(this));
+
     // Initial Supabase connectivity check
     this.checkSupabaseConnectivity();
   }
@@ -44,29 +44,32 @@ class NetworkService {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-      const response = await fetch('https://lxzwakeusanxquhshcph.supabase.co/rest/v1/', {
-        method: 'HEAD',
-        signal: controller.signal,
-        mode: 'no-cors' // Avoid CORS issues for connectivity test
-      });
+      const response = await fetch(
+        "https://lxzwakeusanxquhshcph.supabase.co/rest/v1/",
+        {
+          method: "HEAD",
+          signal: controller.signal,
+          mode: "no-cors", // Avoid CORS issues for connectivity test
+        },
+      );
 
       clearTimeout(timeoutId);
       this.status.isSupabaseReachable = true;
     } catch (error) {
-      console.warn('Supabase connectivity check failed:', error);
+      console.warn("Supabase connectivity check failed:", error);
       this.status.isSupabaseReachable = false;
     }
-    
+
     this.status.lastChecked = new Date();
     this.notifyListeners();
   }
 
   private notifyListeners() {
-    this.listeners.forEach(listener => {
+    this.listeners.forEach((listener) => {
       try {
         listener(this.status);
       } catch (error) {
-        console.warn('Network status listener error:', error);
+        console.warn("Network status listener error:", error);
       }
     });
   }
@@ -81,7 +84,7 @@ class NetworkService {
 
   public addListener(listener: (status: NetworkStatus) => void) {
     this.listeners.push(listener);
-    
+
     // Return unsubscribe function
     return () => {
       const index = this.listeners.indexOf(listener);
@@ -103,5 +106,5 @@ export const networkService = new NetworkService();
 // Helper functions
 export const isOfflineMode = () => networkService.isOfflineMode();
 export const getNetworkStatus = () => networkService.getStatus();
-export const onNetworkChange = (listener: (status: NetworkStatus) => void) => 
+export const onNetworkChange = (listener: (status: NetworkStatus) => void) =>
   networkService.addListener(listener);

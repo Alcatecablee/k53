@@ -1,9 +1,9 @@
-import { ReactNode, useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { Auth } from '@/components/Auth';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertTriangle, WifiOff } from 'lucide-react';
+import { ReactNode, useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Auth } from "@/components/Auth";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AlertTriangle, WifiOff } from "lucide-react";
 
 interface AuthenticatedRouteProps {
   children: ReactNode;
@@ -30,7 +30,9 @@ export function AuthenticatedRoute({ children }: AuthenticatedRouteProps) {
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-slate-800 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-600 font-semibold uppercase tracking-wide">Loading...</p>
+          <p className="text-slate-600 font-semibold uppercase tracking-wide">
+            Loading...
+          </p>
         </div>
       </div>
     );
@@ -48,11 +50,14 @@ export function AuthenticatedRoute({ children }: AuthenticatedRouteProps) {
                 <div className="w-12 h-12 bg-orange-100 border-2 border-orange-300 flex items-center justify-center mx-auto mb-2">
                   <WifiOff className="h-6 w-6 text-orange-600" />
                 </div>
-                <CardTitle className="text-orange-800 text-lg">Connection Issues?</CardTitle>
+                <CardTitle className="text-orange-800 text-lg">
+                  Connection Issues?
+                </CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-orange-700 text-sm mb-4">
-                  Having trouble connecting? You can still practice offline with limited features.
+                  Having trouble connecting? You can still practice offline with
+                  limited features.
                 </p>
                 <Button
                   onClick={() => setOfflineMode(true)}

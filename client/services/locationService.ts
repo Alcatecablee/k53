@@ -15,59 +15,159 @@ export interface UserLocation {
 // South African cities and regions
 export const SOUTH_AFRICAN_LOCATIONS: UserLocation[] = [
   // Gauteng
-  { city: "Johannesburg", region: "Gauteng", displayName: "Johannesburg, Gauteng" },
+  {
+    city: "Johannesburg",
+    region: "Gauteng",
+    displayName: "Johannesburg, Gauteng",
+  },
   { city: "Pretoria", region: "Gauteng", displayName: "Pretoria, Gauteng" },
   { city: "Centurion", region: "Gauteng", displayName: "Centurion, Gauteng" },
   { city: "Sandton", region: "Gauteng", displayName: "Sandton, Gauteng" },
   { city: "Randburg", region: "Gauteng", displayName: "Randburg, Gauteng" },
   { city: "Soweto", region: "Gauteng", displayName: "Soweto, Gauteng" },
   { city: "Benoni", region: "Gauteng", displayName: "Benoni, Gauteng" },
-  
+
   // Western Cape
-  { city: "Cape Town", region: "Western Cape", displayName: "Cape Town, Western Cape" },
-  { city: "Stellenbosch", region: "Western Cape", displayName: "Stellenbosch, Western Cape" },
+  {
+    city: "Cape Town",
+    region: "Western Cape",
+    displayName: "Cape Town, Western Cape",
+  },
+  {
+    city: "Stellenbosch",
+    region: "Western Cape",
+    displayName: "Stellenbosch, Western Cape",
+  },
   { city: "Paarl", region: "Western Cape", displayName: "Paarl, Western Cape" },
-  { city: "George", region: "Western Cape", displayName: "George, Western Cape" },
-  { city: "Knysna", region: "Western Cape", displayName: "Knysna, Western Cape" },
-  { city: "Hermanus", region: "Western Cape", displayName: "Hermanus, Western Cape" },
-  { city: "Worcester", region: "Western Cape", displayName: "Worcester, Western Cape" },
-  
+  {
+    city: "George",
+    region: "Western Cape",
+    displayName: "George, Western Cape",
+  },
+  {
+    city: "Knysna",
+    region: "Western Cape",
+    displayName: "Knysna, Western Cape",
+  },
+  {
+    city: "Hermanus",
+    region: "Western Cape",
+    displayName: "Hermanus, Western Cape",
+  },
+  {
+    city: "Worcester",
+    region: "Western Cape",
+    displayName: "Worcester, Western Cape",
+  },
+
   // KwaZulu-Natal
-  { city: "Durban", region: "KwaZulu-Natal", displayName: "Durban, KwaZulu-Natal" },
-  { city: "Pietermaritzburg", region: "KwaZulu-Natal", displayName: "Pietermaritzburg, KwaZulu-Natal" },
-  { city: "Newcastle", region: "KwaZulu-Natal", displayName: "Newcastle, KwaZulu-Natal" },
-  { city: "Richards Bay", region: "KwaZulu-Natal", displayName: "Richards Bay, KwaZulu-Natal" },
-  { city: "Ladysmith", region: "KwaZulu-Natal", displayName: "Ladysmith, KwaZulu-Natal" },
-  
+  {
+    city: "Durban",
+    region: "KwaZulu-Natal",
+    displayName: "Durban, KwaZulu-Natal",
+  },
+  {
+    city: "Pietermaritzburg",
+    region: "KwaZulu-Natal",
+    displayName: "Pietermaritzburg, KwaZulu-Natal",
+  },
+  {
+    city: "Newcastle",
+    region: "KwaZulu-Natal",
+    displayName: "Newcastle, KwaZulu-Natal",
+  },
+  {
+    city: "Richards Bay",
+    region: "KwaZulu-Natal",
+    displayName: "Richards Bay, KwaZulu-Natal",
+  },
+  {
+    city: "Ladysmith",
+    region: "KwaZulu-Natal",
+    displayName: "Ladysmith, KwaZulu-Natal",
+  },
+
   // Eastern Cape
-  { city: "Port Elizabeth", region: "Eastern Cape", displayName: "Port Elizabeth, Eastern Cape" },
-  { city: "East London", region: "Eastern Cape", displayName: "East London, Eastern Cape" },
-  { city: "Uitenhage", region: "Eastern Cape", displayName: "Uitenhage, Eastern Cape" },
-  { city: "Grahamstown", region: "Eastern Cape", displayName: "Grahamstown, Eastern Cape" },
-  
+  {
+    city: "Port Elizabeth",
+    region: "Eastern Cape",
+    displayName: "Port Elizabeth, Eastern Cape",
+  },
+  {
+    city: "East London",
+    region: "Eastern Cape",
+    displayName: "East London, Eastern Cape",
+  },
+  {
+    city: "Uitenhage",
+    region: "Eastern Cape",
+    displayName: "Uitenhage, Eastern Cape",
+  },
+  {
+    city: "Grahamstown",
+    region: "Eastern Cape",
+    displayName: "Grahamstown, Eastern Cape",
+  },
+
   // Free State
-  { city: "Bloemfontein", region: "Free State", displayName: "Bloemfontein, Free State" },
+  {
+    city: "Bloemfontein",
+    region: "Free State",
+    displayName: "Bloemfontein, Free State",
+  },
   { city: "Welkom", region: "Free State", displayName: "Welkom, Free State" },
-  { city: "Kroonstad", region: "Free State", displayName: "Kroonstad, Free State" },
-  
+  {
+    city: "Kroonstad",
+    region: "Free State",
+    displayName: "Kroonstad, Free State",
+  },
+
   // Limpopo
   { city: "Polokwane", region: "Limpopo", displayName: "Polokwane, Limpopo" },
   { city: "Tzaneen", region: "Limpopo", displayName: "Tzaneen, Limpopo" },
-  { city: "Thohoyandou", region: "Limpopo", displayName: "Thohoyandou, Limpopo" },
-  
+  {
+    city: "Thohoyandou",
+    region: "Limpopo",
+    displayName: "Thohoyandou, Limpopo",
+  },
+
   // Mpumalanga
-  { city: "Nelspruit", region: "Mpumalanga", displayName: "Nelspruit, Mpumalanga" },
+  {
+    city: "Nelspruit",
+    region: "Mpumalanga",
+    displayName: "Nelspruit, Mpumalanga",
+  },
   { city: "Witbank", region: "Mpumalanga", displayName: "Witbank, Mpumalanga" },
   { city: "Secunda", region: "Mpumalanga", displayName: "Secunda, Mpumalanga" },
-  
+
   // North West
-  { city: "Rustenburg", region: "North West", displayName: "Rustenburg, North West" },
-  { city: "Klerksdorp", region: "North West", displayName: "Klerksdorp, North West" },
-  { city: "Potchefstroom", region: "North West", displayName: "Potchefstroom, North West" },
-  
+  {
+    city: "Rustenburg",
+    region: "North West",
+    displayName: "Rustenburg, North West",
+  },
+  {
+    city: "Klerksdorp",
+    region: "North West",
+    displayName: "Klerksdorp, North West",
+  },
+  {
+    city: "Potchefstroom",
+    region: "North West",
+    displayName: "Potchefstroom, North West",
+  },
+
   // Northern Cape
-  { city: "Kimberley", region: "Northern Cape", displayName: "Kimberley, Northern Cape" },
-  { city: "Upington", region: "Northern Cape", displayName: "Upington, Northern Cape" },
+  {
+    city: "Kimberley",
+    region: "Northern Cape",
+    displayName: "Kimberley, Northern Cape",
+  },
+  {
+    city: "Upington",
+    region: "Northern Cape",
+    displayName: "Upington, Northern Cape",
+  },
 ];
 
 // Get user's current location using browser geolocation
@@ -104,7 +204,7 @@ export const getCurrentLocation = (): Promise<LocationCoords> => {
         enableHighAccuracy: false,
         timeout: 10000,
         maximumAge: 300000, // 5 minutes
-      }
+      },
     );
   });
 };
@@ -117,14 +217,29 @@ export const reverseGeocode = (coords: LocationCoords): UserLocation => {
     { city: "Cape Town", region: "Western Cape", lat: -33.9249, lng: 18.4241 },
     { city: "Durban", region: "KwaZulu-Natal", lat: -29.8587, lng: 31.0218 },
     { city: "Pretoria", region: "Gauteng", lat: -25.7479, lng: 28.2293 },
-    { city: "Port Elizabeth", region: "Eastern Cape", lat: -33.9608, lng: 25.6022 },
+    {
+      city: "Port Elizabeth",
+      region: "Eastern Cape",
+      lat: -33.9608,
+      lng: 25.6022,
+    },
     { city: "Bloemfontein", region: "Free State", lat: -29.0852, lng: 26.1596 },
-    { city: "East London", region: "Eastern Cape", lat: -33.0153, lng: 27.9116 },
+    {
+      city: "East London",
+      region: "Eastern Cape",
+      lat: -33.0153,
+      lng: 27.9116,
+    },
     { city: "Polokwane", region: "Limpopo", lat: -23.9045, lng: 29.4689 },
     { city: "Nelspruit", region: "Mpumalanga", lat: -25.4753, lng: 30.9696 },
     { city: "Kimberley", region: "Northern Cape", lat: -28.7282, lng: 24.7499 },
     { city: "Rustenburg", region: "North West", lat: -25.6672, lng: 27.2424 },
-    { city: "Pietermaritzburg", region: "KwaZulu-Natal", lat: -29.6196, lng: 30.3794 },
+    {
+      city: "Pietermaritzburg",
+      region: "KwaZulu-Natal",
+      lat: -29.6196,
+      lng: 30.3794,
+    },
   ];
 
   // Calculate distance to each city and find the closest one
@@ -149,11 +264,23 @@ export const reverseGeocode = (coords: LocationCoords): UserLocation => {
   if (minDistance > 100) {
     // Determine region based on general area
     if (coords.latitude > -26 && coords.longitude > 27) {
-      return { city: "General Area", region: "Gauteng", displayName: "Gauteng Province" };
+      return {
+        city: "General Area",
+        region: "Gauteng",
+        displayName: "Gauteng Province",
+      };
     } else if (coords.latitude < -30 && coords.longitude < 20) {
-      return { city: "General Area", region: "Western Cape", displayName: "Western Cape Province" };
+      return {
+        city: "General Area",
+        region: "Western Cape",
+        displayName: "Western Cape Province",
+      };
     } else if (coords.latitude < -28 && coords.longitude > 30) {
-      return { city: "General Area", region: "KwaZulu-Natal", displayName: "KwaZulu-Natal Province" };
+      return {
+        city: "General Area",
+        region: "KwaZulu-Natal",
+        displayName: "KwaZulu-Natal Province",
+      };
     }
   }
 
@@ -166,14 +293,18 @@ export const reverseGeocode = (coords: LocationCoords): UserLocation => {
 };
 
 // Calculate distance between two coordinates (Haversine formula)
-const calculateDistance = (coord1: LocationCoords, coord2: LocationCoords): number => {
+const calculateDistance = (
+  coord1: LocationCoords,
+  coord2: LocationCoords,
+): number => {
   const R = 6371; // Earth's radius in km
   const dLat = toRadians(coord2.latitude - coord1.latitude);
   const dLon = toRadians(coord2.longitude - coord1.longitude);
   const lat1 = toRadians(coord1.latitude);
   const lat2 = toRadians(coord2.latitude);
 
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
@@ -187,7 +318,7 @@ const toRadians = (degrees: number): number => {
 // Get location from local storage
 export const getStoredLocation = (): UserLocation | null => {
   try {
-    const stored = localStorage.getItem('userLocation');
+    const stored = localStorage.getItem("userLocation");
     return stored ? JSON.parse(stored) : null;
   } catch {
     return null;
@@ -197,7 +328,7 @@ export const getStoredLocation = (): UserLocation | null => {
 // Store location in local storage
 export const storeLocation = (location: UserLocation): void => {
   try {
-    localStorage.setItem('userLocation', JSON.stringify(location));
+    localStorage.setItem("userLocation", JSON.stringify(location));
   } catch {
     // Ignore storage errors
   }
@@ -206,7 +337,7 @@ export const storeLocation = (location: UserLocation): void => {
 // Clear stored location
 export const clearStoredLocation = (): void => {
   try {
-    localStorage.removeItem('userLocation');
+    localStorage.removeItem("userLocation");
   } catch {
     // Ignore storage errors
   }

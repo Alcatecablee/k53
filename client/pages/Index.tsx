@@ -155,9 +155,12 @@ export default function Index() {
             {/* Freemium Banner */}
             <div className="bg-gradient-to-r from-orange-500 to-red-600 text-white p-6 rounded-lg mb-8">
               <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-2xl font-bold mb-2">🚀 Start Free Today!</h2>
+                <h2 className="text-2xl font-bold mb-2">
+                  🚀 Start Free Today!
+                </h2>
                 <p className="text-orange-100 mb-4">
-                  Practice 5 AI scenarios daily for FREE • Location-aware scenarios • Upgrade to SuperK53 for unlimited access
+                  Practice 5 AI scenarios daily for FREE • Location-aware
+                  scenarios • Upgrade to SuperK53 for unlimited access
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button

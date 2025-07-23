@@ -1038,15 +1038,24 @@ export const generateRandomTest = (
   signsCount: number = 28,
   rulesCount: number = 28,
 ): K53Question[] => {
-  const controlsQuestions = shuffleArray(getQuestionsByCategory("controls"))
-    .slice(0, controlsCount);
-  const signsQuestions = shuffleArray(getQuestionsByCategory("signs"))
-    .slice(0, signsCount);
-  const rulesQuestions = shuffleArray(getQuestionsByCategory("rules"))
-    .slice(0, rulesCount);
+  const controlsQuestions = shuffleArray(
+    getQuestionsByCategory("controls"),
+  ).slice(0, controlsCount);
+  const signsQuestions = shuffleArray(getQuestionsByCategory("signs")).slice(
+    0,
+    signsCount,
+  );
+  const rulesQuestions = shuffleArray(getQuestionsByCategory("rules")).slice(
+    0,
+    rulesCount,
+  );
 
   // Shuffle the final combined array as well for random question order
-  return shuffleArray([...controlsQuestions, ...signsQuestions, ...rulesQuestions]);
+  return shuffleArray([
+    ...controlsQuestions,
+    ...signsQuestions,
+    ...rulesQuestions,
+  ]);
 };
 
 export type { K53Question };

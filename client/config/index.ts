@@ -41,8 +41,14 @@ interface AppConfig {
 
 const config: AppConfig = {
   supabase: {
-    url: import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_PUBLIC_SUPABASE_URL || '',
-    anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY || '',
+    url:
+      import.meta.env.VITE_SUPABASE_URL ||
+      import.meta.env.VITE_PUBLIC_SUPABASE_URL ||
+      "",
+    anonKey:
+      import.meta.env.VITE_SUPABASE_ANON_KEY ||
+      import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY ||
+      "",
   },
   features: {
     locationAware: true,
@@ -60,8 +66,8 @@ const config: AppConfig = {
   testing: {
     minPassRate: {
       controls: 0.75, // 75%
-      signs: 0.82,    // 82%
-      rules: 0.79,    // 79%
+      signs: 0.82, // 82%
+      rules: 0.79, // 79%
     },
     testLengths: {
       practice: {
@@ -80,24 +86,31 @@ const config: AppConfig = {
 
 // Validation
 if (!config.supabase.url || !config.supabase.anonKey) {
-  console.error('Missing required Supabase configuration');
+  console.error("Missing required Supabase configuration");
 }
 
 export default config;
 
 // Helper functions
-export const getFeatureFlag = (feature: keyof AppConfig['features']): boolean => {
+export const getFeatureFlag = (
+  feature: keyof AppConfig["features"],
+): boolean => {
   return config.features[feature];
 };
 
-export const getLimit = (limit: keyof AppConfig['limits']): number => {
+export const getLimit = (limit: keyof AppConfig["limits"]): number => {
   return config.limits[limit];
 };
 
-export const getMinPassRate = (category: 'controls' | 'signs' | 'rules'): number => {
+export const getMinPassRate = (
+  category: "controls" | "signs" | "rules",
+): number => {
   return config.testing.minPassRate[category];
 };
 
-export const getTestLength = (type: 'practice' | 'official', category: 'controls' | 'signs' | 'rules'): number => {
+export const getTestLength = (
+  type: "practice" | "official",
+  category: "controls" | "signs" | "rules",
+): number => {
   return config.testing.testLengths[type][category];
 };

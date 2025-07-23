@@ -2,33 +2,39 @@
 
 export interface K53Question {
   id: string;
-  category: 'controls' | 'signs' | 'rules';
+  category: "controls" | "signs" | "rules";
   question: string;
   options: string[];
   correct: number;
   explanation: string;
-  language: 'en' | 'af' | 'zu';
+  language: "en" | "af" | "zu";
 }
 
 export interface K53Scenario {
   id: string;
-  category: 'controls' | 'signs' | 'rules' | 'mixed';
+  category: "controls" | "signs" | "rules" | "mixed";
   title: string;
   scenario: string;
   question: string;
   options: string[];
   correct: number;
   explanation: string;
-  difficulty: 'basic' | 'intermediate' | 'advanced';
-  context: 'urban' | 'rural' | 'highway' | 'parking' | 'intersection' | 'residential';
-  timeOfDay?: 'morning' | 'afternoon' | 'evening' | 'night';
-  weather?: 'clear' | 'rain' | 'fog' | 'wind';
-  language: 'en' | 'af' | 'zu';
+  difficulty: "basic" | "intermediate" | "advanced";
+  context:
+    | "urban"
+    | "rural"
+    | "highway"
+    | "parking"
+    | "intersection"
+    | "residential";
+  timeOfDay?: "morning" | "afternoon" | "evening" | "night";
+  weather?: "clear" | "rain" | "fog" | "wind";
+  language: "en" | "af" | "zu";
   location?: LocationContext;
 }
 
 export interface LocationContext {
-  specificity: 'city' | 'region' | 'national';
+  specificity: "city" | "region" | "national";
   cities?: string[];
   regions?: string[];
   neighborhoods?: string[];
@@ -54,10 +60,13 @@ export interface TestResult {
 export interface UserProgress {
   id: string;
   user_id: string;
-  test_type: 'questions' | 'scenarios';
+  test_type: "questions" | "scenarios";
   score: number;
   total_questions: number;
-  categories: Record<string, { correct: number; total: number; required: number }>;
+  categories: Record<
+    string,
+    { correct: number; total: number; required: number }
+  >;
   passed: boolean;
   location_used?: string;
   completed_at: string;
@@ -117,11 +126,11 @@ export interface LeaderboardEntry {
   score: number;
   totalQuestions: number;
   percentage: number;
-  testType: 'questions' | 'scenarios';
+  testType: "questions" | "scenarios";
   completedAt: string;
 }
 
-export type TestMode = 'questions' | 'scenarios';
-export type Difficulty = 'basic' | 'intermediate' | 'advanced';
-export type Category = 'controls' | 'signs' | 'rules' | 'mixed';
-export type Language = 'en' | 'af' | 'zu';
+export type TestMode = "questions" | "scenarios";
+export type Difficulty = "basic" | "intermediate" | "advanced";
+export type Category = "controls" | "signs" | "rules" | "mixed";
+export type Language = "en" | "af" | "zu";

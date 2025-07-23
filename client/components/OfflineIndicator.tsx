@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { WifiOff, Wifi, AlertTriangle } from 'lucide-react';
-import { onNetworkChange, getNetworkStatus } from '@/services/networkService';
+import { useState, useEffect } from "react";
+import { Badge } from "@/components/ui/badge";
+import { WifiOff, Wifi, AlertTriangle } from "lucide-react";
+import { onNetworkChange, getNetworkStatus } from "@/services/networkService";
 
 export function OfflineIndicator() {
   const [networkStatus, setNetworkStatus] = useState(getNetworkStatus());
@@ -20,12 +20,13 @@ export function OfflineIndicator() {
 
   return (
     <div className="fixed top-4 right-4 z-50">
-      <Badge 
-        variant="outline" 
+      <Badge
+        variant="outline"
         className={`
-          ${!networkStatus.isOnline 
-            ? 'bg-red-100 text-red-800 border-red-300' 
-            : 'bg-yellow-100 text-yellow-800 border-yellow-300'
+          ${
+            !networkStatus.isOnline
+              ? "bg-red-100 text-red-800 border-red-300"
+              : "bg-yellow-100 text-yellow-800 border-yellow-300"
           }
           px-3 py-2 shadow-lg
         `}
@@ -37,10 +38,7 @@ export function OfflineIndicator() {
             <AlertTriangle className="h-4 w-4" />
           )}
           <span className="text-sm font-medium">
-            {!networkStatus.isOnline 
-              ? 'Offline Mode' 
-              : 'Limited Connectivity'
-            }
+            {!networkStatus.isOnline ? "Offline Mode" : "Limited Connectivity"}
           </span>
         </div>
       </Badge>

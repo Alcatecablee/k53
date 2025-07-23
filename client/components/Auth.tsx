@@ -4,10 +4,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Eye, EyeOff, Mail, Lock, User, MapPin, AlertCircle, CheckCircle } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  User,
+  MapPin,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { SOUTH_AFRICAN_LOCATIONS, type UserLocation } from "@/services/locationService";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  SOUTH_AFRICAN_LOCATIONS,
+  type UserLocation,
+} from "@/services/locationService";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface AuthProps {
   onAuthSuccess: () => void;
@@ -19,12 +37,12 @@ export function Auth({ onAuthSuccess }: AuthProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     fullName: "",
-    location: ""
+    location: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,9 +60,9 @@ export function Auth({ onAuthSuccess }: AuthProps) {
           options: {
             data: {
               full_name: formData.fullName,
-              location: formData.location
-            }
-          }
+              location: formData.location,
+            },
+          },
         });
 
         if (error) throw error;
@@ -71,13 +89,16 @@ export function Auth({ onAuthSuccess }: AuthProps) {
     }
   };
 
-  const groupedLocations = SOUTH_AFRICAN_LOCATIONS.reduce((acc, location) => {
-    if (!acc[location.region]) {
-      acc[location.region] = [];
-    }
-    acc[location.region].push(location);
-    return acc;
-  }, {} as Record<string, UserLocation[]>);
+  const groupedLocations = SOUTH_AFRICAN_LOCATIONS.reduce(
+    (acc, location) => {
+      if (!acc[location.region]) {
+        acc[location.region] = [];
+      }
+      acc[location.region].push(location);
+      return acc;
+    },
+    {} as Record<string, UserLocation[]>,
+  );
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
@@ -87,10 +108,9 @@ export function Auth({ onAuthSuccess }: AuthProps) {
             {isSignUp ? "Create Account" : "Sign In"}
           </CardTitle>
           <p className="text-slate-200 text-center text-sm">
-            {isSignUp 
+            {isSignUp
               ? "Join thousands practicing for their K53 license"
-              : "Welcome back to your K53 practice"
-            }
+              : "Welcome back to your K53 practice"}
           </p>
         </CardHeader>
 
@@ -99,7 +119,10 @@ export function Auth({ onAuthSuccess }: AuthProps) {
             {/* Full Name (Sign Up Only) */}
             {isSignUp && (
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+                <Label
+                  htmlFor="fullName"
+                  className="text-sm font-semibold text-slate-700 uppercase tracking-wide"
+                >
                   Full Name
                 </Label>
                 <div className="relative">
@@ -109,7 +132,12 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                     type="text"
                     placeholder="Enter your full name"
                     value={formData.fullName}
-                    onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        fullName: e.target.value,
+                      }))
+                    }
                     className="pl-10 border-2 border-slate-300"
                     required={isSignUp}
                   />
@@ -119,7 +147,10 @@ export function Auth({ onAuthSuccess }: AuthProps) {
 
             {/* Email */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <Label
+                htmlFor="email"
+                className="text-sm font-semibold text-slate-700 uppercase tracking-wide"
+              >
                 Email Address
               </Label>
               <div className="relative">
@@ -129,7 +160,9 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                   type="email"
                   placeholder="Enter your email"
                   value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, email: e.target.value }))
+                  }
                   className="pl-10 border-2 border-slate-300"
                   required
                 />
@@ -138,7 +171,10 @@ export function Auth({ onAuthSuccess }: AuthProps) {
 
             {/* Password */}
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <Label
+                htmlFor="password"
+                className="text-sm font-semibold text-slate-700 uppercase tracking-wide"
+              >
                 Password
               </Label>
               <div className="relative">
@@ -146,9 +182,18 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder={isSignUp ? "Create a password (min 6 characters)" : "Enter your password"}
+                  placeholder={
+                    isSignUp
+                      ? "Create a password (min 6 characters)"
+                      : "Enter your password"
+                  }
                   value={formData.password}
-                  onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
                   className="pl-10 pr-10 border-2 border-slate-300"
                   minLength={isSignUp ? 6 : undefined}
                   required
@@ -160,7 +205,11 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </Button>
               </div>
             </div>
@@ -168,31 +217,40 @@ export function Auth({ onAuthSuccess }: AuthProps) {
             {/* Location (Sign Up Only) */}
             {isSignUp && (
               <div className="space-y-2">
-                <Label htmlFor="location" className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+                <Label
+                  htmlFor="location"
+                  className="text-sm font-semibold text-slate-700 uppercase tracking-wide"
+                >
                   Your Location
                 </Label>
                 <div className="relative">
                   <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400 z-10" />
-                  <Select onValueChange={(value) => setFormData(prev => ({ ...prev, location: value }))}>
+                  <Select
+                    onValueChange={(value) =>
+                      setFormData((prev) => ({ ...prev, location: value }))
+                    }
+                  >
                     <SelectTrigger className="pl-10 border-2 border-slate-300">
                       <SelectValue placeholder="Choose your city..." />
                     </SelectTrigger>
                     <SelectContent className="max-h-60">
-                      {Object.entries(groupedLocations).map(([region, cities]) => (
-                        <div key={region}>
-                          <div className="px-2 py-1 text-xs font-semibold text-slate-500 uppercase tracking-wide">
-                            {region}
+                      {Object.entries(groupedLocations).map(
+                        ([region, cities]) => (
+                          <div key={region}>
+                            <div className="px-2 py-1 text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                              {region}
+                            </div>
+                            {cities.map((location) => (
+                              <SelectItem
+                                key={`${location.city}, ${location.region}`}
+                                value={location.displayName}
+                              >
+                                {location.displayName}
+                              </SelectItem>
+                            ))}
                           </div>
-                          {cities.map((location) => (
-                            <SelectItem 
-                              key={`${location.city}, ${location.region}`} 
-                              value={location.displayName}
-                            >
-                              {location.displayName}
-                            </SelectItem>
-                          ))}
-                        </div>
-                      ))}
+                        ),
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
@@ -223,7 +281,11 @@ export function Auth({ onAuthSuccess }: AuthProps) {
               disabled={loading}
               className="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold uppercase tracking-wide py-3"
             >
-              {loading ? "Please wait..." : isSignUp ? "Create Account" : "Sign In"}
+              {loading
+                ? "Please wait..."
+                : isSignUp
+                  ? "Create Account"
+                  : "Sign In"}
             </Button>
           </form>
 
@@ -237,7 +299,12 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                   setIsSignUp(!isSignUp);
                   setError(null);
                   setSuccess(null);
-                  setFormData({ email: "", password: "", fullName: "", location: "" });
+                  setFormData({
+                    email: "",
+                    password: "",
+                    fullName: "",
+                    location: "",
+                  });
                 }}
                 className="p-0 text-slate-800 font-semibold uppercase tracking-wide"
               >
@@ -248,7 +315,8 @@ export function Auth({ onAuthSuccess }: AuthProps) {
 
           {/* Privacy Note */}
           <div className="mt-4 text-xs text-slate-500 text-center">
-            By signing up, you agree to our privacy policy. Your location is used only for relevant driving scenarios.
+            By signing up, you agree to our privacy policy. Your location is
+            used only for relevant driving scenarios.
           </div>
         </CardContent>
       </Card>

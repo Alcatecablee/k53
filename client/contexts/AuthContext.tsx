@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import type { User } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase";
 
 interface AuthContextType {
   user: User | null;
@@ -24,29 +24,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             return await Promise.race([
               supabase.auth.getSession(),
               new Promise((_, reject) =>
-                setTimeout(() => reject(new Error('Auth timeout')), 2000)
-              )
+                setTimeout(() => reject(new Error("Auth timeout")), 2000),
+              ),
             ]);
           } catch (networkError) {
             // Check if it's a network error (Failed to fetch)
-            if (networkError.message?.includes('fetch') ||
-                networkError.message?.includes('network') ||
-                networkError.message?.includes('timeout')) {
-              console.warn('Network connectivity issue detected:', networkError.message);
+            if (
+              networkError.message?.includes("fetch") ||
+              networkError.message?.includes("network") ||
+              networkError.message?.includes("timeout")
+            ) {
+              console.warn(
+                "Network connectivity issue detected:",
+                networkError.message,
+              );
               return { data: { session: null }, error: networkError };
             }
             throw networkError;
           }
         };
 
-        const { data: { session }, error } = await attemptAuth();
+        const {
+          data: { session },
+          error,
+        } = await attemptAuth();
 
         if (error) {
-          console.warn('Supabase auth error, continuing in offline mode:', error.message);
+          console.warn(
+            "Supabase auth error, continuing in offline mode:",
+            error.message,
+          );
         }
         setUser(session?.user ?? null);
       } catch (error) {
-        console.warn('Supabase completely unavailable, entering offline mode:', error);
+        console.warn(
+          "Supabase completely unavailable, entering offline mode:",
+          error,
+        );
         setUser(null);
       } finally {
         setLoading(false);
@@ -65,12 +79,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(session?.user ?? null);
           setLoading(false);
         } catch (listenerError) {
-          console.warn('Auth state change error:', listenerError);
+          console.warn("Auth state change error:", listenerError);
         }
       });
       subscription = sub;
     } catch (error) {
-      console.warn('Unable to set up auth listener, app will work in offline mode:', error);
+      console.warn(
+        "Unable to set up auth listener, app will work in offline mode:",
+        error,
+      );
     }
 
     return () => {
@@ -79,7 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           subscription.unsubscribe();
         }
       } catch (cleanupError) {
-        console.warn('Error during auth cleanup:', cleanupError);
+        console.warn("Error during auth cleanup:", cleanupError);
       }
     };
   }, []);
@@ -89,11 +106,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await Promise.race([
         supabase.auth.signOut(),
         new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Sign out timeout')), 3000)
-        )
+          setTimeout(() => reject(new Error("Sign out timeout")), 3000),
+        ),
       ]);
     } catch (error) {
-      console.warn('Sign out error, clearing local session:', error);
+      console.warn("Sign out error, clearing local session:", error);
       // Clear local session even if remote sign out fails
       setUser(null);
     }
@@ -111,7 +128,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

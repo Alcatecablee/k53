@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Navigation, X, AlertCircle, CheckCircle } from "lucide-react";
-import { 
-  getCurrentLocation, 
-  reverseGeocode, 
-  SOUTH_AFRICAN_LOCATIONS, 
+import {
+  getCurrentLocation,
+  reverseGeocode,
+  SOUTH_AFRICAN_LOCATIONS,
   storeLocation,
-  type UserLocation 
+  type UserLocation,
 } from "@/services/locationService";
 
 interface LocationSelectorProps {
@@ -18,10 +24,16 @@ interface LocationSelectorProps {
   currentLocation?: UserLocation | null;
 }
 
-export function LocationSelector({ onLocationSelected, onClose, currentLocation }: LocationSelectorProps) {
+export function LocationSelector({
+  onLocationSelected,
+  onClose,
+  currentLocation,
+}: LocationSelectorProps) {
   const [isDetecting, setIsDetecting] = useState(false);
   const [detectionError, setDetectionError] = useState<string | null>(null);
-  const [selectedLocation, setSelectedLocation] = useState<UserLocation | null>(currentLocation || null);
+  const [selectedLocation, setSelectedLocation] = useState<UserLocation | null>(
+    currentLocation || null,
+  );
 
   const handleAutoDetect = async () => {
     setIsDetecting(true);
@@ -33,15 +45,17 @@ export function LocationSelector({ onLocationSelected, onClose, currentLocation 
       setSelectedLocation(location);
       setDetectionError(null);
     } catch (error) {
-      setDetectionError(error instanceof Error ? error.message : "Failed to detect location");
+      setDetectionError(
+        error instanceof Error ? error.message : "Failed to detect location",
+      );
     } finally {
       setIsDetecting(false);
     }
   };
 
   const handleManualSelect = (cityRegion: string) => {
-    const location = SOUTH_AFRICAN_LOCATIONS.find(loc => 
-      `${loc.city}, ${loc.region}` === cityRegion
+    const location = SOUTH_AFRICAN_LOCATIONS.find(
+      (loc) => `${loc.city}, ${loc.region}` === cityRegion,
     );
     if (location) {
       setSelectedLocation(location);
@@ -57,13 +71,16 @@ export function LocationSelector({ onLocationSelected, onClose, currentLocation 
     }
   };
 
-  const groupedLocations = SOUTH_AFRICAN_LOCATIONS.reduce((acc, location) => {
-    if (!acc[location.region]) {
-      acc[location.region] = [];
-    }
-    acc[location.region].push(location);
-    return acc;
-  }, {} as Record<string, UserLocation[]>);
+  const groupedLocations = SOUTH_AFRICAN_LOCATIONS.reduce(
+    (acc, location) => {
+      if (!acc[location.region]) {
+        acc[location.region] = [];
+      }
+      acc[location.region].push(location);
+      return acc;
+    },
+    {} as Record<string, UserLocation[]>,
+  );
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -86,7 +103,8 @@ export function LocationSelector({ onLocationSelected, onClose, currentLocation 
             </Button>
           </div>
           <p className="text-slate-200 mt-2">
-            Get K53 scenarios tailored to your area - from Johannesburg taxi ranks to Cape Town's coastal roads!
+            Get K53 scenarios tailored to your area - from Johannesburg taxi
+            ranks to Cape Town's coastal roads!
           </p>
         </CardHeader>
 
@@ -98,7 +116,8 @@ export function LocationSelector({ onLocationSelected, onClose, currentLocation 
             </h3>
             <div className="bg-slate-100 p-4 rounded border-2 border-slate-300">
               <p className="text-slate-700 text-sm mb-4">
-                Enable location services to automatically find scenarios for your area, like load shedding in Pretoria or potholes on the N2.
+                Enable location services to automatically find scenarios for
+                your area, like load shedding in Pretoria or potholes on the N2.
               </p>
               <Button
                 onClick={handleAutoDetect}
@@ -117,7 +136,7 @@ export function LocationSelector({ onLocationSelected, onClose, currentLocation 
                   </>
                 )}
               </Button>
-              
+
               {detectionError && (
                 <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded flex items-start space-x-2">
                   <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
@@ -144,8 +163,8 @@ export function LocationSelector({ onLocationSelected, onClose, currentLocation 
                         {region}
                       </div>
                       {cities.map((location) => (
-                        <SelectItem 
-                          key={`${location.city}, ${location.region}`} 
+                        <SelectItem
+                          key={`${location.city}, ${location.region}`}
                           value={`${location.city}, ${location.region}`}
                         >
                           {location.displayName}
@@ -171,7 +190,9 @@ export function LocationSelector({ onLocationSelected, onClose, currentLocation 
                     {selectedLocation.displayName}
                   </Badge>
                   <p className="text-green-700 text-sm">
-                    You'll get scenarios like navigating {selectedLocation.city}'s roads, local traffic conditions, and {selectedLocation.region}-specific driving challenges.
+                    You'll get scenarios like navigating {selectedLocation.city}
+                    's roads, local traffic conditions, and{" "}
+                    {selectedLocation.region}-specific driving challenges.
                   </p>
                 </div>
               </div>
@@ -198,7 +219,8 @@ export function LocationSelector({ onLocationSelected, onClose, currentLocation 
 
           {/* Privacy Note */}
           <div className="text-xs text-slate-500 text-center pt-2 border-t border-slate-200">
-            Your location is only used to provide relevant scenarios and is stored locally on your device.
+            Your location is only used to provide relevant scenarios and is
+            stored locally on your device.
           </div>
         </CardContent>
       </Card>

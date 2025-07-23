@@ -26,10 +26,21 @@ import { K53Scenario } from "../data/k53Scenarios";
 import { getScenarios, getQuestions } from "@/services/dataService";
 import { LocationSelector } from "@/components/LocationSelector";
 import { AuthenticatedRoute } from "@/components/AuthenticatedRoute";
-import { getStoredLocation, type UserLocation } from "@/services/locationService";
+import {
+  getStoredLocation,
+  type UserLocation,
+} from "@/services/locationService";
 import { useAuth } from "@/contexts/AuthContext";
-import { saveUserProgress, getUserProfile, updateUserProfile } from "@/services/databaseService";
-import { canAccessScenarios, updateDailyUsage, getUserSubscription } from "@/services/subscriptionService";
+import {
+  saveUserProgress,
+  getUserProfile,
+  updateUserProfile,
+} from "@/services/databaseService";
+import {
+  canAccessScenarios,
+  updateDailyUsage,
+  getUserSubscription,
+} from "@/services/subscriptionService";
 
 interface TestResult {
   category: string;
@@ -70,7 +81,11 @@ function PracticeComponent() {
           // Load subscription and usage info
           const [userSub, accessInfo] = await Promise.all([
             getUserSubscription().catch(() => null),
-            canAccessScenarios().catch(() => ({ canAccess: true, remaining: 5, isSubscribed: false }))
+            canAccessScenarios().catch(() => ({
+              canAccess: true,
+              remaining: 5,
+              isSubscribed: false,
+            })),
           ]);
 
           setSubscription(userSub);
@@ -81,19 +96,22 @@ function PracticeComponent() {
             const profile = await getUserProfile();
             if (profile.location) {
               // Parse location from user profile
-              const locationParts = profile.location.split(', ');
+              const locationParts = profile.location.split(", ");
               if (locationParts.length >= 2) {
                 const userLoc: UserLocation = {
                   city: locationParts[0],
                   region: locationParts[1],
-                  displayName: profile.location
+                  displayName: profile.location,
                 };
                 setUserLocation(userLoc);
                 return;
               }
             }
           } catch (dbError) {
-            console.warn('Database unavailable for user profile, using local storage:', dbError);
+            console.warn(
+              "Database unavailable for user profile, using local storage:",
+              dbError,
+            );
           }
         }
 
@@ -103,12 +121,12 @@ function PracticeComponent() {
           setUserLocation(storedLocation);
         }
       } catch (error) {
-        console.warn('Error loading user data, using defaults:', error);
+        console.warn("Error loading user data, using defaults:", error);
         // Set a default location if nothing works
         const defaultLocation: UserLocation = {
-          city: 'Cape Town',
-          region: 'Western Cape',
-          displayName: 'Cape Town, Western Cape'
+          city: "Cape Town",
+          region: "Western Cape",
+          displayName: "Cape Town, Western Cape",
         };
         setUserLocation(defaultLocation);
         setUsageInfo({ canAccess: true, remaining: 5, isSubscribed: false });
@@ -129,7 +147,7 @@ function PracticeComponent() {
           location_region: location.region,
         });
       } catch (error) {
-        console.error('Error updating user location:', error);
+        console.error("Error updating user location:", error);
       }
     }
   };
@@ -141,17 +159,21 @@ function PracticeComponent() {
     try {
       if (fullTest) {
         const randomTest = await getQuestions(8, 28, 28);
-        console.log("Official test randomized order (first 10):",
-          randomTest.slice(0, 10).map(q => q.id));
+        console.log(
+          "Official test randomized order (first 10):",
+          randomTest.slice(0, 10).map((q) => q.id),
+        );
         setTestQuestions(randomTest);
       } else {
         const randomTest = await getQuestions(2, 5, 5);
-        console.log("Practice test randomized order:",
-          randomTest.map(q => q.id));
+        console.log(
+          "Practice test randomized order:",
+          randomTest.map((q) => q.id),
+        );
         setTestQuestions(randomTest);
       }
     } catch (error) {
-      console.error('Error generating test:', error);
+      console.error("Error generating test:", error);
       // Fallback to empty array
       setTestQuestions([]);
     }
@@ -172,7 +194,9 @@ function PracticeComponent() {
     const accessInfo = await canAccessScenarios();
 
     if (!accessInfo.canAccess) {
-      alert(`You've reached your daily limit of 5 scenarios. Upgrade to SuperK53 for unlimited practice!`);
+      alert(
+        `You've reached your daily limit of 5 scenarios. Upgrade to SuperK53 for unlimited practice!`,
+      );
       return;
     }
 
@@ -181,11 +205,16 @@ function PracticeComponent() {
 
     try {
       // Use location-aware generation if user has a location set
-      const randomScenarios = await getScenarios(226, userLocation || undefined);
+      const randomScenarios = await getScenarios(
+        226,
+        userLocation || undefined,
+      );
 
       // Log first few scenario IDs for verification (can be removed later)
-      console.log("AI Scenarios randomized order (first 10):",
-        randomScenarios.slice(0, 10).map(s => s.id));
+      console.log(
+        "AI Scenarios randomized order (first 10):",
+        randomScenarios.slice(0, 10).map((s) => s.id),
+      );
       if (userLocation) {
         console.log("Location-aware scenarios for:", userLocation.displayName);
       }
@@ -194,13 +223,13 @@ function PracticeComponent() {
 
       // Update usage for scenarios (only for free users)
       if (!accessInfo.isSubscribed) {
-        await updateDailyUsage('scenarios', 1);
+        await updateDailyUsage("scenarios", 1);
         // Refresh usage info
         const newAccessInfo = await canAccessScenarios();
         setUsageInfo(newAccessInfo);
       }
     } catch (error) {
-      console.error('Error generating scenarios:', error);
+      console.error("Error generating scenarios:", error);
       // Fallback to empty array
       setTestScenarios([]);
     }
@@ -326,22 +355,22 @@ function PracticeComponent() {
           score: totalCorrect,
           total_questions: totalQuestions,
           categories: Object.fromEntries(
-            testResults.map(r => [
+            testResults.map((r) => [
               r.category.toLowerCase(),
-              { correct: r.correct, total: r.total, required: r.required }
-            ])
+              { correct: r.correct, total: r.total, required: r.required },
+            ]),
           ),
           passed: overallPassed,
           location_used: userLocation?.displayName,
         });
 
         if (saved) {
-          console.log('Progress saved to database successfully');
+          console.log("Progress saved to database successfully");
         } else {
-          console.log('Progress saved locally (database unavailable)');
+          console.log("Progress saved locally (database unavailable)");
         }
       } catch (error) {
-        console.warn('Progress saved locally only:', error);
+        console.warn("Progress saved locally only:", error);
       }
     }
 
@@ -570,7 +599,8 @@ function PracticeComponent() {
                       )}
 
                       <p className="text-white/90 mb-4 text-sm leading-relaxed">
-                        Real-world driving scenarios tailored to your area - from Cape Town's baboons to Joburg's taxi ranks!
+                        Real-world driving scenarios tailored to your area -
+                        from Cape Town's baboons to Joburg's taxi ranks!
                       </p>
 
                       <div className="space-y-2">
@@ -578,7 +608,8 @@ function PracticeComponent() {
                         {usageInfo && !usageInfo.isSubscribed && (
                           <div className="p-2 bg-white/20 rounded border border-white/30 text-center">
                             <div className="text-xs text-white/90">
-                              Daily scenarios: {5 - (usageInfo.remaining || 0)}/5 used
+                              Daily scenarios: {5 - (usageInfo.remaining || 0)}
+                              /5 used
                             </div>
                             {usageInfo.remaining === 0 && (
                               <div className="text-xs text-red-200 mt-1">
@@ -601,9 +632,7 @@ function PracticeComponent() {
                             asChild
                             className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold uppercase tracking-wide py-2 text-xs"
                           >
-                            <Link to="/pricing">
-                              ⭐ Upgrade for Unlimited
-                            </Link>
+                            <Link to="/pricing">⭐ Upgrade for Unlimited</Link>
                           </Button>
                         )}
 

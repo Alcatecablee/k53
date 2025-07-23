@@ -2792,7 +2792,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Baboon Roadblock in Cape Peninsula",
     scenario:
       "You're driving on Chapman's Peak Drive near Cape Town when a troop of baboons blocks the road. Some are sitting on your car, and tourists are getting out of their vehicles to take photos.",
-    question: "What is the safest action when encountering baboons on the road?",
+    question:
+      "What is the safest action when encountering baboons on the road?",
     options: [
       "Get out and shoo the baboons away",
       "Honk continuously to scare them off",
@@ -2811,7 +2812,7 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Cape Town"],
       regions: ["Western Cape"],
       landmarks: ["Chapman's Peak Drive", "Cape Peninsula"],
-      specificity: "city"
+      specificity: "city",
     },
   },
   {
@@ -2820,7 +2821,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Informal Settlement Children at Play",
     scenario:
       "You're driving through an informal settlement near Alexandra, Johannesburg. Children are playing soccer in the street, and there are no proper sidewalks or playing areas.",
-    question: "How should you navigate through informal settlements with children playing?",
+    question:
+      "How should you navigate through informal settlements with children playing?",
     options: [
       "Drive at normal speed and honk to clear the way",
       "Reduce speed significantly and be prepared to stop completely",
@@ -2839,7 +2841,7 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Johannesburg"],
       regions: ["Gauteng"],
       landmarks: ["Alexandra", "informal settlement"],
-      specificity: "city"
+      specificity: "city",
     },
   },
   {
@@ -2867,7 +2869,7 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Johannesburg", "Bronkhorstspruit"],
       regions: ["Gauteng"],
       landmarks: ["R25"],
-      specificity: "region"
+      specificity: "region",
     },
   },
   {
@@ -2942,7 +2944,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Traditional Healer Ceremony Road Closure",
     scenario:
       "You encounter a traditional ceremony taking place across a rural road near Limpopo. Community members are gathered, and the road is temporarily blocked by the cultural event.",
-    question: "What is the appropriate response to traditional ceremonies blocking roads?",
+    question:
+      "What is the appropriate response to traditional ceremonies blocking roads?",
     options: [
       "Honk and drive through the ceremony",
       "Get out and complain about the inconvenience",
@@ -2964,7 +2967,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Fuel Shortage Queue at Garage",
     scenario:
       "You arrive at a petrol station in Kimberley during a fuel shortage. There's a long queue of vehicles, some drivers are getting aggressive, and the queue extends into the road.",
-    question: "How should you handle fuel shortage situations at petrol stations?",
+    question:
+      "How should you handle fuel shortage situations at petrol stations?",
     options: [
       "Cut into the queue to save time",
       "Argue with other drivers about queue positions",
@@ -2986,7 +2990,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Flooding on Low Water Bridge",
     scenario:
       "You approach a low water bridge near Rustenburg after heavy rains. Water is flowing over the bridge, but you can see the road surface underneath. Other drivers are crossing slowly.",
-    question: "What is the safest approach when crossing flooded low water bridges?",
+    question:
+      "What is the safest approach when crossing flooded low water bridges?",
     options: [
       "Speed up to get across quickly before water gets deeper",
       "Test the depth slowly and cross at steady, slow speed if safe",
@@ -3049,7 +3054,7 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Cape Town"],
       regions: ["Western Cape"],
       landmarks: ["University of Cape Town", "campus"],
-      specificity: "city"
+      specificity: "city",
     },
   },
   {
@@ -3212,7 +3217,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Overloaded Bakkie Handling",
     scenario:
       "You're driving a bakkie loaded with furniture and appliances for a house move in Pretoria. The load is properly secured but the vehicle is handling very differently than usual.",
-    question: "How should you adjust your driving when your vehicle is heavily loaded?",
+    question:
+      "How should you adjust your driving when your vehicle is heavily loaded?",
     options: [
       "Drive normally as the load is secure",
       "Increase speed to maintain momentum",
@@ -3256,7 +3262,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Clinic Emergency Vehicle Priority",
     scenario:
       "You're driving in a rural area near Tzaneen when an ambulance approaches from behind, but the road is too narrow to pull over safely. There's a cliff on one side and a deep ditch on the other.",
-    question: "What should you do when you can't safely pull over for emergency vehicles?",
+    question:
+      "What should you do when you can't safely pull over for emergency vehicles?",
     options: [
       "Stop where you are and let them figure it out",
       "Speed up to find a safe place to pull over",
@@ -3300,7 +3307,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Heritage Day Cultural Procession",
     scenario:
       "You encounter a Heritage Day cultural procession in central Durban with people in traditional Zulu attire, drummers, and dancers proceeding slowly down the main road.",
-    question: "What is the appropriate response to cultural processions on public roads?",
+    question:
+      "What is the appropriate response to cultural processions on public roads?",
     options: [
       "Honk to get them to move faster",
       "Drive through gaps in the procession",
@@ -3344,7 +3352,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Gravel Road Dust Cloud Overtaking",
     scenario:
       "You're on a gravel road near Upington following a truck that's creating a massive dust cloud. You can't see oncoming traffic, but the truck is moving very slowly.",
-    question: "How should you handle overtaking in dusty conditions on gravel roads?",
+    question:
+      "How should you handle overtaking in dusty conditions on gravel roads?",
     options: [
       "Overtake quickly while you can't see oncoming traffic",
       "Follow closely to reduce the dust gap",
@@ -3366,7 +3375,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Temporary Diversion Through Squatter Camp",
     scenario:
       "Road construction has created a temporary diversion that routes traffic through an informal settlement near East London. There are handwritten signs and no official road markings.",
-    question: "How should you navigate temporary diversions through informal settlements?",
+    question:
+      "How should you navigate temporary diversions through informal settlements?",
     options: [
       "Drive at normal speed following the signs",
       "Ignore informal signs and find your own route",
@@ -3410,7 +3420,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Minibus Taxi Loading Techniques",
     scenario:
       "You're driving a minibus taxi in Johannesburg and need to stop to pick up passengers. There's moderate traffic, and passengers are running to catch your taxi.",
-    question: "What's the safest way to stop a minibus taxi for passenger loading?",
+    question:
+      "What's the safest way to stop a minibus taxi for passenger loading?",
     options: [
       "Stop suddenly wherever passengers are waiting",
       "Signal early, check mirrors, and stop in a designated taxi stop area",
@@ -3454,7 +3465,8 @@ export const k53ScenarioBank: K53Scenario[] = [
     title: "Community Protest Road Closure",
     scenario:
       "You encounter a peaceful community protest in Mamelodi, Pretoria, where residents are marching for better service delivery. The main road is blocked, but protesters are directing traffic to side streets.",
-    question: "How should you respond to peaceful community protests affecting traffic?",
+    question:
+      "How should you respond to peaceful community protests affecting traffic?",
     options: [
       "Honk and demand they clear the road",
       "Drive through the protest anyway",
@@ -3475,336 +3487,370 @@ export const k53ScenarioBank: K53Scenario[] = [
     id: "SC157",
     category: "controls",
     title: "Mirror Check in Alexandra Township",
-    scenario: "You're driving through Alexandra, Johannesburg, on a narrow street near a busy spaza shop. A group of children playing soccer suddenly kick a ball toward the road.",
+    scenario:
+      "You're driving through Alexandra, Johannesburg, on a narrow street near a busy spaza shop. A group of children playing soccer suddenly kick a ball toward the road.",
     question: "What should you do in this situation?",
     options: [
       "Hoot to warn the children",
       "Check mirrors and slow down",
       "Swerve to avoid the ball",
-      "Accelerate to pass quickly"
+      "Accelerate to pass quickly",
     ],
     correct: 1,
-    explanation: "Check your mirrors and slow down to assess the situation and avoid hitting the children or the ball. Hooting may startle them, and swerving or accelerating is unsafe in a crowded township.",
+    explanation:
+      "Check your mirrors and slow down to assess the situation and avoid hitting the children or the ball. Hooting may startle them, and swerving or accelerating is unsafe in a crowded township.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "afternoon",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC158",
     category: "signs",
     title: "Yield Sign in Cape Town's Bo-Kaap",
-    scenario: "You're driving on Wale Street in Bo-Kaap, Cape Town, during a cultural festival. A yield sign is posted at an intersection, and a minibus taxi is approaching from the right.",
+    scenario:
+      "You're driving on Wale Street in Bo-Kaap, Cape Town, during a cultural festival. A yield sign is posted at an intersection, and a minibus taxi is approaching from the right.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're on the main road",
       "Yield to the taxi and check for pedestrians",
       "Hoot to assert your position",
-      "Speed up to clear the intersection"
+      "Speed up to clear the intersection",
     ],
     correct: 1,
-    explanation: "A yield sign requires you to give way to vehicles from the right. Yield to the taxi and check for festival pedestrians to ensure safety.",
+    explanation:
+      "A yield sign requires you to give way to vehicles from the right. Yield to the taxi and check for festival pedestrians to ensure safety.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC159",
     category: "rules",
     title: "Parking Near a Johannesburg Taxi Rank",
-    scenario: "You're on Bree Street in Johannesburg's CBD near a busy taxi rank. You want to park, but a 'No Parking' sign is posted during peak hours.",
+    scenario:
+      "You're on Bree Street in Johannesburg's CBD near a busy taxi rank. You want to park, but a 'No Parking' sign is posted during peak hours.",
     question: "What should you do in this situation?",
     options: [
       "Park briefly to drop off a passenger",
       "Find an alternative parking area",
       "Hoot to clear the taxi rank",
-      "Ignore the sign if no taxis are nearby"
+      "Ignore the sign if no taxis are nearby",
     ],
     correct: 1,
-    explanation: "A 'No Parking' sign prohibits parking during specified hours. You must find an alternative parking area to comply with traffic rules and avoid congestion near the taxi rank.",
+    explanation:
+      "A 'No Parking' sign prohibits parking during specified hours. You must find an alternative parking area to comply with traffic rules and avoid congestion near the taxi rank.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC160",
     category: "mixed",
     title: "Navigating a Soweto Street Market",
-    scenario: "You're driving on Vilakazi Street in Soweto, Johannesburg, during a weekend street market. A minibus taxi stops suddenly to drop off passengers, and vendors are crossing the road.",
+    scenario:
+      "You're driving on Vilakazi Street in Soweto, Johannesburg, during a weekend street market. A minibus taxi stops suddenly to drop off passengers, and vendors are crossing the road.",
     question: "What should you do in this situation?",
     options: [
       "Hoot to clear the vendors",
       "Slow down and wait for a safe gap",
       "Overtake the taxi immediately",
-      "Reverse to avoid the market"
+      "Reverse to avoid the market",
     ],
     correct: 1,
-    explanation: "In a busy market area, slow down and wait for a safe gap to avoid collisions with vendors and the taxi. Hooting, overtaking, or reversing is unsafe in a crowded space.",
+    explanation:
+      "In a busy market area, slow down and wait for a safe gap to avoid collisions with vendors and the taxi. Hooting, overtaking, or reversing is unsafe in a crowded space.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "afternoon",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC161",
     category: "controls",
     title: "Three-Point Turn in Rondebosch",
-    scenario: "You're performing a three-point turn on a narrow residential street in Rondebosch, Cape Town. A bakkie approaches from behind, and children are playing nearby.",
+    scenario:
+      "You're performing a three-point turn on a narrow residential street in Rondebosch, Cape Town. A bakkie approaches from behind, and children are playing nearby.",
     question: "What should you do in this situation?",
     options: [
       "Complete the turn quickly",
       "Check mirrors and pause if necessary",
       "Hoot to warn the bakkie",
-      "Abandon the turn and drive away"
+      "Abandon the turn and drive away",
     ],
     correct: 1,
-    explanation: "During a three-point turn, check mirrors and pause if vehicles or pedestrians are near to ensure safety. Completing the turn quickly or hooting is unsafe, and abandoning the maneuver may not be necessary.",
+    explanation:
+      "During a three-point turn, check mirrors and pause if vehicles or pedestrians are near to ensure safety. Completing the turn quickly or hooting is unsafe, and abandoning the maneuver may not be necessary.",
     difficulty: "intermediate",
     context: "residential",
     timeOfDay: "afternoon",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC162",
     category: "signs",
     title: "No Overtaking in Sandton",
-    scenario: "You're driving on West Street in Sandton, Johannesburg, behind a slow-moving delivery van. A 'No Overtaking' sign is posted due to a nearby construction zone.",
+    scenario:
+      "You're driving on West Street in Sandton, Johannesburg, behind a slow-moving delivery van. A 'No Overtaking' sign is posted due to a nearby construction zone.",
     question: "What should you do in this situation?",
     options: [
       "Overtake the van if the road is clear",
       "Maintain a safe following distance",
       "Hoot to urge the van to speed up",
-      "Pull over to wait for the van to pass"
+      "Pull over to wait for the van to pass",
     ],
     correct: 1,
-    explanation: "A 'No Overtaking' sign prohibits overtaking. Maintain a safe following distance behind the van until it's safe and legal to overtake after the construction zone.",
+    explanation:
+      "A 'No Overtaking' sign prohibits overtaking. Maintain a safe following distance behind the van until it's safe and legal to overtake after the construction zone.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC163",
     category: "rules",
     title: "Right of Way in Pretoria CBD",
-    scenario: "You're at a four-way stop on Church Street in Pretoria's CBD. A minibus taxi from the left proceeds out of turn, and a pedestrian is crossing from the right.",
+    scenario:
+      "You're at a four-way stop on Church Street in Pretoria's CBD. A minibus taxi from the left proceeds out of turn, and a pedestrian is crossing from the right.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're next in line",
       "Wait for the pedestrian and intersection to clear",
       "Hoot to warn the taxi",
-      "Follow the taxi immediately"
+      "Follow the taxi immediately",
     ],
     correct: 1,
-    explanation: "At a four-way stop, wait for the pedestrian and ensure the intersection is clear, even if the taxi moves out of turn, to prioritize safety.",
+    explanation:
+      "At a four-way stop, wait for the pedestrian and ensure the intersection is clear, even if the taxi moves out of turn, to prioritize safety.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC164",
     category: "mixed",
     title: "Load Shedding at a Randburg Intersection",
-    scenario: "You're driving on Malibongwe Drive in Randburg, Johannesburg, at night during load shedding, and the robots are out. A group of street vendors are crossing the intersection.",
+    scenario:
+      "You're driving on Malibongwe Drive in Randburg, Johannesburg, at night during load shedding, and the robots are out. A group of street vendors are crossing the intersection.",
     question: "What should you do in this situation?",
     options: [
       "Proceed cautiously through the intersection",
       "Stop and yield to the vendors",
       "Hoot to clear the intersection",
-      "Flash your lights to warn the vendors"
+      "Flash your lights to warn the vendors",
     ],
     correct: 1,
-    explanation: "With robots out, treat the intersection as a four-way stop. Stop and yield to the vendors to ensure their safety before proceeding.",
+    explanation:
+      "With robots out, treat the intersection as a four-way stop. Stop and yield to the vendors to ensure their safety before proceeding.",
     difficulty: "advanced",
     context: "urban",
     timeOfDay: "night",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC165",
     category: "controls",
     title: "Clutch Control in Cape Town's Sea Point",
-    scenario: "You're in a manual car on Main Road in Sea Point, Cape Town, during heavy traffic after a beach event. You need to move forward slowly on a slight incline.",
+    scenario:
+      "You're in a manual car on Main Road in Sea Point, Cape Town, during heavy traffic after a beach event. You need to move forward slowly on a slight incline.",
     question: "What should you do in this situation?",
     options: [
       "Keep the clutch pressed and accelerate",
       "Use clutch control with the handbrake",
       "Shift to neutral and coast",
-      "Hoot to clear the traffic"
+      "Hoot to clear the traffic",
     ],
     correct: 1,
-    explanation: "On an incline in traffic, use clutch control with the handbrake to move forward smoothly without rolling back or stalling. Other options are unsafe or ineffective.",
+    explanation:
+      "On an incline in traffic, use clutch control with the handbrake to move forward smoothly without rolling back or stalling. Other options are unsafe or ineffective.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "evening",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC166",
     category: "signs",
     title: "Pedestrian Crossing in Fourways",
-    scenario: "You're driving on Witkoppen Road in Fourways, Johannesburg, near a shopping mall. A pedestrian crossing sign is posted, and shoppers are waiting to cross.",
+    scenario:
+      "You're driving on Witkoppen Road in Fourways, Johannesburg, near a shopping mall. A pedestrian crossing sign is posted, and shoppers are waiting to cross.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to pass before they cross",
       "Stop and let the pedestrians cross",
       "Hoot to warn the pedestrians",
-      "Wave the pedestrians to wait"
+      "Wave the pedestrians to wait",
     ],
     correct: 1,
-    explanation: "A pedestrian crossing sign requires you to stop and let pedestrians cross safely. Speeding up or hooting is unsafe, and waving pedestrians to wait is incorrect.",
+    explanation:
+      "A pedestrian crossing sign requires you to stop and let pedestrians cross safely. Speeding up or hooting is unsafe, and waving pedestrians to wait is incorrect.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "afternoon",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC167",
     category: "rules",
     title: "School Zone in Claremont",
-    scenario: "You're driving on Main Road in Claremont, Cape Town, near a school during drop-off time. The speed limit is 40 km/h, and children are walking along the pavement.",
+    scenario:
+      "You're driving on Main Road in Claremont, Cape Town, near a school during drop-off time. The speed limit is 40 km/h, and children are walking along the pavement.",
     question: "What should you do in this situation?",
     options: [
       "Maintain 60 km/h to keep up with traffic",
       "Reduce speed to 40 km/h and stay alert",
       "Hoot to warn the children",
-      "Stop to let the children cross"
+      "Stop to let the children cross",
     ],
     correct: 1,
-    explanation: "In a school zone, reduce speed to 40 km/h and stay alert for children who may cross unexpectedly. Maintaining a higher speed or hooting is unsafe.",
+    explanation:
+      "In a school zone, reduce speed to 40 km/h and stay alert for children who may cross unexpectedly. Maintaining a higher speed or hooting is unsafe.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC168",
     category: "mixed",
     title: "Taxi Rank Chaos in Midrand",
-    scenario: "You're driving on Old Pretoria Road in Midrand, Johannesburg, near a taxi rank. A minibus taxi pulls out suddenly, and pedestrians are crossing to nearby shops.",
+    scenario:
+      "You're driving on Old Pretoria Road in Midrand, Johannesburg, near a taxi rank. A minibus taxi pulls out suddenly, and pedestrians are crossing to nearby shops.",
     question: "What should you do in this situation?",
     options: [
       "Hoot and speed up to pass the taxi",
       "Slow down and yield to pedestrians",
       "Follow the taxi closely",
-      "Reverse to avoid the area"
+      "Reverse to avoid the area",
     ],
     correct: 1,
-    explanation: "Slow down and yield to pedestrians while keeping a safe distance from the taxi. Hooting, following closely, or reversing is unsafe in a busy taxi rank area.",
+    explanation:
+      "Slow down and yield to pedestrians while keeping a safe distance from the taxi. Hooting, following closely, or reversing is unsafe in a busy taxi rank area.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "afternoon",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC169",
     category: "controls",
     title: "Emergency Stop in Green Point",
-    scenario: "You're driving on Helen Suzman Boulevard in Green Point, Cape Town, when a cyclist swerves into your lane near the V&A Waterfront.",
+    scenario:
+      "You're driving on Helen Suzman Boulevard in Green Point, Cape Town, when a cyclist swerves into your lane near the V&A Waterfront.",
     question: "What should you do in this situation?",
     options: [
       "Swerve to avoid the cyclist",
       "Apply the brakes firmly to stop",
       "Hoot to warn the cyclist",
-      "Continue driving cautiously"
+      "Continue driving cautiously",
     ],
     correct: 1,
-    explanation: "Apply the brakes firmly to stop and avoid a collision with the cyclist. Swerving or hooting may not prevent an accident, and continuing to drive is unsafe.",
+    explanation:
+      "Apply the brakes firmly to stop and avoid a collision with the cyclist. Swerving or hooting may not prevent an accident, and continuing to drive is unsafe.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC170",
     category: "signs",
     title: "No Entry in Rosebank",
-    scenario: "You're driving on Jan Smuts Avenue in Rosebank, Johannesburg, and want to turn into a side street but see a 'No Entry' sign.",
+    scenario:
+      "You're driving on Jan Smuts Avenue in Rosebank, Johannesburg, and want to turn into a side street but see a 'No Entry' sign.",
     question: "What should you do in this situation?",
     options: [
       "Enter the street if it's clear",
       "Find an alternative route",
       "Hoot to signal your intention",
-      "Stop and wait for traffic to clear"
+      "Stop and wait for traffic to clear",
     ],
     correct: 1,
-    explanation: "A 'No Entry' sign prohibits entering the street. You must find an alternative route to comply with traffic rules and avoid unsafe situations.",
+    explanation:
+      "A 'No Entry' sign prohibits entering the street. You must find an alternative route to comply with traffic rules and avoid unsafe situations.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "afternoon",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC171",
     category: "rules",
     title: "Robot Timing in Braamfontein",
-    scenario: "You're approaching a robot on Jorissen Street in Braamfontein, Johannesburg, near Wits University. The robot turns amber as you're close to the intersection.",
+    scenario:
+      "You're approaching a robot on Jorissen Street in Braamfontein, Johannesburg, near Wits University. The robot turns amber as you're close to the intersection.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to clear the intersection",
       "Stop if it's safe to do so",
       "Hoot to warn other drivers",
-      "Continue driving cautiously"
+      "Continue driving cautiously",
     ],
     correct: 1,
-    explanation: "An amber robot requires you to stop if it's safe to do so to avoid running a red light. Speeding up or continuing through is unsafe and against traffic rules.",
+    explanation:
+      "An amber robot requires you to stop if it's safe to do so to avoid running a red light. Speeding up or continuing through is unsafe and against traffic rules.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC172",
     category: "controls",
     title: "Hill Start on the R34 Near Vryheid",
-    scenario: "You're in a manual bakkie on the R34 near Vryheid, KwaZulu-Natal, stopped on a steep hill behind a tractor during a local farmers' market weekend.",
+    scenario:
+      "You're in a manual bakkie on the R34 near Vryheid, KwaZulu-Natal, stopped on a steep hill behind a tractor during a local farmers' market weekend.",
     question: "What should you do in this situation?",
     options: [
       "Release the clutch quickly to move",
       "Use the handbrake and clutch control",
       "Hoot to urge the tractor to move",
-      "Shift to neutral and wait"
+      "Shift to neutral and wait",
     ],
     correct: 1,
-    explanation: "On a steep hill, use the handbrake and clutch control to start moving without rolling back. Other options could cause stalling or unsafe movement.",
+    explanation:
+      "On a steep hill, use the handbrake and clutch control to start moving without rolling back. Other options could cause stalling or unsafe movement.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC173",
     category: "signs",
     title: "Wildlife Crossing on the N4",
-    scenario: "You're driving on the N4 near Nelspruit, Mpumalanga, when you see a wildlife crossing sign indicating possible antelope. You spot movement in the bushes.",
+    scenario:
+      "You're driving on the N4 near Nelspruit, Mpumalanga, when you see a wildlife crossing sign indicating possible antelope. You spot movement in the bushes.",
     question: "What should you do in this situation?",
     options: [
       "Hoot to scare the animals away",
       "Slow down and prepare to stop",
       "Speed up to pass the area",
-      "Continue driving at the same speed"
+      "Continue driving at the same speed",
     ],
     correct: 1,
-    explanation: "A wildlife crossing sign indicates potential animals on the road. Slow down and prepare to stop to avoid hitting antelope, ensuring safety for both animals and yourself.",
+    explanation:
+      "A wildlife crossing sign indicates potential animals on the road. Slow down and prepare to stop to avoid hitting antelope, ensuring safety for both animals and yourself.",
     difficulty: "basic",
     context: "freeway",
     timeOfDay: "evening",
@@ -3814,223 +3860,245 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Nelspruit"],
       regions: ["Mpumalanga"],
       landmarks: ["N4", "wildlife crossing"],
-      specificity: "region"
-    }
+      specificity: "region",
+    },
   },
   {
     id: "SC174",
     category: "rules",
     title: "Overtaking on the R61 Near Port St Johns",
-    scenario: "You're on the R61 near Port St Johns, Eastern Cape, behind a slow-moving minibus taxi. The road has a broken line, but a sharp curve is ahead.",
+    scenario:
+      "You're on the R61 near Port St Johns, Eastern Cape, behind a slow-moving minibus taxi. The road has a broken line, but a sharp curve is ahead.",
     question: "What should you do in this situation?",
     options: [
       "Overtake the taxi before the curve",
       "Wait until after the curve to overtake",
       "Hoot to urge the taxi to speed up",
-      "Tailgate the taxi to pressure it"
+      "Tailgate the taxi to pressure it",
     ],
     correct: 1,
-    explanation: "Only overtake when it's safe and legal. Wait until after the curve to ensure clear visibility and avoid collisions, as overtaking near a curve is dangerous.",
+    explanation:
+      "Only overtake when it's safe and legal. Wait until after the curve to ensure clear visibility and avoid collisions, as overtaking near a curve is dangerous.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "afternoon",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC175",
     category: "mixed",
     title: "Pothole Avoidance on the R573",
-    scenario: "You're driving on the R573 near Hammanskraal, Gauteng, when you notice large potholes in the road. A truck is approaching from the opposite direction.",
+    scenario:
+      "You're driving on the R573 near Hammanskraal, Gauteng, when you notice large potholes in the road. A truck is approaching from the opposite direction.",
     question: "What should you do in this situation?",
     options: [
       "Swerve to avoid the potholes",
       "Slow down and navigate carefully",
       "Hoot to warn the truck",
-      "Speed up to pass the potholes"
+      "Speed up to pass the potholes",
     ],
     correct: 1,
-    explanation: "Slow down and navigate carefully to avoid potholes while staying aware of the oncoming truck. Swerving or speeding up could lead to loss of control or a collision.",
+    explanation:
+      "Slow down and navigate carefully to avoid potholes while staying aware of the oncoming truck. Swerving or speeding up could lead to loss of control or a collision.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC176",
     category: "controls",
     title: "Emergency Stop on the N2 Near Mthatha",
-    scenario: "You're driving on the N2 near Mthatha, Eastern Cape, when a goat runs onto the road from a nearby kraal.",
+    scenario:
+      "You're driving on the N2 near Mthatha, Eastern Cape, when a goat runs onto the road from a nearby kraal.",
     question: "What should you do in this situation?",
     options: [
       "Swerve to avoid the goat",
       "Apply the brakes firmly to stop",
       "Hoot to scare the goat",
-      "Continue driving cautiously"
+      "Continue driving cautiously",
     ],
     correct: 1,
-    explanation: "Apply the brakes firmly to stop and avoid hitting the goat. Swerving or hooting may not prevent a collision, and continuing to drive is unsafe.",
+    explanation:
+      "Apply the brakes firmly to stop and avoid hitting the goat. Swerving or hooting may not prevent a collision, and continuing to drive is unsafe.",
     difficulty: "basic",
     context: "rural",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC177",
     category: "signs",
     title: "Gravel Road Warning on the R501",
-    scenario: "You're driving on the R501 near Carletonville, Gauteng, when a sign indicates a gravel road ahead. The road is narrow, and a bakkie is approaching from the opposite direction.",
+    scenario:
+      "You're driving on the R501 near Carletonville, Gauteng, when a sign indicates a gravel road ahead. The road is narrow, and a bakkie is approaching from the opposite direction.",
     question: "What should you do in this situation?",
     options: [
       "Maintain your speed to pass quickly",
       "Slow down and keep to the left",
       "Hoot to warn the bakkie",
-      "Stop in the middle of the road"
+      "Stop in the middle of the road",
     ],
     correct: 1,
-    explanation: "On a gravel road, slow down and keep to the left to maintain control and avoid collisions with the oncoming bakkie. Maintaining speed or stopping in the middle is unsafe.",
+    explanation:
+      "On a gravel road, slow down and keep to the left to maintain control and avoid collisions with the oncoming bakkie. Maintaining speed or stopping in the middle is unsafe.",
     difficulty: "basic",
     context: "rural",
     timeOfDay: "afternoon",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC178",
     category: "rules",
     title: "Right of Way on the R304",
-    scenario: "You're approaching an unmarked intersection on the R304 near Stellenbosch, Western Cape. A tractor is approaching from the right on a dirt road.",
+    scenario:
+      "You're approaching an unmarked intersection on the R304 near Stellenbosch, Western Cape. A tractor is approaching from the right on a dirt road.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're on the main road",
       "Yield to the tractor on the right",
       "Hoot to warn the tractor",
-      "Speed up to cross first"
+      "Speed up to cross first",
     ],
     correct: 1,
-    explanation: "At an unmarked intersection, the vehicle on the right has the right of way. Yield to the tractor to avoid a collision.",
+    explanation:
+      "At an unmarked intersection, the vehicle on the right has the right of way. Yield to the tractor to avoid a collision.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC179",
     category: "mixed",
     title: "Festival Traffic on the N1 Near Worcester",
-    scenario: "You're driving on the N1 near Worcester, Western Cape, during a wine festival. Traffic is heavy, and a minibus taxi is weaving through lanes to pick up passengers.",
+    scenario:
+      "You're driving on the N1 near Worcester, Western Cape, during a wine festival. Traffic is heavy, and a minibus taxi is weaving through lanes to pick up passengers.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to avoid the taxi",
       "Maintain a safe following distance",
       "Hoot to warn the taxi",
-      "Follow the taxi closely"
+      "Follow the taxi closely",
     ],
     correct: 1,
-    explanation: "In heavy traffic, maintain a safe following distance to avoid collisions with the weaving taxi. Speeding up or following closely is unsafe, and hooting is ineffective.",
+    explanation:
+      "In heavy traffic, maintain a safe following distance to avoid collisions with the weaving taxi. Speeding up or following closely is unsafe, and hooting is ineffective.",
     difficulty: "intermediate",
     context: "freeway",
     timeOfDay: "afternoon",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC180",
     category: "controls",
     title: "Clutch Control on the R43 Near Villiersdorp",
-    scenario: "You're in a manual car on the R43 near Villiersdorp, Western Cape, stuck in slow traffic on a hill due to a fruit market. You need to move forward without stalling.",
+    scenario:
+      "You're in a manual car on the R43 near Villiersdorp, Western Cape, stuck in slow traffic on a hill due to a fruit market. You need to move forward without stalling.",
     question: "What should you do in this situation?",
     options: [
       "Release the clutch quickly",
       "Use clutch control with the handbrake",
       "Hoot to clear the traffic",
-      "Shift to neutral and wait"
+      "Shift to neutral and wait",
     ],
     correct: 1,
-    explanation: "On a hill, use clutch control with the handbrake to move forward smoothly without stalling. Other options could cause unsafe movement or delays.",
+    explanation:
+      "On a hill, use clutch control with the handbrake to move forward smoothly without stalling. Other options could cause unsafe movement or delays.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC181",
     category: "signs",
     title: "No Stopping Near a Polokwane Market",
-    scenario: "You're driving on the R81 near Polokwane, Limpopo, when you see a 'No Stopping' sign near a busy roadside market. Your passenger wants to stop to buy fruit.",
+    scenario:
+      "You're driving on the R81 near Polokwane, Limpopo, when you see a 'No Stopping' sign near a busy roadside market. Your passenger wants to stop to buy fruit.",
     question: "What should you do in this situation?",
     options: [
       "Stop briefly to buy fruit",
       "Continue driving and find a safe stopping area",
       "Hoot to signal your intention",
-      "Slow down but don't stop"
+      "Slow down but don't stop",
     ],
     correct: 1,
-    explanation: "A 'No Stopping' sign prohibits stopping on the road. Continue driving and find a designated safe area to stop for the market.",
+    explanation:
+      "A 'No Stopping' sign prohibits stopping on the road. Continue driving and find a designated safe area to stop for the market.",
     difficulty: "basic",
     context: "rural",
     timeOfDay: "morning",
     weather: "clear",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC182",
     category: "controls",
     title: "Wipers in Heavy Rain in Khayelitsha",
-    scenario: "You're driving on Steve Biko Road in Khayelitsha, Cape Town, during a heavy rainstorm. Visibility is poor, and water is pooling on the road.",
+    scenario:
+      "You're driving on Steve Biko Road in Khayelitsha, Cape Town, during a heavy rainstorm. Visibility is poor, and water is pooling on the road.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to pass the pools",
       "Turn on wipers and reduce speed",
       "Hoot to warn other drivers",
-      "Pull over immediately"
+      "Pull over immediately",
     ],
     correct: 1,
-    explanation: "In heavy rain, turn on wipers and reduce speed to maintain visibility and avoid hydroplaning on pooled water. Speeding up or pulling over suddenly is unsafe.",
+    explanation:
+      "In heavy rain, turn on wipers and reduce speed to maintain visibility and avoid hydroplaning on pooled water. Speeding up or pulling over suddenly is unsafe.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "afternoon",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC183",
     category: "signs",
     title: "Slippery Road in Fog on the N3",
-    scenario: "You're driving on the N3 near Estcourt, KwaZulu-Natal, in thick fog. A slippery road sign is posted, and the road is wet from earlier rain.",
+    scenario:
+      "You're driving on the N3 near Estcourt, KwaZulu-Natal, in thick fog. A slippery road sign is posted, and the road is wet from earlier rain.",
     question: "What should you do in this situation?",
     options: [
       "Maintain your speed to pass quickly",
       "Reduce speed and increase following distance",
       "Hoot to warn other drivers",
-      "Turn on high beams"
+      "Turn on high beams",
     ],
     correct: 1,
-    explanation: "A slippery road sign in fog indicates a risk of losing traction. Reduce speed and increase following distance to maintain control and avoid collisions.",
+    explanation:
+      "A slippery road sign in fog indicates a risk of losing traction. Reduce speed and increase following distance to maintain control and avoid collisions.",
     difficulty: "intermediate",
     context: "freeway",
     timeOfDay: "morning",
     weather: "fog",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC184",
     category: "rules",
     title: "Strong Winds on the M7 Near Durban",
-    scenario: "You're driving on the M7 near Durban during strong winds. Your car is swaying, and a minibus taxi ahead is struggling to stay in its lane.",
+    scenario:
+      "You're driving on the M7 near Durban during strong winds. Your car is swaying, and a minibus taxi ahead is struggling to stay in its lane.",
     question: "What should you do in this situation?",
     options: [
       "Overtake the taxi quickly",
       "Reduce speed and grip the steering wheel",
       "Hoot to warn the taxi",
-      "Pull over and wait for the wind to subside"
+      "Pull over and wait for the wind to subside",
     ],
     correct: 1,
-    explanation: "In strong winds, reduce speed and grip the steering wheel firmly to maintain control. Overtaking or pulling over is risky, and hooting is ineffective.",
+    explanation:
+      "In strong winds, reduce speed and grip the steering wheel firmly to maintain control. Overtaking or pulling over is risky, and hooting is ineffective.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "afternoon",
@@ -4040,123 +4108,135 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Durban"],
       regions: ["KwaZulu-Natal"],
       landmarks: ["M7"],
-      specificity: "city"
-    }
+      specificity: "city",
+    },
   },
   {
     id: "SC185",
     category: "mixed",
     title: "Rainy Night in Soweto",
-    scenario: "You're driving on Klipspruit Valley Road in Soweto, Johannesburg, at night during heavy rain. The robots are out due to load shedding, and a bakkie is approaching from the right.",
+    scenario:
+      "You're driving on Klipspruit Valley Road in Soweto, Johannesburg, at night during heavy rain. The robots are out due to load shedding, and a bakkie is approaching from the right.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're on the main road",
       "Yield to the bakkie and check for pedestrians",
       "Hoot to assert your right of way",
-      "Speed up to clear the intersection"
+      "Speed up to clear the intersection",
     ],
     correct: 1,
-    explanation: "With robots out, treat the intersection as a four-way stop. Yield to the bakkie on the right and check for pedestrians, especially in poor visibility due to rain.",
+    explanation:
+      "With robots out, treat the intersection as a four-way stop. Yield to the bakkie on the right and check for pedestrians, especially in poor visibility due to rain.",
     difficulty: "advanced",
     context: "urban",
     timeOfDay: "night",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC186",
     category: "controls",
     title: "Fog Lights on the R71 Near Tzaneen",
-    scenario: "You're driving on the R71 near Tzaneen, Limpopo, at dawn in dense fog. Visibility is low, and a tractor is moving slowly ahead.",
+    scenario:
+      "You're driving on the R71 near Tzaneen, Limpopo, at dawn in dense fog. Visibility is low, and a tractor is moving slowly ahead.",
     question: "What should you do in this situation?",
     options: [
       "Use high beams to see better",
       "Turn on fog lights and increase following distance",
       "Hoot to urge the tractor to speed up",
-      "Overtake the tractor immediately"
+      "Overtake the tractor immediately",
     ],
     correct: 1,
-    explanation: "In dense fog, turn on fog lights and increase your following distance to improve visibility and reaction time. High beams reduce visibility, and overtaking or hooting is unsafe.",
+    explanation:
+      "In dense fog, turn on fog lights and increase your following distance to improve visibility and reaction time. High beams reduce visibility, and overtaking or hooting is unsafe.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "morning",
     weather: "fog",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC187",
     category: "signs",
     title: "Wet Road Warning Near Knysna",
-    scenario: "You're driving on the N2 near Knysna, Western Cape, after heavy rain. A wet road sign is posted, and you notice water flowing across the road.",
+    scenario:
+      "You're driving on the N2 near Knysna, Western Cape, after heavy rain. A wet road sign is posted, and you notice water flowing across the road.",
     question: "What should you do in this situation?",
     options: [
       "Maintain your speed to pass quickly",
       "Reduce speed and avoid sudden braking",
       "Hoot to warn other drivers",
-      "Turn on hazard lights"
+      "Turn on hazard lights",
     ],
     correct: 1,
-    explanation: "A wet road sign indicates a risk of hydroplaning. Reduce speed and avoid sudden braking to maintain control, especially with water on the road.",
+    explanation:
+      "A wet road sign indicates a risk of hydroplaning. Reduce speed and avoid sudden braking to maintain control, especially with water on the road.",
     difficulty: "basic",
     context: "freeway",
     timeOfDay: "afternoon",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC188",
     category: "rules",
     title: "Rainy Intersection in East London",
-    scenario: "You're approaching a robot on Settlers Way in East London during light rain. The robot turns red, and a taxi behind you is hooting impatiently.",
+    scenario:
+      "You're approaching a robot on Settlers Way in East London during light rain. The robot turns red, and a taxi behind you is hooting impatiently.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to clear the intersection",
       "Stop and wait for the robot to turn green",
       "Hoot back at the taxi",
-      "Wave the taxi to pass"
+      "Wave the taxi to pass",
     ],
     correct: 1,
-    explanation: "Stop at a red robot and wait until it turns green, regardless of pressure from the taxi. Speeding up or hooting is unsafe, especially in wet conditions.",
+    explanation:
+      "Stop at a red robot and wait until it turns green, regardless of pressure from the taxi. Speeding up or hooting is unsafe, especially in wet conditions.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "evening",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC189",
     category: "mixed",
     title: "Foggy Night on the R61 Near Cradock",
-    scenario: "You're driving on the R61 near Cradock, Eastern Cape, at night in thick fog. A sheep crosses the road, and you can barely see the road markings.",
+    scenario:
+      "You're driving on the R61 near Cradock, Eastern Cape, at night in thick fog. A sheep crosses the road, and you can barely see the road markings.",
     question: "What should you do in this situation?",
     options: [
       "Hoot to scare the sheep away",
       "Slow down and use fog lights",
       "Follow the sheep to stay on track",
-      "Speed up to pass the sheep"
+      "Speed up to pass the sheep",
     ],
     correct: 1,
-    explanation: "In thick fog, slow down and use fog lights to improve visibility while avoiding the sheep. Hooting or speeding up is unsafe in low visibility.",
+    explanation:
+      "In thick fog, slow down and use fog lights to improve visibility while avoiding the sheep. Hooting or speeding up is unsafe in low visibility.",
     difficulty: "advanced",
     context: "rural",
     timeOfDay: "night",
     weather: "fog",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC190",
     category: "controls",
     title: "Windy Conditions on the N12 Near Kimberley",
-    scenario: "You're driving a bakkie on the N12 near Kimberley during strong winds. Dust is blowing across the road, and your vehicle is swaying.",
+    scenario:
+      "You're driving a bakkie on the N12 near Kimberley during strong winds. Dust is blowing across the road, and your vehicle is swaying.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to pass the dust",
       "Reduce speed and grip the steering wheel",
       "Hoot to warn other drivers",
-      "Pull over immediately"
+      "Pull over immediately",
     ],
     correct: 1,
-    explanation: "In strong winds, reduce speed and grip the steering wheel firmly to maintain control. Speeding up or pulling over suddenly is unsafe, and hooting is ineffective.",
+    explanation:
+      "In strong winds, reduce speed and grip the steering wheel firmly to maintain control. Speeding up or pulling over suddenly is unsafe, and hooting is ineffective.",
     difficulty: "intermediate",
     context: "freeway",
     timeOfDay: "afternoon",
@@ -4166,344 +4246,378 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Kimberley"],
       regions: ["Northern Cape"],
       landmarks: ["N12"],
-      specificity: "region"
-    }
+      specificity: "region",
+    },
   },
   {
     id: "SC191",
     category: "signs",
     title: "Slippery Road in Rain Near George",
-    scenario: "You're driving on the N9 near George, Western Cape, after heavy rain. A slippery road sign is posted, and a taxi is tailgating you on the wet road.",
+    scenario:
+      "You're driving on the N9 near George, Western Cape, after heavy rain. A slippery road sign is posted, and a taxi is tailgating you on the wet road.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to avoid the taxi",
       "Reduce speed and avoid sudden movements",
       "Hoot to warn the taxi",
-      "Pull over to let the taxi pass"
+      "Pull over to let the taxi pass",
     ],
     correct: 1,
-    explanation: "A slippery road sign indicates a risk of hydroplaning. Reduce speed and avoid sudden movements to maintain control, even with a tailgating taxi.",
+    explanation:
+      "A slippery road sign indicates a risk of hydroplaning. Reduce speed and avoid sudden movements to maintain control, even with a tailgating taxi.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "morning",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC192",
     category: "rules",
     title: "Foggy Intersection in Bloemfontein",
-    scenario: "You're approaching a four-way stop on Curie Avenue in Bloemfontein during dense fog. A minibus taxi is approaching from the right, barely visible.",
+    scenario:
+      "You're approaching a four-way stop on Curie Avenue in Bloemfontein during dense fog. A minibus taxi is approaching from the right, barely visible.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're on the main road",
       "Stop and wait for the taxi to pass",
       "Hoot to signal your presence",
-      "Speed up to clear the intersection"
+      "Speed up to clear the intersection",
     ],
     correct: 1,
-    explanation: "In low visibility, stop at the four-way stop and wait for the taxi to pass, ensuring the intersection is clear. Hooting or speeding up is unsafe in fog.",
+    explanation:
+      "In low visibility, stop at the four-way stop and wait for the taxi to pass, ensuring the intersection is clear. Hooting or speeding up is unsafe in fog.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "morning",
     weather: "fog",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC193",
     category: "mixed",
     title: "Rainy Toll Booth on the N1 Near Musina",
-    scenario: "You're approaching a toll booth on the N1 near Musina, Limpopo, in heavy rain. The road is slippery, and a truck ahead is slowing down unexpectedly.",
+    scenario:
+      "You're approaching a toll booth on the N1 near Musina, Limpopo, in heavy rain. The road is slippery, and a truck ahead is slowing down unexpectedly.",
     question: "What should you do in this situation?",
     options: [
       "Overtake the truck to reach the booth",
       "Slow down gradually and use wipers",
       "Hoot to warn the truck",
-      "Stop suddenly to avoid the truck"
+      "Stop suddenly to avoid the truck",
     ],
     correct: 1,
-    explanation: "In heavy rain, slow down gradually and use wipers to maintain visibility and control. Overtaking or stopping suddenly is dangerous on a slippery road.",
+    explanation:
+      "In heavy rain, slow down gradually and use wipers to maintain visibility and control. Overtaking or stopping suddenly is dangerous on a slippery road.",
     difficulty: "intermediate",
     context: "freeway",
     timeOfDay: "afternoon",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC194",
     category: "controls",
     title: "Wipers in Sudden Rain in Centurion",
-    scenario: "You're driving on John Vorster Drive in Centurion, Pretoria, when a sudden downpour reduces visibility. A minibus taxi is weaving through traffic ahead.",
+    scenario:
+      "You're driving on John Vorster Drive in Centurion, Pretoria, when a sudden downpour reduces visibility. A minibus taxi is weaving through traffic ahead.",
     question: "What should you do in this situation?",
     options: [
       "Follow the taxi closely to stay on course",
       "Turn on wipers and reduce speed",
       "Hoot to warn the taxi",
-      "Turn on high beams for better visibility"
+      "Turn on high beams for better visibility",
     ],
     correct: 1,
-    explanation: "In sudden rain, turn on wipers and reduce speed to maintain visibility and control. Following closely or using high beams is unsafe, and hooting is ineffective.",
+    explanation:
+      "In sudden rain, turn on wipers and reduce speed to maintain visibility and control. Following closely or using high beams is unsafe, and hooting is ineffective.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "afternoon",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC195",
     category: "signs",
     title: "Wind Warning on the R62 Near Calitzdorp",
-    scenario: "You're driving on the R62 near Calitzdorp, Western Cape, when you see a strong wind warning sign. Dust and small branches are blowing across the road.",
+    scenario:
+      "You're driving on the R62 near Calitzdorp, Western Cape, when you see a strong wind warning sign. Dust and small branches are blowing across the road.",
     question: "What should you do in this situation?",
     options: [
       "Maintain your speed to pass quickly",
       "Reduce speed and grip the steering wheel",
       "Hoot to clear the debris",
-      "Turn on hazard lights"
+      "Turn on hazard lights",
     ],
     correct: 1,
-    explanation: "A strong wind warning sign indicates potential loss of control. Reduce speed and grip the steering wheel to stay stable, especially with debris on the road.",
+    explanation:
+      "A strong wind warning sign indicates potential loss of control. Reduce speed and grip the steering wheel to stay stable, especially with debris on the road.",
     difficulty: "basic",
     context: "rural",
     timeOfDay: "afternoon",
     weather: "wind",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC196",
     category: "rules",
     title: "Foggy Night on the N14 Near Upington",
-    scenario: "You're driving on the N14 near Upington, Northern Cape, at night in thick fog. A truck ahead is barely visible, and road signs are hard to see.",
+    scenario:
+      "You're driving on the N14 near Upington, Northern Cape, at night in thick fog. A truck ahead is barely visible, and road signs are hard to see.",
     question: "What should you do in this situation?",
     options: [
       "Follow the truck closely to stay on track",
       "Slow down and use fog lights",
       "Hoot to signal your presence",
-      "Overtake the truck to avoid delay"
+      "Overtake the truck to avoid delay",
     ],
     correct: 1,
-    explanation: "In thick fog at night, slow down and use fog lights to improve visibility while keeping a safe distance from the truck. Following closely or overtaking is dangerous.",
+    explanation:
+      "In thick fog at night, slow down and use fog lights to improve visibility while keeping a safe distance from the truck. Following closely or overtaking is dangerous.",
     difficulty: "advanced",
     context: "freeway",
     timeOfDay: "night",
     weather: "fog",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC197",
     category: "mixed",
     title: "Rainy Rural Road Near Vryburg",
-    scenario: "You're driving on the N18 near Vryburg, North West, during heavy rain. A cattle crossing sign is posted, and you see cows near the wet road.",
+    scenario:
+      "You're driving on the N18 near Vryburg, North West, during heavy rain. A cattle crossing sign is posted, and you see cows near the wet road.",
     question: "What should you do in this situation?",
     options: [
       "Hoot to scare the cows away",
       "Slow down and prepare to stop",
       "Speed up to pass the cows",
-      "Continue driving at the same speed"
+      "Continue driving at the same speed",
     ],
     correct: 1,
-    explanation: "In heavy rain with a cattle crossing sign, slow down and prepare to stop to avoid hitting cows on the slippery road. Hooting or speeding up is unsafe.",
+    explanation:
+      "In heavy rain with a cattle crossing sign, slow down and prepare to stop to avoid hitting cows on the slippery road. Hooting or speeding up is unsafe.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "afternoon",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC198",
     category: "controls",
     title: "Fog Lights in Polokwane",
-    scenario: "You're driving on the R101 near Polokwane, Limpopo, at dawn in dense fog. A minibus taxi is overtaking recklessly in low visibility.",
+    scenario:
+      "You're driving on the R101 near Polokwane, Limpopo, at dawn in dense fog. A minibus taxi is overtaking recklessly in low visibility.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to avoid the taxi",
       "Turn on fog lights and slow down",
       "Hoot to warn the taxi",
-      "Follow the taxi closely"
+      "Follow the taxi closely",
     ],
     correct: 1,
-    explanation: "In dense fog, turn on fog lights and slow down to maintain visibility and control. Speeding up or following the taxi closely is unsafe in low visibility.",
+    explanation:
+      "In dense fog, turn on fog lights and slow down to maintain visibility and control. Speeding up or following the taxi closely is unsafe in low visibility.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "morning",
     weather: "fog",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC199",
     category: "signs",
     title: "Wet Road in Stellenbosch",
-    scenario: "You're driving on the R44 near Stellenbosch, Western Cape, after heavy rain. A wet road sign is posted, and a bakkie is tailgating you on the slippery road.",
+    scenario:
+      "You're driving on the R44 near Stellenbosch, Western Cape, after heavy rain. A wet road sign is posted, and a bakkie is tailgating you on the slippery road.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to avoid the bakkie",
       "Reduce speed and avoid sudden braking",
       "Hoot to warn the bakkie",
-      "Pull over to let the bakkie pass"
+      "Pull over to let the bakkie pass",
     ],
     correct: 1,
-    explanation: "A wet road sign indicates a risk of hydroplaning. Reduce speed and avoid sudden braking to maintain control, even with a tailgating bakkie.",
+    explanation:
+      "A wet road sign indicates a risk of hydroplaning. Reduce speed and avoid sudden braking to maintain control, even with a tailgating bakkie.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "afternoon",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC200",
     category: "rules",
     title: "Windy Conditions in Port Alfred",
-    scenario: "You're driving on the R72 near Port Alfred, Eastern Cape, during strong coastal winds. A truck ahead is swaying, and debris is on the road.",
+    scenario:
+      "You're driving on the R72 near Port Alfred, Eastern Cape, during strong coastal winds. A truck ahead is swaying, and debris is on the road.",
     question: "What should you do in this situation?",
     options: [
       "Overtake the truck quickly",
       "Reduce speed and keep a safe distance",
       "Hoot to warn the truck",
-      "Pull over and wait"
+      "Pull over and wait",
     ],
     correct: 1,
-    explanation: "In strong winds, reduce speed and keep a safe distance from the swaying truck to avoid debris and maintain control. Overtaking or pulling over is risky.",
+    explanation:
+      "In strong winds, reduce speed and keep a safe distance from the swaying truck to avoid debris and maintain control. Overtaking or pulling over is risky.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "afternoon",
     weather: "wind",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC201",
     category: "mixed",
     title: "Rainy Night in Randburg",
-    scenario: "You're driving on Republic Road in Randburg, Johannesburg, at night during heavy rain. The robots are out due to load shedding, and a taxi is approaching from the left.",
+    scenario:
+      "You're driving on Republic Road in Randburg, Johannesburg, at night during heavy rain. The robots are out due to load shedding, and a taxi is approaching from the left.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're on the main road",
       "Yield to the taxi and check for pedestrians",
       "Hoot to assert your right of way",
-      "Speed up to clear the intersection"
+      "Speed up to clear the intersection",
     ],
     correct: 1,
-    explanation: "With robots out, treat the intersection as a four-way stop. Yield to the taxi on the left and check for pedestrians, especially in poor visibility due to rain.",
+    explanation:
+      "With robots out, treat the intersection as a four-way stop. Yield to the taxi on the left and check for pedestrians, especially in poor visibility due to rain.",
     difficulty: "advanced",
     context: "urban",
     timeOfDay: "night",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC202",
     category: "controls",
     title: "Emergency Stop in Fog Near Graaff-Reinet",
-    scenario: "You're driving on the N9 near Graaff-Reinet, Eastern Cape, in thick fog when a child runs onto the road from a nearby informal settlement.",
+    scenario:
+      "You're driving on the N9 near Graaff-Reinet, Eastern Cape, in thick fog when a child runs onto the road from a nearby informal settlement.",
     question: "What should you do in this situation?",
     options: [
       "Swerve to avoid the child",
       "Apply the brakes firmly to stop",
       "Hoot to warn the child",
-      "Continue driving cautiously"
+      "Continue driving cautiously",
     ],
     correct: 1,
-    explanation: "In thick fog, apply the brakes firmly to stop and avoid hitting the child. Swerving or hooting may not prevent a collision, and continuing to drive is unsafe.",
+    explanation:
+      "In thick fog, apply the brakes firmly to stop and avoid hitting the child. Swerving or hooting may not prevent a collision, and continuing to drive is unsafe.",
     difficulty: "advanced",
     context: "rural",
     timeOfDay: "morning",
     weather: "fog",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC203",
     category: "signs",
     title: "Slippery Road in Rain Near Umhlanga",
-    scenario: "You're driving on the M41 near Umhlanga, KwaZulu-Natal, after heavy rain. A slippery road sign is posted, and a taxi is overtaking you on the wet road.",
+    scenario:
+      "You're driving on the M41 near Umhlanga, KwaZulu-Natal, after heavy rain. A slippery road sign is posted, and a taxi is overtaking you on the wet road.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to match the taxi",
       "Reduce speed and avoid sudden movements",
       "Hoot to warn the taxi",
-      "Pull over to let the taxi pass"
+      "Pull over to let the taxi pass",
     ],
     correct: 1,
-    explanation: "A slippery road sign indicates a risk of hydroplaning. Reduce speed and avoid sudden movements to maintain control, even with an overtaking taxi.",
+    explanation:
+      "A slippery road sign indicates a risk of hydroplaning. Reduce speed and avoid sudden movements to maintain control, even with an overtaking taxi.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "afternoon",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC204",
     category: "rules",
     title: "Windy Intersection in Hermanus",
-    scenario: "You're approaching a robot on Main Road in Hermanus, Western Cape, during strong winds. The robot turns amber, and debris is blowing across the intersection.",
+    scenario:
+      "You're approaching a robot on Main Road in Hermanus, Western Cape, during strong winds. The robot turns amber, and debris is blowing across the intersection.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to clear the intersection",
       "Stop if it's safe to do so",
       "Hoot to warn other drivers",
-      "Continue driving cautiously"
+      "Continue driving cautiously",
     ],
     correct: 1,
-    explanation: "An amber robot requires you to stop if it's safe. In strong winds with debris, stopping safely prevents collisions and ensures control.",
+    explanation:
+      "An amber robot requires you to stop if it's safe. In strong winds with debris, stopping safely prevents collisions and ensures control.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "afternoon",
     weather: "wind",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC205",
     category: "mixed",
     title: "Foggy Rural Road Near Underberg",
-    scenario: "You're driving on the R617 near Underberg, KwaZulu-Natal, in dense fog at dawn. A horse crossing sign is posted, and you hear hooves but can't see the animals.",
+    scenario:
+      "You're driving on the R617 near Underberg, KwaZulu-Natal, in dense fog at dawn. A horse crossing sign is posted, and you hear hooves but can't see the animals.",
     question: "What should you do in this situation?",
     options: [
       "Hoot to scare the horses away",
       "Slow down and prepare to stop",
       "Speed up to pass the area",
-      "Continue driving at the same speed"
+      "Continue driving at the same speed",
     ],
     correct: 1,
-    explanation: "In dense fog with a horse crossing sign, slow down and prepare to stop to avoid hitting unseen animals. Hooting or speeding up is unsafe in low visibility.",
+    explanation:
+      "In dense fog with a horse crossing sign, slow down and prepare to stop to avoid hitting unseen animals. Hooting or speeding up is unsafe in low visibility.",
     difficulty: "advanced",
     context: "rural",
     timeOfDay: "morning",
     weather: "fog",
-    language: "en"
+    language: "en",
   },
   {
     id: "SC206",
     category: "controls",
     title: "Wipers in Sudden Rain on the N3 Near Ladysmith",
-    scenario: "You're driving on the N3 near Ladysmith, KwaZulu-Natal, when a sudden downpour reduces visibility. A truck ahead is slowing down in the rain.",
+    scenario:
+      "You're driving on the N3 near Ladysmith, KwaZulu-Natal, when a sudden downpour reduces visibility. A truck ahead is slowing down in the rain.",
     question: "What should you do in this situation?",
     options: [
       "Overtake the truck to avoid delay",
       "Turn on wipers and reduce speed",
       "Hoot to warn the truck",
-      "Follow the truck closely"
+      "Follow the truck closely",
     ],
     correct: 1,
-    explanation: "In sudden rain, turn on wipers and reduce speed to maintain visibility and control. Overtaking or following closely is unsafe in poor weather conditions.",
+    explanation:
+      "In sudden rain, turn on wipers and reduce speed to maintain visibility and control. Overtaking or following closely is unsafe in poor weather conditions.",
     difficulty: "basic",
     context: "freeway",
     timeOfDay: "afternoon",
     weather: "rain",
-    language: "en"
+    language: "en",
   },
   // DYNAMIC LOCATION-BASED SCENARIOS (SC207-SC211)
   {
     id: "SC207",
     category: "controls",
     title: "Mirror Check Near a Local Market",
-    scenario: "You're driving near a busy local market when a vendor pushing a cart crosses the road unexpectedly.",
+    scenario:
+      "You're driving near a busy local market when a vendor pushing a cart crosses the road unexpectedly.",
     question: "What should you do in this situation?",
     options: [
       "Hoot to warn the vendor",
       "Check mirrors and slow down",
       "Swerve to avoid the cart",
-      "Accelerate to pass quickly"
+      "Accelerate to pass quickly",
     ],
     correct: 1,
-    explanation: "Check your mirrors and slow down to avoid a collision with the vendor. Hooting, swerving, or accelerating is unsafe in a crowded market area.",
+    explanation:
+      "Check your mirrors and slow down to avoid a collision with the vendor. Hooting, swerving, or accelerating is unsafe in a crowded market area.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "morning",
@@ -4513,23 +4627,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: [], // Will be populated dynamically
       regions: [], // Will be populated dynamically
       landmarks: ["local market"],
-      specificity: "national"
-    }
+      specificity: "national",
+    },
   },
   {
     id: "SC208",
     category: "signs",
     title: "Pothole Warning on a Rural Road",
-    scenario: "You're driving on a rural road when a pothole warning sign appears. The road is uneven ahead.",
+    scenario:
+      "You're driving on a rural road when a pothole warning sign appears. The road is uneven ahead.",
     question: "What should you do in this situation?",
     options: [
       "Maintain your speed to pass quickly",
       "Slow down and navigate carefully",
       "Hoot to warn other drivers",
-      "Swerve to avoid the potholes"
+      "Swerve to avoid the potholes",
     ],
     correct: 1,
-    explanation: "A pothole warning sign indicates a risk of damage or loss of control. Slow down and navigate carefully to avoid potholes safely.",
+    explanation:
+      "A pothole warning sign indicates a risk of damage or loss of control. Slow down and navigate carefully to avoid potholes safely.",
     difficulty: "basic",
     context: "rural",
     timeOfDay: "afternoon",
@@ -4539,23 +4655,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: [], // Will be populated dynamically
       regions: [], // Will be populated dynamically
       landmarks: ["rural road", "potholes"],
-      specificity: "national"
-    }
+      specificity: "national",
+    },
   },
   {
     id: "SC209",
     category: "rules",
     title: "Load Shedding Intersection",
-    scenario: "You're driving at night during load shedding, and the robots are out. A minibus taxi is approaching from the right.",
+    scenario:
+      "You're driving at night during load shedding, and the robots are out. A minibus taxi is approaching from the right.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're on the main road",
       "Yield to the taxi and check for pedestrians",
       "Hoot to assert your right of way",
-      "Speed up to clear the intersection"
+      "Speed up to clear the intersection",
     ],
     correct: 1,
-    explanation: "With robots out, treat the intersection as a four-way stop. Yield to the taxi on the right and check for pedestrians to ensure safety.",
+    explanation:
+      "With robots out, treat the intersection as a four-way stop. Yield to the taxi on the right and check for pedestrians to ensure safety.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "night",
@@ -4565,23 +4683,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: [], // Will be populated dynamically
       regions: [], // Will be populated dynamically
       landmarks: ["intersection", "load shedding"],
-      specificity: "national"
-    }
+      specificity: "national",
+    },
   },
   {
     id: "SC210",
     category: "mixed",
     title: "Rainy Highway Conditions",
-    scenario: "You're driving on a highway during heavy rain. A truck ahead is slowing down, and water is pooling on the road.",
+    scenario:
+      "You're driving on a highway during heavy rain. A truck ahead is slowing down, and water is pooling on the road.",
     question: "What should you do in this situation?",
     options: [
       "Overtake the truck to avoid delay",
       "Slow down and use wipers",
       "Hoot to warn the truck",
-      "Follow the truck closely"
+      "Follow the truck closely",
     ],
     correct: 1,
-    explanation: "In heavy rain, slow down and use wipers to maintain visibility and avoid hydroplaning. Overtaking or following closely is unsafe on a wet highway.",
+    explanation:
+      "In heavy rain, slow down and use wipers to maintain visibility and avoid hydroplaning. Overtaking or following closely is unsafe on a wet highway.",
     difficulty: "intermediate",
     context: "freeway",
     timeOfDay: "afternoon",
@@ -4591,23 +4711,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: [], // Will be populated dynamically
       regions: [], // Will be populated dynamically
       landmarks: ["highway"],
-      specificity: "national"
-    }
+      specificity: "national",
+    },
   },
   {
     id: "SC211",
     category: "controls",
     title: "Fog Lights in Dense Fog",
-    scenario: "You're driving on a rural road at dawn in dense fog. A slow-moving tractor is ahead, barely visible.",
+    scenario:
+      "You're driving on a rural road at dawn in dense fog. A slow-moving tractor is ahead, barely visible.",
     question: "What should you do in this situation?",
     options: [
       "Use high beams to see better",
       "Turn on fog lights and increase following distance",
       "Hoot to urge the tractor to speed up",
-      "Overtake the tractor immediately"
+      "Overtake the tractor immediately",
     ],
     correct: 1,
-    explanation: "In dense fog, turn on fog lights and increase your following distance to improve visibility and reaction time. High beams or overtaking is unsafe in low visibility.",
+    explanation:
+      "In dense fog, turn on fog lights and increase your following distance to improve visibility and reaction time. High beams or overtaking is unsafe in low visibility.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "morning",
@@ -4617,24 +4739,26 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: [], // Will be populated dynamically
       regions: [], // Will be populated dynamically
       landmarks: ["rural road"],
-      specificity: "national"
-    }
+      specificity: "national",
+    },
   },
   // GROK NEIGHBORHOOD-SPECIFIC SCENARIOS (SC212-SC226)
   {
     id: "SC212",
     category: "controls",
     title: "Mirror Check in Township Neighborhood",
-    scenario: "You're driving in a busy township neighborhood on a narrow street near a spaza shop. A group of children chasing a soccer ball dart into the road.",
+    scenario:
+      "You're driving in a busy township neighborhood on a narrow street near a spaza shop. A group of children chasing a soccer ball dart into the road.",
     question: "What should you do in this situation?",
     options: [
       "Hoot to warn the children",
       "Check mirrors and slow down",
       "Swerve to avoid the children",
-      "Accelerate to pass quickly"
+      "Accelerate to pass quickly",
     ],
     correct: 1,
-    explanation: "Check your mirrors and slow down to avoid hitting the children. Hooting may startle them, and swerving or accelerating is unsafe in a crowded township.",
+    explanation:
+      "Check your mirrors and slow down to avoid hitting the children. Hooting may startle them, and swerving or accelerating is unsafe in a crowded township.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "afternoon",
@@ -4644,23 +4768,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Tembisa", "Soweto", "Khayelitsha", "Alexandra"],
       regions: ["Gauteng", "Western Cape"],
       landmarks: ["spaza shop", "township"],
-      specificity: "city"
-    }
+      specificity: "city",
+    },
   },
   {
     id: "SC213",
     category: "signs",
     title: "Pedestrian Crossing Near School",
-    scenario: "You're driving on a busy road near a school. A pedestrian crossing sign is posted, and learners are waiting to cross after a soccer match.",
+    scenario:
+      "You're driving on a busy road near a school. A pedestrian crossing sign is posted, and learners are waiting to cross after a soccer match.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to pass before they cross",
       "Stop and let the learners cross",
       "Hoot to warn the learners",
-      "Wave the learners to wait"
+      "Wave the learners to wait",
     ],
     correct: 1,
-    explanation: "A pedestrian crossing sign requires you to stop and let learners cross safely, especially in a busy township. Speeding up or hooting is unsafe.",
+    explanation:
+      "A pedestrian crossing sign requires you to stop and let learners cross safely, especially in a busy township. Speeding up or hooting is unsafe.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "afternoon",
@@ -4670,23 +4796,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: [], // Universal
       regions: [], // Universal
       landmarks: ["school", "pedestrian crossing"],
-      specificity: "national"
-    }
+      specificity: "national",
+    },
   },
   {
     id: "SC214",
     category: "rules",
     title: "Four-Way Stop in Township",
-    scenario: "You're at a four-way stop in a township area. A minibus taxi from the left proceeds out of turn, and pedestrians are crossing from the right.",
+    scenario:
+      "You're at a four-way stop in a township area. A minibus taxi from the left proceeds out of turn, and pedestrians are crossing from the right.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're next in line",
       "Wait for the pedestrians and intersection to clear",
       "Hoot to warn the taxi",
-      "Follow the taxi immediately"
+      "Follow the taxi immediately",
     ],
     correct: 1,
-    explanation: "At a four-way stop, wait for pedestrians and ensure the intersection is clear, even if the taxi moves out of turn, to prioritize safety.",
+    explanation:
+      "At a four-way stop, wait for pedestrians and ensure the intersection is clear, even if the taxi moves out of turn, to prioritize safety.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "morning",
@@ -4696,23 +4824,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Tembisa", "Soweto", "Mamelodi", "Umlazi"],
       regions: ["Gauteng", "KwaZulu-Natal"],
       landmarks: ["four-way stop", "township"],
-      specificity: "city"
-    }
+      specificity: "city",
+    },
   },
   {
     id: "SC215",
     category: "mixed",
     title: "Load Shedding Near Taxi Rank",
-    scenario: "You're driving at night during load shedding. The robots are out, and a bakkie is approaching from the right near a busy taxi rank.",
+    scenario:
+      "You're driving at night during load shedding. The robots are out, and a bakkie is approaching from the right near a busy taxi rank.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're on the main road",
       "Yield to the bakkie and check for pedestrians",
       "Hoot to assert your right of way",
-      "Speed up to clear the intersection"
+      "Speed up to clear the intersection",
     ],
     correct: 1,
-    explanation: "With robots out, treat the intersection as a four-way stop. Yield to the bakkie and check for pedestrians near the taxi rank to ensure safety.",
+    explanation:
+      "With robots out, treat the intersection as a four-way stop. Yield to the bakkie and check for pedestrians near the taxi rank to ensure safety.",
     difficulty: "advanced",
     context: "urban",
     timeOfDay: "night",
@@ -4722,23 +4852,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: [], // Universal South African problem
       regions: [], // Universal South African problem
       landmarks: ["taxi rank", "load shedding"],
-      specificity: "national"
-    }
+      specificity: "national",
+    },
   },
   {
     id: "SC216",
     category: "controls",
     title: "Clutch Control on Steep Township Road",
-    scenario: "You're in a manual car on a steep incline near a community hall during a funeral procession.",
+    scenario:
+      "You're in a manual car on a steep incline near a community hall during a funeral procession.",
     question: "What should you do in this situation?",
     options: [
       "Release the clutch quickly to move",
       "Use clutch control with the handbrake",
       "Hoot to clear the procession",
-      "Shift to neutral and wait"
+      "Shift to neutral and wait",
     ],
     correct: 1,
-    explanation: "On a steep incline, use clutch control with the handbrake to move smoothly without rolling back, respecting the funeral procession.",
+    explanation:
+      "On a steep incline, use clutch control with the handbrake to move smoothly without rolling back, respecting the funeral procession.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "morning",
@@ -4748,23 +4880,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: [], // Universal
       regions: [], // Universal
       landmarks: ["community hall", "funeral procession"],
-      specificity: "national"
-    }
+      specificity: "national",
+    },
   },
   {
     id: "SC217",
     category: "signs",
     title: "No Parking at Market Square",
-    scenario: "You're driving near a busy market square with a 'No Parking' sign during a weekend art festival.",
+    scenario:
+      "You're driving near a busy market square with a 'No Parking' sign during a weekend art festival.",
     question: "What should you do in this situation?",
     options: [
       "Park briefly to visit the market",
       "Find an alternative parking area",
       "Hoot to signal your intention",
-      "Ignore the sign if no one is around"
+      "Ignore the sign if no one is around",
     ],
     correct: 1,
-    explanation: "A 'No Parking' sign prohibits parking during the festival. Find an alternative parking area to comply with traffic rules and avoid congestion.",
+    explanation:
+      "A 'No Parking' sign prohibits parking during the festival. Find an alternative parking area to comply with traffic rules and avoid congestion.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "afternoon",
@@ -4774,23 +4908,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Clarens", "Stellenbosch", "Hermanus", "Knysna"],
       regions: ["Free State", "Western Cape"],
       landmarks: ["market square", "festival"],
-      specificity: "city"
-    }
+      specificity: "city",
+    },
   },
   {
     id: "SC218",
     category: "rules",
     title: "Right of Way in Small Town",
-    scenario: "You're approaching an unmarked intersection in a small town. A bicycle from the right is crossing during a local food market.",
+    scenario:
+      "You're approaching an unmarked intersection in a small town. A bicycle from the right is crossing during a local food market.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're on the main road",
       "Yield to the bicycle on the right",
       "Hoot to warn the cyclist",
-      "Speed up to cross first"
+      "Speed up to cross first",
     ],
     correct: 1,
-    explanation: "At an unmarked intersection, yield to the bicycle on the right to avoid a collision, especially during a busy market event.",
+    explanation:
+      "At an unmarked intersection, yield to the bicycle on the right to avoid a collision, especially during a busy market event.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "morning",
@@ -4800,23 +4936,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Greyton", "Prince Albert", "Clarens", "Dullstroom"],
       regions: ["Western Cape", "Free State", "Mpumalanga"],
       landmarks: ["village market", "small town"],
-      specificity: "city"
-    }
+      specificity: "city",
+    },
   },
   {
     id: "SC219",
     category: "mixed",
     title: "Rainy Coastal Road",
-    scenario: "You're driving during heavy rain. A wet road sign is posted, and fishermen are crossing to the beach.",
+    scenario:
+      "You're driving during heavy rain. A wet road sign is posted, and fishermen are crossing to the beach.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to pass the fishermen",
       "Reduce speed and stop for pedestrians",
       "Hoot to warn the fishermen",
-      "Continue driving cautiously"
+      "Continue driving cautiously",
     ],
     correct: 1,
-    explanation: "In heavy rain, reduce speed and stop for fishermen crossing to avoid hydroplaning and ensure pedestrian safety on the wet road.",
+    explanation:
+      "In heavy rain, reduce speed and stop for fishermen crossing to avoid hydroplaning and ensure pedestrian safety on the wet road.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "afternoon",
@@ -4826,23 +4964,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Paternoster", "Hermanus", "Jeffreys Bay", "Port Elizabeth"],
       regions: ["Western Cape", "Eastern Cape"],
       landmarks: ["beach", "fishing community"],
-      specificity: "city"
-    }
+      specificity: "city",
+    },
   },
   {
     id: "SC220",
     category: "controls",
     title: "Emergency Stop Near Farm",
-    scenario: "You're driving when a horse from a nearby farm crosses the road unexpectedly.",
+    scenario:
+      "You're driving when a horse from a nearby farm crosses the road unexpectedly.",
     question: "What should you do in this situation?",
     options: [
       "Swerve to avoid the horse",
       "Apply the brakes firmly to stop",
       "Hoot to scare the horse",
-      "Continue driving cautiously"
+      "Continue driving cautiously",
     ],
     correct: 1,
-    explanation: "Apply the brakes firmly to stop and avoid hitting the horse. Swerving or hooting may startle it, and continuing to drive is unsafe.",
+    explanation:
+      "Apply the brakes firmly to stop and avoid hitting the horse. Swerving or hooting may startle it, and continuing to drive is unsafe.",
     difficulty: "basic",
     context: "rural",
     timeOfDay: "morning",
@@ -4852,23 +4992,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Dullstroom", "Clarens", "Underberg", "Hoedspruit"],
       regions: ["Mpumalanga", "Free State", "KwaZulu-Natal", "Limpopo"],
       landmarks: ["farm", "horses"],
-      specificity: "region"
-    }
+      specificity: "region",
+    },
   },
   {
     id: "SC221",
     category: "signs",
     title: "Gravel Road Warning",
-    scenario: "You're driving on a gravel road with a gravel road warning sign. A bakkie is approaching from the opposite direction.",
+    scenario:
+      "You're driving on a gravel road with a gravel road warning sign. A bakkie is approaching from the opposite direction.",
     question: "What should you do in this situation?",
     options: [
       "Maintain your speed to pass quickly",
       "Slow down and keep to the left",
       "Hoot to warn the bakkie",
-      "Stop in the middle of the road"
+      "Stop in the middle of the road",
     ],
     correct: 1,
-    explanation: "On a gravel road, slow down and keep to the left to maintain control and avoid collisions with the oncoming bakkie.",
+    explanation:
+      "On a gravel road, slow down and keep to the left to maintain control and avoid collisions with the oncoming bakkie.",
     difficulty: "basic",
     context: "rural",
     timeOfDay: "afternoon",
@@ -4878,23 +5020,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Prince Albert", "Calvinia", "Sutherland", "Cradock"],
       regions: ["Western Cape", "Northern Cape", "Eastern Cape"],
       landmarks: ["gravel road", "rural area"],
-      specificity: "region"
-    }
+      specificity: "region",
+    },
   },
   {
     id: "SC222",
     category: "rules",
     title: "Foggy Intersection",
-    scenario: "You're approaching a four-way stop during dense fog. A minibus taxi is barely visible from the right.",
+    scenario:
+      "You're approaching a four-way stop during dense fog. A minibus taxi is barely visible from the right.",
     question: "What should you do in this situation?",
     options: [
       "Proceed since you're on the main road",
       "Stop and wait for the taxi to pass",
       "Hoot to signal your presence",
-      "Speed up to clear the intersection"
+      "Speed up to clear the intersection",
     ],
     correct: 1,
-    explanation: "In dense fog, stop at the four-way stop and wait for the taxi to pass, ensuring safety in low visibility.",
+    explanation:
+      "In dense fog, stop at the four-way stop and wait for the taxi to pass, ensuring safety in low visibility.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "morning",
@@ -4904,23 +5048,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Hazyview", "Sabie", "Underberg", "Dullstroom"],
       regions: ["Mpumalanga", "KwaZulu-Natal"],
       landmarks: ["mountain area", "fog"],
-      specificity: "region"
-    }
+      specificity: "region",
+    },
   },
   {
     id: "SC223",
     category: "mixed",
     title: "Pothole Navigation Near Mining Community",
-    scenario: "You're driving when you notice potholes on the road near a mining community. A truck is approaching from the opposite direction.",
+    scenario:
+      "You're driving when you notice potholes on the road near a mining community. A truck is approaching from the opposite direction.",
     question: "What should you do in this situation?",
     options: [
       "Swerve to avoid the potholes",
       "Slow down and navigate carefully",
       "Hoot to warn the truck",
-      "Speed up to pass the potholes"
+      "Speed up to pass the potholes",
     ],
     correct: 1,
-    explanation: "Slow down and navigate carefully to avoid potholes while staying aware of the oncoming truck, preventing loss of control or collisions.",
+    explanation:
+      "Slow down and navigate carefully to avoid potholes while staying aware of the oncoming truck, preventing loss of control or collisions.",
     difficulty: "intermediate",
     context: "rural",
     timeOfDay: "morning",
@@ -4930,23 +5076,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Lephalale", "Rustenburg", "Klerksdorp", "Secunda"],
       regions: ["Limpopo", "North West", "Mpumalanga"],
       landmarks: ["mining community", "industrial area"],
-      specificity: "city"
-    }
+      specificity: "city",
+    },
   },
   {
     id: "SC224",
     category: "controls",
     title: "Wipers in Heritage Town Rain",
-    scenario: "You're driving during a sudden downpour. Visibility is low, and water is pooling near a heritage site.",
+    scenario:
+      "You're driving during a sudden downpour. Visibility is low, and water is pooling near a heritage site.",
     question: "What should you do in this situation?",
     options: [
       "Speed up to pass the pools",
       "Turn on wipers and reduce speed",
       "Hoot to warn other drivers",
-      "Pull over immediately"
+      "Pull over immediately",
     ],
     correct: 1,
-    explanation: "In a downpour, turn on wipers and reduce speed to maintain visibility and avoid hydroplaning near heritage sites.",
+    explanation:
+      "In a downpour, turn on wipers and reduce speed to maintain visibility and avoid hydroplaning near heritage sites.",
     difficulty: "basic",
     context: "urban",
     timeOfDay: "afternoon",
@@ -4956,23 +5104,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Tulbagh", "Stellenbosch", "Paarl", "Franschhoek"],
       regions: ["Western Cape"],
       landmarks: ["heritage site", "wine region"],
-      specificity: "city"
-    }
+      specificity: "city",
+    },
   },
   {
     id: "SC225",
     category: "signs",
     title: "Wildlife Crossing Near Game Reserve",
-    scenario: "You're driving when a wildlife crossing sign indicates possible antelope near a game reserve.",
+    scenario:
+      "You're driving when a wildlife crossing sign indicates possible antelope near a game reserve.",
     question: "What should you do in this situation?",
     options: [
       "Hoot to scare the animals away",
       "Slow down and prepare to stop",
       "Speed up to pass the area",
-      "Continue driving at the same speed"
+      "Continue driving at the same speed",
     ],
     correct: 1,
-    explanation: "A wildlife crossing sign indicates potential animals. Slow down and prepare to stop to avoid hitting antelope, ensuring safety.",
+    explanation:
+      "A wildlife crossing sign indicates potential animals. Slow down and prepare to stop to avoid hitting antelope, ensuring safety.",
     difficulty: "basic",
     context: "rural",
     timeOfDay: "evening",
@@ -4982,23 +5132,25 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Hoedspruit", "Phalaborwa", "White River", "Hazyview"],
       regions: ["Limpopo", "Mpumalanga"],
       landmarks: ["game reserve", "wildlife area"],
-      specificity: "region"
-    }
+      specificity: "region",
+    },
   },
   {
     id: "SC226",
     category: "mixed",
     title: "Windy Coastal Conditions",
-    scenario: "You're driving during strong coastal winds near a surfing event. Debris is blowing across the road.",
+    scenario:
+      "You're driving during strong coastal winds near a surfing event. Debris is blowing across the road.",
     question: "What should you do in this situation?",
     options: [
       "Overtake other vehicles to avoid debris",
       "Reduce speed and grip the steering wheel",
       "Hoot to warn other drivers",
-      "Pull over immediately"
+      "Pull over immediately",
     ],
     correct: 1,
-    explanation: "In strong winds, reduce speed and grip the steering wheel to maintain control and avoid debris during the surfing event.",
+    explanation:
+      "In strong winds, reduce speed and grip the steering wheel to maintain control and avoid debris during the surfing event.",
     difficulty: "intermediate",
     context: "urban",
     timeOfDay: "afternoon",
@@ -5008,8 +5160,8 @@ export const k53ScenarioBank: K53Scenario[] = [
       cities: ["Jeffreys Bay", "Muizenberg", "Plettenberg Bay", "Mossel Bay"],
       regions: ["Eastern Cape", "Western Cape"],
       landmarks: ["surfing event", "coastal area"],
-      specificity: "city"
-    }
+      specificity: "city",
+    },
   },
 ];
 
@@ -5120,7 +5272,7 @@ export const generateLocationAwareScenarioTest = (
   const shuffledScenarios: K53Scenario[] = [];
   Object.keys(scoreGroups)
     .sort((a, b) => Number(b) - Number(a)) // Highest scores first
-    .forEach(score => {
+    .forEach((score) => {
       const shuffledGroup = shuffleArray(scoreGroups[Number(score)]);
       shuffledScenarios.push(...shuffledGroup);
     });

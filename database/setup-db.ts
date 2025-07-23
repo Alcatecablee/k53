@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
-import * as dotenv from 'dotenv';
+import { createClient } from "@supabase/supabase-js";
+import * as dotenv from "dotenv";
 
 // Load environment variables
 dotenv.config();
@@ -11,11 +11,11 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 async function setupDatabase() {
-  console.log('Setting up database tables...');
+  console.log("Setting up database tables...");
 
   try {
     // Create user_progress table
-    const { error: progressError } = await supabase.rpc('exec_sql', {
+    const { error: progressError } = await supabase.rpc("exec_sql", {
       sql: `
         CREATE TABLE IF NOT EXISTS public.user_progress (
             id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -30,17 +30,17 @@ async function setupDatabase() {
             created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
             updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
         );
-      `
+      `,
     });
 
     if (progressError) {
-      console.log('Creating user_progress table directly...');
+      console.log("Creating user_progress table directly...");
       // Try direct SQL approach
-      await supabase.from('user_progress').select('*').limit(1);
+      await supabase.from("user_progress").select("*").limit(1);
     }
 
     // Create scenarios table
-    const { error: scenariosError } = await supabase.rpc('exec_sql', {
+    const { error: scenariosError } = await supabase.rpc("exec_sql", {
       sql: `
         CREATE TABLE IF NOT EXISTS public.scenarios (
             id TEXT PRIMARY KEY,
@@ -60,15 +60,15 @@ async function setupDatabase() {
             created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
             updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
         );
-      `
+      `,
     });
 
     if (scenariosError) {
-      console.log('Creating scenarios table directly...');
+      console.log("Creating scenarios table directly...");
     }
 
     // Create questions table
-    const { error: questionsError } = await supabase.rpc('exec_sql', {
+    const { error: questionsError } = await supabase.rpc("exec_sql", {
       sql: `
         CREATE TABLE IF NOT EXISTS public.questions (
             id TEXT PRIMARY KEY,
@@ -80,16 +80,16 @@ async function setupDatabase() {
             created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
             updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
         );
-      `
+      `,
     });
 
     if (questionsError) {
-      console.log('Creating questions table directly...');
+      console.log("Creating questions table directly...");
     }
 
-    console.log('Database setup completed!');
+    console.log("Database setup completed!");
   } catch (error) {
-    console.error('Database setup error:', error);
+    console.error("Database setup error:", error);
   }
 }
 

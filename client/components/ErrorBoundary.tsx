@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -19,7 +19,7 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
+    console.error("Error caught by boundary:", error, errorInfo);
   }
 
   render() {
@@ -27,11 +27,13 @@ export class ErrorBoundary extends React.Component<
       return (
         <div className="min-h-screen bg-red-50 flex items-center justify-center p-4">
           <div className="bg-white border-2 border-red-300 rounded-lg p-8 max-w-lg w-full">
-            <h1 className="text-2xl font-bold text-red-800 mb-4">Something went wrong</h1>
+            <h1 className="text-2xl font-bold text-red-800 mb-4">
+              Something went wrong
+            </h1>
             <div className="text-red-700 mb-4">
               <p className="font-semibold">Error details:</p>
               <pre className="text-sm bg-red-100 p-3 rounded mt-2 overflow-auto">
-                {this.state.error?.message || 'Unknown error'}
+                {this.state.error?.message || "Unknown error"}
               </pre>
             </div>
             <button
