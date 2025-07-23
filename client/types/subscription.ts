@@ -129,18 +129,18 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   },
   {
     id: "pro",
-    name: "SuperK53 Pro",
-    description: "Everything + premium features",
-    price_cents: 12000, // R120
+    name: "SuperK53 Premium",
+    description: "Complete preparation system with premium features",
+    price_cents: 14900, // R149
     currency: "ZAR",
     billing_cycle: "monthly",
     features: [
-      "Everything in Basic",
+      "Everything in Standard",
       "All scenario packs included",
-      "Offline access",
-      "Advanced analytics",
-      "Priority support",
-      "Custom study plans",
+      "Offline access capability",
+      "Advanced performance analytics",
+      "Priority technical support",
+      "Personalized study recommendations",
     ],
     max_scenarios_per_day: -1,
     max_questions_per_day: -1,
