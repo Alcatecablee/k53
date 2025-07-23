@@ -574,12 +574,39 @@ function PracticeComponent() {
                       </p>
 
                       <div className="space-y-2">
+                        {/* Usage indicator for free users */}
+                        {usageInfo && !usageInfo.isSubscribed && (
+                          <div className="p-2 bg-white/20 rounded border border-white/30 text-center">
+                            <div className="text-xs text-white/90">
+                              Daily scenarios: {5 - (usageInfo.remaining || 0)}/5 used
+                            </div>
+                            {usageInfo.remaining === 0 && (
+                              <div className="text-xs text-red-200 mt-1">
+                                Daily limit reached!
+                              </div>
+                            )}
+                          </div>
+                        )}
+
                         <Button
                           onClick={() => generateScenarioTest()}
-                          className="w-full bg-white text-orange-600 hover:bg-gray-100 font-semibold uppercase tracking-wide py-2 text-sm"
+                          disabled={usageInfo && !usageInfo.canAccess}
+                          className="w-full bg-white text-orange-600 hover:bg-gray-100 font-semibold uppercase tracking-wide py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           🚀 Start AI Scenarios
                         </Button>
+
+                        {usageInfo && !usageInfo.canAccess && (
+                          <Button
+                            asChild
+                            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold uppercase tracking-wide py-2 text-xs"
+                          >
+                            <Link to="/pricing">
+                              ⭐ Upgrade for Unlimited
+                            </Link>
+                          </Button>
+                        )}
+
                         <Button
                           onClick={() => setShowLocationSelector(true)}
                           variant="outline"
