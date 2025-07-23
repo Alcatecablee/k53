@@ -1,34 +1,36 @@
 // Environment variable validation and management
 
 interface EnvironmentConfig {
-  supabaseUrl: string;
-  supabaseAnonKey: string;
+  supabaseUrl: string | null;
+  supabaseAnonKey: string | null;
   apiUrl: string;
   nodeEnv: string;
   isDevelopment: boolean;
   isProduction: boolean;
+  isConfigured: boolean;
 }
 
-// Validate and get environment configuration
+// Get environment configuration with graceful fallbacks
 export const getEnvironmentConfig = (): EnvironmentConfig => {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || null;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || null;
+  const apiUrl = import.meta.env.VITE_API_URL || 
+    (typeof window !== 'undefined' ? `${window.location.origin}/api` : 'http://localhost:8080/api');
   const nodeEnv = import.meta.env.NODE_ENV || 'development';
 
-  // Validate required environment variables
-  const missingVars: string[] = [];
+  // Check if configuration is complete
+  const isConfigured = Boolean(supabaseUrl && supabaseAnonKey);
   
-  if (!supabaseUrl) missingVars.push('VITE_SUPABASE_URL');
-  if (!supabaseAnonKey) missingVars.push('VITE_SUPABASE_ANON_KEY');
-
-  if (missingVars.length > 0) {
-    const errorMessage = 
-      `Missing required environment variables:\n${missingVars.map(v => `- ${v}`).join('\n')}\n\n` +
-      'Please copy .env.example to .env and fill in your configuration.';
+  // Log missing variables for debugging (but don't throw)
+  if (!isConfigured) {
+    const missingVars: string[] = [];
+    if (!supabaseUrl) missingVars.push('VITE_SUPABASE_URL');
+    if (!supabaseAnonKey) missingVars.push('VITE_SUPABASE_ANON_KEY');
     
-    console.error(errorMessage);
-    throw new Error('Environment configuration is incomplete');
+    console.warn(
+      `Missing environment variables (app will run in demo mode):\n${missingVars.map(v => `- ${v}`).join('\n')}\n\n` +
+      'For full functionality, set up environment variables as described in SECURITY.md'
+    );
   }
 
   return {
@@ -38,26 +40,26 @@ export const getEnvironmentConfig = (): EnvironmentConfig => {
     nodeEnv,
     isDevelopment: nodeEnv === 'development',
     isProduction: nodeEnv === 'production',
+    isConfigured,
   };
 };
 
-// Export validated environment config
+// Export environment config (no longer throws errors)
 export const env = getEnvironmentConfig();
 
 // Helper functions
 export const isEnvironmentValid = (): boolean => {
-  try {
-    getEnvironmentConfig();
-    return true;
-  } catch {
-    return false;
-  }
+  return env.isConfigured;
 };
 
 export const getEnvironmentStatus = () => {
   return {
-    isValid: isEnvironmentValid(),
+    isValid: env.isConfigured,
     environment: env.nodeEnv,
     hasSupabase: Boolean(env.supabaseUrl && env.supabaseAnonKey),
+    missingVars: [
+      !env.supabaseUrl && 'VITE_SUPABASE_URL',
+      !env.supabaseAnonKey && 'VITE_SUPABASE_ANON_KEY',
+    ].filter(Boolean),
   };
 };
