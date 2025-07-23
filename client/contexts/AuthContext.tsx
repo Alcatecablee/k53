@@ -17,26 +17,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Get initial session - wrapper handles all errors gracefully
     const initAuth = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      setLoading(false);
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        setUser(session?.user ?? null);
+      } catch (error) {
+        console.warn("Auth initialization error, continuing in offline mode:", error);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
     initAuth();
 
     // Listen for auth changes - wrapper handles all errors
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+    let subscription: any = null;
+    try {
+      const result = supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      });
+      subscription = result?.data?.subscription;
+    } catch (error) {
+      console.warn("Auth state change listener error:", error);
       setLoading(false);
-    });
+    }
 
     return () => {
-      if (subscription?.unsubscribe) {
-        subscription.unsubscribe();
+      try {
+        if (subscription?.unsubscribe) {
+          subscription.unsubscribe();
+        }
+      } catch (error) {
+        console.warn("Error unsubscribing from auth changes:", error);
       }
     };
   }, []);
