@@ -46,6 +46,7 @@ const App = () => (
               <Route path="/dltc" element={<DLTC />} />
               <Route path="/docs" element={<Documentation />} />
               <Route path="/admin" element={<AdminNew />} />
+              <Route path="/admin-pro" element={<AdminPro />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
