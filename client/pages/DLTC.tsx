@@ -119,6 +119,16 @@ export default function DLTCPage() {
                 Official Testing Center Locator
               </p>
             </div>
+            <Button
+              asChild
+              variant="ghost"
+              className="text-slate-700 hover:text-slate-900 font-semibold uppercase tracking-wide"
+            >
+              <Link to="/docs">
+                <BookOpen className="h-5 w-5 mr-2" />
+                Help
+              </Link>
+            </Button>
             <div></div>
           </div>
         </div>
