@@ -201,40 +201,13 @@ export default function AdminNew() {
 
   const loadPayments = async () => {
     try {
-      // Get real payment data from database
-      const { data: paymentsData, error } = await supabase
-        .from("payments")
-        .select(
-          `
-          id,
-          user_id,
-          amount_cents,
-          status,
-          payment_method,
-          created_at,
-          user_subscriptions!inner(email)
-        `,
-        )
-        .order("created_at", { ascending: false })
-        .limit(50);
-
-      if (error) {
-        console.error("Error loading payments:", error);
-        return;
+      const response = await fetch('/api/admin/payments');
+      if (response.ok) {
+        const paymentsData = await response.json();
+        setPayments(paymentsData);
+      } else {
+        console.error("Failed to load payments");
       }
-
-      const formattedPayments: Payment[] =
-        paymentsData?.map((payment) => ({
-          id: payment.id,
-          user_id: payment.user_id,
-          amount_cents: payment.amount_cents,
-          status: payment.status,
-          payment_method: payment.payment_method,
-          created_at: payment.created_at,
-          user_email: (payment.user_subscriptions as any)?.email || "Unknown",
-        })) || [];
-
-      setPayments(formattedPayments);
     } catch (error) {
       console.error("Error loading payments:", error);
     }
