@@ -62,11 +62,21 @@ function PracticeComponent() {
 
   const { user, signOut } = useAuth();
 
-  // Load user location from profile or local storage
+  // Load user data (location, subscription, usage)
   useEffect(() => {
-    const loadUserLocation = async () => {
+    const loadUserData = async () => {
       try {
         if (user) {
+          // Load subscription and usage info
+          const [userSub, accessInfo] = await Promise.all([
+            getUserSubscription().catch(() => null),
+            canAccessScenarios().catch(() => ({ canAccess: true, remaining: 5, isSubscribed: false }))
+          ]);
+
+          setSubscription(userSub);
+          setUsageInfo(accessInfo);
+
+          // Load user location
           try {
             const profile = await getUserProfile();
             if (profile.location) {
@@ -93,7 +103,7 @@ function PracticeComponent() {
           setUserLocation(storedLocation);
         }
       } catch (error) {
-        console.warn('Error loading user location, using defaults:', error);
+        console.warn('Error loading user data, using defaults:', error);
         // Set a default location if nothing works
         const defaultLocation: UserLocation = {
           city: 'Cape Town',
@@ -101,10 +111,11 @@ function PracticeComponent() {
           displayName: 'Cape Town, Western Cape'
         };
         setUserLocation(defaultLocation);
+        setUsageInfo({ canAccess: true, remaining: 5, isSubscribed: false });
       }
     };
 
-    loadUserLocation();
+    loadUserData();
   }, [user]);
 
   const handleLocationSelected = async (location: UserLocation) => {
