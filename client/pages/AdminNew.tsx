@@ -176,7 +176,7 @@ export default function AdminNew() {
     try {
       setLoading(true);
 
-      const response = await fetch('/api/admin/dashboard-stats');
+      const response = await fetch("/api/admin/dashboard-stats");
       if (response.ok) {
         const stats = await response.json();
         setStats(stats);
@@ -192,7 +192,9 @@ export default function AdminNew() {
 
   const loadUsers = async () => {
     try {
-      const response = await fetch(`/api/admin/users?search=${searchTerm}&status=${filterStatus}`);
+      const response = await fetch(
+        `/api/admin/users?search=${searchTerm}&status=${filterStatus}`,
+      );
       if (response.ok) {
         const usersData = await response.json();
         setUsers(usersData);
@@ -206,7 +208,7 @@ export default function AdminNew() {
 
   const loadPayments = async () => {
     try {
-      const response = await fetch('/api/admin/payments');
+      const response = await fetch("/api/admin/payments");
       if (response.ok) {
         const paymentsData = await response.json();
         setPayments(paymentsData);
@@ -220,7 +222,7 @@ export default function AdminNew() {
 
   const checkSystemHealth = async () => {
     try {
-      const response = await fetch('/api/admin/system-health');
+      const response = await fetch("/api/admin/system-health");
       if (response.ok) {
         const health = await response.json();
         setSystemHealth(health);
@@ -245,9 +247,9 @@ export default function AdminNew() {
   const handleUserAction = async (userId: string, action: string) => {
     try {
       const response = await fetch(`/api/admin/users/${userId}/action`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ action }),
       });
