@@ -1223,7 +1223,15 @@ export default function AdminNew() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button
-                    onClick={() => alert('Database logs feature coming soon!')}
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/system/database/logs');
+                        const data = await response.json();
+                        alert(`Database Logs:\n\nConnection Count: ${data.metrics?.connectionCount || 0}\nQuery Count: ${data.metrics?.queryCount || 0}\nAvg Response Time: ${data.metrics?.avgResponseTime || 0}ms\n\nRecent Logs: ${data.logs?.length || 0} entries`);
+                      } catch (error) {
+                        alert('Failed to fetch database logs');
+                      }
+                    }}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
@@ -1231,7 +1239,28 @@ export default function AdminNew() {
                     View Logs
                   </Button>
                   <Button
-                    onClick={() => alert('Database backup initiated!')}
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/system/database/backup', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                          const blob = new Blob([JSON.stringify(data.backup, null, 2)], { type: 'application/json' });
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = `database_backup_${new Date().toISOString().split('T')[0]}.json`;
+                          a.click();
+                          alert(`Backup created successfully!\nSize: ${Math.round(data.size / 1024)}KB`);
+                        } else {
+                          alert('Backup failed');
+                        }
+                      } catch (error) {
+                        alert('Failed to create backup');
+                      }
+                    }}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
@@ -1239,9 +1268,23 @@ export default function AdminNew() {
                     Backup Database
                   </Button>
                   <Button
-                    onClick={() => {
-                      if (confirm('Enable maintenance mode? This will make the site unavailable to users.')) {
-                        alert('Maintenance mode activated!');
+                    onClick={async () => {
+                      if (confirm('Toggle maintenance mode? This will affect site availability.')) {
+                        try {
+                          const response = await fetch('/api/system/maintenance', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ enabled: true }),
+                          });
+                          const data = await response.json();
+                          if (data.success) {
+                            alert(`Maintenance mode ${data.maintenanceMode ? 'enabled' : 'disabled'}!`);
+                          } else {
+                            alert('Failed to toggle maintenance mode');
+                          }
+                        } catch (error) {
+                          alert('Failed to toggle maintenance mode');
+                        }
                       }
                     }}
                     variant="outline"
