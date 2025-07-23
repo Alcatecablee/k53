@@ -127,17 +127,10 @@ export default function AdminPro() {
 
   const loadDashboardData = async () => {
     try {
-      const response = await fetch("/api/admin/dashboard-stats");
+      const response = await fetch("/api/enterprise/dashboard-stats");
       if (response.ok) {
         const data = await response.json();
-        // Enhance with real-time metrics
-        setStats({
-          ...data,
-          realtimeUsers: Math.floor(Math.random() * 50) + 10,
-          serverLoad: Math.random() * 100,
-          responseTime: Math.random() * 200 + 50,
-          errorRate: Math.random() * 5,
-        });
+        setStats(data);
       }
     } catch (error) {
       console.error("Error loading dashboard data:", error);
@@ -146,17 +139,10 @@ export default function AdminPro() {
 
   const loadUsers = async () => {
     try {
-      const response = await fetch("/api/admin/users");
+      const response = await fetch("/api/enterprise/users?limit=100");
       if (response.ok) {
         const data = await response.json();
-        // Enhance user data with additional metrics
-        const enhancedUsers = data.map((user: any) => ({
-          ...user,
-          totalSpent: Math.floor(Math.random() * 50000),
-          sessionsToday: Math.floor(Math.random() * 10),
-          riskScore: Math.floor(Math.random() * 100),
-        }));
-        setUsers(enhancedUsers);
+        setUsers(data);
       }
     } catch (error) {
       console.error("Error loading users:", error);
@@ -165,17 +151,10 @@ export default function AdminPro() {
 
   const loadPayments = async () => {
     try {
-      const response = await fetch("/api/admin/payments");
+      const response = await fetch("/api/enterprise/payments?limit=100");
       if (response.ok) {
         const data = await response.json();
-        // Enhance payment data
-        const enhancedPayments = data.map((payment: any) => ({
-          ...payment,
-          fee_cents: Math.floor(payment.amount_cents * 0.029), // 2.9% fee
-          refunded: Math.random() > 0.95,
-          country: ['ZA', 'US', 'GB', 'AU'][Math.floor(Math.random() * 4)],
-        }));
-        setPayments(enhancedPayments);
+        setPayments(data);
       }
     } catch (error) {
       console.error("Error loading payments:", error);
@@ -183,19 +162,15 @@ export default function AdminPro() {
   };
 
   const loadRealTimeData = async () => {
-    // Generate real-time chart data
-    const now = new Date();
-    const newData = [];
-    for (let i = 11; i >= 0; i--) {
-      const time = new Date(now.getTime() - i * 5 * 60000); // 5-minute intervals
-      newData.push({
-        name: time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        users: Math.floor(Math.random() * 50) + 20,
-        revenue: Math.floor(Math.random() * 1000) + 500,
-        requests: Math.floor(Math.random() * 200) + 100,
-      });
+    try {
+      const response = await fetch("/api/enterprise/realtime-metrics");
+      if (response.ok) {
+        const data = await response.json();
+        setRealTimeData(data.metrics || []);
+      }
+    } catch (error) {
+      console.error("Error loading real-time data:", error);
     }
-    setRealTimeData(newData);
   };
 
   // Enhanced user table columns
