@@ -71,40 +71,40 @@ export default function Index() {
               </div>
 
               <div className="flex items-center space-x-4">
-                <nav className="hidden md:flex items-center space-x-8">
+                <nav className="hidden md:flex items-center space-x-6">
                   <Link
                     to="/practice"
-                    className="text-slate-300 hover:text-white font-medium text-sm uppercase tracking-wide transition-colors"
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
                   >
-                    Practice Tests
+                    Practice
                   </Link>
                   <Link
                     to="/progress"
-                    className="text-slate-300 hover:text-white font-medium text-sm uppercase tracking-wide transition-colors"
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
                   >
                     Results
                   </Link>
                   <Link
                     to="/pricing"
-                    className="text-slate-300 hover:text-white font-medium text-sm uppercase tracking-wide transition-colors"
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
                   >
-                    Premium Access
+                    Premium
                   </Link>
                   <Link
                     to="/dltc"
-                    className="text-slate-300 hover:text-white font-medium text-sm uppercase tracking-wide transition-colors"
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
                   >
-                    Test Centers
+                    Centers
                   </Link>
                   <Link
                     to="/docs"
-                    className="text-slate-300 hover:text-white font-medium text-sm uppercase tracking-wide transition-colors"
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
                   >
-                    Documentation
+                    Docs
                   </Link>
                   <Link
                     to="/admin"
-                    className="text-slate-300 hover:text-white font-medium text-sm uppercase tracking-wide transition-colors"
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
                   >
                     Admin
                   </Link>
@@ -112,9 +112,9 @@ export default function Index() {
                     href="https://taxfy.co.za"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 text-sm font-medium uppercase tracking-wide transition-colors"
+                    className="text-slate-500 hover:text-slate-400 text-xs font-normal transition-colors"
                   >
-                    Tax Services
+                    Tax
                   </a>
                 </nav>
 
