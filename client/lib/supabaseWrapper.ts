@@ -51,9 +51,9 @@ const safeOperation = async <T>(
   fallback: T,
   operationName: string = "operation"
 ): Promise<T> => {
-  // If no client available, return fallback immediately
-  if (!supabaseClient) {
-    if (!isOfflineMode) {
+  // If no client available or initialization failed, return fallback immediately
+  if (!supabaseClient || clientInitializationFailed) {
+    if (!isOfflineMode && !clientInitializationFailed) {
       console.warn(`${operationName}: Supabase not configured, using fallback`);
     }
     return fallback;
