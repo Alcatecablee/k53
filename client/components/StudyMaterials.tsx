@@ -51,7 +51,7 @@ export function StudyMaterials() {
     },
   ];
 
-  const handleDownload = (materialId: string, isPremium: boolean) => {
+  const handleDownload = async (materialId: string, isPremium: boolean) => {
     if (isPremium) {
       // Redirect to premium subscription
       window.location.href = "/pricing";
