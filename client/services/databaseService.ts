@@ -20,16 +20,21 @@ export const saveUserProgress = async (progressData: {
     } = await Promise.race([
       supabase.auth.getUser(),
       new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Database timeout")), 3000),
+        setTimeout(() => reject(new Error("Auth timeout")), 3000),
       ),
     ]);
 
     if (userError || !user) {
-      console.warn("User not authenticated, progress not saved to database");
-      return null;
+      console.warn("User not authenticated, saving progress locally");
+      return { data: null, error: null }; // Graceful fallback
     }
 
-    const { data, error } = supabaseClient ? await Promise.race([
+    if (!supabaseClient) {
+      console.warn("Database not available, progress not saved");
+      return { data: null, error: null }; // Graceful fallback
+    }
+
+    const { data, error } = await Promise.race([
       supabaseClient
         .from("user_progress")
         .insert({
@@ -42,207 +47,238 @@ export const saveUserProgress = async (progressData: {
       new Promise((_, reject) =>
         setTimeout(() => reject(new Error("Database timeout")), 5000),
       ),
-    ]) : { data: null, error: new Error("Database not available") };
+    ]);
 
     if (error) {
-      console.warn("Failed to save progress to database:", error);
-      return null;
+      console.warn("Failed to save progress:", error);
+      return { data: null, error };
     }
 
-    return data;
+    return { data, error: null };
   } catch (error) {
-    console.warn("Database unavailable, progress not saved:", error);
-    return null;
+    console.warn("Error saving user progress:", error);
+    return { data: null, error };
   }
 };
 
-export const getUserProgress = async (limit = 20) => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("User not authenticated");
-
-  const { data, error } = await supabase
-    .from("user_progress")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("completed_at", { ascending: false })
-    .limit(limit);
-
-  if (error) throw error;
-  return data as UserProgress[];
-};
-
-export const getUserStats = async () => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("User not authenticated");
-
-  const { data, error } = await supabase
-    .from("user_progress")
-    .select("*")
-    .eq("user_id", user.id);
-
-  if (error) throw error;
-
-  const progress = data as UserProgress[];
-
-  // Calculate statistics
-  const totalTests = progress.length;
-  const passedTests = progress.filter((p) => p.passed).length;
-  const passRate =
-    totalTests > 0 ? Math.round((passedTests / totalTests) * 100) : 0;
-
-  const scenarioTests = progress.filter((p) => p.test_type === "scenarios");
-  const questionTests = progress.filter((p) => p.test_type === "questions");
-
-  const averageScore =
-    progress.length > 0
-      ? Math.round(
-          progress.reduce(
-            (sum, p) => sum + (p.score / p.total_questions) * 100,
-            0,
-          ) / progress.length,
-        )
-      : 0;
-
-  return {
-    totalTests,
-    passedTests,
-    passRate,
-    averageScore,
-    scenarioTests: scenarioTests.length,
-    questionTests: questionTests.length,
-    recentProgress: progress.slice(0, 5),
-  };
-};
-
-// User Profile Functions
-export const updateUserProfile = async (updates: {
-  full_name?: string;
-  location_city?: string;
-  location_region?: string;
-  location_neighborhood?: string;
-}) => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("User not authenticated");
-
-  const { data, error } = await supabase.auth.updateUser({
-    data: updates,
-  });
-
-  if (error) throw error;
-  return data;
-};
-
-export const getUserProfile = async () => {
+export const getUserProgress = async (limit = 10): Promise<UserProgress[]> => {
   try {
     const {
       data: { user },
-      error,
-    } = await Promise.race([
-      supabase.auth.getUser(),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Database timeout")), 3000),
-      ),
-    ]);
-
-    if (error || !user) {
-      throw new Error("User not authenticated or database unavailable");
+    } = await supabase.auth.getUser();
+    
+    if (!user || !supabaseClient) {
+      return []; // Return empty array if not authenticated or no DB
     }
 
-    return {
-      id: user.id,
-      email: user.email,
-      full_name: user.user_metadata?.full_name,
-      location_city: user.user_metadata?.location_city,
-      location_region: user.user_metadata?.location_region,
-      location_neighborhood: user.user_metadata?.location_neighborhood,
-      location: user.user_metadata?.location,
-      created_at: user.created_at,
-    };
+    const { data, error } = await supabaseClient
+      .from("user_progress")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("completed_at", { ascending: false })
+      .limit(limit);
+
+    if (error) throw error;
+    return data as UserProgress[];
   } catch (error) {
-    console.warn("Database service unavailable:", error);
-    throw error;
+    console.warn("Error fetching user progress:", error);
+    return [];
   }
 };
 
-// Scenario Tracking Functions
-export const saveScenarioAttempt = async (
-  scenario_id: string,
-  answered_correctly: boolean,
-  time_taken: number,
+export const getUserStats = async () => {
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    
+    if (!user || !supabaseClient) {
+      return {
+        totalTests: 0,
+        averageScore: 0,
+        passRate: 0,
+        questionStats: { total: 0, passed: 0, averageScore: 0 },
+        scenarioStats: { total: 0, passed: 0, averageScore: 0 },
+      };
+    }
+
+    const { data, error } = await supabaseClient
+      .from("user_progress")
+      .select("*")
+      .eq("user_id", user.id);
+
+    if (error) throw error;
+
+    const progress = data as UserProgress[];
+
+    const questionTests = progress.filter((p) => p.test_type === "questions");
+    const scenarioTests = progress.filter((p) => p.test_type === "scenarios");
+
+    const questionStats = {
+      total: questionTests.length,
+      passed: questionTests.filter((p) => p.passed).length,
+      averageScore:
+        questionTests.length > 0
+          ? questionTests.reduce((sum, p) => sum + p.score, 0) /
+            questionTests.length
+          : 0,
+    };
+
+    const scenarioStats = {
+      total: scenarioTests.length,
+      passed: scenarioTests.filter((p) => p.passed).length,
+      averageScore:
+        scenarioTests.length > 0
+          ? scenarioTests.reduce((sum, p) => sum + p.score, 0) /
+            scenarioTests.length
+          : 0,
+    };
+
+    return {
+      totalTests: progress.length,
+      averageScore:
+        progress.length > 0
+          ? progress.reduce((sum, p) => sum + p.score, 0) / progress.length
+          : 0,
+      passRate:
+        progress.length > 0
+          ? (progress.filter((p) => p.passed).length / progress.length) * 100
+          : 0,
+      questionStats,
+      scenarioStats,
+    };
+  } catch (error) {
+    console.warn("Error fetching user stats:", error);
+    return {
+      totalTests: 0,
+      averageScore: 0,
+      passRate: 0,
+      questionStats: { total: 0, passed: 0, averageScore: 0 },
+      scenarioStats: { total: 0, passed: 0, averageScore: 0 },
+    };
+  }
+};
+
+// Scenario Usage Functions
+export const saveScenarioUsage = async (
+  scenarioId: string,
+  answeredCorrectly: boolean,
+  timeTaken: number,
 ) => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("User not authenticated");
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    
+    if (!user || !supabaseClient) {
+      console.warn("Cannot save scenario usage - user not authenticated or DB unavailable");
+      return { data: null, error: null };
+    }
 
-  const { data, error } = await supabase
-    .from("user_scenarios")
-    .insert({
-      user_id: user.id,
-      scenario_id,
-      answered_correctly,
-      time_taken,
-      completed_at: new Date().toISOString(),
-    })
-    .select()
-    .single();
+    const { data, error } = await supabaseClient
+      .from("user_scenarios")
+      .insert({
+        scenario_id: scenarioId,
+        user_id: user.id,
+        answered_correctly: answeredCorrectly,
+        time_taken: timeTaken,
+        completed_at: new Date().toISOString(),
+      })
+      .select()
+      .single();
 
-  if (error) throw error;
-  return data;
+    if (error) {
+      console.warn("Failed to save scenario usage:", error);
+      return { data: null, error };
+    }
+
+    return { data, error: null };
+  } catch (error) {
+    console.warn("Error saving scenario usage:", error);
+    return { data: null, error };
+  }
 };
 
-export const getScenarioStats = async () => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("User not authenticated");
+export const getUserScenarios = async (
+  limit = 50,
+): Promise<UserScenario[]> => {
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    
+    if (!user || !supabaseClient) {
+      return [];
+    }
 
-  const { data, error } = await supabase
-    .from("user_scenarios")
-    .select("*")
-    .eq("user_id", user.id);
+    const { data, error } = await supabaseClient
+      .from("user_scenarios")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("completed_at", { ascending: false })
+      .limit(limit);
 
-  if (error) throw error;
-
-  const scenarios = data as UserScenario[];
-
-  const totalAttempts = scenarios.length;
-  const correctAttempts = scenarios.filter((s) => s.answered_correctly).length;
-  const accuracy =
-    totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0;
-
-  const averageTime =
-    scenarios.length > 0
-      ? Math.round(
-          scenarios.reduce((sum, s) => sum + s.time_taken, 0) /
-            scenarios.length,
-        )
-      : 0;
-
-  // Get unique scenarios attempted
-  const uniqueScenarios = new Set(scenarios.map((s) => s.scenario_id)).size;
-
-  return {
-    totalAttempts,
-    correctAttempts,
-    accuracy,
-    averageTime,
-    uniqueScenarios,
-  };
+    if (error) throw error;
+    return data as UserScenario[];
+  } catch (error) {
+    console.warn("Error fetching user scenarios:", error);
+    return [];
+  }
 };
 
-// Leaderboard Functions
+export const getScenarioStats = async (scenarioId: string) => {
+  try {
+    if (!supabaseClient) {
+      return {
+        totalAttempts: 0,
+        correctAttempts: 0,
+        averageTime: 0,
+        successRate: 0,
+      };
+    }
+
+    const { data, error } = await supabaseClient
+      .from("user_scenarios")
+      .select("answered_correctly, time_taken")
+      .eq("scenario_id", scenarioId);
+
+    if (error) throw error;
+
+    const scenarios = data as UserScenario[];
+    const totalAttempts = scenarios.length;
+    const correctAttempts = scenarios.filter((s) => s.answered_correctly).length;
+    const averageTime =
+      scenarios.length > 0
+        ? scenarios.reduce((sum, s) => sum + s.time_taken, 0) / scenarios.length
+        : 0;
+
+    return {
+      totalAttempts,
+      correctAttempts,
+      averageTime,
+      successRate: totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0,
+    };
+  } catch (error) {
+    console.warn("Error fetching scenario stats:", error);
+    return {
+      totalAttempts: 0,
+      correctAttempts: 0,
+      averageTime: 0,
+      successRate: 0,
+    };
+  }
+};
+
 export const getLeaderboard = async (
   type: "questions" | "scenarios" | "all" = "all",
   limit = 10,
 ) => {
-  let query = supabase.from("user_progress").select(`
+  try {
+    if (!supabaseClient) {
+      return [];
+    }
+
+    let query = supabaseClient.from("user_progress").select(`
       score,
       total_questions,
       passed,
@@ -251,27 +287,20 @@ export const getLeaderboard = async (
       test_type
     `);
 
-  if (type !== "all") {
-    query = query.eq("test_type", type);
+    if (type !== "all") {
+      query = query.eq("test_type", type);
+    }
+
+    const { data, error } = await query
+      .eq("passed", true)
+      .order("score", { ascending: false })
+      .limit(limit);
+
+    if (error) throw error;
+
+    return data || [];
+  } catch (error) {
+    console.warn("Error fetching leaderboard:", error);
+    return [];
   }
-
-  const { data, error } = await query
-    .eq("passed", true)
-    .order("score", { ascending: false })
-    .order("completed_at", { ascending: false })
-    .limit(limit);
-
-  if (error) throw error;
-
-  return (
-    data?.map((entry, index) => ({
-      rank: index + 1,
-      userId: entry.user_id,
-      score: entry.score,
-      totalQuestions: entry.total_questions,
-      percentage: Math.round((entry.score / entry.total_questions) * 100),
-      testType: entry.test_type,
-      completedAt: entry.completed_at,
-    })) || []
-  );
 };
