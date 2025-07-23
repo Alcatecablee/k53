@@ -48,7 +48,7 @@ export default function Index() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <nav className="hidden md:flex items-center space-x-8">
+              <nav className="hidden md:flex items-center space-x-6">
                 <Link
                   to="/practice"
                   className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
@@ -60,6 +60,12 @@ export default function Index() {
                   className="text-slate-700 hover:text-slate-900 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-slate-800 pb-1 transition-all"
                 >
                   Results
+                </Link>
+                <Link
+                  to="/pricing"
+                  className="text-orange-600 hover:text-orange-700 font-semibold text-sm uppercase tracking-wide border-b-2 border-transparent hover:border-orange-600 pb-1 transition-all"
+                >
+                  SuperK53
                 </Link>
                 <Link
                   to="/dltc"
