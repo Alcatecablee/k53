@@ -752,6 +752,74 @@ function PracticeComponent() {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Premium Scenario Preview */}
+              <Card className="border border-black bg-slate-800 mt-8">
+                <CardHeader className="bg-slate-700 text-white p-6">
+                  <CardTitle className="text-xl font-bold uppercase tracking-wide mb-2">
+                    Premium scenario categories
+                  </CardTitle>
+                  <p className="text-slate-300">
+                    Advanced assessment scenarios available through premium access
+                  </p>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-slate-700 border border-black p-4">
+                      <div className="text-white font-bold uppercase tracking-wide text-sm mb-2">
+                        Cape Town coastal routes
+                      </div>
+                      <div className="text-slate-300 text-sm mb-3">
+                        Baboon encounter protocols, mountain pass navigation, coastal wind conditions
+                      </div>
+                      <div className="bg-black text-white p-2 text-center">
+                        <div className="text-xs uppercase tracking-wide">Premium access required</div>
+                      </div>
+                    </div>
+                    <div className="bg-slate-700 border border-black p-4">
+                      <div className="text-white font-bold uppercase tracking-wide text-sm mb-2">
+                        Johannesburg highway merging
+                      </div>
+                      <div className="text-slate-300 text-sm mb-3">
+                        M1 complex interchanges, taxi lane navigation, rush hour protocols
+                      </div>
+                      <div className="bg-black text-white p-2 text-center">
+                        <div className="text-xs uppercase tracking-wide">Premium access required</div>
+                      </div>
+                    </div>
+                    <div className="bg-slate-700 border border-black p-4">
+                      <div className="text-white font-bold uppercase tracking-wide text-sm mb-2">
+                        Rural farm road navigation
+                      </div>
+                      <div className="text-slate-300 text-sm mb-3">
+                        Livestock crossing procedures, gravel road techniques, narrow bridge protocols
+                      </div>
+                      <div className="bg-black text-white p-2 text-center">
+                        <div className="text-xs uppercase tracking-wide">Premium access required</div>
+                      </div>
+                    </div>
+                    <div className="bg-slate-700 border border-black p-4">
+                      <div className="text-white font-bold uppercase tracking-wide text-sm mb-2">
+                        Night driving assessments
+                      </div>
+                      <div className="text-slate-300 text-sm mb-3">
+                        Reduced visibility protocols, headlight management, pedestrian detection
+                      </div>
+                      <div className="bg-black text-white p-2 text-center">
+                        <div className="text-xs uppercase tracking-wide">Premium access required</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-6 text-center">
+                    <Button
+                      asChild
+                      className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide"
+                    >
+                      <Link to="/pricing">Access premium scenarios</Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
