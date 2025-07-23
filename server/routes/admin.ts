@@ -37,7 +37,7 @@ export const getDashboardStats: RequestHandler = async (req, res) => {
     }
 
     // Get total users count
-    const { count: totalUsers } = await supabaseAdmin
+    const { count: totalUsers } = await supabaseClient
       .from("user_subscriptions")
       .select("*", { count: "exact", head: true });
 
