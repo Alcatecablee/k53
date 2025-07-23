@@ -76,7 +76,7 @@ export default function Practice() {
     setTestMode("scenarios");
     setIsFullTest(false);
 
-    const randomScenarios = generateRandomScenarioTest(156); // Generate all 156 scenarios
+    const randomScenarios = generateRandomScenarioTest(206); // Generate all 206 scenarios
 
     // Log first few scenario IDs for verification (can be removed later)
     console.log("AI Scenarios randomized order (first 10):",
