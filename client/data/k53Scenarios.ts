@@ -2807,6 +2807,12 @@ export const k53ScenarioBank: K53Scenario[] = [
     timeOfDay: "afternoon",
     weather: "clear",
     language: "en",
+    location: {
+      cities: ["Cape Town"],
+      regions: ["Western Cape"],
+      landmarks: ["Chapman's Peak Drive", "Cape Peninsula"],
+      specificity: "city"
+    },
   },
   {
     id: "SC128",
