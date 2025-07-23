@@ -18,6 +18,8 @@ import {
   BookOpen,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SEO } from "@/components/SEO";
+import { SEO_CONFIGS } from "@/hooks/useSEO";
 
 export default function DLTCPage() {
   const mockDLTCs = [
