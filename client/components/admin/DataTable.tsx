@@ -234,7 +234,7 @@ export function DataTable<T extends Record<string, any>>({
                   <SelectValue placeholder={`Filter ${col.title}`} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All {col.title}</SelectItem>
+                  <SelectItem value="all">All {col.title}</SelectItem>
                   {[...new Set(data.map(row => row[col.key]))].map(value => (
                     <SelectItem key={String(value)} value={String(value)}>
                       {String(value)}
