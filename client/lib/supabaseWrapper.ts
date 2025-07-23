@@ -49,7 +49,7 @@ const isNetworkError = (error: any): boolean => {
 const safeOperation = async <T>(
   operation: () => Promise<T>,
   fallback: T,
-  operationName: string = "operation"
+  operationName: string = "operation",
 ): Promise<T> => {
   // If no client available or initialization failed, return fallback immediately
   if (!supabaseClient || clientInitializationFailed) {
@@ -66,18 +66,20 @@ const safeOperation = async <T>(
     });
 
     const result = await Promise.race([operation(), timeoutPromise]);
-    
+
     // Reset offline mode on successful operation
     if (isOfflineMode && isConfigured) {
       console.log("Connection restored");
       isOfflineMode = false;
     }
-    
+
     return result;
   } catch (error) {
     if (isNetworkError(error)) {
       if (!isOfflineMode) {
-        console.warn(`${operationName}: Network error, switching to offline mode`);
+        console.warn(
+          `${operationName}: Network error, switching to offline mode`,
+        );
         isOfflineMode = true;
       }
     } else {
@@ -97,7 +99,7 @@ export const supabase = {
       return safeOperation(
         () => supabaseClient.auth.getSession(),
         { data: { session: null }, error: null },
-        "getSession"
+        "getSession",
       );
     },
 
@@ -108,7 +110,7 @@ export const supabase = {
       return safeOperation(
         () => supabaseClient.auth.getUser(),
         { data: { user: null }, error: null },
-        "getUser"
+        "getUser",
       );
     },
 
@@ -125,7 +127,7 @@ export const supabase = {
           data: { user: null, session: null },
           error: { message: "Authentication unavailable" },
         },
-        "signUp"
+        "signUp",
       );
     },
 
@@ -142,7 +144,7 @@ export const supabase = {
           data: { user: null, session: null },
           error: { message: "Authentication unavailable" },
         },
-        "signIn"
+        "signIn",
       );
     },
 
@@ -153,7 +155,7 @@ export const supabase = {
       return safeOperation(
         () => supabaseClient.auth.signOut(),
         { error: null },
-        "signOut"
+        "signOut",
       );
     },
 
@@ -161,13 +163,13 @@ export const supabase = {
       if (!supabaseClient || clientInitializationFailed) {
         return Promise.resolve({
           data: { user: null },
-          error: { message: "Update unavailable" }
+          error: { message: "Update unavailable" },
         });
       }
       return safeOperation(
         () => supabaseClient.auth.updateUser(updates),
         { data: { user: null }, error: { message: "Update unavailable" } },
-        "updateUser"
+        "updateUser",
       );
     },
 
@@ -205,7 +207,8 @@ export const supabase = {
   // Status helpers
   isOffline: () => isOfflineMode,
   isConfigured: () => Boolean(supabaseClient),
-  isClientAvailable: () => Boolean(supabaseClient && !clientInitializationFailed),
+  isClientAvailable: () =>
+    Boolean(supabaseClient && !clientInitializationFailed),
 };
 
 // Re-export types from Supabase

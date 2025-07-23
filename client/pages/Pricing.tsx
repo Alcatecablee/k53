@@ -32,28 +32,49 @@ import {
   formatPrice,
 } from "@/services/subscriptionService";
 import { PayPalCheckout } from "@/components/PayPalCheckout";
-import { SOUTH_AFRICAN_LOCATIONS, type UserLocation } from "@/services/locationService";
+import {
+  SOUTH_AFRICAN_LOCATIONS,
+  type UserLocation,
+} from "@/services/locationService";
 
 // Feature explanations for tooltips
 const FEATURE_EXPLANATIONS = {
-  "Unlimited official assessments (64 questions)": "Complete K53 learner's license test simulations with all 64 questions as per Department of Transport standards",
-  "Unlimited practice assessments (12 questions)": "Quick practice sessions to test specific knowledge areas and track improvement",
-  "5 scenarios per day": "Daily allocation of realistic driving scenarios for practical application",
-  "15 scenarios per day": "Enhanced daily allocation for more comprehensive practice",
-  "Unlimited scenarios": "Access to all 226+ driving scenarios without daily limits",
-  "Basic progress tracking": "View your scores and completion rates across different categories",
-  "Enhanced progress tracking": "Detailed analytics with performance trends and improvement recommendations",
-  "Advanced progress tracking": "Comprehensive analytics with detailed breakdowns by category, difficulty, and time",
-  "Location-aware scenarios": "Basic location matching for relevant driving scenarios",
-  "Location-specific content": "Enhanced location targeting with regional driving challenges and local landmarks",
-  "Standard explanations": "Basic explanations for correct and incorrect answers",
-  "Detailed explanations": "Comprehensive explanations with references to K53 regulations and best practices",
-  "Mock K53 tests": "Full-length simulated K53 examinations under test conditions",
-  "All scenario packs included": "Access to all regional scenario collections without additional cost",
-  "Offline access capability": "Download scenarios and assessments for practice without internet connection",
-  "Advanced performance analytics": "Detailed performance insights with personalized study recommendations",
-  "Priority technical support": "Fast-track support with dedicated assistance for technical issues",
-  "Personalized study recommendations": "AI-powered study plans based on your performance patterns and weak areas",
+  "Unlimited official assessments (64 questions)":
+    "Complete K53 learner's license test simulations with all 64 questions as per Department of Transport standards",
+  "Unlimited practice assessments (12 questions)":
+    "Quick practice sessions to test specific knowledge areas and track improvement",
+  "5 scenarios per day":
+    "Daily allocation of realistic driving scenarios for practical application",
+  "15 scenarios per day":
+    "Enhanced daily allocation for more comprehensive practice",
+  "Unlimited scenarios":
+    "Access to all 226+ driving scenarios without daily limits",
+  "Basic progress tracking":
+    "View your scores and completion rates across different categories",
+  "Enhanced progress tracking":
+    "Detailed analytics with performance trends and improvement recommendations",
+  "Advanced progress tracking":
+    "Comprehensive analytics with detailed breakdowns by category, difficulty, and time",
+  "Location-aware scenarios":
+    "Basic location matching for relevant driving scenarios",
+  "Location-specific content":
+    "Enhanced location targeting with regional driving challenges and local landmarks",
+  "Standard explanations":
+    "Basic explanations for correct and incorrect answers",
+  "Detailed explanations":
+    "Comprehensive explanations with references to K53 regulations and best practices",
+  "Mock K53 tests":
+    "Full-length simulated K53 examinations under test conditions",
+  "All scenario packs included":
+    "Access to all regional scenario collections without additional cost",
+  "Offline access capability":
+    "Download scenarios and assessments for practice without internet connection",
+  "Advanced performance analytics":
+    "Detailed performance insights with personalized study recommendations",
+  "Priority technical support":
+    "Fast-track support with dedicated assistance for technical issues",
+  "Personalized study recommendations":
+    "AI-powered study plans based on your performance patterns and weak areas",
 };
 
 function PricingComponent() {
@@ -64,9 +85,11 @@ function PricingComponent() {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState<string | null>(null);
   const [paymentError, setPaymentError] = useState<string | null>(null);
-  const [modalStep, setModalStep] = useState<'confirm' | 'payment'>('confirm');
+  const [modalStep, setModalStep] = useState<"confirm" | "payment">("confirm");
   const [showComparison, setShowComparison] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState<UserLocation | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<UserLocation | null>(
+    null,
+  );
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
   const [showLocationSelector, setShowLocationSelector] = useState(false);
 
@@ -100,7 +123,7 @@ function PricingComponent() {
       return;
     }
     setSelectedPlan(planId);
-    setModalStep('confirm');
+    setModalStep("confirm");
     setPaymentError(null);
     setPaymentSuccess(null);
   };
@@ -133,7 +156,7 @@ function PricingComponent() {
 
   const handlePaymentCancel = () => {
     setSelectedPlan(null);
-    setModalStep('confirm');
+    setModalStep("confirm");
   };
 
   const handleBuyPack = (packName: string, price: number) => {
@@ -144,11 +167,15 @@ function PricingComponent() {
 
   // Get location-specific scenarios count
   const getLocationScenarios = (location: UserLocation) => {
-    const locationPacks = SCENARIO_PACKS.filter(pack => 
-      pack.location_region === location.region || 
-      pack.location_city === location.city
+    const locationPacks = SCENARIO_PACKS.filter(
+      (pack) =>
+        pack.location_region === location.region ||
+        pack.location_city === location.city,
     );
-    return locationPacks.reduce((total, pack) => total + pack.scenario_count, 0);
+    return locationPacks.reduce(
+      (total, pack) => total + pack.scenario_count,
+      0,
+    );
   };
 
   if (loading) {
@@ -258,10 +285,11 @@ function PricingComponent() {
                 Choose your preparation level
               </h2>
               <p className="text-slate-300 max-w-2xl mx-auto mb-6">
-                All plans include location-specific scenarios for South African driving conditions.
-                Start with Free Practice or upgrade for unlimited access and premium features.
+                All plans include location-specific scenarios for South African
+                driving conditions. Start with Free Practice or upgrade for
+                unlimited access and premium features.
               </p>
-              
+
               {/* Location context banner */}
               <div className="bg-slate-800 border border-black p-4 max-w-2xl mx-auto mb-6">
                 <div className="flex items-center justify-center space-x-4">
@@ -271,11 +299,14 @@ function PricingComponent() {
                       Location-Aware Content Included
                     </div>
                     <div className="text-slate-400 text-xs">
-                      Scenarios automatically adapt to South African cities and regions
+                      Scenarios automatically adapt to South African cities and
+                      regions
                     </div>
                   </div>
                   <Button
-                    onClick={() => setShowLocationSelector(!showLocationSelector)}
+                    onClick={() =>
+                      setShowLocationSelector(!showLocationSelector)
+                    }
                     variant="ghost"
                     size="sm"
                     className="text-slate-400 hover:text-white text-xs"
@@ -296,9 +327,10 @@ function PricingComponent() {
                 </CardHeader>
                 <CardContent className="p-6">
                   <p className="text-slate-300 mb-4 text-center">
-                    Select a region to see how scenarios adapt to local driving conditions
+                    Select a region to see how scenarios adapt to local driving
+                    conditions
                   </p>
-                  
+
                   <div className="grid md:grid-cols-4 gap-3 mb-6">
                     {SOUTH_AFRICAN_LOCATIONS.slice(0, 8).map((location) => (
                       <button
@@ -329,7 +361,8 @@ function PricingComponent() {
                         <div className="flex items-center justify-center space-x-2">
                           <Target className="h-4 w-4 text-slate-400" />
                           <span className="text-slate-300">
-                            {getLocationScenarios(selectedLocation)} targeted scenarios
+                            {getLocationScenarios(selectedLocation)} targeted
+                            scenarios
                           </span>
                         </div>
                         <div className="flex items-center justify-center space-x-2">
@@ -356,8 +389,8 @@ function PricingComponent() {
                 <Card
                   key={plan.id}
                   className={`border relative transition-all duration-300 hover:shadow-lg ${
-                    plan.popular 
-                      ? "border-white bg-slate-700 shadow-md" 
+                    plan.popular
+                      ? "border-white bg-slate-700 shadow-md"
                       : "border-black bg-slate-800 hover:border-slate-600"
                   }`}
                 >
@@ -395,18 +428,19 @@ function PricingComponent() {
                         </span>
                       )}
                     </div>
-                    
+
                     {/* Simple value indication */}
                     {plan.price_cents > 0 && (
                       <div className="mt-3 p-2 bg-slate-800 border border-black">
                         <div className="text-xs text-slate-400 uppercase tracking-wide">
-                          {plan.max_scenarios_per_day === -1 ? "Unlimited scenarios" : `${plan.max_scenarios_per_day} scenarios/day`}
+                          {plan.max_scenarios_per_day === -1
+                            ? "Unlimited scenarios"
+                            : `${plan.max_scenarios_per_day} scenarios/day`}
                         </div>
                         <div className="text-xs text-white">
-                          {plan.max_scenarios_per_day === -1 
-                            ? "Best value for serious learners" 
-                            : `About R${(plan.price_cents / 100 / (plan.max_scenarios_per_day * 30)).toFixed(2)} per scenario`
-                          }
+                          {plan.max_scenarios_per_day === -1
+                            ? "Best value for serious learners"
+                            : `About R${(plan.price_cents / 100 / (plan.max_scenarios_per_day * 30)).toFixed(2)} per scenario`}
                         </div>
                       </div>
                     )}
@@ -415,8 +449,8 @@ function PricingComponent() {
                   <CardContent className="p-6">
                     <ul className="space-y-3 mb-6">
                       {plan.features.map((feature, index) => (
-                        <li 
-                          key={index} 
+                        <li
+                          key={index}
                           className="flex items-center space-x-3 relative"
                           onMouseEnter={() => setHoveredFeature(feature)}
                           onMouseLeave={() => setHoveredFeature(null)}
@@ -428,13 +462,14 @@ function PricingComponent() {
                               <Info className="h-3 w-3 ml-1 text-slate-500" />
                             )}
                           </span>
-                          
+
                           {/* Tooltip */}
-                          {hoveredFeature === feature && FEATURE_EXPLANATIONS[feature] && (
-                            <div className="absolute bottom-full left-0 mb-2 w-64 p-3 bg-slate-900 border border-white text-white text-xs z-50">
-                              {FEATURE_EXPLANATIONS[feature]}
-                            </div>
-                          )}
+                          {hoveredFeature === feature &&
+                            FEATURE_EXPLANATIONS[feature] && (
+                              <div className="absolute bottom-full left-0 mb-2 w-64 p-3 bg-slate-900 border border-white text-white text-xs z-50">
+                                {FEATURE_EXPLANATIONS[feature]}
+                              </div>
+                            )}
                         </li>
                       ))}
                     </ul>
@@ -502,14 +537,21 @@ function PricingComponent() {
                           Features
                         </th>
                         {SUBSCRIPTION_PLANS.map((plan) => (
-                          <th key={plan.id} className="text-center p-4 bg-slate-700 text-white font-medium uppercase tracking-wide">
+                          <th
+                            key={plan.id}
+                            className="text-center p-4 bg-slate-700 text-white font-medium uppercase tracking-wide"
+                          >
                             {plan.name}
                           </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {Array.from(new Set(SUBSCRIPTION_PLANS.flatMap(plan => plan.features))).map((feature, index) => (
+                      {Array.from(
+                        new Set(
+                          SUBSCRIPTION_PLANS.flatMap((plan) => plan.features),
+                        ),
+                      ).map((feature, index) => (
                         <tr key={index} className="border-b border-slate-600">
                           <td className="p-4 text-slate-300 text-sm font-medium">
                             {feature}
@@ -562,7 +604,8 @@ function PricingComponent() {
                           {pack.description}
                         </p>
                         <div className="text-xs text-slate-400 uppercase tracking-wide">
-                          {pack.scenario_count} scenarios • {pack.location_region}
+                          {pack.scenario_count} scenarios •{" "}
+                          {pack.location_region}
                         </div>
                       </div>
                       <div className="text-right">
@@ -574,7 +617,7 @@ function PricingComponent() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <Button
                       onClick={() => handleBuyPack(pack.name, pack.price_cents)}
                       className="w-full border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide text-sm"
@@ -617,12 +660,14 @@ function PricingComponent() {
                 {/* Header */}
                 <div className="flex justify-between items-center p-6 border-b border-slate-700 flex-shrink-0">
                   <h2 className="text-xl font-bold text-white uppercase tracking-wide">
-                    {modalStep === 'confirm' ? 'Confirm Subscription' : 'Complete Payment'}
+                    {modalStep === "confirm"
+                      ? "Confirm Subscription"
+                      : "Complete Payment"}
                   </h2>
                   <button
                     onClick={() => {
                       setSelectedPlan(null);
-                      setModalStep('confirm');
+                      setModalStep("confirm");
                     }}
                     className="text-slate-400 hover:text-white text-2xl"
                   >
@@ -631,15 +676,23 @@ function PricingComponent() {
                 </div>
 
                 {/* Step 1: Confirmation */}
-                {modalStep === 'confirm' && (
+                {modalStep === "confirm" && (
                   <div className="p-6 flex-1 overflow-y-auto">
                     <div className="text-center mb-6">
                       <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide">
-                        {SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.name}
+                        {
+                          SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
+                            ?.name
+                        }
                       </h3>
                       <div className="text-4xl font-bold text-white mb-2">
-                        {formatPrice(SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.price_cents || 0)}
-                        <span className="text-lg font-normal text-slate-400">/month</span>
+                        {formatPrice(
+                          SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
+                            ?.price_cents || 0,
+                        )}
+                        <span className="text-lg font-normal text-slate-400">
+                          /month
+                        </span>
                       </div>
                       <div className="text-slate-400 text-sm mb-6">
                         Cancel anytime • No setup fees
@@ -652,18 +705,23 @@ function PricingComponent() {
                         What's Included:
                       </h4>
                       <ul className="space-y-2">
-                        {SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.features.slice(0, 4).map((feature, index) => (
-                          <li key={index} className="flex items-center space-x-2 text-sm">
-                            <Check className="h-3 w-3 text-white flex-shrink-0" />
-                            <span className="text-slate-300">{feature}</span>
-                          </li>
-                        ))}
+                        {SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
+                          ?.features.slice(0, 4)
+                          .map((feature, index) => (
+                            <li
+                              key={index}
+                              className="flex items-center space-x-2 text-sm"
+                            >
+                              <Check className="h-3 w-3 text-white flex-shrink-0" />
+                              <span className="text-slate-300">{feature}</span>
+                            </li>
+                          ))}
                       </ul>
                     </div>
 
                     {/* Continue button */}
                     <Button
-                      onClick={() => setModalStep('payment')}
+                      onClick={() => setModalStep("payment")}
                       className="w-full bg-white text-slate-900 hover:bg-slate-100 font-bold uppercase tracking-wide py-3"
                     >
                       Continue to Payment
@@ -678,12 +736,12 @@ function PricingComponent() {
                 )}
 
                 {/* Step 2: Payment */}
-                {modalStep === 'payment' && (
+                {modalStep === "payment" && (
                   <div className="flex-1 overflow-y-auto">
                     <div className="p-6">
                       {/* Back button */}
                       <button
-                        onClick={() => setModalStep('confirm')}
+                        onClick={() => setModalStep("confirm")}
                         className="flex items-center text-slate-400 hover:text-white text-sm mb-4"
                       >
                         <ArrowLeft className="h-4 w-4 mr-1" />
@@ -693,10 +751,19 @@ function PricingComponent() {
                       {/* Quick plan summary */}
                       <div className="bg-slate-800 border border-slate-700 p-3 mb-6 text-center">
                         <div className="text-white font-bold">
-                          {SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.name}
+                          {
+                            SUBSCRIPTION_PLANS.find(
+                              (p) => p.id === selectedPlan,
+                            )?.name
+                          }
                         </div>
                         <div className="text-slate-300 text-sm">
-                          {formatPrice(SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)?.price_cents || 0)}/month
+                          {formatPrice(
+                            SUBSCRIPTION_PLANS.find(
+                              (p) => p.id === selectedPlan,
+                            )?.price_cents || 0,
+                          )}
+                          /month
                         </div>
                       </div>
 
@@ -705,12 +772,14 @@ function PricingComponent() {
                         <PayPalCheckout
                           planId={selectedPlan}
                           planName={
-                            SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
-                              ?.name || ""
+                            SUBSCRIPTION_PLANS.find(
+                              (p) => p.id === selectedPlan,
+                            )?.name || ""
                           }
                           amount={
-                            SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan)
-                              ?.price_cents || 0
+                            SUBSCRIPTION_PLANS.find(
+                              (p) => p.id === selectedPlan,
+                            )?.price_cents || 0
                           }
                           currency="ZAR"
                           onSuccess={handlePaymentSuccess}

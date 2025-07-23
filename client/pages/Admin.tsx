@@ -51,12 +51,14 @@ export default function Admin() {
         ?.catch(() => ({ count: 0 })) || Promise.resolve({ count: 0 }));
 
       // Get active subscriptions (handle missing tables)
-      const { data: subscriptions, count: activeSubscriptions } = await (supabaseClient
-        ?.from("user_subscriptions")
-        ?.select("*", { count: "exact" })
-        ?.eq("status", "active")
-        ?.neq("plan_type", "free")
-        ?.catch(() => ({ data: [], count: 0 })) || Promise.resolve({ data: [], count: 0 }));
+      const { data: subscriptions, count: activeSubscriptions } =
+        await (supabaseClient
+          ?.from("user_subscriptions")
+          ?.select("*", { count: "exact" })
+          ?.eq("status", "active")
+          ?.neq("plan_type", "free")
+          ?.catch(() => ({ data: [], count: 0 })) ||
+          Promise.resolve({ data: [], count: 0 }));
 
       // Calculate total revenue (handle missing tables)
       const { data: payments } = await (supabaseClient

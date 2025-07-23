@@ -23,7 +23,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } = await supabase.auth.getSession();
         setUser(session?.user ?? null);
       } catch (error) {
-        console.warn("Auth initialization error, continuing in offline mode:", error);
+        console.warn(
+          "Auth initialization error, continuing in offline mode:",
+          error,
+        );
         setUser(null);
       } finally {
         setLoading(false);

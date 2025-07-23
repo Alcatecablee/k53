@@ -21,7 +21,10 @@ export const saveUserProgress = async (progressData: {
       ),
     ]);
 
-    const { data: { user }, error: userError } = authResult as any;
+    const {
+      data: { user },
+      error: userError,
+    } = authResult as any;
 
     if (userError || !user) {
       console.warn("User not authenticated, saving progress locally");
@@ -65,7 +68,7 @@ export const getUserProgress = async (limit = 10): Promise<UserProgress[]> => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    
+
     if (!user || !supabaseClient) {
       return []; // Return empty array if not authenticated or no DB
     }
@@ -90,7 +93,7 @@ export const getUserStats = async () => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    
+
     if (!user || !supabaseClient) {
       return {
         totalTests: 0,
@@ -168,9 +171,11 @@ export const saveScenarioUsage = async (
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    
+
     if (!user || !supabaseClient) {
-      console.warn("Cannot save scenario usage - user not authenticated or DB unavailable");
+      console.warn(
+        "Cannot save scenario usage - user not authenticated or DB unavailable",
+      );
       return { data: null, error: null };
     }
 
@@ -198,14 +203,12 @@ export const saveScenarioUsage = async (
   }
 };
 
-export const getUserScenarios = async (
-  limit = 50,
-): Promise<UserScenario[]> => {
+export const getUserScenarios = async (limit = 50): Promise<UserScenario[]> => {
   try {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    
+
     if (!user || !supabaseClient) {
       return [];
     }
@@ -245,7 +248,9 @@ export const getScenarioStats = async (scenarioId: string) => {
 
     const scenarios = data as UserScenario[];
     const totalAttempts = scenarios.length;
-    const correctAttempts = scenarios.filter((s) => s.answered_correctly).length;
+    const correctAttempts = scenarios.filter(
+      (s) => s.answered_correctly,
+    ).length;
     const averageTime =
       scenarios.length > 0
         ? scenarios.reduce((sum, s) => sum + s.time_taken, 0) / scenarios.length
@@ -255,7 +260,8 @@ export const getScenarioStats = async (scenarioId: string) => {
       totalAttempts,
       correctAttempts,
       averageTime,
-      successRate: totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0,
+      successRate:
+        totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0,
     };
   } catch (error) {
     console.warn("Error fetching scenario stats:", error);
@@ -307,7 +313,9 @@ export const getLeaderboard = async (
 // User Profile Functions
 export const getUserProfile = async () => {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user || !supabaseClient) {
       return null;
@@ -319,7 +327,8 @@ export const getUserProfile = async () => {
       .eq("id", user.id)
       .single();
 
-    if (error && error.code !== 'PGRST116') { // Not found error is ok
+    if (error && error.code !== "PGRST116") {
+      // Not found error is ok
       throw error;
     }
 
@@ -332,10 +341,14 @@ export const getUserProfile = async () => {
 
 export const updateUserProfile = async (updates: any) => {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user || !supabaseClient) {
-      console.warn("Cannot update profile - user not authenticated or DB unavailable");
+      console.warn(
+        "Cannot update profile - user not authenticated or DB unavailable",
+      );
       return { data: null, error: null };
     }
 

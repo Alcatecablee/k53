@@ -28,10 +28,15 @@ if (typeof window !== "undefined") {
   addResourceHints();
 
   // Global error handler for unhandled fetch failures
-  window.addEventListener('unhandledrejection', (event) => {
-    if (event.reason?.message?.includes('Failed to fetch') ||
-        event.reason?.name === 'TypeError') {
-      console.warn('Unhandled fetch error caught and suppressed:', event.reason);
+  window.addEventListener("unhandledrejection", (event) => {
+    if (
+      event.reason?.message?.includes("Failed to fetch") ||
+      event.reason?.name === "TypeError"
+    ) {
+      console.warn(
+        "Unhandled fetch error caught and suppressed:",
+        event.reason,
+      );
       event.preventDefault(); // Prevent the error from being thrown
     }
   });

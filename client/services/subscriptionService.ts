@@ -39,7 +39,10 @@ export const getUserSubscription =
         ),
       ]);
 
-      const { data: { user }, error } = authResult as any;
+      const {
+        data: { user },
+        error,
+      } = authResult as any;
 
       if (error || !user) {
         console.warn("Auth error, falling back to offline mode");
