@@ -48,6 +48,8 @@ export default function Practice() {
   const [testQuestions, setTestQuestions] = useState<K53Question[]>([]);
   const [testScenarios, setTestScenarios] = useState<K53Scenario[]>([]);
   const [testMode, setTestMode] = useState<TestMode>("questions");
+  const [showLocationSelector, setShowLocationSelector] = useState(false);
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
 
   const generateTest = (fullTest: boolean = false) => {
     setIsFullTest(fullTest);
