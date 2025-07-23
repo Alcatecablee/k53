@@ -15,10 +15,17 @@ const requireAuth: RequestHandler = async (req, res, next) => {
     }
 
     const token = authHeader.substring(7);
+
+    // Validate JWT token with Supabase
     const { data: { user }, error } = await supabase.auth.getUser(token);
 
-    if (error || !user) {
-      return res.status(401).json({ error: "Invalid authorization token" });
+    if (error) {
+      console.error("Token validation error:", error);
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
+
+    if (!user) {
+      return res.status(401).json({ error: "User not found" });
     }
 
     (req as any).user = user;
