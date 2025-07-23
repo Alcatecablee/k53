@@ -146,16 +146,18 @@ export default function AdminPro() {
 
   const loadActivityFeed = async () => {
     try {
-      // Load real activity from multiple sources
-      const [usersRes, paymentsRes] = await Promise.all([
-        fetch("/api/enterprise/users?limit=5"),
-        fetch("/api/enterprise/payments?limit=5"),
+      // Load real activity from multiple sources with error handling
+      const [usersRes, paymentsRes] = await Promise.allSettled([
+        fetch("/api/enterprise/users?limit=5").catch(() => ({ ok: false })),
+        fetch("/api/enterprise/payments?limit=5").catch(() => ({ ok: false })),
       ]);
 
-      const [recentUsers, recentPayments] = await Promise.all([
-        usersRes.ok ? usersRes.json() : [],
-        paymentsRes.ok ? paymentsRes.json() : [],
-      ]);
+      const recentUsers = usersRes.status === 'fulfilled' && usersRes.value.ok
+        ? await usersRes.value.json().catch(() => [])
+        : [];
+      const recentPayments = paymentsRes.status === 'fulfilled' && paymentsRes.value.ok
+        ? await paymentsRes.value.json().catch(() => [])
+        : [];
 
       const activities = [];
 
@@ -197,15 +199,17 @@ export default function AdminPro() {
 
   const loadContentStats = async () => {
     try {
-      const [questionsRes, scenariosRes] = await Promise.all([
-        fetch("/api/content/questions"),
-        fetch("/api/content/scenarios"),
+      const [questionsRes, scenariosRes] = await Promise.allSettled([
+        fetch("/api/content/questions").catch(() => ({ ok: false })),
+        fetch("/api/content/scenarios").catch(() => ({ ok: false })),
       ]);
 
-      const [questionsData, scenariosData] = await Promise.all([
-        questionsRes.ok ? questionsRes.json() : { stats: { total: 0 } },
-        scenariosRes.ok ? scenariosRes.json() : { stats: { total: 0 } },
-      ]);
+      const questionsData = questionsRes.status === 'fulfilled' && questionsRes.value.ok
+        ? await questionsRes.value.json().catch(() => ({ stats: { total: 0 } }))
+        : { stats: { total: 0 } };
+      const scenariosData = scenariosRes.status === 'fulfilled' && scenariosRes.value.ok
+        ? await scenariosRes.value.json().catch(() => ({ stats: { total: 0 } }))
+        : { stats: { total: 0 } };
 
       const stats = {
         questions: questionsData.stats?.total || 0,
@@ -228,49 +232,76 @@ export default function AdminPro() {
 
   const loadDashboardData = async () => {
     try {
-      const response = await fetch("/api/enterprise/dashboard-stats");
+      const response = await fetch("/api/enterprise/dashboard-stats").catch(() => ({ ok: false }));
       if (response.ok) {
-        const data = await response.json();
-        setStats(data);
+        const data = await response.json().catch(() => null);
+        if (data) {
+          setStats(data);
+        }
       }
     } catch (error) {
       console.error("Error loading dashboard data:", error);
+      // Set default empty stats to prevent UI errors
+      setStats({
+        totalUsers: 0,
+        activeSubscriptions: 0,
+        totalRevenue: 0,
+        todaySignups: 0,
+        conversionRate: 0,
+        churnRate: 0,
+        avgSessionTime: 0,
+        topLocations: [],
+        monthlyGrowth: 0,
+        realtimeUsers: 0,
+        serverLoad: 0,
+        responseTime: 0,
+        errorRate: 0,
+      });
     }
   };
 
   const loadUsers = async () => {
     try {
-      const response = await fetch("/api/enterprise/users?limit=100");
+      const response = await fetch("/api/enterprise/users?limit=100").catch(() => ({ ok: false }));
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.json().catch(() => []);
         setUsers(data);
+      } else {
+        setUsers([]);
       }
     } catch (error) {
       console.error("Error loading users:", error);
+      setUsers([]);
     }
   };
 
   const loadPayments = async () => {
     try {
-      const response = await fetch("/api/enterprise/payments?limit=100");
+      const response = await fetch("/api/enterprise/payments?limit=100").catch(() => ({ ok: false }));
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.json().catch(() => []);
         setPayments(data);
+      } else {
+        setPayments([]);
       }
     } catch (error) {
       console.error("Error loading payments:", error);
+      setPayments([]);
     }
   };
 
   const loadRealTimeData = async () => {
     try {
-      const response = await fetch("/api/enterprise/realtime-metrics");
+      const response = await fetch("/api/enterprise/realtime-metrics").catch(() => ({ ok: false }));
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.json().catch(() => ({ metrics: [] }));
         setRealTimeData(data.metrics || []);
+      } else {
+        setRealTimeData([]);
       }
     } catch (error) {
       console.error("Error loading real-time data:", error);
+      setRealTimeData([]);
     }
   };
 
