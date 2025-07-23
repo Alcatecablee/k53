@@ -1032,7 +1032,27 @@ export default function AdminNew() {
                   Import Questions
                 </Button>
                 <Button
-                  onClick={() => alert('Add Scenario feature coming soon!')}
+                  onClick={async () => {
+                    const title = prompt('Enter scenario title:');
+                    const description = prompt('Enter scenario description:');
+                    if (title && description) {
+                      try {
+                        const response = await fetch('/api/content/scenarios', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ title, description, difficulty: 'medium', location: 'general', type: 'general' }),
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                          alert(`Scenario "${data.scenario.title}" created successfully!`);
+                        } else {
+                          alert('Failed to create scenario');
+                        }
+                      } catch (error) {
+                        alert('Failed to create scenario');
+                      }
+                    }
+                  }}
                   className="bg-white text-slate-900"
                 >
                   <Plus className="h-4 w-4 mr-2" />
@@ -1182,7 +1202,17 @@ export default function AdminNew() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button
-                    onClick={() => alert('Scenario Manager coming soon!')}
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/content/scenarios');
+                        const data = await response.json();
+                        const scenarios = data.scenarios || [];
+                        const scenarioText = scenarios.map(s => `${s.title} (${s.difficulty}) - ${s.active ? 'ACTIVE' : 'INACTIVE'}`).join('\n');
+                        alert(`Scenario Manager:\n\nTotal: ${data.stats?.total || 0}\nActive: ${data.stats?.active || 0}\nLocations: ${data.stats?.locations || 0}\nTypes: ${data.stats?.types || 0}\n\nScenarios:\n${scenarioText || 'No scenarios found'}`);
+                      } catch (error) {
+                        alert('Failed to load scenarios');
+                      }
+                    }}
                     className="w-full bg-white text-slate-900 hover:bg-slate-100"
                   >
                     <Edit className="h-4 w-4 mr-2" />
