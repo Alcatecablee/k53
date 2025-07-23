@@ -133,6 +133,7 @@ function PricingComponent() {
 
   const handlePaymentCancel = () => {
     setSelectedPlan(null);
+    setModalStep('confirm');
   };
 
   const handleBuyPack = (packName: string, price: number) => {
