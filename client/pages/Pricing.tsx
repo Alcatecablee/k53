@@ -301,28 +301,28 @@ function PricingComponent() {
               {SCENARIO_PACKS.map((pack, index) => (
                 <Card
                   key={index}
-                  className="border-2 border-black bg-white hover:shadow-lg transition-shadow"
+                  className="border border-black bg-slate-800 hover:bg-slate-750 transition-colors"
                 >
-                  <CardHeader className="bg-slate-100 p-6">
+                  <CardHeader className="bg-slate-700 border-b border-black p-6">
                     <div className="flex items-start justify-between mb-3">
-                      <div className="w-12 h-12 bg-slate-800 flex items-center justify-center">
+                      <div className="w-12 h-12 bg-slate-800 border border-black flex items-center justify-center">
                         <MapPin className="h-6 w-6 text-white" />
                       </div>
-                      <Badge variant="outline" className="text-xs">
+                      <Badge className="bg-slate-600 text-white border border-black text-xs uppercase tracking-wide">
                         {pack.scenario_count} scenarios
                       </Badge>
                     </div>
-                    <CardTitle className="text-lg font-bold text-slate-900 mb-2">
+                    <CardTitle className="text-lg font-bold text-white mb-2 uppercase tracking-wide">
                       {pack.name}
                     </CardTitle>
-                    <p className="text-slate-600 text-sm mb-3">
+                    <p className="text-slate-300 text-sm mb-3">
                       {pack.description}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-slate-900">
+                      <span className="text-2xl font-bold text-white">
                         {formatPrice(pack.price_cents)}
                       </span>
-                      <div className="text-xs text-slate-500 text-right">
+                      <div className="text-xs text-slate-400 text-right uppercase tracking-wide">
                         <div>{pack.location_region}</div>
                         {pack.location_city && <div>{pack.location_city}</div>}
                       </div>
@@ -332,7 +332,7 @@ function PricingComponent() {
                   <CardContent className="p-6">
                     <Button
                       onClick={() => handleBuyPack(pack.name, pack.price_cents)}
-                      className="w-full border-2 border-black text-slate-800 hover:bg-slate-800 hover:text-white"
+                      className="w-full border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide"
                       variant="outline"
                     >
                       Buy Pack
