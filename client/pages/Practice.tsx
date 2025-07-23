@@ -508,10 +508,10 @@ function PracticeComponent() {
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-6">
-                  <div className="bg-slate-800 text-white p-6 hover:bg-slate-700 transition-colors">
+                  <div className="bg-slate-800 border border-slate-700 text-white p-6 hover:bg-slate-750 transition-colors">
                     <div className="text-center">
-                      <div className="w-16 h-16 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-4">
-                        <Clock className="h-8 w-8" />
+                      <div className="w-16 h-16 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-4">
+                        <Clock className="h-8 w-8 text-white" />
                       </div>
                       <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
                         Practice Assessment
@@ -520,45 +520,45 @@ function PracticeComponent() {
                       <div className="text-xs uppercase tracking-wide mb-1">
                         Questions
                       </div>
-                      <div className="text-xs text-slate-300 mb-4 uppercase tracking-wide">
-                        Duration: ~5 Minutes
+                      <div className="text-xs text-slate-400 mb-4 uppercase tracking-wide">
+                        Duration: 5 Minutes
                       </div>
                       <p className="text-slate-300 mb-4 text-sm leading-relaxed">
                         Abbreviated assessment for rapid skill evaluation.
                       </p>
                       <Button
                         onClick={() => generateTest(false)}
-                        className="w-full bg-white text-slate-800 hover:bg-slate-100 font-semibold uppercase tracking-wide py-2 text-sm"
+                        className="w-full bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-2 text-sm"
                       >
                         Begin Practice
                       </Button>
                     </div>
                   </div>
 
-                  <div className="bg-white border-2 border-slate-800 p-6 hover:shadow-lg transition-shadow">
+                  <div className="bg-slate-800 border border-slate-700 text-white p-6 hover:bg-slate-750 transition-colors">
                     <div className="text-center">
-                      <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-4">
-                        <FileText className="h-8 w-8 text-slate-800" />
+                      <div className="w-16 h-16 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-4">
+                        <FileText className="h-8 w-8 text-white" />
                       </div>
-                      <h3 className="text-lg font-bold uppercase tracking-wide mb-3 text-slate-800">
+                      <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
                         Official Assessment
                       </h3>
-                      <div className="text-3xl font-bold mb-1 text-slate-800">
+                      <div className="text-3xl font-bold mb-1">
                         64
                       </div>
-                      <div className="text-xs uppercase tracking-wide mb-1 text-slate-600">
+                      <div className="text-xs uppercase tracking-wide mb-1">
                         Questions
                       </div>
-                      <div className="text-xs text-slate-500 mb-4 uppercase tracking-wide">
-                        Duration: ~25 Minutes
+                      <div className="text-xs text-slate-400 mb-4 uppercase tracking-wide">
+                        Duration: 25 Minutes
                       </div>
-                      <p className="text-slate-600 mb-4 text-sm leading-relaxed">
+                      <p className="text-slate-300 mb-4 text-sm leading-relaxed">
                         Complete simulation adhering to Department of Transport
                         standards.
                       </p>
                       <Button
                         onClick={() => generateTest(true)}
-                        className="w-full border-2 border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white font-semibold uppercase tracking-wide py-2 text-sm"
+                        className="w-full border border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide py-2 text-sm"
                         variant="outline"
                       >
                         Begin Official Test
@@ -566,7 +566,7 @@ function PracticeComponent() {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-orange-500 to-red-600 text-white p-6 hover:from-orange-600 hover:to-red-700 transition-colors">
+                  <div className="bg-slate-700 border border-slate-600 text-white p-6 hover:bg-slate-600 transition-colors">
                     <div className="text-center">
                       <div className="w-16 h-16 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-4">
                         <Car className="h-8 w-8" />
