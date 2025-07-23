@@ -119,8 +119,9 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     currency: "ZAR",
     billing_cycle: "monthly",
     features: [
+      "Unlimited official assessments (64 questions)",
+      "Unlimited practice assessments (12 questions)",
       "Unlimited scenarios",
-      "Unlimited questions",
       "Advanced progress tracking",
       "Location-specific content",
       "Detailed explanations",
