@@ -138,7 +138,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                         fullName: e.target.value,
                       }))
                     }
-                    className="pl-10 border-2 border-black-300"
+                    className="pl-10 border-2 border-black"
                     required={isSignUp}
                   />
                 </div>
@@ -163,7 +163,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, email: e.target.value }))
                   }
-                  className="pl-10 border-2 border-black-300"
+                  className="pl-10 border-2 border-black"
                   required
                 />
               </div>
@@ -194,7 +194,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                       password: e.target.value,
                     }))
                   }
-                  className="pl-10 pr-10 border-2 border-black-300"
+                  className="pl-10 pr-10 border-2 border-black"
                   minLength={isSignUp ? 6 : undefined}
                   required
                 />
@@ -230,7 +230,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                       setFormData((prev) => ({ ...prev, location: value }))
                     }
                   >
-                    <SelectTrigger className="pl-10 border-2 border-black-300">
+                    <SelectTrigger className="pl-10 border-2 border-black">
                       <SelectValue placeholder="Choose your city..." />
                     </SelectTrigger>
                     <SelectContent className="max-h-60">
