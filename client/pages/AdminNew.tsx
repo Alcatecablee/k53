@@ -239,27 +239,25 @@ export default function AdminNew() {
 
   const handleUserAction = async (userId: string, action: string) => {
     try {
-      switch (action) {
-        case "ban":
-          // Ban user logic
-          alert(`User ${userId} has been banned`);
-          break;
-        case "unban":
-          // Unban user logic
-          alert(`User ${userId} has been unbanned`);
-          break;
-        case "resetPassword":
-          // Reset password logic
-          alert(`Password reset email sent to user ${userId}`);
-          break;
-        case "cancelSubscription":
-          // Cancel subscription logic
-          alert(`Subscription cancelled for user ${userId}`);
-          break;
+      const response = await fetch(`/api/admin/users/${userId}/action`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert(result.message);
+        await loadUsers();
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.error}`);
       }
-      await loadUsers();
     } catch (error) {
       console.error("Error performing user action:", error);
+      alert("Failed to perform action. Please try again.");
     }
   };
 
