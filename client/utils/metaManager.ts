@@ -56,7 +56,7 @@ class MetaManager {
     if (element) {
       element.href = link.href;
       if (link.type) element.type = link.type;
-      if (link.sizes) element.sizes = link.sizes;
+      if (link.sizes) element.setAttribute("sizes", link.sizes);
       if (link.crossorigin) element.crossOrigin = link.crossorigin;
       if (link.as) element.setAttribute("as", link.as);
     } else {
@@ -64,7 +64,7 @@ class MetaManager {
       element.rel = link.rel;
       element.href = link.href;
       if (link.type) element.type = link.type;
-      if (link.sizes) element.sizes = link.sizes;
+      if (link.sizes) element.setAttribute("sizes", link.sizes);
       if (link.crossorigin) element.crossOrigin = link.crossorigin;
       if (link.as) element.setAttribute("as", link.as);
 
