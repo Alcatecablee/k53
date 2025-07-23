@@ -511,12 +511,16 @@ export default function Practice() {
               </div>
             </div>
 
-            <div className="text-sm text-slate-600 font-semibold uppercase tracking-wide">
-              {Math.round(progress)}% Complete
-            </div>
+            {testMode !== "scenarios" && (
+              <div className="text-sm text-slate-600 font-semibold uppercase tracking-wide">
+                {Math.round(progress)}% Complete
+              </div>
+            )}
           </div>
 
-          <Progress value={progress} className="h-3 bg-slate-200" />
+          {testMode !== "scenarios" && (
+            <Progress value={progress} className="h-3 bg-slate-200" />
+          )}
         </div>
       </div>
       <div className="container mx-auto px-4 py-6">
