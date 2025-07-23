@@ -145,7 +145,8 @@ export const supabase = {
       }
 
       try {
-        return supabaseClient.auth.onAuthStateChange(callback);
+        const result = supabaseClient.auth.onAuthStateChange(callback);
+        return result;
       } catch (error) {
         console.warn("Auth state change listener failed:", error);
         return {
