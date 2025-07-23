@@ -671,7 +671,7 @@ export default function AdminPro() {
 
           {/* Enhanced System Tab */}
           <TabsContent value="system" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <Button
                 onClick={() => {
                   setLogType('database');
@@ -701,6 +701,17 @@ export default function AdminPro() {
               >
                 <Shield className="h-8 w-8 mb-2" />
                 Security Logs
+              </Button>
+              <Button
+                onClick={() => {
+                  if (confirm('Clear all system cache? This will refresh all data.')) {
+                    clearSystemCache();
+                  }
+                }}
+                className="h-24 bg-green-600 hover:bg-green-700 text-white flex flex-col items-center justify-center"
+              >
+                <RefreshCw className="h-8 w-8 mb-2" />
+                Clear Cache
               </Button>
             </div>
           </TabsContent>
