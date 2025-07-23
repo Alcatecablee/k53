@@ -145,54 +145,119 @@ export const supabase = {
   },
 
   from: (table: string) => ({
-    select: (columns: string = "*") => ({
-      eq: (column: string, value: any) => ({
-        single: () =>
-          withErrorHandling(
-            () =>
-              originalSupabase
-                .from(table)
-                .select(columns)
-                .eq(column, value)
-                .single(),
-            { data: null, error: new Error("Offline mode") },
-            `select from ${table}`,
-          ),
-        order: (column: string, options?: any) => ({
+    select: (columns: string = "*", options?: any) => {
+      const builder = {
+        eq: (column: string, value: any) => ({
+          ...builder,
+          single: () =>
+            withErrorHandling(
+              () =>
+                originalSupabase
+                  .from(table)
+                  .select(columns, options)
+                  .eq(column, value)
+                  .single(),
+              { data: null, error: new Error("Offline mode") },
+              `select from ${table}`,
+            ),
+          in: (values: any[]) => ({
+            ...builder,
+            limit: (count: number) =>
+              withErrorHandling(
+                () =>
+                  originalSupabase
+                    .from(table)
+                    .select(columns, options)
+                    .eq(column, value)
+                    .in(column, values)
+                    .limit(count),
+                { data: [], count: 0, error: new Error("Offline mode") },
+                `select from ${table}`,
+              ),
+          }),
+          order: (orderColumn: string, orderOptions?: any) => ({
+            limit: (count: number) =>
+              withErrorHandling(
+                () =>
+                  originalSupabase
+                    .from(table)
+                    .select(columns, options)
+                    .eq(column, value)
+                    .order(orderColumn, orderOptions)
+                    .limit(count),
+                { data: [], error: new Error("Offline mode") },
+                `select ordered from ${table}`,
+              ),
+          }),
+        }),
+        in: (column: string, values: any[]) => ({
+          ...builder,
           limit: (count: number) =>
             withErrorHandling(
               () =>
                 originalSupabase
                   .from(table)
-                  .select(columns)
-                  .eq(column, value)
-                  .order(column, options)
+                  .select(columns, options)
+                  .in(column, values)
+                  .limit(count),
+              { data: [], count: 0, error: new Error("Offline mode") },
+              `select from ${table}`,
+            ),
+        }),
+        not: (column: string, operator: string, value: any) => ({
+          ...builder,
+          limit: (count: number) =>
+            withErrorHandling(
+              () =>
+                originalSupabase
+                  .from(table)
+                  .select(columns, options)
+                  .not(column, operator, value)
+                  .limit(count),
+              { data: [], error: new Error("Offline mode") },
+              `select from ${table}`,
+            ),
+        }),
+        gte: (column: string, value: any) => ({
+          ...builder,
+          limit: (count: number) =>
+            withErrorHandling(
+              () =>
+                originalSupabase
+                  .from(table)
+                  .select(columns, options)
+                  .gte(column, value)
+                  .limit(count),
+              { data: [], count: 0, error: new Error("Offline mode") },
+              `select from ${table}`,
+            ),
+        }),
+        order: (column: string, orderOptions?: any) => ({
+          limit: (count: number) =>
+            withErrorHandling(
+              () =>
+                originalSupabase
+                  .from(table)
+                  .select(columns, options)
+                  .order(column, orderOptions)
                   .limit(count),
               { data: [], error: new Error("Offline mode") },
               `select ordered from ${table}`,
             ),
         }),
-      }),
-      order: (column: string, options?: any) => ({
         limit: (count: number) =>
           withErrorHandling(
             () =>
               originalSupabase
                 .from(table)
-                .select(columns)
-                .order(column, options)
+                .select(columns, options)
                 .limit(count),
-            { data: [], error: new Error("Offline mode") },
-            `select ordered from ${table}`,
+            { data: [], count: 0, error: new Error("Offline mode") },
+            `select from ${table}`,
           ),
-      }),
-      limit: (count: number) =>
-        withErrorHandling(
-          () => originalSupabase.from(table).select(columns).limit(count),
-          { data: [], error: new Error("Offline mode") },
-          `select from ${table}`,
-        ),
-    }),
+      };
+      return builder;
+    },
 
     insert: (data: any) => ({
       select: () => ({
@@ -203,6 +268,15 @@ export const supabase = {
             `insert into ${table}`,
           ),
       }),
+    }),
+
+    update: (data: any) => ({
+      eq: (column: string, value: any) =>
+        withErrorHandling(
+          () => originalSupabase.from(table).update(data).eq(column, value),
+          { data: null, error: new Error("Offline mode") },
+          `update ${table}`,
+        ),
     }),
   }),
 
