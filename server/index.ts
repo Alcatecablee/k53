@@ -1,25 +1,6 @@
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
-import {
-  createPayPalOrder,
-  capturePayPalOrder,
-  cancelSubscription,
-  getPaymentHistory,
-} from "./routes/paypal";
-import {
-  authenticatedValidateScenarioAccess,
-  authenticatedRecordScenarioUsage,
-  authenticatedGetUserSubscriptionDetails,
-  authenticatedGetUserUsageStats,
-} from "./routes/subscriptions";
-import {
-  getDashboardStats,
-  getUsers,
-  getPayments,
-  userAction,
-  getSystemHealth,
-} from "./routes/admin";
 
 export function createServer() {
   const app = express();
