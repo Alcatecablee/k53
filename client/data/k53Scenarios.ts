@@ -4489,6 +4489,137 @@ export const k53ScenarioBank: K53Scenario[] = [
     weather: "rain",
     language: "en"
   },
+  // DYNAMIC LOCATION-BASED SCENARIOS (SC207-SC211)
+  {
+    id: "SC207",
+    category: "controls",
+    title: "Mirror Check Near a Local Market",
+    scenario: "You're driving near a busy local market when a vendor pushing a cart crosses the road unexpectedly.",
+    question: "What should you do in this situation?",
+    options: [
+      "Hoot to warn the vendor",
+      "Check mirrors and slow down",
+      "Swerve to avoid the cart",
+      "Accelerate to pass quickly"
+    ],
+    correct: 1,
+    explanation: "Check your mirrors and slow down to avoid a collision with the vendor. Hooting, swerving, or accelerating is unsafe in a crowded market area.",
+    difficulty: "basic",
+    context: "urban",
+    timeOfDay: "morning",
+    weather: "clear",
+    language: "en",
+    location: {
+      cities: [], // Will be populated dynamically
+      regions: [], // Will be populated dynamically
+      landmarks: ["local market"],
+      specificity: "national"
+    }
+  },
+  {
+    id: "SC208",
+    category: "signs",
+    title: "Pothole Warning on a Rural Road",
+    scenario: "You're driving on a rural road when a pothole warning sign appears. The road is uneven ahead.",
+    question: "What should you do in this situation?",
+    options: [
+      "Maintain your speed to pass quickly",
+      "Slow down and navigate carefully",
+      "Hoot to warn other drivers",
+      "Swerve to avoid the potholes"
+    ],
+    correct: 1,
+    explanation: "A pothole warning sign indicates a risk of damage or loss of control. Slow down and navigate carefully to avoid potholes safely.",
+    difficulty: "basic",
+    context: "rural",
+    timeOfDay: "afternoon",
+    weather: "clear",
+    language: "en",
+    location: {
+      cities: [], // Will be populated dynamically
+      regions: [], // Will be populated dynamically
+      landmarks: ["rural road", "potholes"],
+      specificity: "national"
+    }
+  },
+  {
+    id: "SC209",
+    category: "rules",
+    title: "Load Shedding Intersection",
+    scenario: "You're driving at night during load shedding, and the robots are out. A minibus taxi is approaching from the right.",
+    question: "What should you do in this situation?",
+    options: [
+      "Proceed since you're on the main road",
+      "Yield to the taxi and check for pedestrians",
+      "Hoot to assert your right of way",
+      "Speed up to clear the intersection"
+    ],
+    correct: 1,
+    explanation: "With robots out, treat the intersection as a four-way stop. Yield to the taxi on the right and check for pedestrians to ensure safety.",
+    difficulty: "intermediate",
+    context: "urban",
+    timeOfDay: "night",
+    weather: "clear",
+    language: "en",
+    location: {
+      cities: [], // Will be populated dynamically
+      regions: [], // Will be populated dynamically
+      landmarks: ["intersection", "load shedding"],
+      specificity: "national"
+    }
+  },
+  {
+    id: "SC210",
+    category: "mixed",
+    title: "Rainy Highway Conditions",
+    scenario: "You're driving on a highway during heavy rain. A truck ahead is slowing down, and water is pooling on the road.",
+    question: "What should you do in this situation?",
+    options: [
+      "Overtake the truck to avoid delay",
+      "Slow down and use wipers",
+      "Hoot to warn the truck",
+      "Follow the truck closely"
+    ],
+    correct: 1,
+    explanation: "In heavy rain, slow down and use wipers to maintain visibility and avoid hydroplaning. Overtaking or following closely is unsafe on a wet highway.",
+    difficulty: "intermediate",
+    context: "freeway",
+    timeOfDay: "afternoon",
+    weather: "rain",
+    language: "en",
+    location: {
+      cities: [], // Will be populated dynamically
+      regions: [], // Will be populated dynamically
+      landmarks: ["highway"],
+      specificity: "national"
+    }
+  },
+  {
+    id: "SC211",
+    category: "controls",
+    title: "Fog Lights in Dense Fog",
+    scenario: "You're driving on a rural road at dawn in dense fog. A slow-moving tractor is ahead, barely visible.",
+    question: "What should you do in this situation?",
+    options: [
+      "Use high beams to see better",
+      "Turn on fog lights and increase following distance",
+      "Hoot to urge the tractor to speed up",
+      "Overtake the tractor immediately"
+    ],
+    correct: 1,
+    explanation: "In dense fog, turn on fog lights and increase your following distance to improve visibility and reaction time. High beams or overtaking is unsafe in low visibility.",
+    difficulty: "intermediate",
+    context: "rural",
+    timeOfDay: "morning",
+    weather: "fog",
+    language: "en",
+    location: {
+      cities: [], // Will be populated dynamically
+      regions: [], // Will be populated dynamically
+      landmarks: ["rural road"],
+      specificity: "national"
+    }
+  },
 ];
 
 // Function to get scenarios by category
