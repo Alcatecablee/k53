@@ -32,7 +32,10 @@ export default function Index() {
     user = auth.user;
     signOut = auth.signOut;
   } catch (error) {
-    console.warn('Auth context not available, continuing without authentication:', error);
+    console.warn(
+      "Auth context not available, continuing without authentication:",
+      error,
+    );
   }
 
   return (
