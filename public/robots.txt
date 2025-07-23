@@ -1,14 +1,39 @@
+User-agent: *
+Allow: /
+
+# Important pages
+Allow: /practice
+Allow: /docs
+Allow: /dltc
+Allow: /pricing
+
+# Block development/admin paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /dev/
+
+# Sitemap location
+Sitemap: https://superk53.co.za/sitemap.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Specific bot instructions
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 2
 
-User-agent: Twitterbot
-Allow: /
+# Block common spam bots
+User-agent: SemrushBot
+Disallow: /
 
-User-agent: facebookexternalhit
-Allow: /
+User-agent: AhrefsBot
+Disallow: /
 
-User-agent: *
-Allow: /
+User-agent: MJ12bot
+Disallow: /
