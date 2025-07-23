@@ -1,5 +1,5 @@
 // Supabase wrapper with comprehensive error handling and offline detection
-import { createClient } from "@supabase/supabase-js";
+import { createClient, AuthError } from "@supabase/supabase-js";
 import { env } from "./env";
 
 // Get environment configuration (may be null in demo mode)
@@ -34,12 +34,27 @@ const isNetworkError = (error: any): boolean => {
   );
 };
 
+// Helper to create AuthError-like objects
+const createAuthError = (message: string): AuthError => {
+  const error = new Error(message) as AuthError;
+  error.code = "offline_mode";
+  error.status = 0;
+  error.__isAuthError = true;
+  return error;
+};
+
 // Wrapper function for any Supabase operation
 const withErrorHandling = async <T>(
   operation: () => Promise<T>,
   fallbackValue: T,
   operationName: string = "Supabase operation",
 ): Promise<T> => {
+  // If no original client, return fallback immediately
+  if (!originalSupabase) {
+    console.warn(`${operationName} called without Supabase client (demo mode)`);
+    return fallbackValue;
+  }
+
   try {
     // Quick timeout for all operations
     const result = await Promise.race([
@@ -81,53 +96,65 @@ export const supabase = {
   auth: {
     getSession: () =>
       withErrorHandling(
-        () => originalSupabase.auth.getSession(),
+        () => originalSupabase!.auth.getSession(),
         { data: { session: null }, error: null },
         "getSession",
       ),
 
     getUser: () =>
       withErrorHandling(
-        () => originalSupabase.auth.getUser(),
+        () => originalSupabase!.auth.getUser(),
         { data: { user: null }, error: null },
         "getUser",
       ),
 
     signUp: (credentials: any) =>
       withErrorHandling(
-        () => originalSupabase.auth.signUp(credentials),
+        () => originalSupabase!.auth.signUp(credentials),
         {
           data: { user: null, session: null },
-          error: new Error("Offline mode"),
+          error: createAuthError("Offline mode"),
         },
         "signUp",
       ),
 
     signInWithPassword: (credentials: any) =>
       withErrorHandling(
-        () => originalSupabase.auth.signInWithPassword(credentials),
+        () => originalSupabase!.auth.signInWithPassword(credentials),
         {
           data: { user: null, session: null },
-          error: new Error("Offline mode"),
+          error: createAuthError("Offline mode"),
         },
         "signIn",
       ),
 
     signOut: () =>
       withErrorHandling(
-        () => originalSupabase.auth.signOut(),
+        () => originalSupabase!.auth.signOut(),
         { error: null },
         "signOut",
       ),
 
     updateUser: (updates: any) =>
       withErrorHandling(
-        () => originalSupabase.auth.updateUser(updates),
-        { data: { user: null }, error: new Error("Offline mode") },
+        () => originalSupabase!.auth.updateUser(updates),
+        { data: { user: null }, error: createAuthError("Offline mode") },
         "updateUser",
       ),
 
     onAuthStateChange: (callback: any) => {
+      if (!originalSupabase) {
+        console.warn("Auth state listener called without Supabase client (demo mode)");
+        // Return a mock subscription
+        return {
+          data: {
+            subscription: {
+              unsubscribe: () => console.log("Mock unsubscribe"),
+            },
+          },
+        };
+      }
+
       try {
         return originalSupabase.auth.onAuthStateChange(callback);
       } catch (error) {
@@ -152,7 +179,7 @@ export const supabase = {
           single: () =>
             withErrorHandling(
               () =>
-                originalSupabase
+                originalSupabase!
                   .from(table)
                   .select(columns, options)
                   .eq(column, value)
@@ -165,7 +192,7 @@ export const supabase = {
             limit: (count: number) =>
               withErrorHandling(
                 () =>
-                  originalSupabase
+                  originalSupabase!
                     .from(table)
                     .select(columns, options)
                     .eq(column, value)
@@ -179,7 +206,7 @@ export const supabase = {
             limit: (count: number) =>
               withErrorHandling(
                 () =>
-                  originalSupabase
+                  originalSupabase!
                     .from(table)
                     .select(columns, options)
                     .eq(column, value)
@@ -195,7 +222,7 @@ export const supabase = {
           limit: (count: number) =>
             withErrorHandling(
               () =>
-                originalSupabase
+                originalSupabase!
                   .from(table)
                   .select(columns, options)
                   .in(column, values)
@@ -209,7 +236,7 @@ export const supabase = {
           limit: (count: number) =>
             withErrorHandling(
               () =>
-                originalSupabase
+                originalSupabase!
                   .from(table)
                   .select(columns, options)
                   .not(column, operator, value)
@@ -223,7 +250,7 @@ export const supabase = {
           limit: (count: number) =>
             withErrorHandling(
               () =>
-                originalSupabase
+                originalSupabase!
                   .from(table)
                   .select(columns, options)
                   .gte(column, value)
@@ -236,7 +263,7 @@ export const supabase = {
           limit: (count: number) =>
             withErrorHandling(
               () =>
-                originalSupabase
+                originalSupabase!
                   .from(table)
                   .select(columns, options)
                   .order(column, orderOptions)
@@ -248,7 +275,7 @@ export const supabase = {
         limit: (count: number) =>
           withErrorHandling(
             () =>
-              originalSupabase
+              originalSupabase!
                 .from(table)
                 .select(columns, options)
                 .limit(count),
@@ -263,7 +290,7 @@ export const supabase = {
       select: () => ({
         single: () =>
           withErrorHandling(
-            () => originalSupabase.from(table).insert(data).select().single(),
+            () => originalSupabase!.from(table).insert(data).select().single(),
             { data: null, error: new Error("Offline mode") },
             `insert into ${table}`,
           ),
@@ -273,7 +300,7 @@ export const supabase = {
     update: (data: any) => ({
       eq: (column: string, value: any) =>
         withErrorHandling(
-          () => originalSupabase.from(table).update(data).eq(column, value),
+          () => originalSupabase!.from(table).update(data).eq(column, value),
           { data: null, error: new Error("Offline mode") },
           `update ${table}`,
         ),
