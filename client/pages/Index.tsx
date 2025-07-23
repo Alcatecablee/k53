@@ -432,8 +432,8 @@ export default function Index() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="bg-slate-800 border border-slate-700 p-6 hover:bg-slate-750 transition-colors">
-                <div className="w-16 h-16 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-6">
+              <div className="bg-slate-800 border border-black p-6 hover:bg-slate-750 transition-colors">
+                <div className="w-16 h-16 bg-slate-700 border border-black flex items-center justify-center mx-auto mb-6">
                   <CheckCircle className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-3 uppercase tracking-wide text-center">
@@ -445,8 +445,8 @@ export default function Index() {
                 </p>
               </div>
 
-              <div className="bg-slate-800 border border-slate-700 p-6 hover:bg-slate-750 transition-colors">
-                <div className="w-16 h-16 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-6">
+              <div className="bg-slate-800 border border-black p-6 hover:bg-slate-750 transition-colors">
+                <div className="w-16 h-16 bg-slate-700 border border-black flex items-center justify-center mx-auto mb-6">
                   <Clock className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-3 uppercase tracking-wide text-center">
@@ -458,8 +458,8 @@ export default function Index() {
                 </p>
               </div>
 
-              <div className="bg-slate-800 border border-slate-700 p-6 hover:bg-slate-750 transition-colors">
-                <div className="w-16 h-16 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-6">
+              <div className="bg-slate-800 border border-black p-6 hover:bg-slate-750 transition-colors">
+                <div className="w-16 h-16 bg-slate-700 border border-black flex items-center justify-center mx-auto mb-6">
                   <BarChart3 className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-3 uppercase tracking-wide text-center">
@@ -471,8 +471,8 @@ export default function Index() {
                 </p>
               </div>
 
-              <div className="bg-slate-800 border border-slate-700 p-6 hover:bg-slate-750 transition-colors">
-                <div className="w-16 h-16 bg-slate-700 border border-slate-600 flex items-center justify-center mx-auto mb-6">
+              <div className="bg-slate-800 border border-black p-6 hover:bg-slate-750 transition-colors">
+                <div className="w-16 h-16 bg-slate-700 border border-black flex items-center justify-center mx-auto mb-6">
                   <MapIcon className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-3 uppercase tracking-wide text-center">
@@ -512,7 +512,7 @@ export default function Index() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide py-4 text-lg"
+                className="border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide py-4 text-lg"
               >
                 <Link to="/dltc">Locate Testing Centers</Link>
               </Button>
@@ -522,17 +522,17 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-800 text-white py-16 border-t border-slate-700">
+      <footer className="bg-slate-800 text-white py-16 border-t border-black">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-4 mb-6">
-                <div className="w-12 h-12 bg-slate-700 border border-slate-600 flex items-center justify-center">
+                <div className="w-12 h-12 bg-slate-700 border border-black flex items-center justify-center">
                   <div className="text-white font-bold text-lg tracking-wider">
                     K53
                   </div>
                 </div>
-                <div className="border-l border-slate-600 pl-4">
+                <div className="border-l border-black pl-4">
                   <div className="font-bold text-white uppercase tracking-wide">
                     Assessment Portal
                   </div>
@@ -614,7 +614,7 @@ export default function Index() {
                   <Users className="h-4 w-4" />
                   <span className="text-sm">50,000+ Citizens Assisted</span>
                 </div>
-                <div className="bg-slate-700 border border-slate-600 p-3 mt-4">
+                <div className="bg-slate-700 border border-black p-3 mt-4">
                   <div className="text-xs text-slate-300 uppercase tracking-wide">
                     Official Platform
                   </div>
@@ -623,7 +623,7 @@ export default function Index() {
             </div>
           </div>
 
-          <div className="border-t border-slate-700 mt-12 pt-8">
+          <div className="border-t border-black mt-12 pt-8">
             <div className="text-center text-slate-400">
               <p className="text-sm uppercase tracking-wide">
                 &copy; 2025 Department of Transport K53 Assessment Portal • Republic of South Africa
