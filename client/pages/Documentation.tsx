@@ -32,6 +32,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { StudyMaterials } from "@/components/StudyMaterials";
+import { SEO, BreadcrumbSEO, FAQSEO } from "@/components/SEO";
+import { SEO_CONFIGS } from "@/hooks/useSEO";
 
 interface DocSection {
   id: string;
