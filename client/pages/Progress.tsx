@@ -128,7 +128,7 @@ export default function ProgressPage() {
     <div className="min-h-screen bg-slate-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="bg-white border-b-2 border-slate-800 shadow-sm mb-8 -mx-4 px-4 py-6">
+        <div className="bg-white border-b-2 border-black-800 shadow-sm mb-8 -mx-4 px-4 py-6">
           <div className="flex items-center justify-between">
             <Button
               asChild
@@ -161,7 +161,7 @@ export default function ProgressPage() {
 
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Performance Overview */}
-          <Card className="border-2 border-slate-800 bg-white mb-8">
+          <Card className="border-2 border-black-800 bg-white mb-8">
             <CardHeader className="bg-slate-800 text-white p-8">
               <CardTitle className="text-2xl font-bold uppercase tracking-wide">
                 Assessment Performance Overview
@@ -170,7 +170,7 @@ export default function ProgressPage() {
             <CardContent className="p-8">
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-4">
+                  <div className="w-20 h-20 bg-slate-100 border-2 border-black-800 flex items-center justify-center mx-auto mb-4">
                     <Crown className="h-10 w-10 text-slate-800" />
                   </div>
                   <div className="text-4xl font-bold text-slate-800 mb-2">
@@ -182,7 +182,7 @@ export default function ProgressPage() {
                 </div>
 
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-4">
+                  <div className="w-20 h-20 bg-slate-100 border-2 border-black-800 flex items-center justify-center mx-auto mb-4">
                     <Target className="h-10 w-10 text-slate-800" />
                   </div>
                   <div className="text-4xl font-bold text-slate-800 mb-2">
@@ -194,7 +194,7 @@ export default function ProgressPage() {
                 </div>
 
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-slate-100 border-2 border-slate-800 flex items-center justify-center mx-auto mb-4">
+                  <div className="w-20 h-20 bg-slate-100 border-2 border-black-800 flex items-center justify-center mx-auto mb-4">
                     <Trophy className="h-10 w-10 text-slate-800" />
                   </div>
                   <div className="text-4xl font-bold text-slate-800 mb-2">
@@ -230,7 +230,7 @@ export default function ProgressPage() {
               Performance Metrics
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div className="text-center border-r border-slate-300 last:border-r-0">
+              <div className="text-center border-r border-black-300 last:border-r-0">
                 <div className="text-4xl font-bold text-slate-800 mb-2">
                   {userStats.testsCompleted}
                 </div>
@@ -238,7 +238,7 @@ export default function ProgressPage() {
                   Assessments
                 </div>
               </div>
-              <div className="text-center border-r border-slate-300 last:border-r-0">
+              <div className="text-center border-r border-black-300 last:border-r-0">
                 <div className="text-4xl font-bold text-slate-800 mb-2">
                   {userStats.streak}
                 </div>
@@ -246,7 +246,7 @@ export default function ProgressPage() {
                   Day Streak
                 </div>
               </div>
-              <div className="text-center border-r border-slate-300 last:border-r-0">
+              <div className="text-center border-r border-black-300 last:border-r-0">
                 <div className="text-4xl font-bold text-slate-800 mb-2">
                   {Math.floor(userStats.totalStudyTime / 60)}h{" "}
                   {userStats.totalStudyTime % 60}m
@@ -267,7 +267,7 @@ export default function ProgressPage() {
           </div>
 
           {/* Weekly Activity */}
-          <Card className="border-2 border-slate-800 bg-white mb-8">
+          <Card className="border-2 border-black-800 bg-white mb-8">
             <CardHeader className="bg-slate-800 text-white p-6">
               <CardTitle className="flex items-center space-x-2 text-xl font-bold uppercase tracking-wide">
                 <Calendar className="h-6 w-6" />
@@ -303,7 +303,7 @@ export default function ProgressPage() {
           </Card>
 
           {/* Category Progress */}
-          <Card className="border-2 border-slate-800 bg-white mb-8">
+          <Card className="border-2 border-black-800 bg-white mb-8">
             <CardHeader className="bg-slate-800 text-white p-6">
               <CardTitle className="flex items-center space-x-2 text-xl font-bold uppercase tracking-wide">
                 <TrendingUp className="h-6 w-6" />
@@ -317,11 +317,11 @@ export default function ProgressPage() {
                   return (
                     <div
                       key={index}
-                      className="border-2 border-slate-300 p-6 hover:border-slate-800 transition-colors"
+                      className="border-2 border-black-300 p-6 hover:border-black-800 transition-colors"
                     >
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-4">
-                          <div className="w-16 h-16 bg-slate-100 border-2 border-slate-800 flex items-center justify-center">
+                          <div className="w-16 h-16 bg-slate-100 border-2 border-black-800 flex items-center justify-center">
                             <IconComponent className="h-8 w-8 text-slate-800" />
                           </div>
                           <div>
@@ -352,7 +352,7 @@ export default function ProgressPage() {
           </Card>
 
           {/* Achievements */}
-          <Card className="border-2 border-slate-800 bg-white mb-8">
+          <Card className="border-2 border-black-800 bg-white mb-8">
             <CardHeader className="bg-slate-800 text-white p-6">
               <CardTitle className="flex items-center space-x-2 text-xl font-bold uppercase tracking-wide">
                 <Award className="h-6 w-6" />
@@ -368,15 +368,15 @@ export default function ProgressPage() {
                       key={achievement.id}
                       className={`p-6 border-2 transition-all ${
                         achievement.earned
-                          ? "bg-slate-100 border-slate-800"
-                          : "bg-white border-slate-300 opacity-60"
+                          ? "bg-slate-100 border-black-800"
+                          : "bg-white border-black-300 opacity-60"
                       }`}
                     >
                       <div
                         className={`mx-auto mb-4 w-16 h-16 border-2 flex items-center justify-center ${
                           achievement.earned
-                            ? "border-slate-800 bg-slate-100 text-slate-800"
-                            : "border-slate-300 bg-slate-50 text-slate-400"
+                            ? "border-black-800 bg-slate-100 text-slate-800"
+                            : "border-black-300 bg-slate-50 text-slate-400"
                         }`}
                       >
                         <IconComponent className="h-8 w-8" />
