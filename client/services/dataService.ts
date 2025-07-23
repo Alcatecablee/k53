@@ -107,55 +107,133 @@ const useLocationAwareSelection = (
 
   // Apply location-aware scoring if user location is available
   if (userLocation) {
-    const scoredScenarios = convertedScenarios.map((scenario) => {
-      let score = 1; // Base score for all scenarios
+    console.log(`DB: Filtering scenarios for: City="${userLocation.city}", Region="${userLocation.region}"`);
+    console.log(`DB: Total scenarios before location filtering: ${convertedScenarios.length}`);
 
-      if (scenario.location) {
-        // City-specific scenarios get highest priority
-        if (
-          userLocation.city &&
-          scenario.location.cities?.includes(userLocation.city)
-        ) {
-          score = 5;
+    const scoredScenarios = convertedScenarios.map((scenario) => {
+      let score = 0;
+      let matchReason = "no-location";
+
+      if (!scenario.location) {
+        score = 1;
+        matchReason = "no-location-data";
+      } else {
+        // Check for exact city match first
+        if (userLocation.city && scenario.location.cities?.some((city: string) =>
+          city.toLowerCase() === userLocation.city!.toLowerCase()
+        )) {
+          score = 10;
+          matchReason = `city-match:${userLocation.city}`;
         }
-        // Region-specific scenarios get medium priority
-        else if (
-          userLocation.region &&
-          scenario.location.regions?.includes(userLocation.region)
-        ) {
-          score = 3;
+        // Check for region match
+        else if (userLocation.region && scenario.location.regions?.some((region: string) =>
+          region.toLowerCase() === userLocation.region!.toLowerCase()
+        )) {
+          score = 8;
+          matchReason = `region-match:${userLocation.region}`;
         }
-        // National scenarios get slight boost
+        // Check if scenario mentions user's city in the text
+        else if (userLocation.city && (
+          scenario.scenario.toLowerCase().includes(userLocation.city.toLowerCase()) ||
+          scenario.title.toLowerCase().includes(userLocation.city.toLowerCase())
+        )) {
+          score = 9;
+          matchReason = `text-mention:${userLocation.city}`;
+        }
+        // Check if scenario mentions user's region in the text
+        else if (userLocation.region && (
+          scenario.scenario.toLowerCase().includes(userLocation.region.toLowerCase()) ||
+          scenario.title.toLowerCase().includes(userLocation.region.toLowerCase())
+        )) {
+          score = 7;
+          matchReason = `text-mention:${userLocation.region}`;
+        }
+        // National or universal scenarios
         else if (scenario.location.specificity === "national") {
+          score = 5;
+          matchReason = "national";
+        }
+        // Regional scenarios in same province/area
+        else if (userLocation.region && scenario.location.regions?.some((region: string) => {
+          const userLower = userLocation.region!.toLowerCase();
+          const scenarioLower = region.toLowerCase();
+
+          // Check for partial matches for adjacent areas
+          if (userLower === "gauteng" && (
+            scenarioLower.includes("gauteng") ||
+            scenarioLower.includes("johannesburg") ||
+            scenarioLower.includes("pretoria") ||
+            scenarioLower.includes("sandton")
+          )) {
+            return true;
+          }
+
+          return false;
+        })) {
+          score = 6;
+          matchReason = "regional-proximity";
+        }
+        // Generic urban/rural context matching
+        else if (scenario.context) {
+          if (userLocation.city && ["Johannesburg", "Cape Town", "Durban", "Pretoria"].includes(userLocation.city)) {
+            if (scenario.context === "urban" || scenario.context === "residential") {
+              score = 4;
+              matchReason = "urban-context";
+            }
+          } else {
+            if (scenario.context === "rural" || scenario.context === "residential") {
+              score = 3;
+              matchReason = "context-match";
+            }
+          }
+        }
+        else {
           score = 2;
+          matchReason = "has-location-no-match";
         }
       }
 
-      return { scenario, score };
+      return { scenario, score, matchReason };
     });
 
-    // Sort by score (highest first) then shuffle within score groups
+    // Sort by score (highest first)
     scoredScenarios.sort((a, b) => b.score - a.score);
 
-    // Group by score and shuffle within each group
-    const scoreGroups: { [score: number]: any[] } = {};
-    scoredScenarios.forEach(({ scenario, score }) => {
-      if (!scoreGroups[score]) {
-        scoreGroups[score] = [];
-      }
-      scoreGroups[score].push(scenario);
+    // Log top scenarios for debugging
+    const topScenarios = scoredScenarios.slice(0, Math.min(10, count));
+    console.log("DB: Top scored scenarios:");
+    topScenarios.forEach((item, index) => {
+      console.log(`${index + 1}. Score: ${item.score}, Reason: ${item.matchReason}, Title: ${item.scenario.title}`);
     });
 
-    // Shuffle each score group and flatten
-    const shuffledScenarios: any[] = [];
-    Object.keys(scoreGroups)
-      .sort((a, b) => Number(b) - Number(a)) // Highest scores first
-      .forEach((score) => {
-        const shuffledGroup = shuffleArray(scoreGroups[Number(score)]);
-        shuffledScenarios.push(...shuffledGroup);
-      });
+    // Create weighted selection
+    const result: any[] = [];
 
-    return shuffledScenarios.slice(0, count);
+    const highPriority = scoredScenarios.filter(s => s.score >= 8);
+    const mediumPriority = scoredScenarios.filter(s => s.score >= 5 && s.score < 8);
+    const lowPriority = scoredScenarios.filter(s => s.score < 5);
+
+    const shuffledHigh = shuffleArray(highPriority);
+    const shuffledMedium = shuffleArray(mediumPriority);
+    const shuffledLow = shuffleArray(lowPriority);
+
+    const targetHigh = Math.floor(count * 0.6);
+    const targetMedium = Math.floor(count * 0.3);
+    const targetLow = count - targetHigh - targetMedium;
+
+    result.push(...shuffledHigh.slice(0, Math.min(targetHigh, shuffledHigh.length)).map(s => s.scenario));
+    result.push(...shuffledMedium.slice(0, Math.min(targetMedium, shuffledMedium.length)).map(s => s.scenario));
+    result.push(...shuffledLow.slice(0, Math.min(targetLow, shuffledLow.length)).map(s => s.scenario));
+
+    if (result.length < count) {
+      const remaining = [...shuffledHigh, ...shuffledMedium, ...shuffledLow]
+        .slice(result.length)
+        .map(s => s.scenario);
+      result.push(...remaining.slice(0, count - result.length));
+    }
+
+    console.log(`DB: Selected ${result.length} scenarios for user location`);
+    return result.slice(0, count);
   }
 
   // No location, just shuffle randomly
