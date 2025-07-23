@@ -29,6 +29,7 @@ import { AuthenticatedRoute } from "@/components/AuthenticatedRoute";
 import { getStoredLocation, type UserLocation } from "@/services/locationService";
 import { useAuth } from "@/contexts/AuthContext";
 import { saveUserProgress, getUserProfile, updateUserProfile } from "@/services/databaseService";
+import { canAccessScenarios, updateDailyUsage, getUserSubscription } from "@/services/subscriptionService";
 
 interface TestResult {
   category: string;
