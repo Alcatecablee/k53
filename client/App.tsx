@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import Practice from "./pages/Practice";
 import Progress from "./pages/Progress";
 import Profile from "./pages/Profile";
+import Pricing from "./pages/Pricing";
 import DLTC from "./pages/DLTC";
 import NotFound from "./pages/NotFound";
 
