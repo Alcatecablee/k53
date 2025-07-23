@@ -122,5 +122,15 @@ export function createServer() {
   app.put("/api/content/scenarios/:scenarioId", updateScenario);
   app.get("/api/content/stats", getContentStats);
 
+  // Enterprise admin routes
+  app.get("/api/enterprise/dashboard-stats", getEnhancedDashboardStats);
+  app.get("/api/enterprise/users", getEnhancedUsers);
+  app.get("/api/enterprise/payments", getEnhancedPayments);
+  app.get("/api/enterprise/realtime-metrics", getRealTimeMetrics);
+  app.put("/api/enterprise/users/:userId", updateEnhancedUser);
+  app.post("/api/enterprise/users/bulk", bulkUserOperation);
+  app.post("/api/enterprise/cache/clear", clearCache);
+  app.get("/api/enterprise/cache/stats", getCacheStats);
+
   return app;
 }
