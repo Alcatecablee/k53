@@ -388,21 +388,48 @@ export default function Practice() {
                       </h3>
                       <div className="text-3xl font-bold mb-1">200+</div>
                       <div className="text-xs uppercase tracking-wide mb-1">
-                        AI-Generated Scenarios
+                        Location-Aware Scenarios
                       </div>
-                      <div className="text-xs text-white/80 mb-4 uppercase tracking-wide">
+                      <div className="text-xs text-white/80 mb-2 uppercase tracking-wide">
                         Duration: Unlimited
                       </div>
+
+                      {/* Location Display */}
+                      {userLocation ? (
+                        <div className="mb-3 p-2 bg-white/20 rounded border border-white/30">
+                          <div className="flex items-center justify-center space-x-1 text-xs">
+                            <MapPin className="h-3 w-3" />
+                            <span>{userLocation.displayName}</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="mb-3 p-2 bg-white/10 rounded border border-white/20">
+                          <div className="text-xs text-white/70">
+                            Set location for tailored scenarios
+                          </div>
+                        </div>
+                      )}
+
                       <p className="text-white/90 mb-4 text-sm leading-relaxed">
-                        Endless AI-generated real-world driving scenarios unique
-                        to South Africa.
+                        Real-world driving scenarios tailored to your area - from Cape Town's baboons to Joburg's taxi ranks!
                       </p>
-                      <Button
-                        onClick={() => generateScenarioTest()}
-                        className="w-full bg-white text-orange-600 hover:bg-gray-100 font-semibold uppercase tracking-wide py-2 text-sm"
-                      >
-                        🚀 Try AI Scenarios
-                      </Button>
+
+                      <div className="space-y-2">
+                        <Button
+                          onClick={() => generateScenarioTest()}
+                          className="w-full bg-white text-orange-600 hover:bg-gray-100 font-semibold uppercase tracking-wide py-2 text-sm"
+                        >
+                          🚀 Start AI Scenarios
+                        </Button>
+                        <Button
+                          onClick={() => setShowLocationSelector(true)}
+                          variant="outline"
+                          className="w-full border-2 border-white/30 text-white hover:bg-white/20 font-semibold uppercase tracking-wide py-2 text-xs"
+                        >
+                          <MapPin className="h-3 w-3 mr-1" />
+                          {userLocation ? "Change Location" : "Set Location"}
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
