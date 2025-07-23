@@ -1,20 +1,9 @@
 // Supabase wrapper with comprehensive error handling and offline detection
 import { createClient } from "@supabase/supabase-js";
+import { env } from "./env";
 
-// Get Supabase configuration from environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-// Validate required environment variables
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error(
-    'Missing required environment variables. Please check your .env file:\n' +
-    '- VITE_SUPABASE_URL\n' +
-    '- VITE_SUPABASE_ANON_KEY\n\n' +
-    'Copy .env.example to .env and fill in your Supabase credentials.'
-  );
-  throw new Error('Missing Supabase configuration');
-}
+// Get validated environment configuration
+const { supabaseUrl, supabaseAnonKey } = env;
 
 // Create the original client
 const originalSupabase = createClient(supabaseUrl, supabaseAnonKey, {
