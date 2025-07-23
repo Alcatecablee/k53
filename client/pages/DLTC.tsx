@@ -143,7 +143,7 @@ export default function DLTCPage() {
               <div className="flex gap-4 max-w-lg mx-auto">
                 <Input
                   placeholder="Enter province, city, or postal code..."
-                  className="flex-1 border-2 border-black-300 focus:border-black-800 text-slate-800 placeholder:text-slate-500"
+                  className="flex-1 border-2 border-black focus:border-black-800 text-slate-800 placeholder:text-slate-500"
                 />
                 <Button className="bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide px-8">
                   <Search className="h-4 w-4 mr-2" />
@@ -250,7 +250,7 @@ export default function DLTCPage() {
                     </div>
 
                     <div>
-                      <div className="bg-slate-100 border-2 border-black-300 p-4 mb-4">
+                      <div className="bg-slate-100 border-2 border-black p-4 mb-4">
                         <div className="flex items-center justify-between mb-3">
                           <span className="font-semibold text-slate-800 uppercase tracking-wide text-sm">
                             Current Wait Time
@@ -313,7 +313,7 @@ export default function DLTCPage() {
                     return (
                       <div
                         key={index}
-                        className="flex items-start space-x-4 p-4 border-2 border-black-300"
+                        className="flex items-start space-x-4 p-4 border-2 border-black"
                       >
                         <div className="w-8 h-8 bg-slate-100 border-2 border-black-800 flex items-center justify-center flex-shrink-0">
                           <IconComponent className="h-4 w-4 text-slate-800" />
