@@ -90,19 +90,27 @@ const safeOperation = async <T>(
 // Create the exported client with simplified interface
 export const supabase = {
   auth: {
-    getSession: () =>
-      safeOperation(
-        () => supabaseClient?.auth.getSession(),
+    getSession: () => {
+      if (!supabaseClient || clientInitializationFailed) {
+        return Promise.resolve({ data: { session: null }, error: null });
+      }
+      return safeOperation(
+        () => supabaseClient.auth.getSession(),
         { data: { session: null }, error: null },
         "getSession"
-      ),
+      );
+    },
 
-    getUser: () =>
-      safeOperation(
-        () => supabaseClient?.auth.getUser(),
+    getUser: () => {
+      if (!supabaseClient || clientInitializationFailed) {
+        return Promise.resolve({ data: { user: null }, error: null });
+      }
+      return safeOperation(
+        () => supabaseClient.auth.getUser(),
         { data: { user: null }, error: null },
         "getUser"
-      ),
+      );
+    },
 
     signUp: (credentials: any) =>
       safeOperation(
