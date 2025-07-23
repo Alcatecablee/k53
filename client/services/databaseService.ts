@@ -14,15 +14,14 @@ export const saveUserProgress = async (progressData: {
   location_used?: string;
 }) => {
   try {
-    const {
-      data: { user },
-      error: userError,
-    } = await Promise.race([
+    const authResult = await Promise.race([
       supabase.auth.getUser(),
       new Promise((_, reject) =>
         setTimeout(() => reject(new Error("Auth timeout")), 3000),
       ),
     ]);
+
+    const { data: { user }, error: userError } = authResult as any;
 
     if (userError || !user) {
       console.warn("User not authenticated, saving progress locally");
