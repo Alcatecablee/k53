@@ -79,9 +79,14 @@ export const getEnvironmentStatus = () => {
     isValid: env.isConfigured,
     environment: env.nodeEnv,
     hasSupabase: Boolean(env.supabaseUrl && env.supabaseAnonKey),
+    hasPayPal: env.paypal.isConfigured,
+    paypalEnvironment: env.paypal.environment,
     missingVars: [
       !env.supabaseUrl && 'VITE_SUPABASE_URL',
       !env.supabaseAnonKey && 'VITE_SUPABASE_ANON_KEY',
+    ].filter(Boolean),
+    missingPayPalVars: [
+      !env.paypal.clientId && 'VITE_PAYPAL_CLIENT_ID',
     ].filter(Boolean),
   };
 };
