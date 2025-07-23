@@ -10,6 +10,8 @@ import {
   Zap,
   Users,
   Crown,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
@@ -22,12 +24,16 @@ import {
   canAccessScenarios,
   formatPrice,
 } from "@/services/subscriptionService";
+import { PayPalCheckout } from "@/components/PayPalCheckout";
 
 function PricingComponent() {
   const { user } = useAuth();
   const [currentSubscription, setCurrentSubscription] = useState<any>(null);
   const [usageInfo, setUsageInfo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [paymentSuccess, setPaymentSuccess] = useState<string | null>(null);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadSubscriptionData = async () => {
@@ -54,16 +60,46 @@ function PricingComponent() {
   }, [user]);
 
   const handleSubscribe = (planId: string) => {
-    // For now, just show an alert
-    // In production, this would integrate with PayFast or similar payment provider
-    alert(
-      `Starting subscription to ${planId} plan. Payment integration coming soon!`,
-    );
+    if (!user) {
+      alert("Please sign in to subscribe");
+      return;
+    }
+    setSelectedPlan(planId);
+    setPaymentError(null);
+    setPaymentSuccess(null);
+  };
+
+  const handlePaymentSuccess = async (details: any) => {
+    console.log("Payment successful:", details);
+    setPaymentSuccess(`Payment successful! Your ${details.planId} subscription is now active.`);
+    setSelectedPlan(null);
+
+    // Refresh subscription data
+    try {
+      const [subscription, usage] = await Promise.all([
+        getUserSubscription(),
+        canAccessScenarios(),
+      ]);
+      setCurrentSubscription(subscription);
+      setUsageInfo(usage);
+    } catch (error) {
+      console.warn("Error refreshing subscription data:", error);
+    }
+  };
+
+  const handlePaymentError = (error: any) => {
+    console.error("Payment error:", error);
+    setPaymentError("Payment failed. Please try again or contact support.");
+    setSelectedPlan(null);
+  };
+
+  const handlePaymentCancel = () => {
+    setSelectedPlan(null);
   };
 
   const handleBuyPack = (packName: string, price: number) => {
     alert(
-      `Purchasing ${packName} for ${formatPrice(price)}. Payment integration coming soon!`,
+      `Purchasing individual scenario packs will be available soon. For now, subscribe to SuperK53 Pro to get all packs included!`,
     );
   };
 
@@ -120,6 +156,26 @@ function PricingComponent() {
         </div>
 
         <div className="container mx-auto px-4 py-8">
+          {/* Success/Error Messages */}
+          {paymentSuccess && (
+            <Card className="border-2 border-green-300 bg-green-50 mb-8 max-w-2xl mx-auto">
+              <CardContent className="p-6 text-center">
+                <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-3" />
+                <h3 className="font-bold text-green-800 mb-2">Payment Successful!</h3>
+                <p className="text-green-700">{paymentSuccess}</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {paymentError && (
+            <Card className="border-2 border-red-300 bg-red-50 mb-8 max-w-2xl mx-auto">
+              <CardContent className="p-6 text-center">
+                <AlertCircle className="h-8 w-8 text-red-600 mx-auto mb-3" />
+                <h3 className="font-bold text-red-800 mb-2">Payment Failed</h3>
+                <p className="text-red-700">{paymentError}</p>
+              </CardContent>
+            </Card>
+          )}
           {/* Current Usage (for free users) */}
           {user && !usageInfo?.isSubscribed && (
             <Card className="border-2 border-orange-300 bg-orange-50 mb-8 max-w-2xl mx-auto">
@@ -208,7 +264,7 @@ function PricingComponent() {
 
                     <Button
                       onClick={() => handleSubscribe(plan.id)}
-                      disabled={currentSubscription?.plan_type === plan.id}
+                      disabled={currentSubscription?.plan_type === plan.id || plan.id === "free"}
                       className={`w-full ${
                         plan.popular
                           ? "bg-orange-600 hover:bg-orange-700 text-white"
@@ -219,7 +275,7 @@ function PricingComponent() {
                       {currentSubscription?.plan_type === plan.id
                         ? "Current Plan"
                         : plan.id === "free"
-                          ? "Free Plan"
+                          ? "Current Plan"
                           : "Subscribe Now"}
                     </Button>
                   </CardContent>
@@ -307,6 +363,38 @@ function PricingComponent() {
               </CardContent>
             </Card>
           </div>
+
+          {/* PayPal Checkout Modal */}
+          {selectedPlan && selectedPlan !== "free" && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+              <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-2xl font-bold text-slate-900">
+                      Subscribe to {SUBSCRIPTION_PLANS.find(p => p.id === selectedPlan)?.name}
+                    </h2>
+                    <Button
+                      variant="ghost"
+                      onClick={() => setSelectedPlan(null)}
+                      className="text-slate-600 hover:text-slate-900"
+                    >
+                      ✕
+                    </Button>
+                  </div>
+
+                  <PayPalCheckout
+                    planId={selectedPlan}
+                    planName={SUBSCRIPTION_PLANS.find(p => p.id === selectedPlan)?.name || ""}
+                    amount={SUBSCRIPTION_PLANS.find(p => p.id === selectedPlan)?.price_cents || 0}
+                    currency="ZAR"
+                    onSuccess={handlePaymentSuccess}
+                    onError={handlePaymentError}
+                    onCancel={handlePaymentCancel}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
