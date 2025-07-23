@@ -490,9 +490,9 @@ function PricingComponent() {
                 return (
                   <Card
                     key={plan.id}
-                    className={`border relative transition-all duration-300 hover:scale-105 hover:shadow-lg ${
-                      plan.popular 
-                        ? "border-white bg-slate-700 shadow-md" 
+                    className={`border relative transition-all duration-300 hover:shadow-lg ${
+                      plan.popular
+                        ? "border-white bg-slate-700 shadow-md"
                         : "border-black bg-slate-800 hover:border-slate-600"
                     }`}
                   >
