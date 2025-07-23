@@ -159,10 +159,21 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
 
     // Update usage count for free users
     const today = new Date().toISOString().split("T")[0];
+
+    // First get current usage, then increment
+    const { data: currentUsage } = await supabase
+      .from("daily_usage")
+      .select("scenarios_used")
+      .eq("user_id", userId)
+      .eq("date", today)
+      .single();
+
+    const newCount = (currentUsage?.scenarios_used || 0) + 1;
+
     const { data: updatedUsage, error } = await supabase
       .from("daily_usage")
-      .update({ 
-        scenarios_used: supabase.sql`scenarios_used + 1`,
+      .update({
+        scenarios_used: newCount,
         updated_at: new Date().toISOString(),
       })
       .eq("user_id", userId)
