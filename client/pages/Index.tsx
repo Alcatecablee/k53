@@ -43,7 +43,11 @@ export default function Index() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <>
+      <SEO {...SEO_CONFIGS.home} />
+      <WebsiteSEO />
+      <CourseSEO />
+      <div className="min-h-screen bg-slate-900">
       {/* Header */}
       <header className="bg-slate-800 border-b border-black sticky top-0 z-50">
         <div className="container mx-auto px-4 py-6">
@@ -651,5 +655,6 @@ export default function Index() {
         </div>
       </footer>
     </div>
+    </>
   );
 }
