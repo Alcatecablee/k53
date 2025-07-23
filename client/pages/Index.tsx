@@ -263,7 +263,7 @@ export default function Index() {
                 Platform Statistics
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div className="text-center border-r border-slate-600 last:border-r-0">
+                <div className="text-center border-r border-black last:border-r-0">
                   <div className="text-4xl font-bold text-white mb-2">
                     1000+
                   </div>
@@ -271,7 +271,7 @@ export default function Index() {
                     Assessment Items
                   </div>
                 </div>
-                <div className="text-center border-r border-slate-600 last:border-r-0">
+                <div className="text-center border-r border-black last:border-r-0">
                   <div className="text-4xl font-bold text-white mb-2">
                     92%
                   </div>
@@ -279,7 +279,7 @@ export default function Index() {
                     Success Rate
                   </div>
                 </div>
-                <div className="text-center border-r border-slate-600 last:border-r-0">
+                <div className="text-center border-r border-black last:border-r-0">
                   <div className="text-4xl font-bold text-white mb-2">
                     11
                   </div>
@@ -315,7 +315,7 @@ export default function Index() {
               </p>
             </div>
 
-            <div className="bg-slate-800 border border-slate-700">
+            <div className="bg-slate-800 border border-black">
               <div className="bg-slate-700 p-6">
                 <h3 className="text-xl font-bold uppercase tracking-wide text-white">
                   K53 Examination Structure
@@ -326,7 +326,7 @@ export default function Index() {
                 <div className="p-6 hover:bg-slate-750 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-6">
-                      <div className="w-16 h-16 bg-slate-700 border border-slate-600 flex items-center justify-center">
+                      <div className="w-16 h-16 bg-slate-700 border border-black flex items-center justify-center">
                         <Settings className="w-8 h-8 text-white" />
                       </div>
                       <div>
@@ -356,7 +356,7 @@ export default function Index() {
                 <div className="p-6 hover:bg-slate-750 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-6">
-                      <div className="w-16 h-16 bg-slate-700 border border-slate-600 flex items-center justify-center">
+                      <div className="w-16 h-16 bg-slate-700 border border-black flex items-center justify-center">
                         <Layers className="w-8 h-8 text-white" />
                       </div>
                       <div>
@@ -386,7 +386,7 @@ export default function Index() {
                 <div className="p-6 hover:bg-slate-750 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-6">
-                      <div className="w-16 h-16 bg-slate-700 border border-slate-600 flex items-center justify-center">
+                      <div className="w-16 h-16 bg-slate-700 border border-black flex items-center justify-center">
                         <FileText className="w-8 h-8 text-white" />
                       </div>
                       <div>
