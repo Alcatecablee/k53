@@ -17,12 +17,17 @@ import {
   ChartBarStacked,
   Car,
   MapPin,
+  LogOut,
+  User,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { K53Question, generateRandomTest } from "../data/k53Questions";
 import { K53Scenario, generateRandomScenarioTest, generateLocationAwareScenarioTest } from "../data/k53Scenarios";
 import { LocationSelector } from "@/components/LocationSelector";
+import { AuthenticatedRoute } from "@/components/AuthenticatedRoute";
 import { getStoredLocation, type UserLocation } from "@/services/locationService";
+import { useAuth } from "@/contexts/AuthContext";
+import { saveUserProgress, getUserProfile, updateUserProfile } from "@/services/databaseService";
 
 interface TestResult {
   category: string;
