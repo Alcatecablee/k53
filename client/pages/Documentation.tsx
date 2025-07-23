@@ -77,7 +77,7 @@ export default function Documentation() {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="border border-black p-4">
                     <h5 className="font-bold text-slate-800 mb-2">
-                      🎯 Purpose
+                      Purpose
                     </h5>
                     <p className="text-sm text-slate-700">
                       Prepare candidates for official K53 learner's license
@@ -87,7 +87,7 @@ export default function Documentation() {
                   </div>
                   <div className="border border-black p-4">
                     <h5 className="font-bold text-slate-800 mb-2">
-                      🏛️ Authority
+                      Authority
                     </h5>
                     <p className="text-sm text-slate-700">
                       Certified by the Department of Transport and aligned with
