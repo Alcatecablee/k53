@@ -15,105 +15,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session with comprehensive error handling
+    // Get initial session - wrapper handles all errors gracefully
     const initAuth = async () => {
-      try {
-        // Multiple fallback attempts with shorter timeouts
-        const attemptAuth = async () => {
-          try {
-            return await Promise.race([
-              supabase.auth.getSession(),
-              new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Auth timeout")), 2000),
-              ),
-            ]);
-          } catch (networkError) {
-            // Check if it's a network error (Failed to fetch)
-            if (
-              networkError.message?.includes("fetch") ||
-              networkError.message?.includes("network") ||
-              networkError.message?.includes("timeout")
-            ) {
-              console.warn(
-                "Network connectivity issue detected:",
-                networkError.message,
-              );
-              return { data: { session: null }, error: networkError };
-            }
-            throw networkError;
-          }
-        };
-
-        const {
-          data: { session },
-          error,
-        } = await attemptAuth();
-
-        if (error) {
-          console.warn(
-            "Supabase auth error, continuing in offline mode:",
-            error.message,
-          );
-        }
-        setUser(session?.user ?? null);
-      } catch (error) {
-        console.warn(
-          "Supabase completely unavailable, entering offline mode:",
-          error,
-        );
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setLoading(false);
     };
 
     initAuth();
 
-    // Listen for auth changes with comprehensive error handling
-    let subscription: any;
-    try {
-      const {
-        data: { subscription: sub },
-      } = supabase.auth.onAuthStateChange((_event, session) => {
-        try {
-          setUser(session?.user ?? null);
-          setLoading(false);
-        } catch (listenerError) {
-          console.warn("Auth state change error:", listenerError);
-        }
-      });
-      subscription = sub;
-    } catch (error) {
-      console.warn(
-        "Unable to set up auth listener, app will work in offline mode:",
-        error,
-      );
-    }
+    // Listen for auth changes - wrapper handles all errors
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
 
     return () => {
-      try {
-        if (subscription) {
-          subscription.unsubscribe();
-        }
-      } catch (cleanupError) {
-        console.warn("Error during auth cleanup:", cleanupError);
+      if (subscription?.unsubscribe) {
+        subscription.unsubscribe();
       }
     };
   }, []);
 
   const signOut = async () => {
-    try {
-      await Promise.race([
-        supabase.auth.signOut(),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Sign out timeout")), 3000),
-        ),
-      ]);
-    } catch (error) {
-      console.warn("Sign out error, clearing local session:", error);
-      // Clear local session even if remote sign out fails
-      setUser(null);
-    }
+    // Wrapper handles all errors, just clear local state
+    await supabase.auth.signOut();
+    setUser(null);
   };
 
   const value = {
