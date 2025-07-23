@@ -1,6 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 import { k53ScenarioBank } from '../client/data/k53Scenarios';
 import { k53QuestionBank } from '../client/data/k53Questions';
+import * as dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 // Use service role key for admin operations
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
