@@ -1303,7 +1303,16 @@ export default function AdminNew() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button
-                    onClick={() => alert('Performance monitor coming soon!')}
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/system/performance');
+                        const data = await response.json();
+                        const metrics = data.metrics;
+                        alert(`Performance Metrics:\n\nCPU Usage: ${metrics.cpu?.usage?.toFixed(1)}%\nMemory Used: ${Math.round((metrics.memory?.used || 0) / 1024 / 1024 / 1024)}GB\nDisk Used: ${Math.round((metrics.disk?.used || 0) / 1024 / 1024 / 1024)}GB\nUptime: ${Math.round((metrics.uptime || 0) / 3600)}h\nConnections: ${metrics.network?.connections || 0}`);
+                      } catch (error) {
+                        alert('Failed to fetch performance metrics');
+                      }
+                    }}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
@@ -1311,7 +1320,17 @@ export default function AdminNew() {
                     Performance
                   </Button>
                   <Button
-                    onClick={() => alert('Error logs viewer coming soon!')}
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/system/logs/errors');
+                        const data = await response.json();
+                        const recent = data.logs?.slice(0, 5) || [];
+                        const logText = recent.map(log => `[${new Date(log.timestamp).toLocaleTimeString()}] ${log.message}`).join('\n');
+                        alert(`Error Logs (${data.summary?.total || 0} total, ${data.summary?.last24h || 0} in 24h):\n\n${logText || 'No recent errors'}`);
+                      } catch (error) {
+                        alert('Failed to fetch error logs');
+                      }
+                    }}
                     variant="outline"
                     className="w-full text-slate-300"
                   >
@@ -1319,9 +1338,23 @@ export default function AdminNew() {
                     Error Logs
                   </Button>
                   <Button
-                    onClick={() => {
+                    onClick={async () => {
                       if (confirm('Restart all services? This may cause temporary downtime.')) {
-                        alert('Services restart initiated!');
+                        try {
+                          const response = await fetch('/api/system/services/restart', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ services: ['api', 'database', 'cache'] }),
+                          });
+                          const data = await response.json();
+                          if (data.success) {
+                            alert(`${data.results?.length || 0} services restarted successfully!`);
+                          } else {
+                            alert('Failed to restart services');
+                          }
+                        } catch (error) {
+                          alert('Failed to restart services');
+                        }
                       }
                     }}
                     variant="outline"
