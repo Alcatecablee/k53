@@ -56,16 +56,61 @@ export default function Practice() {
   const [showLocationSelector, setShowLocationSelector] = useState(false);
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
 
-  // Load stored location on component mount
-  useEffect(() => {
-    const storedLocation = getStoredLocation();
-    if (storedLocation) {
-      setUserLocation(storedLocation);
-    }
-  }, []);
+  const { user, signOut } = useAuth();
 
-  const handleLocationSelected = (location: UserLocation) => {
+  // Load user location from profile or local storage
+  useEffect(() => {
+    const loadUserLocation = async () => {
+      try {
+        if (user) {
+          const profile = await getUserProfile();
+          if (profile.location) {
+            // Parse location from user profile
+            const locationParts = profile.location.split(', ');
+            if (locationParts.length >= 2) {
+              const userLoc: UserLocation = {
+                city: locationParts[0],
+                region: locationParts[1],
+                displayName: profile.location
+              };
+              setUserLocation(userLoc);
+              return;
+            }
+          }
+        }
+
+        // Fallback to stored location
+        const storedLocation = getStoredLocation();
+        if (storedLocation) {
+          setUserLocation(storedLocation);
+        }
+      } catch (error) {
+        console.error('Error loading user location:', error);
+        // Fallback to stored location
+        const storedLocation = getStoredLocation();
+        if (storedLocation) {
+          setUserLocation(storedLocation);
+        }
+      }
+    };
+
+    loadUserLocation();
+  }, [user]);
+
+  const handleLocationSelected = async (location: UserLocation) => {
     setUserLocation(location);
+
+    // Update user profile with new location
+    if (user) {
+      try {
+        await updateUserProfile({
+          location_city: location.city,
+          location_region: location.region,
+        });
+      } catch (error) {
+        console.error('Error updating user location:', error);
+      }
+    }
   };
 
   const generateTest = (fullTest: boolean = false) => {
