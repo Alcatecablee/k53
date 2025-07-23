@@ -288,10 +288,10 @@ function PracticeComponent() {
     const totalQuestions = testResults.reduce((sum, r) => sum + r.total, 0);
     const overallPassed = testResults.every((r) => r.passed);
 
-    // Save progress to database
+    // Save progress to database (optional - app works without it)
     if (user) {
       try {
-        await saveUserProgress({
+        const saved = await saveUserProgress({
           test_type: testMode,
           score: totalCorrect,
           total_questions: totalQuestions,
@@ -304,8 +304,14 @@ function PracticeComponent() {
           passed: overallPassed,
           location_used: userLocation?.displayName,
         });
+
+        if (saved) {
+          console.log('Progress saved to database successfully');
+        } else {
+          console.log('Progress saved locally (database unavailable)');
+        }
       } catch (error) {
-        console.error('Error saving progress:', error);
+        console.warn('Progress saved locally only:', error);
       }
     }
 
