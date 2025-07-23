@@ -1023,11 +1023,18 @@ export default function AdminNew() {
                 Content Management
               </h2>
               <div className="flex items-center space-x-2">
-                <Button variant="outline" className="text-slate-300">
+                <Button
+                  onClick={() => alert('Import Questions feature coming soon!')}
+                  variant="outline"
+                  className="text-slate-300"
+                >
                   <Upload className="h-4 w-4 mr-2" />
                   Import Questions
                 </Button>
-                <Button className="bg-white text-slate-900">
+                <Button
+                  onClick={() => alert('Add Scenario feature coming soon!')}
+                  className="bg-white text-slate-900"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Scenario
                 </Button>
@@ -1091,15 +1098,26 @@ export default function AdminNew() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button className="w-full bg-white text-slate-900 hover:bg-slate-100">
+                  <Button
+                    onClick={() => alert('Question Bank Editor coming soon!')}
+                    className="w-full bg-white text-slate-900 hover:bg-slate-100"
+                  >
                     <Edit className="h-4 w-4 mr-2" />
                     Edit Question Bank
                   </Button>
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('Question export initiated!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <Download className="h-4 w-4 mr-2" />
                     Export Questions
                   </Button>
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('CSV import feature coming soon!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <Upload className="h-4 w-4 mr-2" />
                     Import from CSV
                   </Button>
@@ -1112,15 +1130,26 @@ export default function AdminNew() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button className="w-full bg-white text-slate-900 hover:bg-slate-100">
+                  <Button
+                    onClick={() => alert('Scenario Manager coming soon!')}
+                    className="w-full bg-white text-slate-900 hover:bg-slate-100"
+                  >
                     <Edit className="h-4 w-4 mr-2" />
                     Manage Scenarios
                   </Button>
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('Location Settings coming soon!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <MapPin className="h-4 w-4 mr-2" />
                     Location Settings
                   </Button>
-                  <Button variant="outline" className="w-full text-slate-300">
+                  <Button
+                    onClick={() => alert('Scenario Packs Manager coming soon!')}
+                    variant="outline"
+                    className="w-full text-slate-300"
+                  >
                     <Package className="h-4 w-4 mr-2" />
                     Scenario Packs
                   </Button>
