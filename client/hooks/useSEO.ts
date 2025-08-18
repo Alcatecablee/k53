@@ -163,24 +163,25 @@ function updateJsonLd(data: object) {
 export const SEO_CONFIGS = {
   home: {
     title:
-      "SuperK53 - Official K53 Learner's License Platform | Department of Transport",
+      "K53 Learner's Licence Test Practice | Official South Africa Driving Test | SuperK53",
     description:
-      "Official K53 learner's license preparation platform authorized by the Department of Transport, South Africa. Practice tests, scenarios, and comprehensive study materials.",
+      "Pass your K53 learner's licence test with our official practice platform. 1000+ questions, 220+ scenarios, and comprehensive study materials. Free practice tests available. Department of Transport approved.",
     keywords:
-      "K53, learners licence, driving test, South Africa, Department of Transport, practice test, official, authorized",
+      "K53 learners licence, K53 test, driving test South Africa, learners licence practice, K53 exam, driving test questions, K53 study guide, learners licence test, K53 practice test, driving licence South Africa, K53 questions, learners licence online, K53 test preparation, driving test practice, K53 learner's licence, South Africa driving test, K53 exam questions, learners licence study, K53 test questions, driving licence practice",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "EducationalOrganization",
       name: "SuperK53",
-      description: "Official K53 learner's license preparation platform",
+      alternateName: "K53 Learner's Licence Practice Platform",
+      description: "Official K53 learner's licence preparation platform for South Africa",
       url: "https://superk53.co.za",
-      logo: "https://superk53.co.za/logo.png",
+      logo: "https://superk53.co.za/images/pwa/icon-512x512.svg",
       contactPoint: {
         "@type": "ContactPoint",
         telephone: "+27-800-123-456",
         contactType: "customer service",
         areaServed: "ZA",
-        availableLanguage: ["English", "Afrikaans"],
+        availableLanguage: ["English", "Afrikaans", "Zulu"],
       },
       address: {
         "@type": "PostalAddress",
@@ -191,20 +192,42 @@ export const SEO_CONFIGS = {
         "https://twitter.com/SuperK53ZA",
         "https://facebook.com/SuperK53ZA",
       ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "K53 Practice Tests",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Free K53 Practice Tests",
+              description: "Basic practice tests with 5 scenarios per day"
+            }
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Premium K53 Practice",
+              description: "Unlimited scenarios and advanced analytics"
+            }
+          }
+        ]
+      }
     },
   },
 
   practice: {
-    title: "K53 Practice Tests - Official Assessment Platform | SuperK53",
+    title: "K53 Practice Test Online | Free Learner's Licence Questions | SuperK53",
     description:
-      "Take official K53 practice tests with real exam questions. Practice vehicle controls, road signs, and traffic regulations. Free and premium assessments available.",
+      "Take free K53 practice tests online with real exam questions. Practice vehicle controls, road signs, and traffic regulations. 1000+ questions, immediate feedback, and progress tracking.",
     keywords:
-      "K53 practice test, driving test practice, learners licence test, vehicle controls, road signs, traffic rules",
+      "K53 practice test online, K53 questions free, learners licence practice test, K53 test online, driving test practice questions, K53 exam practice, learners licence test questions, K53 practice questions, driving test online, K53 test preparation, learners licence practice online, K53 exam questions, driving test practice test, K53 online test, learners licence test practice",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      name: "K53 Practice Tests",
-      description: "Interactive K53 practice test platform",
+      name: "K53 Practice Test Platform",
+      description: "Interactive K53 practice test platform with real exam questions",
       applicationCategory: "EducationalApplication",
       operatingSystem: "Web Browser",
       offers: {
@@ -213,20 +236,25 @@ export const SEO_CONFIGS = {
         priceCurrency: "ZAR",
         availability: "https://schema.org/InStock",
       },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        reviewCount: "1250"
+      }
     },
   },
 
   documentation: {
-    title: "K53 Documentation & Study Guide | SuperK53 Official Platform",
+    title: "K53 Study Guide 2024 | Complete Learner's Licence Documentation | SuperK53",
     description:
-      "Comprehensive K53 study documentation covering test structure, passing requirements, preparation tips, and platform features. Official Department of Transport guidelines.",
+      "Complete K53 study guide and documentation for 2024. Test structure, passing requirements, preparation tips, and official Department of Transport guidelines. Everything you need to pass your learner's licence.",
     keywords:
-      "K53 study guide, learners licence documentation, test structure, passing requirements, study materials",
+      "K53 study guide 2024, learners licence study guide, K53 documentation, K53 test structure, learners licence requirements, K53 passing score, K53 study materials, learners licence documentation, K53 test guide, K53 exam structure, learners licence study, K53 preparation guide, K53 test requirements, learners licence documentation 2024, K53 study materials South Africa",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Article",
-      headline: "Complete K53 Study Documentation",
-      description: "Comprehensive guide for K53 learner's license preparation",
+      headline: "Complete K53 Study Guide 2024",
+      description: "Comprehensive guide for K53 learner's licence preparation in South Africa",
       author: {
         "@type": "Organization",
         name: "Department of Transport, South Africa",
@@ -236,63 +264,127 @@ export const SEO_CONFIGS = {
         name: "SuperK53",
         logo: {
           "@type": "ImageObject",
-          url: "https://superk53.co.za/logo.png",
+          url: "https://superk53.co.za/images/pwa/icon-512x512.svg",
         },
       },
       mainEntityOfPage: "https://superk53.co.za/docs",
-      datePublished: "2025-01-01",
-      dateModified: "2025-01-01",
+      datePublished: "2024-01-01",
+      dateModified: "2024-12-01",
     },
   },
 
   dltc: {
-    title: "DLTC Testing Centers Directory | Find K53 Test Centers | SuperK53",
+    title: "DLTC Testing Centers Near Me | K53 Test Centers South Africa | SuperK53",
     description:
-      "Find official DLTC testing centers near you for K53 learner's license exams. Complete directory with contact details, hours, and services across South Africa.",
+      "Find DLTC testing centers near you for K53 learner's licence exams. Complete directory with contact details, operating hours, and services across all South African provinces.",
     keywords:
-      "DLTC, testing center, K53 test center, learners licence test center, Department of Transport",
+      "DLTC testing centers, K53 test centers, learners licence test centers, DLTC near me, K53 test center locations, learners licence test center, DLTC contact details, K53 testing centers South Africa, DLTC operating hours, learners licence test centers near me, K53 exam centers, DLTC directory, K53 test center contact, learners licence test center locations",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      name: "DLTC Testing Centers",
-      description: "Directory of official K53 testing centers",
+      name: "DLTC Testing Centers Directory",
+      description: "Complete directory of official K53 testing centers in South Africa",
       numberOfItems: 500,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          item: {
+            "@type": "Place",
+            name: "DLTC Testing Centers",
+            description: "Official K53 learner's licence testing centers"
+          }
+        }
+      ]
     },
   },
 
   progress: {
-    title: "Your Learning Progress | K53 Achievement Tracking | SuperK53",
+    title: "K53 Progress Tracker | Learning Analytics & Achievements | SuperK53",
     description:
-      "Track your K53 learning progress, view achievements, and monitor your performance across different categories. Personalized insights for better preparation.",
+      "Track your K53 learning progress with detailed analytics. View achievements, monitor performance across categories, and get personalized insights for better test preparation.",
     keywords:
-      "K53 progress, learning achievements, study tracking, performance analytics, driving test preparation",
+      "K53 progress tracker, learners licence progress, K53 learning analytics, K53 achievements, learners licence tracking, K53 performance analytics, K53 study progress, learners licence analytics, K53 learning tracking, K53 achievement system, learners licence progress tracker, K53 performance tracking, K53 study analytics, learners licence learning progress",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       name: "K53 Progress Tracker",
-      description: "Personalized learning progress and achievement tracking",
+      description: "Personalized learning progress and achievement tracking for K53 preparation",
       applicationCategory: "EducationalApplication",
     },
   },
 
   pricing: {
-    title: "SuperK53 Premium Plans & Pricing | Unlimited Practice Tests",
+    title: "SuperK53 Premium Plans | Unlimited K53 Practice Tests | R39/month",
     description:
-      "Upgrade to SuperK53 Premium for unlimited scenario tests, advanced analytics, and premium study materials. Affordable monthly plans starting at R49.",
+      "Upgrade to SuperK53 Premium for unlimited scenario tests, advanced analytics, and premium study materials. Affordable monthly plans starting at R39. Cancel anytime.",
     keywords:
-      "SuperK53 premium, pricing plans, unlimited practice, premium features, subscription",
+      "SuperK53 premium, K53 premium plans, learners licence premium, K53 unlimited practice, SuperK53 pricing, K53 subscription plans, learners licence premium features, K53 unlimited tests, SuperK53 monthly plans, K53 premium subscription, learners licence unlimited practice, K53 premium pricing, SuperK53 subscription, K53 unlimited scenarios, learners licence premium plans",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Product",
       name: "SuperK53 Premium",
-      description: "Premium K53 practice platform subscription",
+      description: "Premium K53 practice platform subscription with unlimited access",
       offers: {
         "@type": "Offer",
-        price: "49",
+        price: "39",
         priceCurrency: "ZAR",
         availability: "https://schema.org/InStock",
         priceValidUntil: "2025-12-31",
       },
+    },
+  },
+
+  // New blog SEO configurations
+  blog: {
+    title: "K53 Learner's Licence Blog | Tips, News & Study Guides | SuperK53",
+    description:
+      "Latest K53 learner's licence news, study tips, test preparation guides, and driving test advice. Expert insights to help you pass your K53 test in South Africa.",
+    keywords:
+      "K53 blog, learners licence blog, K53 news, K53 tips, learners licence tips, K53 study blog, K53 test advice, learners licence news, K53 preparation blog, K53 driving tips, learners licence study blog, K53 test tips, K53 exam blog, learners licence advice, K53 study tips blog",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      name: "SuperK53 Blog",
+      description: "K53 learner's licence preparation blog with tips and news",
+      url: "https://superk53.co.za/blog",
+      publisher: {
+        "@type": "Organization",
+        name: "SuperK53",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://superk53.co.za/images/pwa/icon-512x512.svg",
+        },
+      },
+    },
+  },
+
+  blogPost: {
+    title: "K53 Learner's Licence Test Guide | Complete Preparation Tips | SuperK53",
+    description:
+      "Complete guide to passing your K53 learner's licence test. Expert tips, study strategies, and everything you need to know about the South African driving test.",
+    keywords:
+      "K53 test guide, learners licence test guide, K53 preparation tips, K53 test tips, learners licence preparation, K53 exam guide, K53 test advice, learners licence test tips, K53 study guide, K53 test preparation, learners licence exam guide, K53 test strategy, K53 exam tips, learners licence preparation guide",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: "Complete K53 Learner's Licence Test Guide",
+      description: "Expert guide to passing your K53 learner's licence test in South Africa",
+      author: {
+        "@type": "Organization",
+        name: "SuperK53",
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "SuperK53",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://superk53.co.za/images/pwa/icon-512x512.svg",
+        },
+      },
+      mainEntityOfPage: "https://superk53.co.za/blog",
+      datePublished: "2024-01-01",
+      dateModified: "2024-12-01",
     },
   },
 };

@@ -124,6 +124,12 @@ export default function Index() {
                     Docs
                   </Link>
                   <Link
+                    to="/blog"
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
+                  >
+                    Blog
+                  </Link>
+                  <Link
                     to="/admin"
                     className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
                   >
