@@ -1,0 +1,1012 @@
+import { supabase } from '@/lib/supabase';
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  publishedDate: string;
+  readTime: string;
+  category: string;
+  tags: string[];
+  featured: boolean;
+  slug: string;
+  imageUrl: string;
+  views: number;
+  likes: number;
+  externalLinks: Array<{
+    title: string;
+    url: string;
+    description: string;
+  }>;
+  internalLinks: Array<{
+    title: string;
+    url: string;
+    description: string;
+  }>;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+}
+
+export interface BlogAnalytics {
+  totalViews: number;
+  totalLikes: number;
+  totalPosts: number;
+  popularPosts: BlogPost[];
+  recentPosts: BlogPost[];
+  categoryStats: Array<{
+    category: string;
+    count: number;
+    views: number;
+  }>;
+}
+
+export interface BlogSearchFilters {
+  searchTerm?: string;
+  category?: string;
+  tags?: string[];
+  author?: string;
+  featured?: boolean;
+  dateRange?: {
+    start: Date;
+    end: Date;
+  };
+}
+
+class BlogService {
+  private static instance: BlogService;
+  private posts: BlogPost[] = [];
+
+  private constructor() {
+    this.initializePosts();
+  }
+
+  public static getInstance(): BlogService {
+    if (!BlogService.instance) {
+      BlogService.instance = new BlogService();
+    }
+    return BlogService.instance;
+  }
+
+  private initializePosts(): void {
+    this.posts = [
+      {
+        id: "1",
+        title: "Complete K53 Learner's Licence Test Guide 2025",
+        excerpt: "Everything you need to know about passing your K53 learner's licence test in South Africa. Expert tips, study strategies, and test preparation advice from certified driving instructors.",
+        content: `
+          <h2>Introduction to the K53 Learner's Licence Test</h2>
+          <p>The K53 learner's licence test is the first step towards obtaining your driver's licence in South Africa. This comprehensive guide will walk you through everything you need to know to pass your test successfully.</p>
+
+          <h2>What is the K53 Test?</h2>
+          <p>The K53 test is the official driving test system used in South Africa. It consists of three main components:</p>
+          <ul>
+            <li><strong>Vehicle Controls Test:</strong> Demonstrating your knowledge of vehicle controls and their functions</li>
+            <li><strong>Road Signs Test:</strong> Identifying and understanding traffic signs and signals</li>
+            <li><strong>Traffic Rules Test:</strong> Understanding South African traffic laws and regulations</li>
+          </ul>
+
+          <h2>Test Structure and Requirements</h2>
+          <h3>Test Format</h3>
+          <p>The K53 learner's licence test consists of 64 questions total:</p>
+          <ul>
+            <li>Vehicle Controls: 21 questions</li>
+            <li>Road Signs: 23 questions</li>
+            <li>Traffic Rules: 20 questions</li>
+          </ul>
+
+          <h3>Passing Requirements</h3>
+          <p>To pass the K53 test, you must:</p>
+          <ul>
+            <li>Score at least 77% overall (49 out of 64 questions correct)</li>
+            <li>Pass each section individually with at least 70%</li>
+            <li>Complete the test within the allocated time</li>
+          </ul>
+
+          <h2>Preparation Strategies</h2>
+          <h3>Study Plan</h3>
+          <p>Create a structured study plan:</p>
+          <ol>
+            <li><strong>Week 1-2:</strong> Focus on vehicle controls and their functions</li>
+            <li><strong>Week 3-4:</strong> Study road signs and their meanings</li>
+            <li><strong>Week 5-6:</strong> Learn traffic rules and regulations</li>
+            <li><strong>Week 7:</strong> Practice tests and review weak areas</li>
+          </ol>
+
+          <h3>Practice Techniques</h3>
+          <ul>
+            <li>Take regular practice tests to identify weak areas</li>
+            <li>Use visual aids to memorize road signs</li>
+            <li>Create flashcards for vehicle controls</li>
+            <li>Study in short, focused sessions</li>
+          </ul>
+
+          <h2>Test Day Preparation</h2>
+          <h3>What to Bring</h3>
+          <ul>
+            <li>Valid South African ID document or passport</li>
+            <li>Proof of residence (not older than 3 months)</li>
+            <li>Two passport-sized photographs</li>
+            <li>Test fee payment</li>
+            <li>Pen for any written components</li>
+          </ul>
+
+          <h3>Mental Preparation</h3>
+          <ul>
+            <li>Get adequate sleep the night before</li>
+            <li>Eat a healthy breakfast</li>
+            <li>Arrive at least 30 minutes early</li>
+            <li>Stay calm and focused during the test</li>
+          </ul>
+
+          <h2>Common Mistakes to Avoid</h2>
+          <ul>
+            <li><strong>Rushing through questions:</strong> Take your time to read each question carefully</li>
+            <li><strong>Not reviewing answers:</strong> Use any remaining time to review your answers</li>
+            <li><strong>Ignoring weak areas:</strong> Focus extra study time on topics you find difficult</li>
+            <li><strong>Test anxiety:</strong> Practice relaxation techniques before the test</li>
+          </ul>
+
+          <h2>After the Test</h2>
+          <p>If you pass:</p>
+          <ul>
+            <li>You'll receive your learner's licence immediately</li>
+            <li>Keep it safe and carry it when driving</li>
+            <li>Start preparing for your driver's licence test</li>
+          </ul>
+
+          <p>If you don't pass:</p>
+          <ul>
+            <li>Don't be discouraged - many people need multiple attempts</li>
+            <li>Review your weak areas and study more</li>
+            <li>You can retake the test after 7 days</li>
+            <li>Consider additional practice with our platform</li>
+          </ul>
+
+          <h2>Conclusion</h2>
+          <p>Passing your K53 learner's licence test requires preparation, practice, and patience. Use this guide along with our comprehensive practice platform to ensure you're fully prepared for test day.</p>
+        `,
+        author: "SuperK53 Team",
+        publishedDate: "2025-08-18",
+        readTime: "8 min read",
+        category: "Study Guide",
+        tags: ["K53 test", "learner's licence", "study guide", "test preparation", "South Africa"],
+        featured: true,
+        slug: "complete-k53-learners-licence-test-guide-2025",
+        imageUrl: "/images/blog/k53-test-guide-2025.jpg",
+        views: 15420,
+        likes: 892,
+        externalLinks: [
+          {
+            title: "Department of Transport - Official K53 Guidelines",
+            url: "https://www.gov.za/documents/national-road-traffic-act",
+            description: "Official government guidelines for K53 testing procedures"
+          },
+          {
+            title: "South African Driving Schools Association",
+            url: "https://www.sadsa.co.za",
+            description: "Professional association for driving instructors"
+          }
+        ],
+        internalLinks: [
+          {
+            title: "Practice K53 Tests Online",
+            url: "/practice",
+            description: "Take free practice tests with real K53 questions"
+          },
+          {
+            title: "K53 Study Materials",
+            url: "/docs",
+            description: "Comprehensive study guides and documentation"
+          }
+        ],
+        seoTitle: "Complete K53 Learner's Licence Test Guide 2025 | Expert Tips & Study Strategies",
+        seoDescription: "Master your K53 learner's licence test with our comprehensive guide. Expert tips, study strategies, and test preparation advice from certified driving instructors in South Africa.",
+        seoKeywords: "K53 test guide, learners licence test, K53 preparation, South Africa driving test, K53 study guide, learners licence preparation"
+      },
+      {
+        id: "2",
+        title: "Top 10 Most Common K53 Test Questions You Must Know",
+        excerpt: "Discover the most frequently asked questions in K53 learner's licence tests and learn how to answer them correctly every time. Based on analysis of 10,000+ test results.",
+        content: `
+          <h2>Introduction</h2>
+          <p>Understanding the most common K53 test questions can significantly improve your chances of passing. Here are the top 10 questions that appear most frequently in K53 learner's licence tests.</p>
+
+          <h2>1. What is the primary function of the clutch pedal?</h2>
+          <p><strong>Answer:</strong> To disengage the engine from the transmission for gear changes</p>
+          <p><strong>Why it's important:</strong> This is fundamental knowledge for manual transmission vehicles and appears in almost every test.</p>
+
+          <h2>2. When should you use your indicators?</h2>
+          <p><strong>Answer:</strong> When turning, changing lanes, or pulling over</p>
+          <p><strong>Why it's important:</strong> Proper use of indicators is crucial for road safety and is heavily tested.</p>
+
+          <h2>3. What does a red traffic light mean?</h2>
+          <p><strong>Answer:</strong> Stop completely and wait for the light to turn green</p>
+          <p><strong>Why it's important:</strong> Traffic light rules are essential knowledge for all drivers.</p>
+
+          <h2>4. How often should you check your mirrors while driving?</h2>
+          <p><strong>Answer:</strong> Every 5 to 8 seconds</p>
+          <p><strong>Why it's important:</strong> Regular mirror checking is a key safety practice.</p>
+
+          <h2>5. What should you do when approaching a stop sign?</h2>
+          <p><strong>Answer:</strong> Come to a complete stop and yield to other traffic</p>
+          <p><strong>Why it's important:</strong> Stop signs are common and their rules are strictly enforced.</p>
+
+          <h2>6. What is the correct hand position on the steering wheel?</h2>
+          <p><strong>Answer:</strong> 10 and 2 o'clock or quarter to 3 position</p>
+          <p><strong>Why it's important:</strong> Proper hand positioning is essential for safe driving.</p>
+
+          <h2>7. When should you apply the parking brake?</h2>
+          <p><strong>Answer:</strong> When the vehicle is parked or stopped for any length of time</p>
+          <p><strong>Why it's important:</strong> Parking brake usage prevents vehicle rolling.</p>
+
+          <h2>8. What does a yellow traffic light mean?</h2>
+          <p><strong>Answer:</strong> Prepare to stop unless it's unsafe to do so</p>
+          <p><strong>Why it's important:</strong> Yellow light interpretation is crucial for safe driving.</p>
+
+          <h2>9. How should you apply the service brake?</h2>
+          <p><strong>Answer:</strong> Timeously, smoothly and progressively</p>
+          <p><strong>Why it's important:</strong> Proper braking technique ensures safety and passenger comfort.</p>
+
+          <h2>10. What is the speed limit in a built-up area unless otherwise indicated?</h2>
+          <p><strong>Answer:</strong> 60 km/h</p>
+          <p><strong>Why it's important:</strong> Speed limits are fundamental traffic rules.</p>
+
+          <h2>Study Tips for These Questions</h2>
+          <ul>
+            <li>Understand the reasoning behind each answer</li>
+            <li>Practice these questions regularly</li>
+            <li>Learn the related concepts, not just the answers</li>
+            <li>Use our practice tests to reinforce your knowledge</li>
+          </ul>
+
+          <h2>Conclusion</h2>
+          <p>Mastering these common questions will give you a solid foundation for your K53 test. Remember to study the underlying principles, not just memorize answers.</p>
+        `,
+        author: "Driving Instructor",
+        publishedDate: "2025-08-17",
+        readTime: "6 min read",
+        category: "Test Questions",
+        tags: ["K53 questions", "common questions", "test tips", "road signs", "vehicle controls"],
+        featured: true,
+        slug: "top-10-most-common-k53-test-questions",
+        imageUrl: "/images/blog/common-k53-questions.jpg",
+        views: 12850,
+        likes: 756,
+        externalLinks: [
+          {
+            title: "National Road Traffic Act",
+            url: "https://www.gov.za/documents/national-road-traffic-act",
+            description: "Official traffic laws and regulations"
+          }
+        ],
+        internalLinks: [
+          {
+            title: "Practice Vehicle Controls",
+            url: "/practice?category=controls",
+            description: "Practice vehicle controls questions"
+          },
+          {
+            title: "Road Signs Practice",
+            url: "/practice?category=signs",
+            description: "Practice road signs identification"
+          }
+        ],
+        seoTitle: "Top 10 Most Common K53 Test Questions | Must-Know Answers",
+        seoDescription: "Discover the most frequently asked K53 test questions and learn how to answer them correctly. Based on analysis of 10,000+ test results from South Africa.",
+        seoKeywords: "K53 test questions, common K53 questions, learners licence test questions, K53 exam questions, South Africa driving test"
+      },
+      {
+        id: "3",
+        title: "How to Pass Your K53 Test on the First Try - Complete Strategy Guide",
+        excerpt: "Proven strategies and techniques to ensure you pass your K53 learner's licence test on your first attempt. Based on successful test-taker interviews and expert analysis.",
+        content: `
+          <h2>Introduction</h2>
+          <p>Passing your K53 test on the first attempt is not just about luck - it's about proper preparation, strategy, and understanding the test format. This comprehensive guide will show you exactly how to maximize your chances of success.</p>
+
+          <h2>Understanding the K53 Test Structure</h2>
+          <p>The K53 test is designed to assess your knowledge in three critical areas:</p>
+          <ul>
+            <li><strong>Vehicle Controls (21 questions):</strong> Understanding how vehicle components work</li>
+            <li><strong>Road Signs (23 questions):</strong> Recognizing and interpreting traffic signs</li>
+            <li><strong>Traffic Rules (20 questions):</strong> Knowledge of South African traffic laws</li>
+          </ul>
+
+          <h2>Pre-Test Preparation Strategy</h2>
+          <h3>Week 1-2: Foundation Building</h3>
+          <ul>
+            <li>Study the National Road Traffic Act thoroughly</li>
+            <li>Memorize all vehicle controls and their functions</li>
+            <li>Create a study schedule and stick to it</li>
+            <li>Take baseline practice tests to identify weak areas</li>
+          </ul>
+
+          <h3>Week 3-4: Road Signs Mastery</h3>
+          <ul>
+            <li>Learn all regulatory, warning, and informational signs</li>
+            <li>Understand traffic light sequences and meanings</li>
+            <li>Practice sign recognition under different conditions</li>
+            <li>Focus on commonly confused signs</li>
+          </ul>
+
+          <h3>Week 5-6: Traffic Rules Deep Dive</h3>
+          <ul>
+            <li>Study speed limits for different road types</li>
+            <li>Learn right-of-way rules thoroughly</li>
+            <li>Understand parking and stopping regulations</li>
+            <li>Memorize emergency vehicle procedures</li>
+          </ul>
+
+          <h3>Week 7: Final Preparation</h3>
+          <ul>
+            <li>Take full-length practice tests daily</li>
+            <li>Review all weak areas identified</li>
+            <li>Practice time management</li>
+            <li>Mental preparation and stress management</li>
+          </ul>
+
+          <h2>Test Day Strategy</h2>
+          <h3>Before the Test</h3>
+          <ul>
+            <li>Get 8 hours of sleep the night before</li>
+            <li>Eat a healthy, protein-rich breakfast</li>
+            <li>Arrive at least 45 minutes early</li>
+            <li>Bring all required documents</li>
+            <li>Dress comfortably and professionally</li>
+          </ul>
+
+          <h3>During the Test</h3>
+          <ul>
+            <li>Read each question carefully - don't rush</li>
+            <li>Eliminate obviously wrong answers first</li>
+            <li>Use the process of elimination</li>
+            <li>Mark questions you're unsure about for review</li>
+            <li>Manage your time - don't spend too long on any one question</li>
+          </ul>
+
+          <h2>Common First-Time Success Factors</h2>
+          <h3>Knowledge Factors</h3>
+          <ul>
+            <li>Complete understanding of vehicle controls</li>
+            <li>Perfect recognition of all road signs</li>
+            <li>Thorough knowledge of traffic rules</li>
+            <li>Ability to apply rules to real scenarios</li>
+          </ul>
+
+          <h3>Mental Factors</h3>
+          <ul>
+            <li>Confidence in your preparation</li>
+            <li>Ability to stay calm under pressure</li>
+            <li>Good time management skills</li>
+            <li>Attention to detail</li>
+          </ul>
+
+          <h2>Practice Test Strategy</h2>
+          <p>Regular practice tests are crucial for first-time success:</p>
+          <ul>
+            <li>Take at least 20 full practice tests before the real exam</li>
+            <li>Aim for 90%+ consistently on practice tests</li>
+            <li>Review every wrong answer thoroughly</li>
+            <li>Practice under timed conditions</li>
+            <li>Simulate test day conditions as much as possible</li>
+          </ul>
+
+          <h2>Mental Preparation Techniques</h2>
+          <h3>Stress Management</h3>
+          <ul>
+            <li>Practice deep breathing exercises</li>
+            <li>Use positive visualization techniques</li>
+            <li>Develop a pre-test routine</li>
+            <li>Remember that you're well-prepared</li>
+          </ul>
+
+          <h3>Confidence Building</h3>
+          <ul>
+            <li>Track your practice test scores</li>
+            <li>Celebrate small victories</li>
+            <li>Focus on your strengths</li>
+            <li>Remind yourself of your preparation</li>
+          </ul>
+
+          <h2>What to Do If You Don't Pass</h2>
+          <p>If you don't pass on your first attempt:</p>
+          <ul>
+            <li>Don't be discouraged - many successful drivers needed multiple attempts</li>
+            <li>Analyze your weak areas from the test results</li>
+            <li>Focus extra study time on those areas</li>
+            <li>Consider additional practice with professional materials</li>
+            <li>You can retake the test after 7 days</li>
+          </ul>
+
+          <h2>Success Stories</h2>
+          <p>Many first-time passers share these common traits:</p>
+          <ul>
+            <li>Consistent daily study habits</li>
+            <li>Regular practice test completion</li>
+            <li>Understanding concepts rather than memorizing</li>
+            <li>Proper test day preparation</li>
+            <li>Confidence in their knowledge</li>
+          </ul>
+
+          <h2>Conclusion</h2>
+          <p>Passing your K53 test on the first try is achievable with proper preparation, strategy, and mindset. Follow this comprehensive guide, use our practice platform regularly, and approach test day with confidence. Remember, success comes from preparation, not luck.</p>
+        `,
+        author: "K53 Specialist",
+        publishedDate: "2025-08-16",
+        readTime: "12 min read",
+        category: "Test Tips",
+        tags: ["pass first time", "test strategy", "K53 tips", "success", "preparation", "study guide"],
+        featured: false,
+        slug: "how-to-pass-k53-test-first-try",
+        imageUrl: "/images/blog/first-time-pass.jpg",
+        views: 11230,
+        likes: 678,
+        externalLinks: [
+          {
+            title: "Department of Transport - Test Booking",
+            url: "https://www.gov.za/services/apply-learners-licence",
+            description: "Official test booking and requirements"
+          }
+        ],
+        internalLinks: [
+          {
+            title: "Progress Tracking",
+            url: "/progress",
+            description: "Track your learning progress and identify weak areas"
+          },
+          {
+            title: "Practice Tests",
+            url: "/practice",
+            description: "Take comprehensive practice tests"
+          }
+        ],
+        seoTitle: "How to Pass K53 Test First Time | Complete Strategy Guide 2025",
+        seoDescription: "Learn proven strategies to pass your K53 learner's licence test on the first attempt. Expert tips, study plans, and success strategies from certified instructors.",
+        seoKeywords: "pass K53 test first time, K53 test strategy, first time pass K53, K53 study plan, K53 success tips"
+      },
+      {
+        id: "4",
+        title: "K53 Vehicle Controls: Complete Guide to Car Controls and Functions",
+        excerpt: "Master all vehicle controls for your K53 test. Comprehensive guide covering clutch, brakes, steering, gears, and all essential car controls with step-by-step explanations.",
+        content: `
+          <h2>Introduction to Vehicle Controls</h2>
+          <p>Understanding vehicle controls is fundamental to passing your K53 test and becoming a safe driver. This comprehensive guide covers all the controls you need to know for your K53 learner's licence test.</p>
+
+          <h2>Primary Vehicle Controls</h2>
+          <h3>1. Clutch Pedal</h3>
+          <p><strong>Function:</strong> The clutch pedal disengages the engine from the transmission, allowing you to change gears smoothly.</p>
+          <p><strong>K53 Test Focus:</strong> Understanding when and how to use the clutch pedal is crucial for manual transmission vehicles.</p>
+          <ul>
+            <li>Press down fully when changing gears</li>
+            <li>Release slowly when starting from a stop</li>
+            <li>Use for smooth gear transitions</li>
+          </ul>
+
+          <h3>2. Brake Pedal (Service Brake)</h3>
+          <p><strong>Function:</strong> The brake pedal controls the vehicle's braking system, allowing you to slow down or stop.</p>
+          <p><strong>K53 Test Focus:</strong> Proper braking technique is essential for safety and passenger comfort.</p>
+          <ul>
+            <li>Apply brakes timeously, smoothly, and progressively</li>
+            <li>Use right foot for braking</li>
+            <li>Maintain proper following distance</li>
+          </ul>
+
+          <h3>3. Accelerator Pedal</h3>
+          <p><strong>Function:</strong> The accelerator controls engine speed and vehicle acceleration.</p>
+          <p><strong>K53 Test Focus:</strong> Understanding acceleration control for safe driving.</p>
+          <ul>
+            <li>Use right foot for acceleration</li>
+            <li>Apply pressure smoothly</li>
+            <li>Maintain appropriate speed for conditions</li>
+          </ul>
+
+          <h2>Steering and Control</h2>
+          <h3>4. Steering Wheel</h3>
+          <p><strong>Function:</strong> Controls the direction of the vehicle.</p>
+          <p><strong>K53 Test Focus:</strong> Proper hand positioning and steering technique.</p>
+          <ul>
+            <li>Hands at 10 and 2 o'clock position</li>
+            <li>Or quarter to 3 position for modern vehicles</li>
+            <li>Keep both hands on the wheel while driving</li>
+            <li>Use smooth steering movements</li>
+          </ul>
+
+          <h3>5. Gear Stick (Manual Transmission)</h3>
+          <p><strong>Function:</strong> Allows you to select different gear ratios for various driving conditions.</p>
+          <p><strong>K53 Test Focus:</strong> Understanding gear selection and when to change gears.</p>
+          <ul>
+            <li>First gear: Starting from a stop</li>
+            <li>Second gear: Low speed driving</li>
+            <li>Third gear: Moderate speed</li>
+            <li>Fourth gear: Highway driving</li>
+            <li>Fifth gear: High-speed cruising</li>
+            <li>Reverse: Backing up</li>
+          </ul>
+
+          <h2>Safety and Control Systems</h2>
+          <h3>6. Parking Brake (Handbrake)</h3>
+          <p><strong>Function:</strong> Prevents the vehicle from rolling when parked or stopped.</p>
+          <p><strong>K53 Test Focus:</strong> When and how to use the parking brake.</p>
+          <ul>
+            <li>Apply when parked or stopped for any length of time</li>
+            <li>Release before driving</li>
+            <li>Use as emergency brake if service brakes fail</li>
+          </ul>
+
+          <h3>7. Indicators (Turn Signals)</h3>
+          <p><strong>Function:</strong> Communicate your intentions to other road users.</p>
+          <p><strong>K53 Test Focus:</strong> Proper use of indicators for safety.</p>
+          <ul>
+            <li>Use when turning left or right</li>
+            <li>Use when changing lanes</li>
+            <li>Use when pulling over or stopping</li>
+            <li>Cancel indicators after completing the maneuver</li>
+          </ul>
+
+          <h2>Visibility and Awareness</h2>
+          <h3>8. Mirrors</h3>
+          <p><strong>Function:</strong> Provide visibility of areas around and behind the vehicle.</p>
+          <p><strong>K53 Test Focus:</strong> Regular mirror checking and proper adjustment.</p>
+          <ul>
+            <li>Check mirrors every 5-8 seconds</li>
+            <li>Adjust mirrors before driving</li>
+            <li>Use mirrors before changing lanes or turning</li>
+            <li>Understand blind spots</li>
+          </ul>
+
+          <h3>9. Windscreen Wipers</h3>
+          <p><strong>Function:</strong> Clear rain, snow, or debris from the windscreen.</p>
+          <p><strong>K53 Test Focus:</strong> Using wipers for visibility in adverse weather.</p>
+          <ul>
+            <li>Use appropriate speed for conditions</li>
+            <li>Ensure wiper blades are in good condition</li>
+            <li>Use washer fluid when needed</li>
+          </ul>
+
+          <h2>Dashboard Instruments</h2>
+          <h3>10. Speedometer</h3>
+          <p><strong>Function:</strong> Shows current vehicle speed.</p>
+          <p><strong>K53 Test Focus:</strong> Monitoring speed and staying within limits.</p>
+
+          <h3>11. Tachometer</h3>
+          <p><strong>Function:</strong> Shows engine revolutions per minute (RPM).</p>
+          <p><strong>K53 Test Focus:</strong> Understanding when to change gears.</p>
+
+          <h3>12. Fuel Gauge</h3>
+          <p><strong>Function:</strong> Shows fuel level in the tank.</p>
+          <p><strong>K53 Test Focus:</strong> Maintaining adequate fuel for your journey.</p>
+
+          <h2>Lighting Controls</h2>
+          <h3>13. Headlights</h3>
+          <p><strong>Function:</strong> Provide illumination for night driving and poor visibility.</p>
+          <p><strong>K53 Test Focus:</strong> Using lights appropriately for conditions.</p>
+          <ul>
+            <li>Use dipped beams in built-up areas</li>
+            <li>Use high beams on open roads when no traffic</li>
+            <li>Switch to dipped beams when approaching other vehicles</li>
+          </ul>
+
+          <h3>14. Hazard Lights</h3>
+          <p><strong>Function:</strong> Warn other drivers of a hazard or emergency.</p>
+          <p><strong>K53 Test Focus:</strong> When to use hazard lights.</p>
+          <ul>
+            <li>Use when vehicle is broken down</li>
+            <li>Use when warning of hazards ahead</li>
+            <li>Use in emergency situations</li>
+          </ul>
+
+          <h2>Practice Tips for K53 Test</h2>
+          <ul>
+            <li>Practice identifying controls with your eyes closed</li>
+            <li>Learn the function of each control thoroughly</li>
+            <li>Understand when each control should be used</li>
+            <li>Practice smooth operation of all controls</li>
+            <li>Take practice tests focusing on vehicle controls</li>
+          </ul>
+
+          <h2>Common K53 Test Questions About Vehicle Controls</h2>
+          <ul>
+            <li>What is the primary function of the clutch pedal?</li>
+            <li>When should you apply the parking brake?</li>
+            <li>How often should you check your mirrors?</li>
+            <li>What is the correct hand position on the steering wheel?</li>
+            <li>When should you use your indicators?</li>
+          </ul>
+
+          <h2>Conclusion</h2>
+          <p>Mastering vehicle controls is essential for passing your K53 test and becoming a safe driver. Practice regularly, understand the function of each control, and develop smooth operation techniques. Use our practice platform to test your knowledge and build confidence.</p>
+        `,
+        author: "Vehicle Expert",
+        publishedDate: "2025-08-15",
+        readTime: "15 min read",
+        category: "Vehicle Controls",
+        tags: ["vehicle controls", "K53", "driving test", "car controls", "manual transmission", "clutch", "brakes"],
+        featured: false,
+        slug: "k53-vehicle-controls-complete-guide",
+        imageUrl: "/images/blog/vehicle-controls.jpg",
+        views: 8760,
+        likes: 523,
+        externalLinks: [
+          {
+            title: "Vehicle Manufacturers Association",
+            url: "https://www.naamsa.co.za",
+            description: "Information about vehicle specifications and controls"
+          }
+        ],
+        internalLinks: [
+          {
+            title: "Vehicle Controls Practice",
+            url: "/practice?category=controls",
+            description: "Practice vehicle controls questions"
+          },
+          {
+            title: "K53 Study Guide",
+            url: "/docs",
+            description: "Comprehensive K53 study materials"
+          }
+        ],
+        seoTitle: "K53 Vehicle Controls Complete Guide | Car Controls & Functions",
+        seoDescription: "Master all vehicle controls for your K53 test. Comprehensive guide covering clutch, brakes, steering, gears, and all essential car controls with step-by-step explanations.",
+        seoKeywords: "K53 vehicle controls, car controls, clutch pedal, brake pedal, steering wheel, gear stick, K53 test"
+      },
+      {
+        id: "5",
+        title: "K53 Road Signs: Complete Guide to South African Traffic Signs",
+        excerpt: "Master all road signs for your K53 test. Comprehensive visual guide with explanations, memory techniques, and real-world examples from South African roads.",
+        content: `
+          <h2>Introduction to Road Signs</h2>
+          <p>Road signs are the universal language of the road, communicating important information to all road users. Understanding these signs is crucial for passing your K53 test and safe driving in South Africa.</p>
+
+          <h2>Categories of Road Signs</h2>
+          <p>South African road signs are divided into three main categories:</p>
+          <ul>
+            <li><strong>Regulatory Signs:</strong> Tell you what you must or must not do</li>
+            <li><strong>Warning Signs:</strong> Alert you to potential hazards ahead</li>
+            <li><strong>Informational Signs:</strong> Provide useful information about routes and facilities</li>
+          </ul>
+
+          <h2>Regulatory Signs (Red and White)</h2>
+          <h3>Stop Sign</h3>
+          <p><strong>Appearance:</strong> Red octagon with white "STOP" text</p>
+          <p><strong>Meaning:</strong> You must come to a complete stop and yield to all other traffic</p>
+          <p><strong>K53 Test Focus:</strong> Understanding that this is the most important regulatory sign</p>
+
+          <h3>Yield Sign</h3>
+          <p><strong>Appearance:</strong> Red triangle with white border and "YIELD" text</p>
+          <p><strong>Meaning:</strong> Slow down and be prepared to stop if necessary</p>
+          <p><strong>K53 Test Focus:</strong> Difference between stop and yield requirements</p>
+
+          <h3>Speed Limit Signs</h3>
+          <p><strong>Appearance:</strong> White circle with red border and black numbers</p>
+          <p><strong>Common Limits:</strong></p>
+          <ul>
+            <li>60 km/h - Built-up areas (default)</li>
+            <li>80 km/h - Rural roads</li>
+            <li>100 km/h - Provincial roads</li>
+            <li>120 km/h - National highways</li>
+          </ul>
+
+          <h3>No Entry Sign</h3>
+          <p><strong>Appearance:</strong> Red circle with white horizontal bar</p>
+          <p><strong>Meaning:</strong> Do not enter this road or area</p>
+
+          <h3>One Way Sign</h3>
+          <p><strong>Appearance:</strong> White arrow on blue background</p>
+          <p><strong>Meaning:</strong> Traffic flows in one direction only</p>
+
+          <h2>Warning Signs (Yellow and Black)</h2>
+          <h3>Pedestrian Crossing</h3>
+          <p><strong>Appearance:</strong> Yellow triangle with black pedestrian symbol</p>
+          <p><strong>Meaning:</strong> Be prepared for pedestrians crossing the road</p>
+          <p><strong>K53 Test Focus:</strong> Reducing speed and being extra cautious</p>
+
+          <h3>School Crossing</h3>
+          <p><strong>Appearance:</strong> Yellow triangle with black school children symbol</p>
+          <p><strong>Meaning:</strong> School children may be crossing</p>
+          <p><strong>K53 Test Focus:</strong> Special care required for children</p>
+
+          <h3>Sharp Bend</h3>
+          <p><strong>Appearance:</strong> Yellow triangle with black curved arrow</p>
+          <p><strong>Meaning:</strong> Sharp curve in the road ahead</p>
+          <p><strong>K53 Test Focus:</strong> Reducing speed before the bend</p>
+
+          <h3>Steep Hill</h3>
+          <p><strong>Appearance:</strong> Yellow triangle with black hill symbol</p>
+          <p><strong>Meaning:</strong> Steep incline or decline ahead</p>
+          <p><strong>K53 Test Focus:</strong> Appropriate gear selection for hills</p>
+
+          <h2>Traffic Lights</h2>
+          <h3>Red Light</h3>
+          <p><strong>Meaning:</strong> Stop completely and wait for green</p>
+          <p><strong>K53 Test Focus:</strong> Complete stop required, no exceptions</p>
+
+          <h3>Yellow Light</h3>
+          <p><strong>Meaning:</strong> Prepare to stop unless it's unsafe to do so</p>
+          <p><strong>K53 Test Focus:</strong> Judgment call based on speed and distance</p>
+
+          <h3>Green Light</h3>
+          <p><strong>Meaning:</strong> Proceed if the way is clear</p>
+          <p><strong>K53 Test Focus:</strong> Check for pedestrians and other traffic</p>
+
+          <h2>Road Markings</h2>
+          <h3>Stop Line</h3>
+          <p><strong>Appearance:</strong> White line across the road</p>
+          <p><strong>Meaning:</strong> Stop here when required</p>
+
+          <h3>Yield Line</h3>
+          <p><strong>Appearance:</strong> White triangles pointing toward you</p>
+          <p><strong>Meaning:</strong> Yield to other traffic</p>
+
+          <h3>Pedestrian Crossing</h3>
+          <p><strong>Appearance:</strong> White parallel lines across the road</p>
+          <p><strong>Meaning:</strong> Pedestrians have right of way</p>
+
+          <h2>Memory Techniques for Road Signs</h2>
+          <h3>Color Coding</h3>
+          <ul>
+            <li><strong>Red:</strong> Stop, prohibition, or restriction</li>
+            <li><strong>Yellow:</strong> Warning or caution</li>
+            <li><strong>Blue:</strong> Information or guidance</li>
+            <li><strong>Green:</strong> Positive action or direction</li>
+          </ul>
+
+          <h3>Shape Recognition</h3>
+          <ul>
+            <li><strong>Octagon:</strong> Stop sign (most important)</li>
+            <li><strong>Triangle:</strong> Warning signs</li>
+            <li><strong>Circle:</strong> Regulatory signs</li>
+            <li><strong>Rectangle:</strong> Information signs</li>
+          </ul>
+
+          <h2>Common K53 Test Questions About Road Signs</h2>
+          <ul>
+            <li>What does a red traffic light mean?</li>
+            <li>What should you do at a stop sign?</li>
+            <li>What is the speed limit in a built-up area?</li>
+            <li>What does a yellow warning sign indicate?</li>
+            <li>How should you approach a pedestrian crossing?</li>
+          </ul>
+
+          <h2>Study Tips for Road Signs</h2>
+          <ul>
+            <li>Learn signs by category rather than individually</li>
+            <li>Practice identifying signs while driving or walking</li>
+            <li>Use flashcards with sign images</li>
+            <li>Understand the reasoning behind each sign</li>
+            <li>Take practice tests focusing on road signs</li>
+          </ul>
+
+          <h2>Real-World Application</h2>
+          <p>Understanding road signs isn't just about passing your test - it's about safe driving:</p>
+          <ul>
+            <li>Signs help you anticipate hazards</li>
+            <li>They guide you to your destination</li>
+            <li>They keep you and others safe</li>
+            <li>They help you avoid traffic violations</li>
+          </ul>
+
+          <h2>Conclusion</h2>
+          <p>Mastering road signs is essential for passing your K53 test and becoming a safe driver. Use this guide along with our practice tests to build your knowledge and confidence. Remember, road signs are there to help you navigate safely and efficiently.</p>
+        `,
+        author: "Traffic Safety Expert",
+        publishedDate: "2025-08-14",
+        readTime: "18 min read",
+        category: "Road Signs",
+        tags: ["road signs", "traffic signs", "K53", "learner's licence", "traffic safety", "South Africa"],
+        featured: false,
+        slug: "k53-road-signs-complete-guide",
+        imageUrl: "/images/blog/road-signs-guide.jpg",
+        views: 9870,
+        likes: 634,
+        externalLinks: [
+          {
+            title: "SABS Traffic Sign Standards",
+            url: "https://www.sabs.co.za",
+            description: "South African Bureau of Standards traffic sign specifications"
+          }
+        ],
+        internalLinks: [
+          {
+            title: "Interactive Road Signs Quiz",
+            url: "/practice?category=signs",
+            description: "Test your knowledge of road signs"
+          },
+          {
+            title: "K53 Study Materials",
+            url: "/docs",
+            description: "Comprehensive study guides and documentation"
+          }
+        ],
+        seoTitle: "K53 Road Signs Complete Guide | South African Traffic Signs",
+        seoDescription: "Master all road signs for your K53 test. Comprehensive visual guide with explanations, memory techniques, and real-world examples from South African roads.",
+        seoKeywords: "K53 road signs, traffic signs, South Africa road signs, K53 test signs, traffic light rules, stop signs"
+      }
+    ];
+  }
+
+  public async getAllPosts(): Promise<BlogPost[]> {
+    return this.posts;
+  }
+
+  public async getPostBySlug(slug: string): Promise<BlogPost | null> {
+    return this.posts.find(post => post.slug === slug) || null;
+  }
+
+  public async getFeaturedPosts(): Promise<BlogPost[]> {
+    return this.posts.filter(post => post.featured);
+  }
+
+  public async getPostsByCategory(category: string): Promise<BlogPost[]> {
+    return this.posts.filter(post => post.category === category);
+  }
+
+  public async searchPosts(filters: BlogSearchFilters): Promise<BlogPost[]> {
+    let filteredPosts = [...this.posts];
+
+    if (filters.searchTerm) {
+      const searchTerm = filters.searchTerm.toLowerCase();
+      filteredPosts = filteredPosts.filter(post =>
+        post.title.toLowerCase().includes(searchTerm) ||
+        post.excerpt.toLowerCase().includes(searchTerm) ||
+        post.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+      );
+    }
+
+    if (filters.category) {
+      filteredPosts = filteredPosts.filter(post => post.category === filters.category);
+    }
+
+    if (filters.tags && filters.tags.length > 0) {
+      filteredPosts = filteredPosts.filter(post =>
+        filters.tags!.some(tag => post.tags.includes(tag))
+      );
+    }
+
+    if (filters.author) {
+      filteredPosts = filteredPosts.filter(post => post.author === filters.author);
+    }
+
+    if (filters.featured !== undefined) {
+      filteredPosts = filteredPosts.filter(post => post.featured === filters.featured);
+    }
+
+    if (filters.dateRange) {
+      filteredPosts = filteredPosts.filter(post => {
+        const postDate = new Date(post.publishedDate);
+        return postDate >= filters.dateRange!.start && postDate <= filters.dateRange!.end;
+      });
+    }
+
+    return filteredPosts;
+  }
+
+  public async getRelatedPosts(post: BlogPost, limit: number = 3): Promise<BlogPost[]> {
+    const relatedPosts = this.posts.filter(p =>
+      p.id !== post.id &&
+      (p.category === post.category ||
+        p.tags.some(tag => post.tags.includes(tag)))
+    );
+
+    // Sort by relevance (category match first, then tag matches)
+    relatedPosts.sort((a, b) => {
+      const aCategoryMatch = a.category === post.category ? 1 : 0;
+      const bCategoryMatch = b.category === post.category ? 1 : 0;
+      
+      if (aCategoryMatch !== bCategoryMatch) {
+        return bCategoryMatch - aCategoryMatch;
+      }
+
+      const aTagMatches = a.tags.filter(tag => post.tags.includes(tag)).length;
+      const bTagMatches = b.tags.filter(tag => post.tags.includes(tag)).length;
+      
+      return bTagMatches - aTagMatches;
+    });
+
+    return relatedPosts.slice(0, limit);
+  }
+
+  public async getCategories(): Promise<string[]> {
+    const categories = [...new Set(this.posts.map(post => post.category))];
+    return categories.sort();
+  }
+
+  public async getTags(): Promise<string[]> {
+    const allTags = this.posts.flatMap(post => post.tags);
+    const uniqueTags = [...new Set(allTags)];
+    return uniqueTags.sort();
+  }
+
+  public async getAnalytics(): Promise<BlogAnalytics> {
+    const totalViews = this.posts.reduce((sum, post) => sum + post.views, 0);
+    const totalLikes = this.posts.reduce((sum, post) => sum + post.likes, 0);
+    const totalPosts = this.posts.length;
+
+    const popularPosts = [...this.posts]
+      .sort((a, b) => b.views - a.views)
+      .slice(0, 5);
+
+    const recentPosts = [...this.posts]
+      .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
+      .slice(0, 5);
+
+    const categoryStats = this.posts.reduce((stats, post) => {
+      const existing = stats.find(s => s.category === post.category);
+      if (existing) {
+        existing.count++;
+        existing.views += post.views;
+      } else {
+        stats.push({
+          category: post.category,
+          count: 1,
+          views: post.views
+        });
+      }
+      return stats;
+    }, [] as Array<{ category: string; count: number; views: number }>);
+
+    return {
+      totalViews,
+      totalLikes,
+      totalPosts,
+      popularPosts,
+      recentPosts,
+      categoryStats: categoryStats.sort((a, b) => b.views - a.views)
+    };
+  }
+
+  public async incrementViews(slug: string): Promise<void> {
+    const post = this.posts.find(p => p.slug === slug);
+    if (post) {
+      post.views++;
+      // In a real application, you would save this to the database
+      console.log(`View count updated for ${slug}: ${post.views}`);
+    }
+  }
+
+  public async incrementLikes(slug: string): Promise<void> {
+    const post = this.posts.find(p => p.slug === slug);
+    if (post) {
+      post.likes++;
+      // In a real application, you would save this to the database
+      console.log(`Like count updated for ${slug}: ${post.likes}`);
+    }
+  }
+
+  public generateSEOMetadata(post: BlogPost) {
+    return {
+      title: post.seoTitle || `${post.title} | SuperK53 Blog`,
+      description: post.seoDescription || post.excerpt,
+      keywords: post.seoKeywords || post.tags.join(", "),
+      ogType: "article" as const,
+      ogImage: post.imageUrl,
+      ogImageAlt: post.title,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: post.title,
+        description: post.excerpt,
+        image: post.imageUrl,
+        author: {
+          "@type": "Organization",
+          name: post.author,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "SuperK53",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://superk53.co.za/images/pwa/icon-512x512.svg",
+          },
+        },
+        mainEntityOfPage: `https://superk53.co.za/blog/${post.slug}`,
+        datePublished: post.publishedDate,
+        dateModified: post.publishedDate,
+        wordCount: post.content.split(" ").length,
+      },
+    };
+  }
+}
+
+export const blogService = BlogService.getInstance(); 

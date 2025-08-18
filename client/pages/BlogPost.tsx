@@ -18,219 +18,62 @@ import {
   Star,
   Users,
   TrendingUp,
+  Eye,
+  ThumbsUp,
+  Tag,
+  FileText,
 } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { SEO_CONFIGS } from "@/hooks/useSEO";
+import { blogService, type BlogPost } from "@/services/blogService";
 
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  publishedDate: string;
-  readTime: string;
-  category: string;
-  tags: string[];
-  featured: boolean;
-  slug: string;
-  imageUrl?: string;
-}
 
-const BLOG_POSTS: BlogPost[] = [
-  {
-    id: "1",
-    title: "Complete K53 Learner's Licence Test Guide 2025",
-    excerpt: "Everything you need to know about passing your K53 learner's licence test in South Africa. Expert tips, study strategies, and test preparation advice.",
-    content: `
-      <h2>Introduction to the K53 Learner's Licence Test</h2>
-      <p>The K53 learner's licence test is the first step towards obtaining your driver's licence in South Africa. This comprehensive guide will walk you through everything you need to know to pass your test successfully.</p>
-
-      <h2>What is the K53 Test?</h2>
-      <p>The K53 test is the official driving test system used in South Africa. It consists of three main components:</p>
-      <ul>
-        <li><strong>Vehicle Controls Test:</strong> Demonstrating your knowledge of vehicle controls and their functions</li>
-        <li><strong>Road Signs Test:</strong> Identifying and understanding traffic signs and signals</li>
-        <li><strong>Traffic Rules Test:</strong> Understanding South African traffic laws and regulations</li>
-      </ul>
-
-      <h2>Test Structure and Requirements</h2>
-      <h3>Test Format</h3>
-      <p>The K53 learner's licence test consists of 64 questions total:</p>
-      <ul>
-        <li>Vehicle Controls: 21 questions</li>
-        <li>Road Signs: 23 questions</li>
-        <li>Traffic Rules: 20 questions</li>
-      </ul>
-
-      <h3>Passing Requirements</h3>
-      <p>To pass the K53 test, you must:</p>
-      <ul>
-        <li>Score at least 77% overall (49 out of 64 questions correct)</li>
-        <li>Pass each section individually with at least 70%</li>
-        <li>Complete the test within the allocated time</li>
-      </ul>
-
-      <h2>Preparation Strategies</h2>
-      <h3>Study Plan</h3>
-      <p>Create a structured study plan:</p>
-      <ol>
-        <li><strong>Week 1-2:</strong> Focus on vehicle controls and their functions</li>
-        <li><strong>Week 3-4:</strong> Study road signs and their meanings</li>
-        <li><strong>Week 5-6:</strong> Learn traffic rules and regulations</li>
-        <li><strong>Week 7:</strong> Practice tests and review weak areas</li>
-      </ol>
-
-      <h3>Practice Techniques</h3>
-      <ul>
-        <li>Take regular practice tests to identify weak areas</li>
-        <li>Use visual aids to memorize road signs</li>
-        <li>Create flashcards for vehicle controls</li>
-        <li>Study in short, focused sessions</li>
-      </ul>
-
-      <h2>Test Day Preparation</h2>
-      <h3>What to Bring</h3>
-      <ul>
-        <li>Valid South African ID document or passport</li>
-        <li>Proof of residence (not older than 3 months)</li>
-        <li>Two passport-sized photographs</li>
-        <li>Test fee payment</li>
-        <li>Pen for any written components</li>
-      </ul>
-
-      <h3>Mental Preparation</h3>
-      <ul>
-        <li>Get adequate sleep the night before</li>
-        <li>Eat a healthy breakfast</li>
-        <li>Arrive at least 30 minutes early</li>
-        <li>Stay calm and focused during the test</li>
-      </ul>
-
-      <h2>Common Mistakes to Avoid</h2>
-      <ul>
-        <li><strong>Rushing through questions:</strong> Take your time to read each question carefully</li>
-        <li><strong>Not reviewing answers:</strong> Use any remaining time to review your answers</li>
-        <li><strong>Ignoring weak areas:</strong> Focus extra study time on topics you find difficult</li>
-        <li><strong>Test anxiety:</strong> Practice relaxation techniques before the test</li>
-      </ul>
-
-      <h2>After the Test</h2>
-      <p>If you pass:</p>
-      <ul>
-        <li>You'll receive your learner's licence immediately</li>
-        <li>Keep it safe and carry it when driving</li>
-        <li>Start preparing for your driver's licence test</li>
-      </ul>
-
-      <p>If you don't pass:</p>
-      <ul>
-        <li>Don't be discouraged - many people need multiple attempts</li>
-        <li>Review your weak areas and study more</li>
-        <li>You can retake the test after 7 days</li>
-        <li>Consider additional practice with our platform</li>
-      </ul>
-
-      <h2>Conclusion</h2>
-      <p>Passing your K53 learner's licence test requires preparation, practice, and patience. Use this guide along with our comprehensive practice platform to ensure you're fully prepared for test day.</p>
-    `,
-    author: "SuperK53 Team",
-    publishedDate: "2025-08-18",
-    readTime: "8 min read",
-    category: "Study Guide",
-    tags: ["K53 test", "learner's licence", "study guide", "test preparation"],
-    featured: true,
-    slug: "complete-k53-learners-licence-test-guide-2025",
-  },
-  {
-    id: "2",
-    title: "Top 10 Most Common K53 Test Questions You Must Know",
-    excerpt: "Discover the most frequently asked questions in K53 learner's licence tests and learn how to answer them correctly every time.",
-    content: `
-      <h2>Introduction</h2>
-      <p>Understanding the most common K53 test questions can significantly improve your chances of passing. Here are the top 10 questions that appear most frequently in K53 learner's licence tests.</p>
-
-      <h2>1. What is the primary function of the clutch pedal?</h2>
-      <p><strong>Answer:</strong> To disengage the engine from the transmission for gear changes</p>
-      <p><strong>Why it's important:</strong> This is fundamental knowledge for manual transmission vehicles and appears in almost every test.</p>
-
-      <h2>2. When should you use your indicators?</h2>
-      <p><strong>Answer:</strong> When turning, changing lanes, or pulling over</p>
-      <p><strong>Why it's important:</strong> Proper use of indicators is crucial for road safety and is heavily tested.</p>
-
-      <h2>3. What does a red traffic light mean?</h2>
-      <p><strong>Answer:</strong> Stop completely and wait for the light to turn green</p>
-      <p><strong>Why it's important:</strong> Traffic light rules are essential knowledge for all drivers.</p>
-
-      <h2>4. How often should you check your mirrors while driving?</h2>
-      <p><strong>Answer:</strong> Every 5 to 8 seconds</p>
-      <p><strong>Why it's important:</strong> Regular mirror checking is a key safety practice.</p>
-
-      <h2>5. What should you do when approaching a stop sign?</h2>
-      <p><strong>Answer:</strong> Come to a complete stop and yield to other traffic</p>
-      <p><strong>Why it's important:</strong> Stop signs are common and their rules are strictly enforced.</p>
-
-      <h2>6. What is the correct hand position on the steering wheel?</h2>
-      <p><strong>Answer:</strong> 10 and 2 o'clock or quarter to 3 position</p>
-      <p><strong>Why it's important:</strong> Proper hand positioning is essential for safe driving.</p>
-
-      <h2>7. When should you apply the parking brake?</h2>
-      <p><strong>Answer:</strong> When the vehicle is parked or stopped for any length of time</p>
-      <p><strong>Why it's important:</strong> Parking brake usage prevents vehicle rolling.</p>
-
-      <h2>8. What does a yellow traffic light mean?</h2>
-      <p><strong>Answer:</strong> Prepare to stop unless it's unsafe to do so</p>
-      <p><strong>Why it's important:</strong> Yellow light interpretation is crucial for safe driving.</p>
-
-      <h2>9. How should you apply the service brake?</h2>
-      <p><strong>Answer:</strong> Timeously, smoothly and progressively</p>
-      <p><strong>Why it's important:</strong> Proper braking technique ensures safety and passenger comfort.</p>
-
-      <h2>10. What is the speed limit in a built-up area unless otherwise indicated?</h2>
-      <p><strong>Answer:</strong> 60 km/h</p>
-      <p><strong>Why it's important:</strong> Speed limits are fundamental traffic rules.</p>
-
-      <h2>Study Tips for These Questions</h2>
-      <ul>
-        <li>Understand the reasoning behind each answer</li>
-        <li>Practice these questions regularly</li>
-        <li>Learn the related concepts, not just the answers</li>
-        <li>Use our practice tests to reinforce your knowledge</li>
-      </ul>
-
-      <h2>Conclusion</h2>
-      <p>Mastering these common questions will give you a solid foundation for your K53 test. Remember to study the underlying principles, not just memorize answers.</p>
-    `,
-    author: "Driving Instructor",
-    publishedDate: "2025-08-17",
-    readTime: "6 min read",
-    category: "Test Questions",
-    tags: ["K53 questions", "common questions", "test tips", "road signs"],
-    featured: true,
-    slug: "top-10-most-common-k53-test-questions",
-  },
-];
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const foundPost = BLOG_POSTS.find((p) => p.slug === slug);
-    setPost(foundPost || null);
+    const loadPost = async () => {
+      if (!slug) return;
+      
+      try {
+        const foundPost = await blogService.getPostBySlug(slug);
+        setPost(foundPost);
 
-    if (foundPost) {
-      // Find related posts based on tags and category
-      const related = BLOG_POSTS.filter(
-        (p) =>
-          p.id !== foundPost.id &&
-          (p.category === foundPost.category ||
-            p.tags.some((tag) => foundPost.tags.includes(tag)))
-      ).slice(0, 3);
-      setRelatedPosts(related);
-    }
+        if (foundPost) {
+          // Increment view count
+          await blogService.incrementViews(slug);
+          
+          // Get related posts
+          const related = await blogService.getRelatedPosts(foundPost, 3);
+          setRelatedPosts(related);
+        }
+      } catch (error) {
+        console.error('Failed to load blog post:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPost();
   }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-pulse">
+            <div className="h-8 bg-slate-700 rounded mb-4 mx-auto w-64"></div>
+            <div className="h-4 bg-slate-700 rounded mb-6 mx-auto w-96"></div>
+            <div className="h-10 bg-slate-700 rounded mx-auto w-32"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!post) {
     return (
@@ -246,9 +89,12 @@ export default function BlogPost() {
     );
   }
 
+  // Create dynamic SEO config for this specific post
+  const postSEO = blogService.generateSEOMetadata(post);
+
   return (
     <>
-      <SEO {...SEO_CONFIGS.blogPost} />
+      <SEO {...postSEO} />
       <div className="min-h-screen bg-slate-900">
         {/* Header */}
         <header className="bg-slate-800 border-b border-black sticky top-0 z-50">
@@ -349,7 +195,7 @@ export default function BlogPost() {
                     {post.category}
                   </Badge>
                   {post.featured && (
-                    <Badge className="bg-yellow-600 text-white border-0">
+                    <Badge className="bg-slate-600 text-white border-0">
                       Featured
                     </Badge>
                   )}
@@ -375,10 +221,33 @@ export default function BlogPost() {
                       {post.readTime}
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" className="border-black text-slate-300 hover:bg-slate-700 hover:text-white">
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share
-                  </Button>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center">
+                      <Eye className="h-4 w-4 mr-1" />
+                      {post.views.toLocaleString()}
+                    </div>
+                    <div className="flex items-center">
+                      <ThumbsUp className="h-4 w-4 mr-1" />
+                      {post.likes}
+                    </div>
+                    <Button variant="outline" size="sm" className="border-black text-slate-300 hover:bg-slate-700 hover:text-white">
+                      <Share2 className="h-4 w-4 mr-2" />
+                      Share
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Article Image */}
+              <div className="bg-slate-800 border border-black p-8 mb-8">
+                <div className="relative h-64 bg-slate-700 rounded-lg overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center">
+                    <div className="text-center">
+                      <FileText className="h-24 w-24 text-slate-400 mx-auto mb-4" />
+                      <p className="text-slate-300 text-lg">Article Featured Image</p>
+                      <p className="text-slate-400 text-sm mt-2">{post.title}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -390,9 +259,62 @@ export default function BlogPost() {
                 />
               </div>
 
+              {/* External Links */}
+              {post.externalLinks.length > 0 && (
+                <div className="bg-slate-800 border border-black p-6 mb-8">
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                    <ExternalLink className="h-5 w-5 mr-2" />
+                    External Resources
+                  </h3>
+                  <div className="space-y-3">
+                    {post.externalLinks.map((link, index) => (
+                      <div key={index} className="bg-slate-700 border border-black p-4 rounded">
+                        <a
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-white hover:text-slate-300 font-medium flex items-center"
+                        >
+                          {link.title}
+                          <ExternalLink className="h-4 w-4 ml-2" />
+                        </a>
+                        <p className="text-slate-400 text-sm mt-1">{link.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Internal Links */}
+              {post.internalLinks.length > 0 && (
+                <div className="bg-slate-800 border border-black p-6 mb-8">
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                    <BookOpen className="h-5 w-5 mr-2" />
+                    Related Resources
+                  </h3>
+                  <div className="space-y-3">
+                    {post.internalLinks.map((link, index) => (
+                      <div key={index} className="bg-slate-700 border border-black p-4 rounded">
+                        <Link
+                          to={link.url}
+                          className="text-white hover:text-slate-300 font-medium flex items-center"
+                        >
+                          {link.title}
+                          <ChevronRight className="h-4 w-4 ml-2" />
+                        </Link>
+                        <p className="text-slate-400 text-sm mt-1">{link.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Tags */}
               <div className="bg-slate-800 border border-black p-6 mb-8">
-                <h3 className="text-lg font-semibold text-white mb-4">Tags</h3>
+                <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                  <Tag className="h-5 w-5 mr-2" />
+                  Tags
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
                     <Badge

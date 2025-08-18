@@ -100,6 +100,46 @@
     scroll-behavior: smooth;
   }
 
+  /* Override any yellow text in blog content */
+  .prose,
+  .prose *,
+  .prose-invert,
+  .prose-invert * {
+    color: #cbd5e1 !important;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6,
+  .prose strong,
+  .prose b {
+    color: #ffffff !important;
+  }
+
+  .prose a {
+    color: #ffffff !important;
+  }
+
+  .prose a:hover {
+    color: #e2e8f0 !important;
+  }
+
+  .prose ul,
+  .prose ol {
+    color: #cbd5e1 !important;
+  }
+
+  .prose li {
+    color: #cbd5e1 !important;
+  }
+
+  .prose p {
+    color: #cbd5e1 !important;
+  }
+
   /* Enhanced focus management for accessibility */
   *:focus-visible {
     @apply outline-none ring-2 ring-white ring-offset-2 ring-offset-slate-800;

@@ -21,175 +21,73 @@ import {
   Filter,
   ChevronDown,
   ChevronUp,
+  ExternalLink,
+  Tag,
+  Eye,
+  ThumbsUp,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { SEO_CONFIGS } from "@/hooks/useSEO";
+import { blogService, BlogPost, BlogSearchFilters } from "@/services/blogService";
 
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  publishedDate: string;
-  readTime: string;
-  category: string;
-  tags: string[];
-  featured: boolean;
-  slug: string;
-  imageUrl?: string;
-}
 
-const BLOG_POSTS: BlogPost[] = [
-  {
-    id: "1",
-    title: "Complete K53 Learner's Licence Test Guide 2025",
-    excerpt: "Everything you need to know about passing your K53 learner's licence test in South Africa. Expert tips, study strategies, and test preparation advice.",
-    content: "Complete guide content here...",
-    author: "SuperK53 Team",
-    publishedDate: "2025-08-18",
-    readTime: "8 min read",
-    category: "Study Guide",
-    tags: ["K53 test", "learner's licence", "study guide", "test preparation"],
-    featured: true,
-    slug: "complete-k53-learners-licence-test-guide-2025",
-  },
-  {
-    id: "2",
-    title: "Top 10 Most Common K53 Test Questions You Must Know",
-    excerpt: "Discover the most frequently asked questions in K53 learner's licence tests and learn how to answer them correctly every time.",
-    content: "Top questions content here...",
-    author: "Driving Instructor",
-    publishedDate: "2025-08-17",
-    readTime: "6 min read",
-    category: "Test Questions",
-    tags: ["K53 questions", "common questions", "test tips", "road signs"],
-    featured: true,
-    slug: "top-10-most-common-k53-test-questions",
-  },
-  {
-    id: "3",
-    title: "K53 Road Signs: Complete Guide to Understanding Traffic Signs",
-    excerpt: "Master all the road signs you need to know for your K53 test. Visual guide with explanations and memory techniques.",
-    content: "Road signs content here...",
-    author: "Traffic Safety Expert",
-    publishedDate: "2025-08-16",
-    readTime: "10 min read",
-    category: "Road Signs",
-    tags: ["road signs", "traffic signs", "K53", "learner's licence"],
-    featured: false,
-    slug: "k53-road-signs-complete-guide",
-  },
-  {
-    id: "4",
-    title: "How to Pass Your K53 Test on the First Try",
-    excerpt: "Proven strategies and techniques to ensure you pass your K53 learner's licence test on your first attempt.",
-    content: "First try content here...",
-    author: "K53 Specialist",
-    publishedDate: "2025-08-15",
-    readTime: "7 min read",
-    category: "Test Tips",
-    tags: ["pass first time", "test strategy", "K53 tips", "success"],
-    featured: false,
-    slug: "how-to-pass-k53-test-first-try",
-  },
-  {
-    id: "5",
-    title: "K53 Vehicle Controls: Essential Knowledge for Your Test",
-    excerpt: "Learn all about vehicle controls, their functions, and how to demonstrate them correctly during your K53 test.",
-    content: "Vehicle controls content here...",
-    author: "Vehicle Expert",
-    publishedDate: "2025-08-14",
-    readTime: "9 min read",
-    category: "Vehicle Controls",
-    tags: ["vehicle controls", "K53", "driving test", "car controls"],
-    featured: false,
-    slug: "k53-vehicle-controls-essential-knowledge",
-  },
-  {
-    id: "6",
-    title: "K53 Test Requirements: What You Need to Bring and Know",
-    excerpt: "Complete checklist of documents, requirements, and preparations needed before taking your K53 learner's licence test.",
-    content: "Requirements content here...",
-    author: "DLTC Advisor",
-    publishedDate: "2025-08-13",
-    readTime: "5 min read",
-    category: "Requirements",
-    tags: ["test requirements", "documents", "K53", "preparation"],
-    featured: false,
-    slug: "k53-test-requirements-checklist",
-  },
-  {
-    id: "7",
-    title: "K53 Traffic Rules: Understanding South African Traffic Laws",
-    excerpt: "Comprehensive guide to South African traffic rules and regulations you need to know for your K53 test.",
-    content: "Traffic rules content here...",
-    author: "Traffic Law Expert",
-    publishedDate: "2025-08-12",
-    readTime: "12 min read",
-    category: "Traffic Rules",
-    tags: ["traffic rules", "traffic laws", "K53", "South Africa"],
-    featured: false,
-    slug: "k53-traffic-rules-south-african-laws",
-  },
-  {
-    id: "8",
-    title: "K53 Test Anxiety: How to Stay Calm and Confident",
-    excerpt: "Practical tips and techniques to overcome test anxiety and perform your best during your K53 learner's licence test.",
-    content: "Test anxiety content here...",
-    author: "Psychology Expert",
-    publishedDate: "2025-08-11",
-    readTime: "6 min read",
-    category: "Mental Preparation",
-    tags: ["test anxiety", "confidence", "K53", "mental preparation"],
-    featured: false,
-    slug: "k53-test-anxiety-stay-calm-confident",
-  },
-];
-
-const CATEGORIES = [
-  "All",
-  "Study Guide",
-  "Test Questions",
-  "Road Signs",
-  "Vehicle Controls",
-  "Test Tips",
-  "Requirements",
-  "Traffic Rules",
-  "Mental Preparation",
-];
 
 export default function Blog() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
-  const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>(BLOG_POSTS);
+  const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const CATEGORIES = ["All", ...categories];
 
   useEffect(() => {
-    let filtered = BLOG_POSTS;
+    const loadBlogData = async () => {
+      try {
+        const posts = await blogService.getAllPosts();
+        const cats = await blogService.getCategories();
+        setAllPosts(posts);
+        setCategories(cats);
+        setFilteredPosts(posts);
+      } catch (error) {
+        console.error('Failed to load blog data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (post) =>
-          post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          post.tags.some((tag) =>
-            tag.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-      );
+    loadBlogData();
+  }, []);
+
+  useEffect(() => {
+    const filterPosts = async () => {
+      const filters: BlogSearchFilters = {};
+      
+      if (searchTerm) {
+        filters.searchTerm = searchTerm;
+      }
+      
+      if (selectedCategory !== "All") {
+        filters.category = selectedCategory;
+      }
+
+      try {
+        const filtered = await blogService.searchPosts(filters);
+        setFilteredPosts(filtered);
+      } catch (error) {
+        console.error('Failed to filter posts:', error);
+      }
+    };
+
+    if (!loading) {
+      filterPosts();
     }
+  }, [searchTerm, selectedCategory, loading]);
 
-    // Filter by category
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter((post) => post.category === selectedCategory);
-    }
-
-    setFilteredPosts(filtered);
-  }, [searchTerm, selectedCategory]);
-
-  const featuredPosts = BLOG_POSTS.filter((post) => post.featured);
+  const featuredPosts = allPosts.filter((post) => post.featured);
   const regularPosts = filteredPosts.filter((post) => !post.featured);
 
   return (
@@ -354,8 +252,31 @@ export default function Blog() {
           </div>
         </section>
 
+        {/* Loading State */}
+        {loading && (
+          <section className="py-16">
+            <div className="container mx-auto px-4">
+              <div className="max-w-6xl mx-auto text-center">
+                <div className="animate-pulse">
+                  <div className="h-8 bg-slate-700 rounded mb-8 mx-auto w-64"></div>
+                  <div className="grid md:grid-cols-2 gap-8">
+                    {[1, 2].map((i) => (
+                      <div key={i} className="bg-slate-800 border border-black p-6">
+                        <div className="h-48 bg-slate-700 rounded mb-4"></div>
+                        <div className="h-6 bg-slate-700 rounded mb-2"></div>
+                        <div className="h-4 bg-slate-700 rounded mb-4"></div>
+                        <div className="h-4 bg-slate-700 rounded w-3/4"></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Featured Posts */}
-        {featuredPosts.length > 0 && (
+        {!loading && featuredPosts.length > 0 && (
           <section className="py-16">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
@@ -370,17 +291,27 @@ export default function Blog() {
                   {featuredPosts.map((post) => (
                     <Card
                       key={post.id}
-                      className="bg-slate-800 border border-black hover:border-white transition-colors"
+                      className="bg-slate-800 border border-black hover:border-white transition-colors overflow-hidden"
                     >
-                      <CardHeader className="bg-slate-700 border-b border-black">
-                        <div className="flex items-center justify-between mb-2">
+                      <div className="relative h-48 bg-slate-700">
+                        <div className="absolute inset-0 bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center">
+                          <div className="text-center">
+                            <FileText className="h-16 w-16 text-slate-400 mx-auto mb-2" />
+                            <p className="text-slate-300 text-sm">Article Image</p>
+                          </div>
+                        </div>
+                        <div className="absolute top-4 left-4">
                           <Badge className="bg-slate-600 text-white border-0">
                             {post.category}
                           </Badge>
-                          <Badge className="bg-yellow-600 text-white border-0">
+                        </div>
+                        <div className="absolute top-4 right-4">
+                          <Badge className="bg-slate-600 text-white border-0">
                             Featured
                           </Badge>
                         </div>
+                      </div>
+                      <CardHeader className="bg-slate-700 border-b border-black">
                         <CardTitle className="text-white text-xl leading-tight">
                           {post.title}
                         </CardTitle>
@@ -402,6 +333,18 @@ export default function Blog() {
                             <div className="flex items-center">
                               <Clock className="h-4 w-4 mr-1" />
                               {post.readTime}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between text-xs text-slate-400 mb-4">
+                          <div className="flex items-center space-x-4">
+                            <div className="flex items-center">
+                              <Eye className="h-3 w-3 mr-1" />
+                              {post.views.toLocaleString()}
+                            </div>
+                            <div className="flex items-center">
+                              <ThumbsUp className="h-3 w-3 mr-1" />
+                              {post.likes}
                             </div>
                           </div>
                         </div>
@@ -435,7 +378,8 @@ export default function Blog() {
         )}
 
         {/* Regular Posts */}
-        <section className="py-16">
+        {!loading && (
+          <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <div className="flex items-center justify-between mb-8">
@@ -455,12 +399,22 @@ export default function Blog() {
                   {regularPosts.map((post) => (
                     <Card
                       key={post.id}
-                      className="bg-slate-800 border border-black hover:border-white transition-colors"
+                      className="bg-slate-800 border border-black hover:border-white transition-colors overflow-hidden"
                     >
-                      <CardHeader className="bg-slate-700 border-b border-black">
-                        <Badge className="bg-slate-600 text-white border-0 w-fit mb-2">
-                          {post.category}
-                        </Badge>
+                      <div className="relative h-32 bg-slate-700">
+                        <div className="absolute inset-0 bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center">
+                          <div className="text-center">
+                            <FileText className="h-8 w-8 text-slate-400 mx-auto mb-1" />
+                            <p className="text-slate-300 text-xs">Article Image</p>
+                          </div>
+                        </div>
+                        <div className="absolute top-2 left-2">
+                          <Badge className="bg-slate-600 text-white border-0 text-xs">
+                            {post.category}
+                          </Badge>
+                        </div>
+                      </div>
+                      <CardHeader className="bg-slate-700 border-b border-black pb-3">
                         <CardTitle className="text-white text-lg leading-tight">
                           {post.title}
                         </CardTitle>
@@ -477,6 +431,16 @@ export default function Blog() {
                           <div className="flex items-center">
                             <Clock className="h-3 w-3 mr-1" />
                             {post.readTime}
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between text-xs text-slate-400 mb-4">
+                          <div className="flex items-center">
+                            <Eye className="h-3 w-3 mr-1" />
+                            {post.views.toLocaleString()}
+                          </div>
+                          <div className="flex items-center">
+                            <ThumbsUp className="h-3 w-3 mr-1" />
+                            {post.likes}
                           </div>
                         </div>
                         <div className="flex flex-wrap gap-1 mb-4">
@@ -519,6 +483,7 @@ export default function Blog() {
             </div>
           </div>
         </section>
+        )}
 
         {/* CTA Section */}
         <section className="py-16">

@@ -335,18 +335,20 @@ export const SEO_CONFIGS = {
     },
   },
 
-  // New blog SEO configurations
+  // Enhanced blog SEO configurations
   blog: {
-    title: "K53 Learner's Licence Blog | Tips, News & Study Guides | SuperK53",
+    title: "K53 Learner's Licence Blog | Expert Tips, News & Study Guides | SuperK53",
     description:
-      "Latest K53 learner's licence news, study tips, test preparation guides, and driving test advice. Expert insights to help you pass your K53 test in South Africa.",
+      "Latest K53 learner's licence news, study tips, test preparation guides, and driving test advice. Expert insights from certified instructors to help you pass your K53 test in South Africa. Free resources and comprehensive guides.",
     keywords:
-      "K53 blog, learners licence blog, K53 news, K53 tips, learners licence tips, K53 study blog, K53 test advice, learners licence news, K53 preparation blog, K53 driving tips, learners licence study blog, K53 test tips, K53 exam blog, learners licence advice, K53 study tips blog",
+      "K53 blog, learners licence blog, K53 news, K53 tips, learners licence tips, K53 study blog, K53 test advice, learners licence news, K53 preparation blog, K53 driving tips, learners licence study blog, K53 test tips, K53 exam blog, learners licence advice, K53 study tips blog, South Africa driving test, K53 practice blog, learners licence preparation blog",
+    ogImage: "/images/blog/k53-blog-og.jpg",
+    ogImageAlt: "SuperK53 K53 Learner's Licence Blog - Expert Tips and Study Guides",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Blog",
-      name: "SuperK53 Blog",
-      description: "K53 learner's licence preparation blog with tips and news",
+      name: "SuperK53 K53 Learner's Licence Blog",
+      description: "Comprehensive K53 learner's licence preparation blog with expert tips, study guides, and news from certified driving instructors",
       url: "https://superk53.co.za/blog",
       publisher: {
         "@type": "Organization",
@@ -356,6 +358,30 @@ export const SEO_CONFIGS = {
           url: "https://superk53.co.za/images/pwa/icon-512x512.svg",
         },
       },
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: 8,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            item: {
+              "@type": "Article",
+              headline: "Complete K53 Learner's Licence Test Guide 2025",
+              url: "https://superk53.co.za/blog/complete-k53-learners-licence-test-guide-2025"
+            }
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            item: {
+              "@type": "Article",
+              headline: "Top 10 Most Common K53 Test Questions You Must Know",
+              url: "https://superk53.co.za/blog/top-10-most-common-k53-test-questions"
+            }
+          }
+        ]
+      }
     },
   },
 
@@ -365,6 +391,7 @@ export const SEO_CONFIGS = {
       "Complete guide to passing your K53 learner's licence test. Expert tips, study strategies, and everything you need to know about the South African driving test.",
     keywords:
       "K53 test guide, learners licence test guide, K53 preparation tips, K53 test tips, learners licence preparation, K53 exam guide, K53 test advice, learners licence test tips, K53 study guide, K53 test preparation, learners licence exam guide, K53 test strategy, K53 exam tips, learners licence preparation guide",
+    ogType: "article",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Article",
