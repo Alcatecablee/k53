@@ -30,6 +30,71 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Blog - High Priority -->
+  <url>
+    <loc>https://superk53.co.za/blog</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog Posts - High Priority -->
+  <url>
+    <loc>https://superk53.co.za/blog/complete-k53-learners-licence-test-guide-2025</loc>
+    <lastmod>2025-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://superk53.co.za/blog/top-10-most-common-k53-test-questions</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://superk53.co.za/blog/k53-road-signs-complete-guide</loc>
+    <lastmod>2025-08-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://superk53.co.za/blog/how-to-pass-k53-test-first-try</loc>
+    <lastmod>2025-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://superk53.co.za/blog/k53-vehicle-controls-essential-knowledge</loc>
+    <lastmod>2025-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://superk53.co.za/blog/k53-test-requirements-checklist</loc>
+    <lastmod>2025-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://superk53.co.za/blog/k53-traffic-rules-south-african-laws</loc>
+    <lastmod>2025-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://superk53.co.za/blog/k53-test-anxiety-stay-calm-confident</loc>
+    <lastmod>2025-08-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- DLTC Directory - High Priority -->
   <url>
     <loc>https://superk53.co.za/dltc</loc>

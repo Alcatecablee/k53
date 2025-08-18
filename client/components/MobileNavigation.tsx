@@ -63,6 +63,7 @@ export function MobileNavigation({ isOpen, onToggle, onClose }: MobileNavigation
     { to: '/pricing', label: 'Premium', description: 'Premium access options' },
     { to: '/dltc', label: 'Centers', description: 'Find testing centers' },
     { to: '/docs', label: 'Docs', description: 'Platform documentation' },
+    { to: '/blog', label: 'Blog', description: 'Blog articles' },
     { to: '/admin', label: 'Admin', description: 'Admin panel' },
     { 
       to: 'https://taxfy.co.za', 

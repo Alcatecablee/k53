@@ -153,6 +153,13 @@ export default function Index() {
                   Docs
                 </Link>
                 <Link
+                  to="/blog"
+                  className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
+                  aria-label="Blog articles"
+                >
+                  Blog
+                </Link>
+                <Link
                   to="/admin"
                   className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
                   aria-label="Admin panel"

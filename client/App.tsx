@@ -20,6 +20,8 @@ import Profile from "./pages/Profile";
 import Pricing from "./pages/Pricing";
 import DLTC from "./pages/DLTC";
 import Documentation from "./pages/Documentation";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import AdminNew from "./pages/AdminNew";
 import AdminPro from "./pages/AdminPro";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -82,6 +84,8 @@ const App = () => (
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/dltc" element={<DLTC />} />
               <Route path="/docs" element={<Documentation />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin-old" element={<AdminNew />} />
               <Route path="/admin-pro" element={<AdminPro />} />

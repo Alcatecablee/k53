@@ -556,6 +556,17 @@ function PracticeComponent() {
                       <BookOpen className="h-4 w-4" />
                     </Link>
                   </Button>
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="icon"
+                    className="text-slate-300 hover:text-white hover:bg-slate-700"
+                    title="Blog"
+                  >
+                    <Link to="/blog">
+                      <FileText className="h-4 w-4" />
+                    </Link>
+                  </Button>
                   {user && (
                     <>
                       <Button
