@@ -40,7 +40,7 @@ interface BlogPost {
 const BLOG_POSTS: BlogPost[] = [
   {
     id: "1",
-    title: "Complete K53 Learner's Licence Test Guide 2024",
+    title: "Complete K53 Learner's Licence Test Guide 2025",
     excerpt: "Everything you need to know about passing your K53 learner's licence test in South Africa. Expert tips, study strategies, and test preparation advice.",
     content: `
       <h2>Introduction to the K53 Learner's Licence Test</h2>
@@ -135,12 +135,12 @@ const BLOG_POSTS: BlogPost[] = [
       <p>Passing your K53 learner's licence test requires preparation, practice, and patience. Use this guide along with our comprehensive practice platform to ensure you're fully prepared for test day.</p>
     `,
     author: "SuperK53 Team",
-    publishedDate: "2024-12-01",
+    publishedDate: "2025-08-18",
     readTime: "8 min read",
     category: "Study Guide",
     tags: ["K53 test", "learner's licence", "study guide", "test preparation"],
     featured: true,
-    slug: "complete-k53-learners-licence-test-guide-2024",
+    slug: "complete-k53-learners-licence-test-guide-2025",
   },
   {
     id: "2",
@@ -202,7 +202,7 @@ const BLOG_POSTS: BlogPost[] = [
       <p>Mastering these common questions will give you a solid foundation for your K53 test. Remember to study the underlying principles, not just memorize answers.</p>
     `,
     author: "Driving Instructor",
-    publishedDate: "2024-11-28",
+    publishedDate: "2025-08-17",
     readTime: "6 min read",
     category: "Test Questions",
     tags: ["K53 questions", "common questions", "test tips", "road signs"],

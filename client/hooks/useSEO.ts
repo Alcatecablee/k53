@@ -245,15 +245,15 @@ export const SEO_CONFIGS = {
   },
 
   documentation: {
-    title: "K53 Study Guide 2024 | Complete Learner's Licence Documentation | SuperK53",
+    title: "K53 Study Guide 2025 | Complete Learner's Licence Documentation | SuperK53",
     description:
-      "Complete K53 study guide and documentation for 2024. Test structure, passing requirements, preparation tips, and official Department of Transport guidelines. Everything you need to pass your learner's licence.",
-    keywords:
-      "K53 study guide 2024, learners licence study guide, K53 documentation, K53 test structure, learners licence requirements, K53 passing score, K53 study materials, learners licence documentation, K53 test guide, K53 exam structure, learners licence study, K53 preparation guide, K53 test requirements, learners licence documentation 2024, K53 study materials South Africa",
+      "Complete K53 study guide and documentation for 2025. Test structure, passing requirements, preparation tips, and official Department of Transport guidelines. Everything you need to pass your learner's licence.",
+          keywords:
+        "K53 study guide 2025, learners licence study guide, K53 documentation, K53 test structure, learners licence requirements, K53 passing score, K53 study materials, learners licence documentation, K53 test guide, K53 exam structure, learners licence study, K53 preparation guide, K53 test requirements, learners licence documentation 2025, K53 study materials South Africa",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Article",
-      headline: "Complete K53 Study Guide 2024",
+      headline: "Complete K53 Study Guide 2025",
       description: "Comprehensive guide for K53 learner's licence preparation in South Africa",
       author: {
         "@type": "Organization",
@@ -268,8 +268,8 @@ export const SEO_CONFIGS = {
         },
       },
       mainEntityOfPage: "https://superk53.co.za/docs",
-      datePublished: "2024-01-01",
-      dateModified: "2024-12-01",
+      datePublished: "2025-01-01",
+      dateModified: "2025-08-18",
     },
   },
 
@@ -383,8 +383,8 @@ export const SEO_CONFIGS = {
         },
       },
       mainEntityOfPage: "https://superk53.co.za/blog",
-      datePublished: "2024-01-01",
-      dateModified: "2024-12-01",
+      datePublished: "2025-01-01",
+      dateModified: "2025-08-18",
     },
   },
 };
