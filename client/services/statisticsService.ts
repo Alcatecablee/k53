@@ -1,0 +1,206 @@
+import { supabaseClient } from "@/lib/supabase";
+
+export interface PlatformStatistics {
+  totalUsers: number;
+  totalQuestions: number;
+  totalScenarios: number;
+  successRate: number;
+  languages: number;
+  testCenters: number;
+  activeSubscriptions: number;
+  totalRevenue: number;
+  todaySignups: number;
+  topLocations: string[];
+}
+
+export interface UserStatistics {
+  totalTests: number;
+  averageScore: number;
+  passRate: number;
+  questionStats: {
+    total: number;
+    passed: number;
+    averageScore: number;
+  };
+  scenarioStats: {
+    total: number;
+    passed: number;
+    averageScore: number;
+  };
+}
+
+// Get platform-wide statistics
+export const getPlatformStatistics = async (): Promise<PlatformStatistics> => {
+  try {
+    // Get real data from database
+    const [
+      usersResult,
+      questionsResult,
+      scenariosResult,
+      subscriptionsResult,
+      paymentsResult,
+      progressResult
+    ] = await Promise.allSettled([
+      supabaseClient.from("user_subscriptions").select("*", { count: "exact", head: true }),
+      supabaseClient.from("questions").select("*", { count: "exact", head: true }),
+      supabaseClient.from("scenarios").select("*", { count: "exact", head: true }),
+      supabaseClient.from("user_subscriptions").select("*", { count: "exact", head: true }).neq("plan_type", "free").eq("status", "active"),
+      supabaseClient.from("payments").select("amount_cents").eq("status", "completed"),
+      supabaseClient.from("user_progress").select("score, total_questions, passed")
+    ]);
+
+    const totalUsers = usersResult.status === "fulfilled" ? usersResult.value.count || 0 : 0;
+    const totalQuestions = questionsResult.status === "fulfilled" ? questionsResult.value.count || 0 : 0;
+    const totalScenarios = scenariosResult.status === "fulfilled" ? scenariosResult.value.count || 0 : 0;
+    const activeSubscriptions = subscriptionsResult.status === "fulfilled" ? subscriptionsResult.value.count || 0 : 0;
+
+    // Calculate total revenue
+    let totalRevenue = 0;
+    if (paymentsResult.status === "fulfilled" && paymentsResult.value.data) {
+      totalRevenue = paymentsResult.value.data.reduce(
+        (sum: number, payment: any) => sum + (payment.amount_cents || 0),
+        0
+      );
+    }
+
+    // Calculate success rate from progress data
+    let successRate = 0; // Default to 0 for new systems
+    if (progressResult.status === "fulfilled" && progressResult.value.data) {
+      const progress = progressResult.value.data;
+      const totalTests = progress.length;
+      const passedTests = progress.filter((p: any) => p.passed).length;
+      successRate = totalTests > 0 ? Math.round((passedTests / totalTests) * 100) : 0;
+    }
+
+    // Get today's signups
+    const today = new Date().toISOString().split("T")[0];
+    const { count: todaySignups } = await supabaseClient
+      .from("user_subscriptions")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", today) || { count: 0 };
+
+    // Get top locations from user profiles
+    const { data: profiles } = await supabaseClient
+      .from("profiles")
+      .select("location_city, location_region")
+      .not("location_city", "is", null);
+
+    const locationCounts: { [key: string]: number } = {};
+    if (profiles) {
+      profiles.forEach((profile: any) => {
+        if (profile.location_city) {
+          const location = `${profile.location_city}, ${profile.location_region || ""}`.trim();
+          locationCounts[location] = (locationCounts[location] || 0) + 1;
+        }
+      });
+    }
+
+    const topLocations = Object.entries(locationCounts)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 5)
+      .map(([location]) => location);
+
+    return {
+      totalUsers,
+      totalQuestions,
+      totalScenarios,
+      successRate,
+      languages: 11, // Fixed number of supported languages
+      testCenters: 500, // Fixed number of DLTC centers
+      activeSubscriptions,
+      totalRevenue,
+      todaySignups: todaySignups || 0,
+      topLocations: topLocations.length > 0 ? topLocations : []
+    };
+
+  } catch (error) {
+    console.warn("Error fetching platform statistics:", error);
+    
+    // Return realistic fallback data
+    return {
+      totalUsers: 0,
+      totalQuestions: 0,
+      totalScenarios: 0,
+      successRate: 0,
+      languages: 11,
+      testCenters: 500,
+      activeSubscriptions: 0,
+      totalRevenue: 0,
+      todaySignups: 0,
+      topLocations: []
+    };
+  }
+};
+
+// Get user-specific statistics
+export const getUserStatistics = async (): Promise<UserStatistics> => {
+  try {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    
+    if (!user) {
+      return {
+        totalTests: 0,
+        averageScore: 0,
+        passRate: 0,
+        questionStats: { total: 0, passed: 0, averageScore: 0 },
+        scenarioStats: { total: 0, passed: 0, averageScore: 0 }
+      };
+    }
+
+    const { data: progress, error } = await supabaseClient
+      .from("user_progress")
+      .select("*")
+      .eq("user_id", user.id);
+
+    if (error || !progress) {
+      return {
+        totalTests: 0,
+        averageScore: 0,
+        passRate: 0,
+        questionStats: { total: 0, passed: 0, averageScore: 0 },
+        scenarioStats: { total: 0, passed: 0, averageScore: 0 }
+      };
+    }
+
+    const questionTests = progress.filter((p: any) => p.test_type === "questions");
+    const scenarioTests = progress.filter((p: any) => p.test_type === "scenarios");
+
+    const questionStats = {
+      total: questionTests.length,
+      passed: questionTests.filter((p: any) => p.passed).length,
+      averageScore: questionTests.length > 0
+        ? Math.round(questionTests.reduce((sum: number, p: any) => sum + p.score, 0) / questionTests.length)
+        : 0
+    };
+
+    const scenarioStats = {
+      total: scenarioTests.length,
+      passed: scenarioTests.filter((p: any) => p.passed).length,
+      averageScore: scenarioTests.length > 0
+        ? Math.round(scenarioTests.reduce((sum: number, p: any) => sum + p.score, 0) / scenarioTests.length)
+        : 0
+    };
+
+    return {
+      totalTests: progress.length,
+      averageScore: progress.length > 0
+        ? Math.round(progress.reduce((sum: number, p: any) => sum + p.score, 0) / progress.length)
+        : 0,
+      passRate: progress.length > 0
+        ? Math.round((progress.filter((p: any) => p.passed).length / progress.length) * 100)
+        : 0,
+      questionStats,
+      scenarioStats
+    };
+
+  } catch (error) {
+    console.warn("Error fetching user statistics:", error);
+    return {
+      totalTests: 0,
+      averageScore: 0,
+      passRate: 0,
+      questionStats: { total: 0, passed: 0, averageScore: 0 },
+      scenarioStats: { total: 0, passed: 0, averageScore: 0 }
+    };
+  }
+}; 

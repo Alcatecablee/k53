@@ -1,0 +1,11 @@
+<svg width="750" height="1334" viewBox="0 0 750 1334" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad-mobile" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="750" height="1334" fill="url(#grad-mobile)"/>
+  <text x="375" y="667" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="bold">SuperK53 Mobile</text>
+  <text x="375" y="720" text-anchor="middle" fill="#94a3b8" font-family="Arial, sans-serif" font-size="18">K53 Practice on Mobile</text>
+</svg>

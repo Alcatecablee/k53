@@ -1,0 +1,257 @@
+import React, { useState, useEffect } from "react";
+import { 
+  TrendingUp, 
+  Target, 
+  Clock, 
+  Award, 
+  AlertTriangle,
+  Gamepad2,
+  TrafficCone,
+  Clipboard,
+  Dice1,
+  BarChart3
+} from "lucide-react";
+import { getUserProgress, calculatePerformanceStats, getDefaultProgress } from "@/services/achievementService";
+
+interface PerformanceAnalyticsProps {
+  userAnswers?: { correct: boolean; category: string; responseTime: number }[];
+  className?: string;
+}
+
+export default function PerformanceAnalytics({ userAnswers = [], className = "" }: PerformanceAnalyticsProps) {
+  const [progress, setProgress] = useState<any>(null);
+  const [performanceStats, setPerformanceStats] = useState<any>(null);
+
+  useEffect(() => {
+    try {
+      const userProgress = getUserProgress();
+      setProgress(userProgress);
+      
+      if (userAnswers.length > 0) {
+        const stats = calculatePerformanceStats(userAnswers);
+        setPerformanceStats(stats);
+      }
+    } catch (error) {
+      // Fallback to default progress if there's an error
+      setProgress(getDefaultProgress());
+    }
+  }, [userAnswers]);
+
+  if (!progress) {
+    return (
+      <div className={`animate-pulse ${className}`}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="bg-slate-200 h-32 rounded-lg"></div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const getCategoryColor = (category: string) => {
+    switch (category.toLowerCase()) {
+      case "controls":
+        return "text-blue-600";
+      case "signs":
+        return "text-green-600";
+      case "rules":
+        return "text-purple-600";
+      case "mixed":
+        return "text-orange-600";
+      default:
+        return "text-slate-600";
+    }
+  };
+
+  const getCategoryIconComponent = (category: string) => {
+    switch (category.toLowerCase()) {
+      case "controls":
+        return Gamepad2;
+      case "signs":
+        return TrafficCone;
+      case "rules":
+        return Clipboard;
+      case "mixed":
+        return Dice1;
+      default:
+        return BarChart3;
+    }
+  };
+
+  return (
+    <div className={className}>
+      {/* Performance Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
+          <div className="flex items-center justify-between mb-4">
+            <TrendingUp className="h-8 w-8 text-blue-600" />
+            <div className="text-2xl font-bold text-blue-600">
+              {progress.totalScenariosCompleted}
+            </div>
+          </div>
+          <h3 className="font-semibold text-slate-800 mb-2">Total Completed</h3>
+          <p className="text-slate-600 text-sm">
+            Scenarios completed across all categories
+          </p>
+        </div>
+
+        <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
+          <div className="flex items-center justify-between mb-4">
+            <Target className="h-8 w-8 text-green-600" />
+            <div className="text-2xl font-bold text-green-600">
+              {progress.currentStreak}
+            </div>
+          </div>
+          <h3 className="font-semibold text-slate-800 mb-2">Current Streak</h3>
+          <p className="text-slate-600 text-sm">
+            Consecutive days of practice
+          </p>
+        </div>
+
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg border border-purple-200">
+          <div className="flex items-center justify-between mb-4">
+            <Award className="h-8 w-8 text-purple-600" />
+            <div className="text-2xl font-bold text-purple-600">
+              {progress.achievements.filter((a: any) => a.unlocked).length}
+            </div>
+          </div>
+          <h3 className="font-semibold text-slate-800 mb-2">Achievements</h3>
+          <p className="text-slate-600 text-sm">
+            Unlocked achievements
+          </p>
+        </div>
+      </div>
+
+      {/* Category Performance */}
+      <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-8">
+        <h3 className="text-xl font-semibold text-slate-800 mb-6">Category Performance</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {Object.entries(progress.scenariosByCategory).map(([category, count]) => {
+            const IconComponent = getCategoryIconComponent(category);
+            return (
+              <div key={category} className="text-center p-4 bg-slate-50 rounded-lg">
+                <div className="flex justify-center mb-2">
+                  <IconComponent className="h-8 w-8 text-slate-600" />
+                </div>
+                <div className={`text-2xl font-bold ${getCategoryColor(category)}`}>
+                  {count as number}
+                </div>
+                <div className="text-sm text-slate-600 capitalize">
+                  {category} scenarios
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Recent Performance (if available) */}
+      {performanceStats && (
+        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-8">
+          <h3 className="text-xl font-semibold text-slate-800 mb-6">Recent Performance</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-semibold text-slate-800 mb-3">Accuracy</h4>
+              <div className="flex items-center gap-3">
+                <div className="text-3xl font-bold text-blue-600">
+                  {performanceStats.accuracy.toFixed(1)}%
+                </div>
+                <div className="text-sm text-slate-600">
+                  {performanceStats.correctAnswers} / {performanceStats.totalAnswers} correct
+                </div>
+              </div>
+              <div className="w-full bg-slate-200 rounded-full h-2 mt-2">
+                <div
+                  className="bg-blue-500 h-2 rounded-full transition-all duration-300 w-dynamic"
+                  style={{ width: `${performanceStats.accuracy}%` }}
+                ></div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-slate-800 mb-3">Response Time</h4>
+              <div className="flex items-center gap-3">
+                <Clock className="h-6 w-6 text-slate-600" />
+                <div className="text-2xl font-bold text-slate-800">
+                  {performanceStats.averageResponseTime.toFixed(1)}s
+                </div>
+                <div className="text-sm text-slate-600">
+                  average response time
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Weak Areas */}
+          {performanceStats.weakCategories.length > 0 && (
+            <div className="mt-6 p-4 bg-red-50 rounded-lg border border-red-200">
+              <div className="flex items-center gap-2 mb-3">
+                <AlertTriangle className="h-5 w-5 text-red-600" />
+                <h4 className="font-semibold text-red-800">Areas for Improvement</h4>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {performanceStats.weakCategories.map((category: string) => (
+                  <span
+                    key={category}
+                    className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-medium"
+                  >
+                    {category}
+                  </span>
+                ))}
+              </div>
+              <p className="text-sm text-red-700 mt-2">
+                Focus on these categories to improve your overall performance.
+              </p>
+            </div>
+          )}
+
+          {/* Strong Areas */}
+          {performanceStats.strongCategories.length > 0 && (
+            <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
+              <div className="flex items-center gap-2 mb-3">
+                <Award className="h-5 w-5 text-green-600" />
+                <h4 className="font-semibold text-green-800">Strong Areas</h4>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {performanceStats.strongCategories.map((category: string) => (
+                  <span
+                    key={category}
+                    className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"
+                  >
+                    {category}
+                  </span>
+                ))}
+              </div>
+              <p className="text-sm text-green-700 mt-2">
+                Excellent work in these categories! Keep up the good performance.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Study Recommendations */}
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
+        <h3 className="text-xl font-semibold text-slate-800 mb-4">Study Recommendations</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-white p-4 rounded-lg border border-blue-100">
+            <h4 className="font-semibold text-slate-800 mb-2">Daily Goal</h4>
+            <p className="text-slate-600 text-sm">
+              Complete at least 5 scenarios daily to maintain your streak and build consistent learning habits.
+            </p>
+          </div>
+          <div className="bg-white p-4 rounded-lg border border-blue-100">
+            <h4 className="font-semibold text-slate-800 mb-2">Focus Areas</h4>
+            <p className="text-slate-600 text-sm">
+              {performanceStats?.weakCategories?.length > 0 
+                ? `Practice more ${performanceStats.weakCategories.join(", ")} scenarios to improve your weak areas.`
+                : "Great job! Focus on maintaining your strong performance across all categories."
+              }
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+} 

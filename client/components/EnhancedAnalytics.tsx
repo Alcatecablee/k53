@@ -1,0 +1,334 @@
+import React, { useState, useEffect } from "react";
+import { 
+  TrendingUp, 
+  Target, 
+  Clock, 
+  Award, 
+  AlertTriangle,
+  BarChart3,
+  PieChart,
+  Activity,
+  Calendar,
+  Zap,
+  Brain,
+  Lightbulb
+} from "lucide-react";
+import { getUserProgress, calculatePerformanceStats, getDefaultProgress } from "@/services/achievementService";
+
+interface EnhancedAnalyticsProps {
+  userAnswers?: { correct: boolean; category: string; responseTime: number }[];
+  className?: string;
+}
+
+interface LearningInsight {
+  type: "improvement" | "warning" | "achievement" | "recommendation";
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  color: string;
+}
+
+export default function EnhancedAnalytics({ userAnswers = [], className = "" }: EnhancedAnalyticsProps) {
+  const [progress, setProgress] = useState<any>(null);
+  const [performanceStats, setPerformanceStats] = useState<any>(null);
+  const [insights, setInsights] = useState<LearningInsight[]>([]);
+  const [readinessScore, setReadinessScore] = useState<number>(0);
+
+  useEffect(() => {
+    try {
+      const userProgress = getUserProgress();
+      setProgress(userProgress);
+      
+      if (userAnswers.length > 0) {
+        const stats = calculatePerformanceStats(userAnswers);
+        setPerformanceStats(stats);
+        generateInsights(stats, userProgress);
+        calculateReadinessScore(stats, userProgress);
+      }
+    } catch (error) {
+      setProgress(getDefaultProgress());
+    }
+  }, [userAnswers]);
+
+  const generateInsights = (stats: any, progress: any) => {
+    const newInsights: LearningInsight[] = [];
+
+    // Performance insights
+    if (stats.accuracy < 70) {
+      newInsights.push({
+        type: "warning",
+        title: "Accuracy Needs Improvement",
+        description: `Your current accuracy is ${stats.accuracy.toFixed(1)}%. Focus on understanding the scenarios better.`,
+        icon: <AlertTriangle className="h-5 w-5" />,
+        color: "text-red-600"
+      });
+    } else if (stats.accuracy > 85) {
+      newInsights.push({
+        type: "achievement",
+        title: "Excellent Accuracy",
+        description: `Great job! Your ${stats.accuracy.toFixed(1)}% accuracy shows strong understanding.`,
+        icon: <Award className="h-5 w-5" />,
+        color: "text-green-600"
+      });
+    }
+
+    // Streak insights
+    if (progress.currentStreak >= 7) {
+      newInsights.push({
+        type: "achievement",
+        title: "Consistent Learner",
+        description: `Amazing! You've maintained a ${progress.currentStreak}-day study streak.`,
+        icon: <Zap className="h-5 w-5" />,
+        color: "text-orange-600"
+      });
+    } else if (progress.currentStreak === 0) {
+      newInsights.push({
+        type: "recommendation",
+        title: "Start Your Streak",
+        description: "Begin a daily study habit to improve your learning consistency.",
+        icon: <Calendar className="h-5 w-5" />,
+        color: "text-blue-600"
+      });
+    }
+
+    // Weak areas insights
+    if (stats.weakCategories.length > 0) {
+      newInsights.push({
+        type: "recommendation",
+        title: "Focus Areas Identified",
+        description: `Practice more ${stats.weakCategories.join(", ")} scenarios to improve your weak areas.`,
+        icon: <Target className="h-5 w-5" />,
+        color: "text-purple-600"
+      });
+    }
+
+    // Study time insights
+    if (stats.averageResponseTime > 30) {
+      newInsights.push({
+        type: "warning",
+        title: "Consider Response Time",
+        description: "Your average response time is high. Practice to improve speed while maintaining accuracy.",
+        icon: <Clock className="h-5 w-5" />,
+        color: "text-orange-600"
+      });
+    }
+
+    setInsights(newInsights);
+  };
+
+  const calculateReadinessScore = (stats: any, progress: any) => {
+    let score = 0;
+    
+    // Base score from completion
+    score += Math.min(progress.totalScenariosCompleted / 50, 1) * 30;
+    
+    // Accuracy contribution
+    score += (stats.accuracy / 100) * 25;
+    
+    // Streak contribution
+    score += Math.min(progress.currentStreak / 7, 1) * 20;
+    
+    // Category coverage
+    const categoryCount = Object.values(progress.scenariosByCategory).filter((count: any) => count > 0).length;
+    score += (categoryCount / 4) * 15;
+    
+    // Performance consistency
+    if (stats.weakCategories.length === 0) {
+      score += 10;
+    }
+    
+    setReadinessScore(Math.min(score, 100));
+  };
+
+  if (!progress) {
+    return (
+      <div className={`animate-pulse ${className}`}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="bg-slate-200 h-32 rounded-lg"></div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const getReadinessColor = (score: number) => {
+    if (score >= 80) return "text-green-600";
+    if (score >= 60) return "text-orange-600";
+    return "text-red-600";
+  };
+
+  const getReadinessLevel = (score: number) => {
+    if (score >= 80) return "Ready";
+    if (score >= 60) return "Almost Ready";
+    return "Needs More Practice";
+  };
+
+  return (
+    <div className={className}>
+      {/* Readiness Score */}
+      <div className="bg-slate-800 border border-black rounded-lg p-6 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <Brain className="h-8 w-8 text-blue-400" />
+            <div>
+              <h3 className="text-xl font-bold text-slate-50">Test Readiness</h3>
+              <p className="text-slate-300">Your estimated readiness for the K53 test</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className={`text-3xl font-bold ${getReadinessColor(readinessScore)}`}>
+              {readinessScore.toFixed(0)}%
+            </div>
+            <div className="text-sm text-slate-300">
+              {getReadinessLevel(readinessScore)}
+            </div>
+          </div>
+        </div>
+        
+        <div className="w-full bg-slate-200 rounded-full h-3">
+          <div
+            className={`h-3 rounded-full transition-all duration-300 w-dynamic ${
+              readinessScore >= 80 ? "bg-green-500" : 
+              readinessScore >= 60 ? "bg-orange-500" : "bg-red-500"
+            }`}
+            style={{ width: `${readinessScore}%` }}
+          ></div>
+        </div>
+      </div>
+
+      {/* Performance Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="bg-slate-800 border border-black rounded-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <TrendingUp className="h-8 w-8 text-blue-400" />
+            <div className="text-2xl font-bold text-slate-50">
+              {progress.totalScenariosCompleted}
+            </div>
+          </div>
+          <h4 className="font-semibold text-slate-50 mb-2">Scenarios Completed</h4>
+          <p className="text-slate-300 text-sm">Total practice scenarios</p>
+        </div>
+
+        <div className="bg-slate-800 border border-black rounded-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <Activity className="h-8 w-8 text-green-400" />
+            <div className="text-2xl font-bold text-slate-50">
+              {progress.currentStreak}
+            </div>
+          </div>
+          <h4 className="font-semibold text-slate-50 mb-2">Current Streak</h4>
+          <p className="text-slate-300 text-sm">Consecutive study days</p>
+        </div>
+
+        <div className="bg-slate-800 border border-black rounded-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <Award className="h-8 w-8 text-purple-400" />
+            <div className="text-2xl font-bold text-slate-50">
+              {progress.achievements.filter((a: any) => a.unlocked).length}
+            </div>
+          </div>
+          <h4 className="font-semibold text-slate-50 mb-2">Achievements</h4>
+          <p className="text-slate-300 text-sm">Unlocked badges</p>
+        </div>
+
+        <div className="bg-slate-800 border border-black rounded-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <BarChart3 className="h-8 w-8 text-orange-400" />
+            <div className="text-2xl font-bold text-slate-50">
+              {performanceStats ? `${performanceStats.accuracy.toFixed(1)}%` : "N/A"}
+            </div>
+          </div>
+          <h4 className="font-semibold text-slate-50 mb-2">Accuracy</h4>
+          <p className="text-slate-300 text-sm">Recent performance</p>
+        </div>
+      </div>
+
+      {/* Learning Insights */}
+      {insights.length > 0 && (
+        <div className="mb-8">
+          <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <Lightbulb className="h-6 w-6 text-orange-600" />
+            Learning Insights
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {insights.map((insight, index) => (
+              <div
+                key={index}
+                className={`p-4 rounded-lg border ${
+                  insight.type === "warning" ? "bg-red-50 border-red-200" :
+                  insight.type === "achievement" ? "bg-green-50 border-green-200" :
+                  "bg-blue-50 border-blue-200"
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`mt-1 ${insight.color}`}>
+                    {insight.icon}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-800 mb-1">
+                      {insight.title}
+                    </h4>
+                    <p className="text-slate-600 text-sm">
+                      {insight.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Category Performance */}
+      <div className="bg-slate-800 border border-black rounded-lg p-6 mb-8">
+        <h3 className="text-xl font-bold text-slate-50 mb-6 flex items-center gap-2">
+          <PieChart className="h-6 w-6 text-blue-400" />
+          Category Performance
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {Object.entries(progress.scenariosByCategory).map(([category, count]) => (
+            <div key={category} className="text-center p-4 bg-slate-700 border border-black rounded-lg">
+              <div className="text-2xl font-bold text-slate-50 mb-2">
+                {count as number}
+              </div>
+              <div className="text-sm text-slate-300 capitalize">
+                {category} scenarios
+              </div>
+              <div className="w-full bg-slate-600 rounded-full h-1 mt-2">
+                <div
+                  className="bg-blue-400 h-1 rounded-full"
+                  style={{
+                    width: `${Math.min((count as number) / 20 * 100, 100)}%`,
+                  }}
+                ></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Study Recommendations */}
+      <div className="bg-slate-700 border border-black rounded-lg p-6">
+        <h3 className="text-xl font-semibold text-slate-50 mb-4">Study Recommendations</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-slate-800 p-4 rounded-lg border border-black">
+            <h4 className="font-semibold text-slate-50 mb-2">Daily Goal</h4>
+            <p className="text-slate-300 text-sm">
+              Complete at least 5 scenarios daily to maintain your streak and build consistent learning habits.
+            </p>
+          </div>
+          <div className="bg-slate-800 p-4 rounded-lg border border-black">
+            <h4 className="font-semibold text-slate-50 mb-2">Focus Areas</h4>
+            <p className="text-slate-300 text-sm">
+              {performanceStats?.weakCategories?.length > 0 
+                ? `Practice more ${performanceStats.weakCategories.join(", ")} scenarios to improve your weak areas.`
+                : "Great job! Focus on maintaining your strong performance across all categories."
+              }
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+} 

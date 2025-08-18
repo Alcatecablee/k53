@@ -1,0 +1,470 @@
+// Admin Service - Handles all admin operations and API calls
+
+export interface AdminUser {
+  id: string;
+  user_id: string;
+  role: 'admin' | 'super_admin' | 'moderator';
+  permissions: Record<string, any>;
+  is_active: boolean;
+  last_login?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminAuditLog {
+  id: string;
+  admin_user_id: string;
+  action: string;
+  target_type: string;
+  target_id?: string;
+  details: Record<string, any>;
+  ip_address?: string;
+  user_agent?: string;
+  created_at: string;
+}
+
+export interface SystemSetting {
+  id: string;
+  setting_key: string;
+  setting_value: Record<string, any>;
+  description?: string;
+  is_public: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface MaintenanceMode {
+  id: string;
+  is_active: boolean;
+  message?: string;
+  allowed_ips?: string[];
+  created_by?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UserBan {
+  id: string;
+  user_id: string;
+  reason: string;
+  banned_by: string;
+  expires_at?: string;
+  is_permanent: boolean;
+  created_at: string;
+}
+
+export interface SystemNotification {
+  id: string;
+  title: string;
+  message: string;
+  type: 'info' | 'warning' | 'error' | 'success';
+  target_audience: 'all' | 'admins' | 'users' | 'premium';
+  is_active: boolean;
+  created_by?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AnalyticsEvent {
+  id: string;
+  user_id?: string;
+  event_type: string;
+  event_data: Record<string, any>;
+  session_id?: string;
+  ip_address?: string;
+  user_agent?: string;
+  created_at: string;
+}
+
+export interface ErrorLog {
+  id: string;
+  error_type: string;
+  error_message: string;
+  stack_trace?: string;
+  user_id?: string;
+  request_data?: Record<string, any>;
+  resolved: boolean;
+  resolved_by?: string;
+  resolved_at?: string;
+  created_at: string;
+}
+
+export interface DashboardStats {
+  totalUsers: number;
+  activeSubscriptions: number;
+  totalRevenue: number;
+  todaySignups: number;
+  conversionRate: number;
+  churnRate: number;
+  avgSessionTime: number;
+  topLocations: string[];
+  monthlyGrowth: number;
+  realtimeUsers: number;
+  serverLoad: number;
+  responseTime: number;
+  errorRate: number;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  created_at: string;
+  subscription: {
+    plan_type: string;
+    status: string;
+    created_at: string;
+  };
+  usage: {
+    scenarios_used: number;
+    max_scenarios: number;
+  };
+  location: string;
+  last_seen: string;
+  totalSpent: number;
+  sessionsToday: number;
+  riskScore: number;
+}
+
+export interface Payment {
+  id: string;
+  user_id: string;
+  user_email: string;
+  amount_cents: number;
+  status: string;
+  payment_method: string;
+  paypal_order_id?: string;
+  created_at: string;
+  fee_cents: number;
+  refunded: boolean;
+}
+
+export interface SystemHealth {
+  database: string;
+  paypal: string;
+  server: string;
+  storage: string;
+}
+
+class AdminService {
+  private baseUrl = '/api/admin';
+
+  // Check if current user is admin
+  async checkAdminStatus(): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.baseUrl}/check-status`);
+      return response.ok;
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+      return false;
+    }
+  }
+
+  // Dashboard Statistics
+  async getDashboardStats(): Promise<DashboardStats> {
+    const response = await fetch(`${this.baseUrl}/dashboard-stats`);
+    if (!response.ok) {
+      throw new Error(`Failed to load dashboard stats: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  // Users Management
+  async getUsers(params?: {
+    search?: string;
+    status?: string;
+    limit?: number;
+  }): Promise<User[]> {
+    const searchParams = new URLSearchParams();
+    if (params?.search) searchParams.append('search', params.search);
+    if (params?.status) searchParams.append('status', params.status);
+    if (params?.limit) searchParams.append('limit', params.limit.toString());
+
+    const response = await fetch(`${this.baseUrl}/users?${searchParams}`);
+    if (!response.ok) {
+      throw new Error(`Failed to load users: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async getUserDetails(userId: string): Promise<User> {
+    const response = await fetch(`${this.baseUrl}/users/${userId}`);
+    if (!response.ok) {
+      throw new Error(`Failed to load user details: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async updateUser(userId: string, updates: Partial<User>): Promise<User> {
+    const response = await fetch(`${this.baseUrl}/users/${userId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to update user: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async banUser(userId: string, reason: string, durationDays?: number): Promise<void> {
+    const response = await fetch(`${this.baseUrl}/users/${userId}/ban`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reason, durationDays }),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to ban user: ${response.status}`);
+    }
+  }
+
+  async unbanUser(userId: string): Promise<void> {
+    const response = await fetch(`${this.baseUrl}/users/${userId}/unban`, {
+      method: 'POST',
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to unban user: ${response.status}`);
+    }
+  }
+
+  // Payments Management
+  async getPayments(params?: {
+    limit?: number;
+    status?: string;
+    dateFrom?: string;
+    dateTo?: string;
+  }): Promise<Payment[]> {
+    const searchParams = new URLSearchParams();
+    if (params?.limit) searchParams.append('limit', params.limit.toString());
+    if (params?.status) searchParams.append('status', params.status);
+    if (params?.dateFrom) searchParams.append('dateFrom', params.dateFrom);
+    if (params?.dateTo) searchParams.append('dateTo', params.dateTo);
+
+    const response = await fetch(`${this.baseUrl}/payments?${searchParams}`);
+    if (!response.ok) {
+      throw new Error(`Failed to load payments: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async refundPayment(paymentId: string, reason: string): Promise<void> {
+    const response = await fetch(`${this.baseUrl}/payments/${paymentId}/refund`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reason }),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to refund payment: ${response.status}`);
+    }
+  }
+
+  // System Health
+  async getSystemHealth(): Promise<SystemHealth> {
+    const response = await fetch(`${this.baseUrl}/system-health`);
+    if (!response.ok) {
+      throw new Error(`Failed to load system health: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  // System Settings
+  async getSystemSettings(): Promise<SystemSetting[]> {
+    const response = await fetch(`${this.baseUrl}/settings`);
+    if (!response.ok) {
+      throw new Error(`Failed to load system settings: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async updateSystemSetting(key: string, value: Record<string, any>): Promise<SystemSetting> {
+    const response = await fetch(`${this.baseUrl}/settings/${key}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ setting_value: value }),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to update system setting: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  // Maintenance Mode
+  async getMaintenanceMode(): Promise<MaintenanceMode> {
+    const response = await fetch(`${this.baseUrl}/maintenance-mode`);
+    if (!response.ok) {
+      throw new Error(`Failed to load maintenance mode: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async toggleMaintenanceMode(enabled: boolean, message?: string): Promise<MaintenanceMode> {
+    const response = await fetch(`${this.baseUrl}/maintenance-mode`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ is_active: enabled, message }),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to toggle maintenance mode: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  // System Notifications
+  async getSystemNotifications(): Promise<SystemNotification[]> {
+    const response = await fetch(`${this.baseUrl}/notifications`);
+    if (!response.ok) {
+      throw new Error(`Failed to load notifications: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async createNotification(notification: Omit<SystemNotification, 'id' | 'created_at' | 'updated_at'>): Promise<SystemNotification> {
+    const response = await fetch(`${this.baseUrl}/notifications`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(notification),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to create notification: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async updateNotification(id: string, updates: Partial<SystemNotification>): Promise<SystemNotification> {
+    const response = await fetch(`${this.baseUrl}/notifications/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to update notification: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async deleteNotification(id: string): Promise<void> {
+    const response = await fetch(`${this.baseUrl}/notifications/${id}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete notification: ${response.status}`);
+    }
+  }
+
+  // Analytics
+  async getAnalytics(params?: {
+    eventType?: string;
+    dateFrom?: string;
+    dateTo?: string;
+    limit?: number;
+  }): Promise<AnalyticsEvent[]> {
+    const searchParams = new URLSearchParams();
+    if (params?.eventType) searchParams.append('eventType', params.eventType);
+    if (params?.dateFrom) searchParams.append('dateFrom', params.dateFrom);
+    if (params?.dateTo) searchParams.append('dateTo', params.dateTo);
+    if (params?.limit) searchParams.append('limit', params.limit.toString());
+
+    const response = await fetch(`${this.baseUrl}/analytics?${searchParams}`);
+    if (!response.ok) {
+      throw new Error(`Failed to load analytics: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  // Error Logs
+  async getErrorLogs(params?: {
+    errorType?: string;
+    resolved?: boolean;
+    limit?: number;
+  }): Promise<ErrorLog[]> {
+    const searchParams = new URLSearchParams();
+    if (params?.errorType) searchParams.append('errorType', params.errorType);
+    if (params?.resolved !== undefined) searchParams.append('resolved', params.resolved.toString());
+    if (params?.limit) searchParams.append('limit', params.limit.toString());
+
+    const response = await fetch(`${this.baseUrl}/error-logs?${searchParams}`);
+    if (!response.ok) {
+      throw new Error(`Failed to load error logs: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async resolveErrorLog(id: string): Promise<ErrorLog> {
+    const response = await fetch(`${this.baseUrl}/error-logs/${id}/resolve`, {
+      method: 'POST',
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to resolve error log: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  // Audit Log
+  async getAuditLog(params?: {
+    action?: string;
+    targetType?: string;
+    limit?: number;
+  }): Promise<AdminAuditLog[]> {
+    const searchParams = new URLSearchParams();
+    if (params?.action) searchParams.append('action', params.action);
+    if (params?.targetType) searchParams.append('targetType', params.targetType);
+    if (params?.limit) searchParams.append('limit', params.limit.toString());
+
+    const response = await fetch(`${this.baseUrl}/audit-log?${searchParams}`);
+    if (!response.ok) {
+      throw new Error(`Failed to load audit log: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  // User Bans
+  async getUserBans(): Promise<UserBan[]> {
+    const response = await fetch(`${this.baseUrl}/user-bans`);
+    if (!response.ok) {
+      throw new Error(`Failed to load user bans: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  // Export Data
+  async exportData(type: 'users' | 'payments' | 'analytics', format: 'csv' | 'json'): Promise<Blob> {
+    const response = await fetch(`${this.baseUrl}/export/${type}?format=${format}`);
+    if (!response.ok) {
+      throw new Error(`Failed to export data: ${response.status}`);
+    }
+    return response.blob();
+  }
+
+  // Cache Management
+  async clearCache(): Promise<void> {
+    const response = await fetch(`${this.baseUrl}/cache/clear`, {
+      method: 'POST',
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to clear cache: ${response.status}`);
+    }
+  }
+
+  async getCacheStats(): Promise<Record<string, any>> {
+    const response = await fetch(`${this.baseUrl}/cache/stats`);
+    if (!response.ok) {
+      throw new Error(`Failed to load cache stats: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  // Real-time Metrics
+  async getRealTimeMetrics(): Promise<{
+    activeUsers: number;
+    serverLoad: number;
+    responseTime: number;
+    errorRate: number;
+  }> {
+    const response = await fetch(`${this.baseUrl}/realtime-metrics`);
+    if (!response.ok) {
+      throw new Error(`Failed to load real-time metrics: ${response.status}`);
+    }
+    return response.json();
+  }
+}
+
+export const adminService = new AdminService(); 

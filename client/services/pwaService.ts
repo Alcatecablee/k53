@@ -1,0 +1,435 @@
+interface OfflineData {
+  scenarios: any[];
+  progress: any;
+  achievements: any[];
+  user: any;
+  timestamp: number;
+}
+
+interface SyncQueue {
+  type: 'progress' | 'achievement' | 'scenario';
+  data: any;
+  timestamp: number;
+}
+
+class PWAService {
+  private static instance: PWAService;
+  private offlineData: OfflineData | null = null;
+  private syncQueue: SyncQueue[] = [];
+  private isOnline: boolean = true;
+
+  private constructor() {
+    this.initializeService();
+  }
+
+  static getInstance(): PWAService {
+    if (!PWAService.instance) {
+      PWAService.instance = new PWAService();
+    }
+    return PWAService.instance;
+  }
+
+  private async initializeService(): Promise<void> {
+    try {
+      // Check online status
+      this.isOnline = navigator.onLine;
+      
+      // Load offline data
+      await this.loadOfflineData();
+      
+      // Load sync queue
+      await this.loadSyncQueue();
+      
+      // Set up event listeners
+      window.addEventListener('online', this.handleOnline.bind(this));
+      window.addEventListener('offline', this.handleOffline.bind(this));
+      
+      // Register service worker if not already registered
+      if ('serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.register('/sw.js');
+          // Service Worker registered successfully
+        } catch (error) {
+          // Service Worker registration failed
+        }
+      }
+    } catch (error) {
+      console.error('PWA Service initialization failed:', error);
+    }
+  }
+
+  private async loadOfflineData(): Promise<void> {
+    try {
+      const stored = localStorage.getItem('superk53_offline_data');
+      if (stored) {
+        this.offlineData = JSON.parse(stored);
+      }
+    } catch (error) {
+      console.error('Failed to load offline data:', error);
+    }
+  }
+
+  private async saveOfflineData(): Promise<void> {
+    try {
+      if (this.offlineData) {
+        localStorage.setItem('superk53_offline_data', JSON.stringify(this.offlineData));
+      }
+    } catch (error) {
+      console.error('Failed to save offline data:', error);
+    }
+  }
+
+  private async loadSyncQueue(): Promise<void> {
+    try {
+      const stored = localStorage.getItem('superk53_sync_queue');
+      if (stored) {
+        this.syncQueue = JSON.parse(stored);
+      }
+    } catch (error) {
+      console.error('Failed to load sync queue:', error);
+    }
+  }
+
+  private async saveSyncQueue(): Promise<void> {
+    try {
+      localStorage.setItem('superk53_sync_queue', JSON.stringify(this.syncQueue));
+    } catch (error) {
+      console.error('Failed to save sync queue:', error);
+    }
+  }
+
+  private handleOnline(): void {
+    this.isOnline = true;
+    this.processSyncQueue();
+  }
+
+  private handleOffline(): void {
+    this.isOnline = false;
+  }
+
+  // Cache scenarios for offline use
+  async cacheScenarios(scenarios: any[]): Promise<void> {
+    try {
+      if (!this.offlineData) {
+        this.offlineData = {
+          scenarios: [],
+          progress: null,
+          achievements: [],
+          user: null,
+          timestamp: Date.now()
+        };
+      }
+      
+      this.offlineData.scenarios = scenarios;
+      this.offlineData.timestamp = Date.now();
+      
+      await this.saveOfflineData();
+      
+      // Also cache in service worker cache
+      if ('caches' in window) {
+        try {
+          const cache = await caches.open('superk53-dynamic-v1.0.0');
+          await cache.put('/api/scenarios', new Response(JSON.stringify(scenarios)));
+          
+          // Also notify service worker to cache scenarios
+          if ('serviceWorker' in navigator) {
+            const registration = await navigator.serviceWorker.ready;
+            registration.active?.postMessage({
+              type: 'CACHE_SCENARIOS',
+              scenarios: scenarios
+            });
+          }
+        } catch (error) {
+          console.error('Failed to cache scenarios in service worker:', error);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to cache scenarios:', error);
+    }
+  }
+
+  // Get cached scenarios
+  async getCachedScenarios(): Promise<any[]> {
+    try {
+      if (this.offlineData?.scenarios) {
+        return this.offlineData.scenarios;
+      }
+      
+      // Try to get from service worker cache
+      if ('caches' in window) {
+        const cache = await caches.open('superk53-dynamic-v1.0.0');
+        const response = await cache.match('/api/scenarios');
+        if (response) {
+          const scenarios = await response.json();
+          return scenarios;
+        }
+      }
+      
+      return [];
+    } catch (error) {
+      console.error('Failed to get cached scenarios:', error);
+      return [];
+    }
+  }
+
+  // Save progress for offline sync
+  async saveProgress(progress: any): Promise<void> {
+    try {
+      if (!this.offlineData) {
+        this.offlineData = {
+          scenarios: [],
+          progress: null,
+          achievements: [],
+          user: null,
+          timestamp: Date.now()
+        };
+      }
+      
+      this.offlineData.progress = progress;
+      this.offlineData.timestamp = Date.now();
+      
+      await this.saveOfflineData();
+      
+      // Add to sync queue if offline
+      if (!this.isOnline) {
+        this.syncQueue.push({
+          type: 'progress',
+          data: progress,
+          timestamp: Date.now()
+        });
+        await this.saveSyncQueue();
+      } else {
+        // Try to sync immediately
+        await this.syncProgress(progress);
+      }
+    } catch (error) {
+      console.error('Failed to save progress:', error);
+    }
+  }
+
+  // Save achievement for offline sync
+  async saveAchievement(achievement: any): Promise<void> {
+    try {
+      if (!this.offlineData) {
+        this.offlineData = {
+          scenarios: [],
+          progress: null,
+          achievements: [],
+          user: null,
+          timestamp: Date.now()
+        };
+      }
+      
+      this.offlineData.achievements.push(achievement);
+      this.offlineData.timestamp = Date.now();
+      
+      await this.saveOfflineData();
+      
+      // Add to sync queue if offline
+      if (!this.isOnline) {
+        this.syncQueue.push({
+          type: 'achievement',
+          data: achievement,
+          timestamp: Date.now()
+        });
+        await this.saveSyncQueue();
+      } else {
+        // Try to sync immediately
+        await this.syncAchievement(achievement);
+      }
+    } catch (error) {
+      console.error('Failed to save achievement:', error);
+    }
+  }
+
+  // Process sync queue when online
+  private async processSyncQueue(): Promise<void> {
+    if (!this.isOnline || this.syncQueue.length === 0) {
+      return;
+    }
+
+    try {
+      const queue = [...this.syncQueue];
+      this.syncQueue = [];
+      await this.saveSyncQueue();
+
+      for (const item of queue) {
+        try {
+          switch (item.type) {
+            case 'progress':
+              await this.syncProgress(item.data);
+              break;
+            case 'achievement':
+              await this.syncAchievement(item.data);
+              break;
+            case 'scenario':
+              await this.syncScenario(item.data);
+              break;
+          }
+        } catch (error) {
+          console.error(`Failed to sync ${item.type}:`, error);
+          // Re-add to queue if sync failed
+          this.syncQueue.push(item);
+        }
+      }
+
+      await this.saveSyncQueue();
+    } catch (error) {
+      console.error('Failed to process sync queue:', error);
+    }
+  }
+
+  // Sync progress to server
+  private async syncProgress(progress: any): Promise<void> {
+    try {
+      const response = await fetch('/api/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(progress)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to sync progress');
+      }
+    } catch (error) {
+      console.error('Progress sync failed:', error);
+      throw error;
+    }
+  }
+
+  // Sync achievement to server
+  private async syncAchievement(achievement: any): Promise<void> {
+    try {
+      const response = await fetch('/api/achievements', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(achievement)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to sync achievement');
+      }
+    } catch (error) {
+      console.error('Achievement sync failed:', error);
+      throw error;
+    }
+  }
+
+  // Sync scenario to server
+  private async syncScenario(scenario: any): Promise<void> {
+    try {
+      const response = await fetch('/api/scenarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(scenario)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to sync scenario');
+      }
+    } catch (error) {
+      console.error('Scenario sync failed:', error);
+      throw error;
+    }
+  }
+
+  // Get offline data status
+  getOfflineDataStatus(): { hasData: boolean; lastUpdate: Date | null } {
+    return {
+      hasData: !!this.offlineData,
+      lastUpdate: this.offlineData ? new Date(this.offlineData.timestamp) : null
+    };
+  }
+
+  // Get sync queue status
+  getSyncQueueStatus(): { pendingItems: number; lastSync: Date | null } {
+    return {
+      pendingItems: this.syncQueue.length,
+      lastSync: this.syncQueue.length > 0 ? new Date(Math.max(...this.syncQueue.map(item => item.timestamp))) : null
+    };
+  }
+
+  // Check if app is installed
+  isAppInstalled(): boolean {
+    return window.matchMedia('(display-mode: standalone)').matches ||
+           (window.navigator as any).standalone === true;
+  }
+
+  // Request notification permission
+  async requestNotificationPermission(): Promise<boolean> {
+    try {
+      if ('Notification' in window) {
+        const permission = await Notification.requestPermission();
+        return permission === 'granted';
+      }
+      return false;
+    } catch (error) {
+      console.error('Notification permission request failed:', error);
+      return false;
+    }
+  }
+
+  // Subscribe to push notifications
+  async subscribeToPushNotifications(): Promise<boolean> {
+    try {
+      if ('serviceWorker' in navigator && 'PushManager' in window) {
+        const registration = await navigator.serviceWorker.ready;
+        
+        // Check if already subscribed
+        const existingSubscription = await registration.pushManager.getSubscription();
+        if (existingSubscription) {
+          return true; // Already subscribed
+        }
+        
+        const vapidKey = process.env.VITE_VAPID_PUBLIC_KEY;
+        if (!vapidKey) {
+          console.warn('VAPID public key not found. Push notifications may not work.');
+          return false;
+        }
+        
+        const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: vapidKey
+        });
+
+        // Send subscription to server
+        const response = await fetch('/api/push/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(subscription)
+        });
+
+        return response.ok;
+      }
+      return false;
+    } catch (error) {
+      console.error('Push notification subscription failed:', error);
+      return false;
+    }
+  }
+
+  // Clear all offline data
+  async clearOfflineData(): Promise<void> {
+    try {
+      this.offlineData = null;
+      this.syncQueue = [];
+      
+      localStorage.removeItem('superk53_offline_data');
+      localStorage.removeItem('superk53_sync_queue');
+      
+      // Clear service worker caches
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(
+          cacheNames
+            .filter(name => name.includes('superk53'))
+            .map(name => caches.delete(name))
+        );
+      }
+    } catch (error) {
+      console.error('Failed to clear offline data:', error);
+    }
+  }
+}
+
+export const pwaService = PWAService.getInstance(); 

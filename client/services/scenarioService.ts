@@ -1,0 +1,265 @@
+import { supabaseClient } from "@/lib/supabase";
+import type { K53Scenario, DatabaseScenario } from "@/types";
+import type { UserLocation } from "@/services/locationService";
+
+export interface ScenarioStats {
+  total: number;
+  byCategory: {
+    controls: number;
+    signs: number;
+    rules: number;
+    mixed: number;
+  };
+  byDifficulty: {
+    basic: number;
+    intermediate: number;
+    advanced: number;
+  };
+  byContext: {
+    urban: number;
+    rural: number;
+    highway: number;
+    parking: number;
+    intersection: number;
+    residential: number;
+  };
+  byLocation: {
+    citySpecific: number;
+    regional: number;
+    national: number;
+  };
+}
+
+export interface ScenarioFilters {
+  category?: "controls" | "signs" | "rules" | "mixed";
+  difficulty?: "basic" | "intermediate" | "advanced";
+  context?: string;
+  location?: UserLocation;
+  limit?: number;
+  offset?: number;
+}
+
+// Get scenario statistics
+export const getScenarioStats = async (): Promise<ScenarioStats> => {
+  try {
+    const { data: scenarios, error } = await supabaseClient
+      .from("scenarios")
+      .select("*");
+
+    if (error) throw error;
+
+    const stats: ScenarioStats = {
+      total: scenarios.length,
+      byCategory: {
+        controls: scenarios.filter(s => s.category === "controls").length,
+        signs: scenarios.filter(s => s.category === "signs").length,
+        rules: scenarios.filter(s => s.category === "rules").length,
+        mixed: scenarios.filter(s => s.category === "mixed").length,
+      },
+      byDifficulty: {
+        basic: scenarios.filter(s => s.difficulty === "basic").length,
+        intermediate: scenarios.filter(s => s.difficulty === "intermediate").length,
+        advanced: scenarios.filter(s => s.difficulty === "advanced").length,
+      },
+      byContext: {
+        urban: scenarios.filter(s => s.context === "urban").length,
+        rural: scenarios.filter(s => s.context === "rural").length,
+        highway: scenarios.filter(s => s.context === "highway").length,
+        parking: scenarios.filter(s => s.context === "parking").length,
+        intersection: scenarios.filter(s => s.context === "intersection").length,
+        residential: scenarios.filter(s => s.context === "residential").length,
+      },
+      byLocation: {
+        citySpecific: scenarios.filter(s => s.location?.specificity === "city").length,
+        regional: scenarios.filter(s => s.location?.specificity === "region").length,
+        national: scenarios.filter(s => s.location?.specificity === "national").length,
+      }
+    };
+
+    return stats;
+  } catch (error) {
+    console.error("Error getting scenario stats:", error);
+    throw error;
+  }
+};
+
+// Get scenarios with filters
+export const getScenarios = async (filters: ScenarioFilters = {}): Promise<K53Scenario[]> => {
+  try {
+    let query = supabaseClient.from("scenarios").select("*");
+
+    // Apply filters
+    if (filters.category) {
+      query = query.eq("category", filters.category);
+    }
+    if (filters.difficulty) {
+      query = query.eq("difficulty", filters.difficulty);
+    }
+    if (filters.context) {
+      query = query.eq("context", filters.context);
+    }
+    if (filters.limit) {
+      query = query.limit(filters.limit);
+    }
+    if (filters.offset) {
+      query = query.range(filters.offset, filters.offset + (filters.limit || 50) - 1);
+    }
+
+    const { data: dbScenarios, error } = await query;
+
+    if (error) throw error;
+
+    // Convert to K53Scenario format
+    const scenarios: K53Scenario[] = dbScenarios.map((dbScenario: DatabaseScenario) => ({
+      id: dbScenario.id,
+      category: dbScenario.category as any,
+      title: dbScenario.title,
+      scenario: dbScenario.scenario,
+      question: dbScenario.question,
+      options: dbScenario.options,
+      correct: dbScenario.correct,
+      explanation: dbScenario.explanation,
+      difficulty: dbScenario.difficulty as any,
+      context: dbScenario.context as any,
+      timeOfDay: dbScenario.time_of_day as any,
+      weather: dbScenario.weather as any,
+      language: dbScenario.language as any,
+      location: dbScenario.location,
+    }));
+
+    // Apply location-aware sorting if location is provided
+    if (filters.location) {
+      return sortByLocationRelevance(scenarios, filters.location);
+    }
+
+    return scenarios;
+  } catch (error) {
+    console.error("Error getting scenarios:", error);
+    throw error;
+  }
+};
+
+// Get scenario by ID
+export const getScenarioById = async (id: string): Promise<K53Scenario | null> => {
+  try {
+    const { data: dbScenario, error } = await supabaseClient
+      .from("scenarios")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) throw error;
+
+    if (!dbScenario) return null;
+
+    return {
+      id: dbScenario.id,
+      category: dbScenario.category as any,
+      title: dbScenario.title,
+      scenario: dbScenario.scenario,
+      question: dbScenario.question,
+      options: dbScenario.options,
+      correct: dbScenario.correct,
+      explanation: dbScenario.explanation,
+      difficulty: dbScenario.difficulty as any,
+      context: dbScenario.context as any,
+      timeOfDay: dbScenario.time_of_day as any,
+      weather: dbScenario.weather as any,
+      language: dbScenario.language as any,
+      location: dbScenario.location,
+    };
+  } catch (error) {
+    console.error("Error getting scenario by ID:", error);
+    throw error;
+  }
+};
+
+// Get random scenarios for testing
+export const getRandomScenarios = async (
+  count: number = 10,
+  filters: Omit<ScenarioFilters, "limit" | "offset"> = {}
+): Promise<K53Scenario[]> => {
+  try {
+    // Get all scenarios first (we'll need to implement proper random selection)
+    const scenarios = await getScenarios({ ...filters, limit: 1000 });
+    
+    // Shuffle and take the requested count
+    const shuffled = scenarios.sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+  } catch (error) {
+    console.error("Error getting random scenarios:", error);
+    throw error;
+  }
+};
+
+// Location-aware sorting
+const sortByLocationRelevance = (scenarios: K53Scenario[], userLocation: UserLocation): K53Scenario[] => {
+  return scenarios.sort((a, b) => {
+    const scoreA = getLocationScore(a, userLocation);
+    const scoreB = getLocationScore(b, userLocation);
+    return scoreB - scoreA;
+  });
+};
+
+const getLocationScore = (scenario: K53Scenario, userLocation: UserLocation): number => {
+  if (!scenario.location) return 0;
+
+  // City match
+  if (scenario.location.cities?.some(city => 
+    city.toLowerCase() === userLocation.city.toLowerCase()
+  )) {
+    return 10;
+  }
+
+  // Region match
+  if (scenario.location.regions?.some(region => 
+    region.toLowerCase() === userLocation.region.toLowerCase()
+  )) {
+    return 8;
+  }
+
+  // Text mention
+  if (scenario.scenario.toLowerCase().includes(userLocation.city.toLowerCase()) ||
+      scenario.title.toLowerCase().includes(userLocation.city.toLowerCase())) {
+    return 9;
+  }
+
+  // National scenarios
+  if (scenario.location.specificity === "national") {
+    return 5;
+  }
+
+  return 0;
+};
+
+// Search scenarios
+export const searchScenarios = async (searchTerm: string): Promise<K53Scenario[]> => {
+  try {
+    const { data: dbScenarios, error } = await supabaseClient
+      .from("scenarios")
+      .select("*")
+      .or(`title.ilike.%${searchTerm}%,scenario.ilike.%${searchTerm}%,question.ilike.%${searchTerm}%`);
+
+    if (error) throw error;
+
+    return dbScenarios.map((dbScenario: DatabaseScenario) => ({
+      id: dbScenario.id,
+      category: dbScenario.category as any,
+      title: dbScenario.title,
+      scenario: dbScenario.scenario,
+      question: dbScenario.question,
+      options: dbScenario.options,
+      correct: dbScenario.correct,
+      explanation: dbScenario.explanation,
+      difficulty: dbScenario.difficulty as any,
+      context: dbScenario.context as any,
+      timeOfDay: dbScenario.time_of_day as any,
+      weather: dbScenario.weather as any,
+      language: dbScenario.language as any,
+      location: dbScenario.location,
+    }));
+  } catch (error) {
+    console.error("Error searching scenarios:", error);
+    throw error;
+  }
+}; 

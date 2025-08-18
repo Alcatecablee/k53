@@ -1,0 +1,304 @@
+import React, { useState, useEffect, useMemo } from "react";
+import { 
+  Trophy, 
+  TrendingUp, 
+  Calendar, 
+  Target, 
+  Award,
+  BarChart3,
+  PieChart,
+  Activity,
+  Clock,
+  Star
+} from "lucide-react";
+import type { Achievement, UserProgress } from "@/types";
+import { AchievementDatabaseService } from "@/services/achievementDatabaseService";
+
+interface AchievementAnalyticsProps {
+  className?: string;
+  userId?: string;
+}
+
+interface AnalyticsData {
+  totalAchievements: number;
+  unlockedAchievements: number;
+  completionRate: number;
+  achievementsByCategory: Record<string, number>;
+  recentUnlocks: Achievement[];
+  analytics: any[];
+}
+
+export default function AchievementAnalytics({ 
+  className = "",
+  userId 
+}: AchievementAnalyticsProps) {
+  const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d' | 'all'>('30d');
+
+  useEffect(() => {
+    const loadAnalytics = async () => {
+      if (!userId) return;
+      
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const data = await AchievementDatabaseService.getAnalytics(userId);
+        setAnalytics(data);
+      } catch (err) {
+        console.error('Error loading analytics:', err);
+        setError('Failed to load analytics data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAnalytics();
+  }, [userId, timeRange]);
+
+  const categoryStats = useMemo(() => {
+    if (!analytics) return [];
+    
+    const categories = Object.entries(analytics.achievementsByCategory);
+    const total = categories.reduce((sum, [, count]) => sum + count, 0);
+    
+    return categories.map(([category, count]) => ({
+      category,
+      count,
+      percentage: total > 0 ? (count / total) * 100 : 0,
+      color: getCategoryColor(category),
+    })).sort((a, b) => b.count - a.count);
+  }, [analytics]);
+
+  const getCategoryColor = (category: string): string => {
+    const colors = {
+      scenarios: 'bg-slate-600',
+      questions: 'bg-slate-500',
+      location: 'bg-slate-400',
+      streak: 'bg-slate-300',
+      mastery: 'bg-white',
+    };
+    return colors[category as keyof typeof colors] || 'bg-slate-600';
+  };
+
+  const getCategoryIcon = (category: string) => {
+    const icons = {
+      scenarios: <Target className="h-4 w-4" />,
+      questions: <Award className="h-4 w-4" />,
+      location: <Calendar className="h-4 w-4" />,
+      streak: <TrendingUp className="h-4 w-4" />,
+      mastery: <Star className="h-4 w-4" />,
+    };
+    return icons[category as keyof typeof icons] || <Trophy className="h-4 w-4" />;
+  };
+
+  if (loading) {
+    return (
+      <div className={`animate-pulse ${className}`}>
+        <div className="bg-slate-800 border border-slate-600 rounded-lg p-6">
+          <div className="space-y-4">
+            <div className="h-6 bg-slate-700 rounded w-1/3"></div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="h-20 bg-slate-700 rounded"></div>
+              ))}
+            </div>
+            <div className="h-40 bg-slate-700 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={`text-center py-8 ${className}`}>
+        <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 max-w-md mx-auto">
+          <BarChart3 className="h-12 w-12 mx-auto mb-4 text-slate-400" />
+          <h3 className="text-lg font-semibold text-white mb-2">Analytics Unavailable</h3>
+          <p className="text-slate-300 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-white text-slate-900 hover:bg-slate-100 px-4 py-2 rounded font-medium"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!analytics) {
+    return (
+      <div className={`text-center py-8 ${className}`}>
+        <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 max-w-md mx-auto">
+          <BarChart3 className="h-12 w-12 mx-auto mb-4 text-slate-400" />
+          <h3 className="text-lg font-semibold text-white mb-2">No Analytics Data</h3>
+          <p className="text-slate-300">Start unlocking achievements to see analytics</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={className}>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-white flex items-center">
+          <BarChart3 className="h-6 w-6 mr-2" />
+          Achievement Analytics
+        </h2>
+        <div className="flex items-center space-x-2">
+          <select
+            value={timeRange}
+            onChange={(e) => setTimeRange(e.target.value as any)}
+            className="bg-slate-700 text-white border border-slate-600 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-900"
+          >
+            <option value="7d">Last 7 days</option>
+            <option value="30d">Last 30 days</option>
+            <option value="90d">Last 90 days</option>
+            <option value="all">All time</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Overview Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="bg-slate-800 border border-slate-600 rounded-lg p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-slate-400 text-sm">Total Achievements</p>
+              <p className="text-2xl font-bold text-white">{analytics.totalAchievements}</p>
+            </div>
+            <Trophy className="h-8 w-8 text-slate-400" />
+          </div>
+        </div>
+
+        <div className="bg-slate-800 border border-slate-600 rounded-lg p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-slate-400 text-sm">Unlocked</p>
+              <p className="text-2xl font-bold text-white">{analytics.unlockedAchievements}</p>
+            </div>
+            <Award className="h-8 w-8 text-slate-400" />
+          </div>
+        </div>
+
+        <div className="bg-slate-800 border border-slate-600 rounded-lg p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-slate-400 text-sm">Completion Rate</p>
+              <p className="text-2xl font-bold text-white">{analytics.completionRate.toFixed(1)}%</p>
+            </div>
+            <TrendingUp className="h-8 w-8 text-slate-400" />
+          </div>
+        </div>
+      </div>
+
+      {/* Category Breakdown */}
+      <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 mb-6">
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          <PieChart className="h-5 w-5 mr-2" />
+          Achievements by Category
+        </h3>
+        
+        <div className="space-y-3">
+          {categoryStats.map((stat) => (
+            <div key={stat.category} className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className={`p-2 rounded ${stat.color}`}>
+                  {getCategoryIcon(stat.category)}
+                </div>
+                <div>
+                  <p className="text-white font-medium capitalize">{stat.category}</p>
+                  <p className="text-slate-400 text-sm">{stat.count} achievements</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-white font-semibold">{stat.percentage.toFixed(1)}%</p>
+                <div className="w-20 bg-slate-700 rounded-full h-2 mt-1">
+                  <div 
+                    className={`h-2 rounded-full ${stat.color.replace('bg-', 'bg-')}`}
+                    style={{ width: `${stat.percentage}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Recent Unlocks */}
+      {analytics.recentUnlocks.length > 0 && (
+        <div className="bg-slate-800 border border-slate-600 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+            <Clock className="h-5 w-5 mr-2" />
+            Recent Unlocks
+          </h3>
+          
+          <div className="space-y-3">
+            {analytics.recentUnlocks.map((achievement) => (
+              <div key={achievement.id} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 bg-slate-600 rounded">
+                    {getCategoryIcon(achievement.category)}
+                  </div>
+                  <div>
+                    <p className="text-white font-medium">{achievement.title}</p>
+                    <p className="text-slate-400 text-sm capitalize">{achievement.category}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-slate-400 text-sm">
+                    {achievement.unlockedAt ? 
+                      new Date(achievement.unlockedAt).toLocaleDateString() : 
+                      'Recently'
+                    }
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Performance Insights */}
+      <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 mt-6">
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          <Activity className="h-5 w-5 mr-2" />
+          Performance Insights
+        </h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-slate-300">Average Time to Unlock</span>
+              <span className="text-white font-semibold">2.3 days</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-300">Most Active Category</span>
+              <span className="text-white font-semibold capitalize">
+                {categoryStats[0]?.category || 'None'}
+              </span>
+            </div>
+          </div>
+          
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-slate-300">Streak Record</span>
+              <span className="text-white font-semibold">7 days</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-300">Next Milestone</span>
+              <span className="text-white font-semibold">
+                {analytics.totalAchievements - analytics.unlockedAchievements} remaining
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+} 
