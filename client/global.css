@@ -99,6 +99,48 @@
     @apply bg-slate-900;
     scroll-behavior: smooth;
   }
+
+  /* Enhanced focus management for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-white ring-offset-2 ring-offset-slate-800;
+  }
+
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Improved text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Better touch targets for mobile */
+  button, a, input, select, textarea {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Reduced motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    :root {
+      --border: 255 255 255;
+      --input: 255 255 255;
+    }
+  }
 }
 
 @layer components {
@@ -113,15 +155,15 @@
   }
 
   .government-button {
-    @apply bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide transition-colors;
+    @apply bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800;
   }
 
   .government-button-outline {
-    @apply border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide transition-colors;
+    @apply border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800;
   }
 
   .government-badge {
-    @apply bg-slate-700 text-white border-0 font-medium uppercase tracking-wide;
+    @apply bg-slate-700 text-white border-0 font-medium uppercase tracking-wide transition-all duration-200 hover:bg-slate-600;
   }
 
   .section-dark {
@@ -137,12 +179,22 @@
     background-image: none !important;
   }
 
-  /* Consistent hover states */
+  /* Enhanced hover states with smooth transitions */
   .hover-slate {
-    @apply hover:bg-slate-750 transition-colors;
+    @apply hover:bg-slate-750 transition-all duration-300 ease-in-out;
   }
 
-  /* Text hierarchy */
+  /* Interactive card hover effects */
+  .card-interactive {
+    @apply transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-[1.02] cursor-pointer;
+  }
+
+  /* Smooth button interactions */
+  .button-smooth {
+    @apply transition-all duration-200 ease-in-out hover:scale-105 active:scale-95;
+  }
+
+  /* Text hierarchy with improved readability */
   .text-primary {
     @apply text-white;
   }
@@ -159,9 +211,9 @@
     @apply text-slate-500;
   }
 
-  /* Progress bar utilities to replace inline styles */
+  /* Enhanced progress bar utilities */
   .progress-bar {
-    @apply h-2 bg-gray-200 rounded-full overflow-hidden;
+    @apply h-2 bg-gray-200 rounded-full overflow-hidden transition-all duration-300 ease-out;
   }
   
   .progress-fill {
@@ -180,132 +232,192 @@
     @apply bg-red-600;
   }
   
-  /* Dynamic width utilities */
+  /* Dynamic width utilities with smooth transitions */
   .w-dynamic {
     @apply transition-all duration-300 ease-out;
   }
   
   /* Chart container utilities */
   .chart-container {
-    @apply relative w-full h-64 bg-white rounded-lg border border-gray-200 p-4;
+    @apply relative w-full h-64 bg-white rounded-lg border border-gray-200 p-4 transition-all duration-300 ease-out;
   }
   
   .chart-container-dark {
     @apply bg-gray-800 border-gray-700;
   }
   
-  /* Loading state utilities */
+  /* Enhanced loading state utilities */
   .loading-skeleton {
-    @apply animate-pulse bg-gray-200 rounded;
+    @apply animate-pulse bg-gray-200 rounded transition-all duration-300 ease-out;
   }
   
   .loading-skeleton-dark {
     @apply bg-gray-700;
   }
   
-  /* Accessibility utilities */
+  /* Comprehensive accessibility utilities */
   .sr-only {
     @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
   }
   
   .focus-visible {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    @apply focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-opacity-75;
   }
   
-  /* Button accessibility */
+  /* Enhanced button accessibility */
   .btn-accessible {
-    @apply focus-visible;
+    @apply focus-visible transition-all duration-200 ease-in-out;
   }
   .btn-accessible[aria-disabled="true"] {
-    @apply opacity-50 cursor-not-allowed;
+    @apply opacity-50 cursor-not-allowed pointer-events-none;
   }
    
-  /* Form accessibility */
+  /* Enhanced form accessibility */
   .form-field-accessible {
-    @apply focus-visible;
+    @apply focus-visible transition-all duration-200 ease-in-out;
   }
   .form-field-accessible[aria-invalid="true"] {
-    @apply border-red-500 text-red-600;
+    @apply border-red-500 text-red-600 ring-red-500;
   }
    
-  /* Navigation accessibility */
+  /* Enhanced navigation accessibility */
   .nav-accessible {
-    @apply focus-visible;
+    @apply focus-visible transition-all duration-200 ease-in-out;
   }
   .nav-accessible[aria-current] {
-    @apply bg-blue-100 text-blue-900;
+    @apply bg-slate-700 text-white;
   }
    
-  /* Table accessibility */
+  /* Enhanced table accessibility */
   .table-accessible {
-    /* base styles can go here */
+    @apply transition-all duration-200 ease-in-out;
   }
   .table-accessible[aria-sort] {
-    @apply bg-gray-50;
+    @apply bg-slate-700;
   }
   .table-accessible[aria-selected="true"] {
-    @apply bg-blue-50;
+    @apply bg-slate-600;
   }
    
-  /* Modal accessibility */
+  /* Enhanced modal accessibility */
   .modal-accessible {
-    @apply focus-visible;
-    /* ARIA attributes belong in markup; use them for semantics and optionally for styling via selectors */
+    @apply focus-visible transition-all duration-200 ease-in-out;
   }
   .modal-accessible[aria-modal="true"] {
-    /* Add any modal-specific visual adjustments here if needed */
+    @apply z-50;
   }
    
-  /* Status indicators */
+  /* Status indicators with smooth transitions */
   .status-online {
-    @apply bg-green-500;
+    @apply bg-green-500 transition-all duration-200 ease-in-out;
   }
   
   .status-offline {
-    @apply bg-red-500;
+    @apply bg-red-500 transition-all duration-200 ease-in-out;
   }
   
   .status-warning {
-    @apply bg-orange-500;
+    @apply bg-orange-500 transition-all duration-200 ease-in-out;
   }
   
   .status-info {
-    @apply bg-blue-500;
+    @apply bg-blue-500 transition-all duration-200 ease-in-out;
   }
   
-  /* Responsive utilities */
+  /* Enhanced responsive utilities */
   .responsive-container {
-    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-300 ease-out;
   }
   
   .responsive-grid {
-    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4;
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 transition-all duration-300 ease-out;
   }
   
-  /* Animation utilities */
+  /* Enhanced animation utilities */
   .fade-in {
-    @apply animate-in fade-in-0 duration-300;
+    @apply animate-in fade-in-0 duration-300 ease-out;
   }
   
   .slide-in {
-    @apply animate-in slide-in-from-bottom-4 duration-300;
+    @apply animate-in slide-in-from-bottom-4 duration-300 ease-out;
   }
   
   .scale-in {
-    @apply animate-in zoom-in-95 duration-200;
+    @apply animate-in zoom-in-95 duration-200 ease-out;
   }
   
-  /* Interactive states */
+  .slide-in-left {
+    @apply animate-in slide-in-from-left-4 duration-300 ease-out;
+  }
+  
+  .slide-in-right {
+    @apply animate-in slide-in-from-right-4 duration-300 ease-out;
+  }
+  
+  /* Enhanced interactive states */
   .interactive-hover {
-    @apply transition-all duration-200 hover:scale-105 hover:shadow-lg;
+    @apply transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-lg;
   }
   
   .interactive-focus {
-    @apply focus-visible focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    @apply focus-visible focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800;
   }
   
   .interactive-active {
-    @apply active:scale-95 active:shadow-sm;
+    @apply active:scale-95 active:shadow-sm transition-all duration-100 ease-out;
+  }
+
+  /* Mobile-specific enhancements */
+  .mobile-optimized {
+    @apply touch-manipulation;
+  }
+
+  .mobile-tap-highlight {
+    @apply -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth page transitions */
+  .page-transition {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Enhanced card hover effects */
+  .card-hover {
+    @apply transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-[1.02] hover:bg-slate-750;
+  }
+
+  /* Smooth text transitions */
+  .text-transition {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  /* Enhanced button states */
+  .button-enhanced {
+    @apply transition-all duration-200 ease-in-out hover:scale-105 active:scale-95 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800;
+  }
+
+  /* Smooth navigation transitions */
+  .nav-smooth {
+    @apply transition-all duration-200 ease-in-out hover:scale-105;
+  }
+
+  /* Enhanced loading animations */
+  .loading-enhanced {
+    @apply animate-pulse transition-all duration-300 ease-out;
+  }
+
+  /* Smooth form transitions */
+  .form-smooth {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  /* Enhanced mobile menu animations */
+  .mobile-menu-enter {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .mobile-menu-exit {
+    @apply transition-all duration-300 ease-in-out;
   }
 }
 
@@ -327,12 +439,13 @@
     background-image: none !important;
   }
 
-  /* Custom slider styling for value calculator */
+  /* Enhanced custom slider styling for value calculator */
   input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
     background: transparent;
     cursor: pointer;
+    @apply transition-all duration-200 ease-in-out;
   }
 
   input[type="range"]::-webkit-slider-track {
@@ -340,6 +453,7 @@
     height: 8px;
     border-radius: 4px;
     border: 1px solid rgb(0 0 0); /* black border */
+    @apply transition-all duration-200 ease-in-out;
   }
 
   input[type="range"]::-webkit-slider-thumb {
@@ -351,6 +465,7 @@
     border-radius: 2px;
     border: 2px solid rgb(0 0 0); /* black border */
     cursor: pointer;
+    @apply transition-all duration-200 ease-in-out hover:scale-110;
   }
 
   input[type="range"]::-moz-range-track {
@@ -358,6 +473,7 @@
     height: 8px;
     border-radius: 4px;
     border: 1px solid rgb(0 0 0); /* black border */
+    @apply transition-all duration-200 ease-in-out;
   }
 
   input[type="range"]::-moz-range-thumb {
@@ -368,5 +484,121 @@
     border: 2px solid rgb(0 0 0); /* black border */
     cursor: pointer;
     border: none;
+    @apply transition-all duration-200 ease-in-out hover:scale-110;
+  }
+
+  /* Enhanced focus styles for better accessibility */
+  .focus-enhanced {
+    @apply focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-opacity-75;
+  }
+
+  /* Smooth scroll behavior for anchor links */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+
+  /* Enhanced touch targets for mobile */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Reduced motion support */
+  .motion-reduce {
+    @apply motion-reduce:animate-none motion-reduce:transition-none;
+  }
+
+  /* High contrast mode support */
+  .high-contrast {
+    @apply contrast-150;
+  }
+
+  /* Enhanced mobile responsiveness */
+  .mobile-first {
+    @apply w-full sm:w-auto;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  .transition-smooth {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  .transition-smooth-slow {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Enhanced hover effects */
+  .hover-enhanced {
+    @apply hover:scale-105 hover:shadow-lg transition-all duration-200 ease-in-out;
+  }
+
+  /* Focus ring utilities */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800;
+  }
+
+  .focus-ring-primary {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800;
+  }
+
+  /* Loading state utilities */
+  .loading-dots {
+    @apply animate-pulse;
+  }
+
+  .loading-spinner {
+    @apply animate-spin;
+  }
+
+  /* Enhanced mobile menu utilities */
+  .mobile-menu-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 z-40 transition-all duration-300 ease-in-out;
+  }
+
+  .mobile-menu-content {
+    @apply transform transition-all duration-300 ease-in-out;
+  }
+
+  /* Enhanced card utilities */
+  .card-elevated {
+    @apply shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl;
+  }
+
+  .card-flat {
+    @apply shadow-none transition-all duration-300 ease-in-out hover:shadow-md;
+  }
+
+  /* Enhanced button utilities */
+  .btn-primary {
+    @apply bg-white text-slate-900 hover:bg-slate-100 font-medium transition-all duration-200 ease-in-out hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800;
+  }
+
+  .btn-secondary {
+    @apply border border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium transition-all duration-200 ease-in-out hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800;
+  }
+
+  /* Enhanced text utilities */
+  .text-responsive {
+    @apply text-sm sm:text-base lg:text-lg;
+  }
+
+  .text-responsive-large {
+    @apply text-base sm:text-lg lg:text-xl;
+  }
+
+  .text-responsive-xl {
+    @apply text-lg sm:text-xl lg:text-2xl;
+  }
+
+  /* Enhanced spacing utilities */
+  .spacing-responsive {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+
+  .spacing-responsive-sm {
+    @apply p-2 sm:p-4 lg:p-6;
+  }
+
+  .spacing-responsive-lg {
+    @apply p-6 sm:p-8 lg:p-12;
   }
 }
