@@ -101,27 +101,27 @@ export function Auth({ onAuthSuccess }: AuthProps) {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md border-2 border-black bg-white">
-        <CardHeader className="bg-slate-800 text-white p-6">
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md border-2 border-black bg-slate-800">
+        <CardHeader className="bg-slate-700 text-white p-6 border-b border-black">
           <CardTitle className="text-2xl font-bold uppercase tracking-wide text-center">
             {isSignUp ? "Create Account" : "Sign In"}
           </CardTitle>
-          <p className="text-slate-200 text-center text-sm">
+          <p className="text-slate-300 text-center text-sm">
             {isSignUp
               ? "Join thousands practicing for their K53 license"
               : "Welcome back to your K53 practice"}
           </p>
         </CardHeader>
 
-        <CardContent className="p-6">
+        <CardContent className="p-6 bg-slate-800">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Full Name (Sign Up Only) */}
             {isSignUp && (
               <div className="space-y-2">
                 <Label
                   htmlFor="fullName"
-                  className="text-sm font-semibold text-slate-700 uppercase tracking-wide"
+                  className="text-sm font-semibold text-slate-300 uppercase tracking-wide"
                 >
                   Full Name
                 </Label>
@@ -138,7 +138,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                         fullName: e.target.value,
                       }))
                     }
-                    className="pl-10 border-2 border-black"
+                    className="pl-10 border-2 border-black bg-slate-700 text-white placeholder:text-slate-400"
                     required={isSignUp}
                   />
                 </div>
@@ -149,7 +149,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
             <div className="space-y-2">
               <Label
                 htmlFor="email"
-                className="text-sm font-semibold text-slate-700 uppercase tracking-wide"
+                className="text-sm font-semibold text-slate-300 uppercase tracking-wide"
               >
                 Email Address
               </Label>
@@ -163,7 +163,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, email: e.target.value }))
                   }
-                  className="pl-10 border-2 border-black"
+                  className="pl-10 border-2 border-black bg-slate-700 text-white placeholder:text-slate-400"
                   required
                   autoComplete="username"
                 />
@@ -174,7 +174,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
             <div className="space-y-2">
               <Label
                 htmlFor="password"
-                className="text-sm font-semibold text-slate-700 uppercase tracking-wide"
+                className="text-sm font-semibold text-slate-300 uppercase tracking-wide"
               >
                 Password
               </Label>
@@ -195,7 +195,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                       password: e.target.value,
                     }))
                   }
-                  className="pl-10 pr-10 border-2 border-black"
+                  className="pl-10 pr-10 border-2 border-black bg-slate-700 text-white placeholder:text-slate-400"
                   minLength={isSignUp ? 6 : undefined}
                   required
                   autoComplete="current-password"
@@ -204,7 +204,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 text-slate-400 hover:text-white"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -221,7 +221,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
               <div className="space-y-2">
                 <Label
                   htmlFor="location"
-                  className="text-sm font-semibold text-slate-700 uppercase tracking-wide"
+                  className="text-sm font-semibold text-slate-300 uppercase tracking-wide"
                 >
                   Your Location
                 </Label>
@@ -232,20 +232,21 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                       setFormData((prev) => ({ ...prev, location: value }))
                     }
                   >
-                    <SelectTrigger className="pl-10 border-2 border-black">
+                    <SelectTrigger className="pl-10 border-2 border-black bg-slate-700 text-white">
                       <SelectValue placeholder="Choose your city..." />
                     </SelectTrigger>
-                    <SelectContent className="max-h-60">
+                    <SelectContent className="max-h-60 bg-slate-700 border-black">
                       {Object.entries(groupedLocations).map(
                         ([region, cities]) => (
                           <div key={region}>
-                            <div className="px-2 py-1 text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                            <div className="px-2 py-1 text-xs font-semibold text-slate-400 uppercase tracking-wide">
                               {region}
                             </div>
                             {cities.map((location) => (
                               <SelectItem
                                 key={`${location.city}, ${location.region}`}
                                 value={location.displayName}
+                                className="text-white hover:bg-slate-600"
                               >
                                 {location.displayName}
                               </SelectItem>
@@ -256,7 +257,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                     </SelectContent>
                   </Select>
                 </div>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-400">
                   This helps us provide scenarios relevant to your area
                 </p>
               </div>
@@ -264,16 +265,16 @@ export function Auth({ onAuthSuccess }: AuthProps) {
 
             {/* Error/Success Messages */}
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded flex items-start space-x-2">
-                <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
-                <p className="text-red-700 text-sm">{error}</p>
+              <div className="p-3 bg-red-900 border border-red-700 rounded flex items-start space-x-2">
+                <AlertCircle className="h-4 w-4 text-red-400 mt-0.5 flex-shrink-0" />
+                <p className="text-red-300 text-sm">{error}</p>
               </div>
             )}
 
             {success && (
-              <div className="p-3 bg-slate-800 border border-slate-600 rounded flex items-start space-x-2">
-                <CheckCircle className="h-4 w-4 text-slate-300 mt-0.5 flex-shrink-0" />
-                <p className="text-green-700 text-sm">{success}</p>
+              <div className="p-3 bg-green-900 border border-green-700 rounded flex items-start space-x-2">
+                <CheckCircle className="h-4 w-4 text-green-400 mt-0.5 flex-shrink-0" />
+                <p className="text-green-300 text-sm">{success}</p>
               </div>
             )}
 
@@ -281,7 +282,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold uppercase tracking-wide py-3"
+              className="w-full bg-white hover:bg-slate-100 text-slate-900 font-semibold uppercase tracking-wide py-3"
             >
               {loading
                 ? "Please wait..."
@@ -293,7 +294,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
 
           {/* Toggle Sign In/Up */}
           <div className="mt-6 text-center">
-            <p className="text-slate-600 text-sm">
+            <p className="text-slate-400 text-sm">
               {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
               <Button
                 variant="link"
@@ -308,7 +309,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
                     location: "",
                   });
                 }}
-                className="p-0 text-slate-800 font-semibold uppercase tracking-wide"
+                className="p-0 text-white font-semibold uppercase tracking-wide hover:text-slate-300"
               >
                 {isSignUp ? "Sign In" : "Sign Up"}
               </Button>
@@ -316,7 +317,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
           </div>
 
           {/* Privacy Note */}
-          <div className="mt-4 text-xs text-slate-500 text-center">
+          <div className="mt-4 text-xs text-slate-400 text-center">
             By signing up, you agree to our privacy policy. Your location is
             used only for relevant driving scenarios.
           </div>
