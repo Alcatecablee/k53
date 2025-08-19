@@ -17,44 +17,71 @@ export const getUserSubscription = async (): Promise<UserSubscription | null> =>
       return null;
     }
 
-    // Try to get subscription from database using the client
-    const client = supabaseClient;
-    if (!client) {
-      return null;
-    }
-
-    const { data: subscription, error } = await client
+    // Try to get subscription from database
+    const { data: subscription, error } = await supabaseClient
       .from("user_subscriptions")
       .select("*")
       .eq("user_id", user.id)
       .single();
 
-    if (error) {
-      // Log error for debugging but don't expose to user
-      console.warn("Subscription table error:", error);
-      // Return null for missing table or permission issues
-      return null;
+    if (subscription && !error) {
+      return subscription as UserSubscription;
     }
 
-    if (subscription) {
-      return {
-        id: subscription.id,
-        user_id: subscription.user_id,
-        plan_type: subscription.plan_type as "free" | "basic" | "standard" | "premium",
-        status: subscription.status as "active" | "canceled" | "expired" | "trial",
-        price_cents: subscription.price_cents || 0,
-        currency: subscription.currency || "ZAR",
-        billing_cycle: subscription.billing_cycle || "monthly",
-        current_period_start: subscription.current_period_start,
-        current_period_end: subscription.current_period_end,
-        created_at: subscription.created_at,
-        updated_at: subscription.updated_at,
-      };
+    // If no subscription exists, create a default free subscription
+    const defaultSubscription = {
+      user_id: user.id,
+      plan_type: "free" as const,
+      status: "active" as const,
+      price_cents: 0,
+      currency: "ZAR",
+      billing_cycle: "monthly" as const,
+      current_period_start: new Date().toISOString(),
+      current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
+    };
+
+    const { data: newSubscription, error: insertError } = await supabaseClient
+      .from("user_subscriptions")
+      .insert(defaultSubscription)
+      .select()
+      .single();
+
+    if (newSubscription && !insertError) {
+      return newSubscription as UserSubscription;
     }
 
-    return null;
+    // Fallback to default subscription if database fails
+    return {
+      id: `free-${user.id}`,
+      user_id: user.id,
+      plan_type: "free" as const,
+      status: "active" as const,
+      price_cents: 0,
+      currency: "ZAR",
+      billing_cycle: "monthly" as const,
+      current_period_start: new Date().toISOString(),
+      current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
   } catch (error) {
-    // Return null instead of mock data for production readiness
+    console.error("Error getting user subscription:", error);
+    
+    // Handle specific error codes
+    if (error && typeof error === 'object' && 'code' in error) {
+      const errorCode = (error as any).code;
+      if (errorCode === '406' || errorCode === '400' || errorCode === '409') {
+        console.warn("Database access issue - using fallback subscription");
+        
+        // If it's a 406 error, the user might have an invalid session
+        if (errorCode === '406') {
+          console.warn("406 error detected - user session may be invalid");
+          // Optionally trigger a re-authentication
+          // await supabase.auth.refreshSession();
+        }
+      }
+    }
+    
     return null;
   }
 };
@@ -71,15 +98,58 @@ export const getDailyUsage = async (
 
     const targetDate = date || new Date().toISOString().split("T")[0];
 
-    // Check localStorage for daily usage (fallback when database is unavailable)
-    const storageKey = `daily_usage_${user.id}_${targetDate}`;
-    const stored = localStorage.getItem(storageKey);
+    // Try to get usage from database first
+    const { data: dbUsage, error } = await supabaseClient
+      .from("daily_usage")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("date", targetDate)
+      .single();
 
-    if (stored) {
-      return JSON.parse(stored);
+    if (dbUsage && !error) {
+      return dbUsage as DailyUsage;
     }
 
-    // Create new daily usage record
+    // If no record exists, create one
+    const defaultUsage: DailyUsage = {
+      id: `usage-${user.id}-${targetDate}`,
+      user_id: user.id,
+      date: targetDate,
+      scenarios_used: 0,
+      questions_used: 0,
+      max_scenarios: 5, // Free tier default
+      max_questions: 10,
+    };
+
+    const { data: newUsage, error: insertError } = await supabaseClient
+      .from("daily_usage")
+      .insert(defaultUsage)
+      .select()
+      .single();
+
+    if (newUsage && !insertError) {
+      return newUsage as DailyUsage;
+    }
+
+    // Fallback to localStorage if database fails
+    const storageKey = `daily_usage_${user.id}_${targetDate}`;
+    const stored = localStorage.getItem(storageKey);
+    
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        // If stored data is corrupted, use default
+        localStorage.setItem(storageKey, JSON.stringify(defaultUsage));
+        return defaultUsage;
+      }
+    }
+
+    // Store and return default usage
+    localStorage.setItem(storageKey, JSON.stringify(defaultUsage));
+    return defaultUsage;
+
+    // Create new daily usage record in localStorage as fallback
     const usage: DailyUsage = {
       id: `usage-${user.id}-${targetDate}`,
       user_id: user.id,
@@ -96,6 +166,22 @@ export const getDailyUsage = async (
     return usage;
   } catch (error) {
     logWarning("Error getting daily usage", { error, context: "getDailyUsage" });
+    
+    // Handle specific error codes
+    if (error && typeof error === 'object' && 'code' in error) {
+      const errorCode = (error as any).code;
+      if (errorCode === '406' || errorCode === '400' || errorCode === '409') {
+        console.warn("Database access issue - using localStorage fallback");
+        
+        // If it's a 406 error, the user might have an invalid session
+        if (errorCode === '406') {
+          console.warn("406 error detected - user session may be invalid");
+          // Optionally trigger a re-authentication
+          // await supabase.auth.refreshSession();
+        }
+      }
+    }
+    
     return null;
   }
 };
@@ -125,7 +211,24 @@ export const updateDailyUsage = async (
 
     usage.updated_at = new Date().toISOString();
 
-    // Save to localStorage
+    // Try to update in database first
+    const { data: updatedUsage, error } = await supabaseClient
+      .from("daily_usage")
+      .update({
+        scenarios_used: usage.scenarios_used,
+        questions_used: usage.questions_used,
+        updated_at: usage.updated_at,
+      })
+      .eq("user_id", user.id)
+      .eq("date", today)
+      .select()
+      .single();
+
+    if (updatedUsage && !error) {
+      return updatedUsage as DailyUsage;
+    }
+
+    // Fallback to localStorage if database fails
     const storageKey = `daily_usage_${user.id}_${today}`;
     localStorage.setItem(storageKey, JSON.stringify(usage));
 

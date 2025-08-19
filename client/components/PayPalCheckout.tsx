@@ -64,7 +64,7 @@ export function PayPalCheckout({
 
   const initialOptions = {
     clientId: env.paypal.clientId!,
-    currency: currency,
+    currency: currency === "ZAR" ? "USD" : currency, // PayPal doesn't support ZAR, use USD
     intent: "capture",
     components: "buttons",
     "enable-funding": "card",
@@ -160,6 +160,12 @@ export function PayPalCheckout({
           <p className="text-xs text-slate-400">
             Required: VITE_PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, VITE_PAYPAL_ENVIRONMENT
           </p>
+          <div className="mt-4 p-3 bg-slate-700 rounded text-xs">
+            <p className="text-slate-300 mb-2">Current Status:</p>
+            <p className="text-slate-400">Client ID: {env.paypal.clientId ? '✅ Set' : '❌ Missing'}</p>
+            <p className="text-slate-400">Environment: {env.paypal.environment}</p>
+            <p className="text-slate-400">Configured: {env.paypal.isConfigured ? '✅ Yes' : '❌ No'}</p>
+          </div>
         </CardContent>
       </Card>
     );
@@ -202,6 +208,11 @@ export function PayPalCheckout({
               <p className="text-xs text-slate-300 text-center">
                 Secure payment processed by PayPal. No PayPal account required.
               </p>
+              {currency === "ZAR" && (
+                <p className="text-xs text-slate-400 text-center mt-1">
+                  Payment will be processed in USD (converted from ZAR)
+                </p>
+              )}
             </div>
 
             {/* Alternative: PayPal Account */}

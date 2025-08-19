@@ -457,7 +457,7 @@ export default function Documentation() {
                       </Badge>
                     </div>
                     <p className="text-slate-700 mb-3">
-                      Location-aware real-world driving scenarios (220+
+                      Location-aware real-world driving scenarios (426+
                       scenarios available).
                     </p>
                     <div className="text-sm text-slate-600">

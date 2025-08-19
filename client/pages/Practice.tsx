@@ -372,6 +372,21 @@ function PracticeComponent() {
         userLocation?.city
       );
       
+      // Update daily usage for scenarios
+      updateDailyUsage("scenarios", 1).then(async (updatedUsage) => {
+        if (updatedUsage) {
+          // Refresh usage info to update the UI
+          try {
+            const newAccessInfo = await canAccessScenarios();
+            setUsageInfo(newAccessInfo);
+          } catch (error) {
+            logError("Failed to refresh usage info", error, "handleAnswer");
+          }
+        }
+      }).catch((error) => {
+        logError("Failed to update daily usage", error, "handleAnswer");
+      });
+      
       // Check for new achievements and send notifications
       pushNotificationService.checkForNewAchievements(oldProgress, newProgress);
     }
@@ -750,7 +765,7 @@ function PracticeComponent() {
                         <h3 className="text-lg font-bold uppercase tracking-wide mb-3">
                           Scenario Assessment
                         </h3>
-                        <div className="text-3xl font-bold mb-1">250+</div>
+                        <div className="text-3xl font-bold mb-1">426+</div>
                         <div className="text-xs uppercase tracking-wide mb-1">
                           Location-Aware Scenarios
                         </div>
@@ -825,10 +840,10 @@ function PracticeComponent() {
                                     Daily allocation complete
                                   </div>
                                   <div className="text-xs text-white/70 leading-relaxed">
-                                    Premium members access 220+ additional
-                                    scenarios including location-specific
-                                    highway patterns and advanced driving
-                                    conditions
+                                                                      Premium members access 426+ additional
+                                  scenarios including location-specific
+                                  highway patterns and advanced driving
+                                  conditions
                                   </div>
                                 </div>
                               ) : (

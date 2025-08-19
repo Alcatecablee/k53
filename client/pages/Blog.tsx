@@ -495,7 +495,7 @@ export default function Blog() {
                 </h2>
                 <p className="text-xl text-slate-300 mb-8">
                   Start practicing with our comprehensive K53 learner's licence platform. 
-                  Access 1000+ questions and 220+ scenarios to ensure you're fully prepared.
+                  Access 1000+ questions and 426+ scenarios to ensure you're fully prepared.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button

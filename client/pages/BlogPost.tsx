@@ -385,7 +385,7 @@ export default function BlogPost() {
                 </h2>
                 <p className="text-slate-300 mb-6">
                   Put your knowledge to the test with our comprehensive K53 practice platform. 
-                  Access 1000+ questions and 220+ scenarios to ensure you're fully prepared.
+                  Access 1000+ questions and 426+ scenarios to ensure you're fully prepared.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button

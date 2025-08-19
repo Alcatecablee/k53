@@ -1091,7 +1091,7 @@ export default function AdminNew() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">224</div>
+                  <div className="text-2xl font-bold">426</div>
                   <p className="text-xs text-slate-400">AI scenarios</p>
                 </CardContent>
               </Card>

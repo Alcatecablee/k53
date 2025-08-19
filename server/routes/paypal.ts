@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { config } from "dotenv";
 
 // Load environment variables directly in this module
-config();
+config({ path: '.env' });
 
 const PAYPAL_CLIENT_ID =
   process.env.VITE_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID;
@@ -18,7 +18,7 @@ if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
 }
 
 // PayPal API base URL
-const PAYPAL_BASE_URL = PAYPAL_ENVIRONMENT === "live" 
+const PAYPAL_BASE_URL = PAYPAL_ENVIRONMENT === "live" || PAYPAL_ENVIRONMENT === "production"
   ? "https://api-m.paypal.com" 
   : "https://api-m.sandbox.paypal.com";
 
@@ -53,23 +53,38 @@ export const createPayPalOrder: RequestHandler = async (req, res) => {
   try {
     const { planId, amount, currency = "ZAR", userId } = req.body;
 
+    console.log('PayPal order creation request:', { planId, amount, currency, userId });
+
     if (!planId || !amount || !userId) {
+      console.log('Missing required fields:', { planId, amount, userId });
       return res.status(400).json({ error: "Missing required fields" });
     }
 
     if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
+      console.log('PayPal credentials not configured');
       return res.status(500).json({ error: "PayPal credentials not configured" });
     }
 
     const accessToken = await getPayPalAccessToken();
 
+    // PayPal doesn't support ZAR, so we'll use USD for now
+    const paypalCurrency = currency === "ZAR" ? "USD" : currency;
+    const paypalAmount = currency === "ZAR" ? (parseFloat(amount.toString()) * 0.055).toFixed(2) : amount.toString();
+    
+    console.log('PayPal order data:', { 
+      originalAmount: amount, 
+      originalCurrency: currency, 
+      paypalAmount, 
+      paypalCurrency 
+    });
+    
     const orderData = {
       intent: "CAPTURE",
       purchase_units: [
         {
           amount: {
-            currency_code: currency,
-            value: amount.toString(),
+            currency_code: paypalCurrency,
+            value: paypalAmount,
           },
           description: `SuperK53 ${planId} subscription`,
           custom_id: userId,
@@ -110,6 +125,10 @@ export const createPayPalOrder: RequestHandler = async (req, res) => {
       orderID: order.id,
       status: order.status,
       message: "PayPal order created successfully",
+      originalCurrency: currency,
+      paypalCurrency: paypalCurrency,
+      originalAmount: amount,
+      paypalAmount: paypalAmount,
     });
   } catch (error) {
     console.error("Create PayPal order error:", error);

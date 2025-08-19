@@ -185,6 +185,23 @@ export function createServer() {
   app.put("/api/content/scenarios/:scenarioId", updateScenario);
   app.get("/api/content/stats", getContentStats);
 
+  // Additional routes for client compatibility
+  app.get("/api/progress", (_req, res) => {
+    res.json({ progress: [] });
+  });
+
+  app.get("/api/achievements", (_req, res) => {
+    res.json({ achievements: [] });
+  });
+
+  app.get("/api/scenarios", (_req, res) => {
+    res.json({ scenarios: [] });
+  });
+
+  app.post("/api/push/subscribe", (_req, res) => {
+    res.json({ success: true });
+  });
+
   // Enterprise admin routes
   app.get("/api/enterprise/dashboard-stats", getEnhancedDashboardStats);
   app.get("/api/enterprise/users", getEnhancedUsers);

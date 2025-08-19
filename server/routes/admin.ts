@@ -4,6 +4,29 @@ import { createClient } from "@supabase/supabase-js";
 // Database client
 let supabase: any = null;
 
+// Helper function to check if required tables exist
+async function checkTablesExist(db: any): Promise<boolean> {
+  try {
+    // Try to query each table with a simple select
+    const [userSubsResult, paymentsResult, profilesResult] = await Promise.allSettled([
+      db.from("user_subscriptions").select("*").limit(1),
+      db.from("payments").select("*").limit(1),
+      db.from("profiles").select("*").limit(1),
+    ]);
+
+    // Check if any of the queries failed with a table not found error
+    const hasTableErrors = [userSubsResult, paymentsResult, profilesResult].some(
+      result => result.status === "rejected" && 
+      (result.reason?.code === "PGRST116" || result.reason?.message?.includes("relation") || result.reason?.message?.includes("does not exist"))
+    );
+
+    return !hasTableErrors;
+  } catch (error) {
+    console.error("Error checking tables:", error);
+    return false;
+  }
+}
+
 const getDatabase = () => {
   if (!supabase) {
     const supabaseUrl = "https://lxzwakeusanxquhshcph.supabase.co";
@@ -40,6 +63,26 @@ export const getDashboardStats: RequestHandler = async (req, res) => {
     if (!db) {
       return res.status(503).json({
         error: "Database not configured",
+        totalUsers: 0,
+        activeSubscriptions: 0,
+        totalRevenue: 0,
+        todaySignups: 0,
+        conversionRate: 0,
+        churnRate: 0,
+        avgSessionTime: 0,
+        topLocations: [],
+        monthlyGrowth: 0,
+        realtimeUsers: 0,
+        serverLoad: 0,
+        responseTime: 0,
+        errorRate: 0,
+      });
+    }
+
+    // Check if tables exist before querying
+    const tablesExist = await checkTablesExist(db);
+    if (!tablesExist) {
+      return res.json({
         totalUsers: 0,
         activeSubscriptions: 0,
         totalRevenue: 0,

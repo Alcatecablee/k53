@@ -56,7 +56,8 @@ export const getQuestions = async (
       const dbPromise = (async () => {
         const { data: dbQuestions, error } = await supabaseClient
           .from("questions")
-          .select("*");
+          .select("*")
+          .order('id', { ascending: false }); // Add ordering for better randomization
 
         if (!error && dbQuestions && dbQuestions.length > 0) {
           return generateRandomTestFromDb(

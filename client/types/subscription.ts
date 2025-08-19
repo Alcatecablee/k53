@@ -9,11 +9,11 @@ export interface UserSubscription {
   currency: "ZAR";
   billing_cycle: "monthly" | "yearly";
   trial_ends_at?: string;
-  current_period_start: string;
-  current_period_end: string;
+  current_period_start?: string;
+  current_period_end?: string;
   canceled_at?: string;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface DailyUsage {
@@ -24,8 +24,8 @@ export interface DailyUsage {
   questions_used: number;
   max_scenarios: number;
   max_questions: number;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface ScenarioPack {

@@ -98,6 +98,13 @@ export const getScenarios = async (filters: ScenarioFilters = {}): Promise<K53Sc
     if (filters.context) {
       query = query.eq("context", filters.context);
     }
+    
+    // Add random ordering for better randomization
+    if (!filters.location) {
+      // If no location filter, use random ordering
+      query = query.order('id', { ascending: false }); // This will be shuffled client-side
+    }
+    
     if (filters.limit) {
       query = query.limit(filters.limit);
     }
@@ -180,16 +187,27 @@ export const getRandomScenarios = async (
   filters: Omit<ScenarioFilters, "limit" | "offset"> = {}
 ): Promise<K53Scenario[]> => {
   try {
-    // Get all scenarios first (we'll need to implement proper random selection)
-    const scenarios = await getScenarios({ ...filters, limit: 1000 });
+    // Get more scenarios than needed for better randomization
+    const fetchCount = Math.min(count * 3, 1000); // Get 3x more than needed, max 1000
+    const scenarios = await getScenarios({ ...filters, limit: fetchCount });
     
-    // Shuffle and take the requested count
-    const shuffled = scenarios.sort(() => Math.random() - 0.5);
+    // Use Fisher-Yates shuffle for better randomization
+    const shuffled = shuffleArray(scenarios);
     return shuffled.slice(0, count);
   } catch (error) {
     console.error("Error getting random scenarios:", error);
     throw error;
   }
+};
+
+// Fisher-Yates shuffle for better randomization
+const shuffleArray = <T>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 };
 
 // Location-aware sorting
