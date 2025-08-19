@@ -280,7 +280,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         />
 
         <div className="space-y-2">
-          <p className="text-lg font-medium text-gray-900">
+          <p className="text-lg font-medium text-white">
             {isDragOver ? "Drop files here" : "Drag and drop files here"}
           </p>
           <p className="text-sm text-gray-500">or click to browse files</p>
@@ -294,7 +294,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       {files.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium text-gray-900">
+            <h3 className="text-lg font-medium text-white">
               Files ({files.length})
             </h3>
             <div className="flex space-x-2">
@@ -332,7 +332,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm font-medium text-gray-900 truncate">
+                    <p className="text-sm font-medium text-white truncate">
                       {file.name}
                     </p>
                     <div className="flex items-center space-x-2">
@@ -506,7 +506,7 @@ export const CSVUpload: React.FC<CSVUploadProps> = ({
       ) : (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium text-gray-900">
+            <h3 className="text-lg font-medium text-white">
               CSV Preview ({csvData.length} rows)
             </h3>
             <div className="flex space-x-2">
@@ -546,7 +546,7 @@ export const CSVUpload: React.FC<CSVUploadProps> = ({
                     {row.map((cell, cellIndex) => (
                       <td
                         key={cellIndex}
-                        className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                        className="px-6 py-4 whitespace-nowrap text-sm text-white"
                       >
                         {cell}
                       </td>

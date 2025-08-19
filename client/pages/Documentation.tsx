@@ -997,7 +997,7 @@ export default function Documentation() {
                   <div className="flex items-center space-x-4 text-slate-700">
                     <Link
                       to="/dltc"
-                      className="flex items-center hover:text-slate-900"
+                      className="flex items-center hover:text-white"
                     >
                       <MapPin className="h-4 w-4 mr-1" />
                       DLTC Centers
@@ -1006,7 +1006,7 @@ export default function Documentation() {
                       href="https://taxfy.co.za"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center hover:text-slate-900"
+                      className="flex items-center hover:text-white"
                     >
                       <ExternalLink className="h-4 w-4 mr-1" />
                       Tax Services
@@ -1131,6 +1131,12 @@ export default function Documentation() {
       <SEO {...SEO_CONFIGS.documentation} />
       <BreadcrumbSEO items={breadcrumbItems} />
       {activeSection === "faq" && <FAQSEO faqs={faqData} />}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(SEO_CONFIGS.documentationFAQ)
+        }}
+      />
       <div className="min-h-screen bg-slate-900">
         {/* Header */}
         <header className="bg-slate-800 border-b border-black sticky top-0 z-50">
@@ -1172,28 +1178,28 @@ export default function Documentation() {
                 <div className="grid md:grid-cols-4 gap-4">
                   <Button
                     onClick={() => setActiveSection("getting-started")}
-                    className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                    className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
                   >
                     <PlayCircle className="h-4 w-4 mr-2" />
                     Getting Started
                   </Button>
                   <Button
                     onClick={() => setActiveSection("k53-information")}
-                    className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                    className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
                   >
                     <FileText className="h-4 w-4 mr-2" />
                     K53 Info
                   </Button>
                   <Button
                     onClick={() => setActiveSection("faq")}
-                    className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                    className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
                   >
                     <HelpCircle className="h-4 w-4 mr-2" />
                     FAQ
                   </Button>
                   <Button
                     onClick={() => setActiveSection("support")}
-                    className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                    className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
                   >
                     <Phone className="h-4 w-4 mr-2" />
                     Support
@@ -1231,7 +1237,7 @@ export default function Documentation() {
                               onClick={() => setActiveSection(section.id)}
                               className={`w-full text-left p-3 border border-black transition-colors flex items-center space-x-3 ${
                                 activeSection === section.id
-                                  ? "bg-white text-slate-900"
+                                  ? "bg-white text-white"
                                   : "bg-slate-700 text-white hover:bg-slate-600"
                               }`}
                             >

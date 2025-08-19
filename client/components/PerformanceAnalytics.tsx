@@ -90,7 +90,7 @@ export default function PerformanceAnalytics({ userAnswers = [], className = "" 
               {progress.totalScenariosCompleted}
             </div>
           </div>
-          <h3 className="font-semibold text-slate-800 mb-2">Total Completed</h3>
+                      <h3 className="font-semibold text-white mb-2">Total Completed</h3>
           <p className="text-slate-600 text-sm">
             Scenarios completed across all categories
           </p>
@@ -103,7 +103,7 @@ export default function PerformanceAnalytics({ userAnswers = [], className = "" 
               {progress.currentStreak}
             </div>
           </div>
-          <h3 className="font-semibold text-slate-800 mb-2">Current Streak</h3>
+                      <h3 className="font-semibold text-white mb-2">Current Streak</h3>
           <p className="text-slate-600 text-sm">
             Consecutive days of practice
           </p>
@@ -116,7 +116,7 @@ export default function PerformanceAnalytics({ userAnswers = [], className = "" 
               {progress.achievements.filter((a: any) => a.unlocked).length}
             </div>
           </div>
-          <h3 className="font-semibold text-slate-800 mb-2">Achievements</h3>
+                      <h3 className="font-semibold text-white mb-2">Achievements</h3>
           <p className="text-slate-600 text-sm">
             Unlocked achievements
           </p>
@@ -125,7 +125,7 @@ export default function PerformanceAnalytics({ userAnswers = [], className = "" 
 
       {/* Category Performance */}
       <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-8">
-        <h3 className="text-xl font-semibold text-slate-800 mb-6">Category Performance</h3>
+        <h3 className="text-xl font-semibold text-white mb-6">Category Performance</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {Object.entries(progress.scenariosByCategory).map(([category, count]) => {
             const IconComponent = getCategoryIconComponent(category);
@@ -149,10 +149,10 @@ export default function PerformanceAnalytics({ userAnswers = [], className = "" 
       {/* Recent Performance (if available) */}
       {performanceStats && (
         <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-8">
-          <h3 className="text-xl font-semibold text-slate-800 mb-6">Recent Performance</h3>
+          <h3 className="text-xl font-semibold text-white mb-6">Recent Performance</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold text-slate-800 mb-3">Accuracy</h4>
+                              <h4 className="font-semibold text-white mb-3">Accuracy</h4>
               <div className="flex items-center gap-3">
                 <div className="text-3xl font-bold text-blue-600">
                   {performanceStats.accuracy.toFixed(1)}%
@@ -170,10 +170,10 @@ export default function PerformanceAnalytics({ userAnswers = [], className = "" 
             </div>
 
             <div>
-              <h4 className="font-semibold text-slate-800 mb-3">Response Time</h4>
+                              <h4 className="font-semibold text-white mb-3">Response Time</h4>
               <div className="flex items-center gap-3">
                 <Clock className="h-6 w-6 text-slate-600" />
-                <div className="text-2xl font-bold text-slate-800">
+                                  <div className="text-2xl font-bold text-white">
                   {performanceStats.averageResponseTime.toFixed(1)}s
                 </div>
                 <div className="text-sm text-slate-600">
@@ -233,16 +233,16 @@ export default function PerformanceAnalytics({ userAnswers = [], className = "" 
 
       {/* Study Recommendations */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
-        <h3 className="text-xl font-semibold text-slate-800 mb-4">Study Recommendations</h3>
+        <h3 className="text-xl font-semibold text-white mb-4">Study Recommendations</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-white p-4 rounded-lg border border-blue-100">
-            <h4 className="font-semibold text-slate-800 mb-2">Daily Goal</h4>
+                          <h4 className="font-semibold text-white mb-2">Daily Goal</h4>
             <p className="text-slate-600 text-sm">
               Complete at least 5 scenarios daily to maintain your streak and build consistent learning habits.
             </p>
           </div>
           <div className="bg-white p-4 rounded-lg border border-blue-100">
-            <h4 className="font-semibold text-slate-800 mb-2">Focus Areas</h4>
+                          <h4 className="font-semibold text-white mb-2">Focus Areas</h4>
             <p className="text-slate-600 text-sm">
               {performanceStats?.weakCategories?.length > 0 
                 ? `Practice more ${performanceStats.weakCategories.join(", ")} scenarios to improve your weak areas.`

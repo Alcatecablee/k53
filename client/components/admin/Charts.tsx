@@ -172,7 +172,7 @@ export const MetricChart: React.FC<MetricChartProps> = ({
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+      <h3 className="text-lg font-semibold text-white mb-4">{title}</h3>
       <ResponsiveContainer width="100%" height={height}>
         {renderChart()}
       </ResponsiveContainer>
@@ -242,7 +242,7 @@ export const RealTimeMetric: React.FC<RealTimeMetricProps> = ({
           {getTrendIcon()} {Math.abs(change).toFixed(1)}%
         </span>
       </div>
-      <div className="text-3xl font-bold text-gray-900 mb-1">
+      <div className="text-3xl font-bold text-white mb-1">
         {formatValue(value)}
       </div>
       {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
@@ -300,7 +300,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+      <h3 className="text-lg font-semibold text-white mb-4">{title}</h3>
       <div className="space-y-3 max-h-96 overflow-y-auto">
         {items.slice(0, maxItems).map((item) => (
           <div
@@ -310,7 +310,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
             <div className="flex items-start space-x-3">
               <span className="text-xl">{getIconByType(item.type)}</span>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-white">
                   {item.title}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">{item.description}</p>
@@ -370,7 +370,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-2xl font-bold text-gray-900">
+        <span className="text-2xl font-bold text-white">
           {Math.round(progress)}%
         </span>
         {label && (

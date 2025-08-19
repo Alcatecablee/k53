@@ -418,7 +418,7 @@ function ProfileComponent() {
                         onClick={handleSaveProfile}
                         disabled={saving}
                         size="sm"
-                        className="bg-white text-slate-900 hover:bg-slate-100"
+                        className="bg-white text-white hover:bg-slate-100"
                       >
                         <Save className="h-4 w-4 mr-1" />
                         {saving ? "Saving..." : "Save"}
@@ -865,7 +865,7 @@ function ProfileComponent() {
                 <div className="space-y-3">
                   <Button
                     asChild
-                    className="w-full bg-white text-slate-900 hover:bg-slate-100"
+                    className="w-full bg-white text-white hover:bg-slate-100"
                   >
                     <Link to="/practice">
                       <Target className="h-4 w-4 mr-2" />

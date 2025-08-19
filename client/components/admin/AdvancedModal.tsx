@@ -60,7 +60,7 @@ export const Modal: React.FC<ModalProps> = ({
         >
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+            <h2 className="text-xl font-semibold text-white">{title}</h2>
             <Button
               variant="ghost"
               size="sm"
@@ -153,7 +153,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                         className="flex-1"
                       />
                     ) : (
-                      <div className="flex-1 p-2 bg-gray-50 rounded text-gray-900">
+                      <div className="flex-1 p-2 bg-gray-50 rounded text-white">
                         {user?.email}
                       </div>
                     )}
@@ -173,7 +173,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     User ID
                   </Label>
                   <div className="flex items-center space-x-2 mt-1">
-                    <div className="flex-1 p-2 bg-gray-50 rounded text-gray-900 font-mono text-sm">
+                    <div className="flex-1 p-2 bg-gray-50 rounded text-white font-mono text-sm">
                       {user?.id}
                     </div>
                     <Button
@@ -220,7 +220,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                         }
                       />
                     ) : (
-                      <div className="p-2 bg-gray-50 rounded text-gray-900">
+                      <div className="p-2 bg-gray-50 rounded text-white">
                         {user?.location || "Not specified"}
                       </div>
                     )}
@@ -233,7 +233,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                   <Label className="text-sm font-medium text-gray-700">
                     Registration Date
                   </Label>
-                  <div className="mt-1 p-2 bg-gray-50 rounded text-gray-900">
+                  <div className="mt-1 p-2 bg-gray-50 rounded text-white">
                     {user?.created_at
                       ? new Date(user.created_at).toLocaleDateString()
                       : "Unknown"}
@@ -244,7 +244,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                   <Label className="text-sm font-medium text-gray-700">
                     Last Seen
                   </Label>
-                  <div className="mt-1 p-2 bg-gray-50 rounded text-gray-900">
+                  <div className="mt-1 p-2 bg-gray-50 rounded text-white">
                     {user?.last_seen
                       ? new Date(user.last_seen).toLocaleDateString()
                       : "Never"}
@@ -268,7 +268,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
           <TabsContent value="subscription" className="space-y-6 mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-white">
                   Current Plan
                 </h3>
                 <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -292,7 +292,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-white">
                   Usage Limits
                 </h3>
                 <div className="space-y-3">
@@ -344,18 +344,18 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
               </div>
 
               <div className="col-span-2 space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-white">
                   Usage Statistics
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 bg-gray-50 rounded-lg">
-                    <div className="text-2xl font-bold text-gray-900">
+                    <div className="text-2xl font-bold text-white">
                       {user?.usage?.scenarios_used || 0}
                     </div>
                     <div className="text-sm text-gray-600">Scenarios Today</div>
                   </div>
                   <div className="p-4 bg-gray-50 rounded-lg">
-                    <div className="text-2xl font-bold text-gray-900">
+                    <div className="text-2xl font-bold text-white">
                       {user?.usage?.max_scenarios === -1
                         ? "∞"
                         : user?.usage?.max_scenarios || 5}
@@ -369,7 +369,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
 
           <TabsContent value="activity" className="space-y-6 mt-6">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-white">
                 Recent Activity
               </h3>
               <div className="space-y-3">
@@ -407,7 +407,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                       }`}
                     />
                     <div className="flex-1">
-                      <div className="text-sm font-medium text-gray-900">
+                      <div className="text-sm font-medium text-white">
                         {activity.action}
                       </div>
                       <div className="text-xs text-gray-500">
@@ -590,7 +590,7 @@ export const SystemLogModal: React.FC<SystemLogModalProps> = ({
                   <div className="text-gray-500 text-xs mb-1">
                     [{new Date(log.timestamp).toLocaleString()}]
                   </div>
-                  <div className="text-gray-900">
+                  <div className="text-white">
                     {log.message || log.description}
                   </div>
                   {log.data && (

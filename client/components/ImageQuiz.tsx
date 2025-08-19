@@ -1,0 +1,338 @@
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
+import { imageMapping, getImagesByCategory } from '@/data/imageMapping';
+
+interface ImageQuizProps {
+  category?: keyof typeof imageMapping;
+  difficulty?: 'basic' | 'intermediate' | 'advanced';
+  questionCount?: number;
+  onComplete?: (results: QuizResult) => void;
+}
+
+interface QuizResult {
+  total: number;
+  correct: number;
+  incorrect: number;
+  accuracy: number;
+  timeSpent: number;
+  category: string;
+  difficulty: string;
+}
+
+interface QuizQuestion {
+  image: any;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  explanation?: string;
+}
+
+export function ImageQuiz({ 
+  category = 'signs', 
+  difficulty = 'basic', 
+  questionCount = 10,
+  onComplete 
+}: ImageQuizProps) {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [answered, setAnswered] = useState(false);
+  const [score, setScore] = useState(0);
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [startTime, setStartTime] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    generateQuiz();
+  }, [category, difficulty, questionCount]);
+
+  const generateQuiz = () => {
+    setLoading(true);
+    const images = getImagesByCategory(category);
+    const filteredImages = difficulty === 'all' 
+      ? images 
+      : images.filter(img => img.difficulty === difficulty);
+
+    if (filteredImages.length === 0) {
+      setLoading(false);
+      return;
+    }
+
+    const quizQuestions: QuizQuestion[] = [];
+    const shuffledImages = [...filteredImages].sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < Math.min(questionCount, shuffledImages.length); i++) {
+      const image = shuffledImages[i];
+      const question = generateQuestionForImage(image, category);
+      quizQuestions.push(question);
+    }
+
+    setQuestions(quizQuestions);
+    setStartTime(Date.now());
+    setLoading(false);
+  };
+
+  const generateQuestionForImage = (image: any, category: string): QuizQuestion => {
+    const baseQuestions = {
+      signs: [
+        "What type of road sign is shown in this image?",
+        "What does this traffic sign indicate?",
+        "What action should you take when you see this sign?",
+        "What is the meaning of this road sign?"
+      ],
+      controls: [
+        "What vehicle control is shown in this image?",
+        "What is the purpose of this control?",
+        "When would you use this vehicle control?",
+        "What does this control do?"
+      ],
+      scenarios: [
+        "What type of driving scenario is shown?",
+        "What should you do in this situation?",
+        "What is the appropriate response to this scenario?",
+        "What does this scenario represent?"
+      ]
+    };
+
+    const questionTexts = baseQuestions[category as keyof typeof baseQuestions] || baseQuestions.signs;
+    const questionText = questionTexts[Math.floor(Math.random() * questionTexts.length)];
+
+    // Generate options based on image context
+    const options = generateOptionsForImage(image, category);
+    const correctAnswer = 0; // First option is always correct
+
+    return {
+      image,
+      question: questionText,
+      options,
+      correctAnswer,
+      explanation: `This is a ${image.difficulty} level ${category} image showing ${image.description || image.filename}`
+    };
+  };
+
+  const generateOptionsForImage = (image: any, category: string): string[] => {
+    const correctAnswer = getCorrectAnswerForImage(image, category);
+    const allImages = getImagesByCategory(category);
+    
+    // Get 3 random wrong answers
+    const wrongAnswers = allImages
+      .filter(img => img.id !== image.id)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3)
+      .map(img => getCorrectAnswerForImage(img, category));
+
+    const options = [correctAnswer, ...wrongAnswers];
+    return options.sort(() => Math.random() - 0.5); // Shuffle options
+  };
+
+  const getCorrectAnswerForImage = (image: any, category: string): string => {
+    if (category === 'signs') {
+      if (image.context?.includes('regulatory')) return 'Regulatory sign';
+      if (image.context?.includes('warning')) return 'Warning sign';
+      if (image.context?.includes('information')) return 'Information sign';
+      if (image.context?.includes('tourism')) return 'Tourism sign';
+      return 'Traffic sign';
+    }
+    
+    if (category === 'controls') {
+      if (image.context?.includes('gear-change')) return 'Gear control';
+      if (image.context?.includes('braking')) return 'Brake control';
+      if (image.context?.includes('steering')) return 'Steering control';
+      if (image.context?.includes('mirrors')) return 'Mirror control';
+      return 'Vehicle control';
+    }
+    
+    if (category === 'scenarios') {
+      if (image.context?.includes('intersection')) return 'Intersection scenario';
+      if (image.context?.includes('highway')) return 'Highway scenario';
+      if (image.context?.includes('parking')) return 'Parking scenario';
+      if (image.context?.includes('emergency')) return 'Emergency scenario';
+      return 'Driving scenario';
+    }
+    
+    return 'K53 content';
+  };
+
+  const handleAnswerSelect = (answerIndex: number) => {
+    if (answered) return;
+    
+    setSelectedAnswer(answerIndex);
+    setAnswered(true);
+    
+    if (answerIndex === questions[currentQuestion].correctAnswer) {
+      setScore(score + 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setSelectedAnswer(null);
+      setAnswered(false);
+    } else {
+      // Quiz complete
+      const timeSpent = Date.now() - startTime;
+      const results: QuizResult = {
+        total: questions.length,
+        correct: score,
+        incorrect: questions.length - score,
+        accuracy: Math.round((score / questions.length) * 100),
+        timeSpent: Math.round(timeSpent / 1000),
+        category,
+        difficulty
+      };
+      onComplete?.(results);
+    }
+  };
+
+  const handleRetry = () => {
+    setCurrentQuestion(0);
+    setSelectedAnswer(null);
+    setAnswered(false);
+    setScore(0);
+    generateQuiz();
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
+          <p className="text-slate-300">Generating quiz...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (questions.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-slate-400">No images available for this category and difficulty.</p>
+        <Button onClick={handleRetry} className="mt-4">
+          Try Different Settings
+        </Button>
+      </div>
+    );
+  }
+
+  const currentQ = questions[currentQuestion];
+  const progress = ((currentQuestion + 1) / questions.length) * 100;
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-white">Image Quiz</h2>
+          <p className="text-slate-300">
+            {category.charAt(0).toUpperCase() + category.slice(1)} - {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+          </p>
+        </div>
+        <div className="text-right">
+          <p className="text-white font-semibold">Question {currentQuestion + 1} of {questions.length}</p>
+          <p className="text-slate-300">Score: {score}/{questions.length}</p>
+        </div>
+      </div>
+
+      {/* Progress */}
+      <Progress value={progress} className="w-full" />
+
+      {/* Question Card */}
+      <Card className="bg-slate-800 border-slate-600">
+        <CardHeader>
+          <CardTitle className="text-white">{currentQ.question}</CardTitle>
+        </CardHeader>
+        
+        <CardContent className="space-y-6">
+          {/* Image */}
+          <div className="flex justify-center">
+            <div className="max-w-md w-full">
+              <img
+                src={currentQ.image.path}
+                alt={currentQ.image.description || currentQ.image.filename}
+                className="w-full h-auto rounded-lg border-2 border-slate-200 shadow-lg"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Options */}
+          <div className="space-y-3">
+            {currentQ.options.map((option, index) => {
+              const isSelected = selectedAnswer === index;
+              const isCorrect = index === currentQ.correctAnswer;
+              const isWrong = answered && isSelected && !isCorrect;
+
+              return (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className={`w-full justify-start p-4 h-auto ${
+                    answered
+                      ? isCorrect
+                        ? "border-green-500 bg-green-500/10 text-green-300"
+                        : isWrong
+                          ? "border-red-500 bg-red-500/10 text-red-300"
+                          : "border-slate-600 bg-slate-800 text-slate-300"
+                      : isSelected
+                        ? "border-slate-400 bg-slate-700 text-white"
+                        : "border-slate-600 bg-slate-800 text-slate-300 hover:border-slate-500"
+                  }`}
+                  onClick={() => handleAnswerSelect(index)}
+                  disabled={answered}
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                      answered
+                        ? isCorrect
+                          ? "border-green-500 bg-green-500"
+                          : isWrong
+                            ? "border-red-500 bg-red-500"
+                            : "border-slate-600"
+                        : isSelected
+                          ? "border-slate-400 bg-slate-400"
+                          : "border-slate-600"
+                    }`}>
+                      {answered && isCorrect && "✓"}
+                      {answered && isWrong && "✗"}
+                      {!answered && isSelected && "•"}
+                    </div>
+                    <span className="text-left">{option}</span>
+                  </div>
+                </Button>
+              );
+            })}
+          </div>
+
+          {/* Explanation */}
+          {answered && currentQ.explanation && (
+            <div className="p-4 bg-slate-700/50 border border-slate-600 rounded-lg">
+              <p className="text-slate-200 text-sm">{currentQ.explanation}</p>
+            </div>
+          )}
+
+          {/* Navigation */}
+          <div className="flex justify-between pt-4">
+            <Button
+              variant="outline"
+              onClick={handleRetry}
+              disabled={currentQuestion > 0}
+            >
+              Restart Quiz
+            </Button>
+            
+            {answered && (
+              <Button onClick={handleNext}>
+                {currentQuestion < questions.length - 1 ? 'Next Question' : 'Finish Quiz'}
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+} 

@@ -101,17 +101,17 @@ export default function PersonalizedRecommendations({
     return (
       <div className={`bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-6 ${className}`}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-semibold text-slate-800">Personalized Recommendations</h3>
+          <h3 className="text-xl font-semibold text-white">Personalized Recommendations</h3>
           <div className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
             Premium Feature
           </div>
         </div>
         <div className="text-center py-8">
           <Star className="h-12 w-12 text-purple-400 mx-auto mb-4" />
-          <h4 className="text-lg font-medium text-slate-700 mb-2">
+          <h4 className="text-lg font-medium text-white mb-2">
             Unlock AI-Powered Study Recommendations
           </h4>
-          <p className="text-slate-600 mb-4">
+          <p className="text-slate-300 mb-4">
             Get personalized study plans, difficulty adjustments, and time optimization tips based on your performance.
           </p>
           <a 
@@ -146,10 +146,10 @@ export default function PersonalizedRecommendations({
       <div className={`bg-white border border-gray-200 rounded-lg p-6 ${className}`}>
         <div className="text-center py-8">
           <CheckCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
-          <h4 className="text-lg font-medium text-slate-700 mb-2">
+          <h4 className="text-lg font-medium text-white mb-2">
             Great Progress!
           </h4>
-          <p className="text-slate-600">
+          <p className="text-slate-300">
             Complete more scenarios to receive personalized recommendations.
           </p>
         </div>
@@ -161,12 +161,12 @@ export default function PersonalizedRecommendations({
     <div className={`bg-white border border-gray-200 rounded-lg ${className}`}>
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-semibold text-slate-800">Personalized Recommendations</h3>
+          <h3 className="text-xl font-semibold text-white">Personalized Recommendations</h3>
           <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
             AI-Powered
           </div>
         </div>
-        <p className="text-slate-600 mt-2">
+        <p className="text-slate-300 mt-2">
           Based on your performance and learning patterns
         </p>
       </div>
@@ -187,7 +187,7 @@ export default function PersonalizedRecommendations({
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                      <h4 className="font-medium text-slate-800">{recommendation.title}</h4>
+                      <h4 className="font-medium text-white">{recommendation.title}</h4>
                       <span className={`text-xs font-medium ${getConfidenceColor(recommendation.confidence)}`}>
                         {recommendation.confidence}% confidence
                       </span>

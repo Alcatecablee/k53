@@ -59,6 +59,7 @@ export function MobileNavigation({ isOpen, onToggle, onClose }: MobileNavigation
 
   const navigationItems = [
     { to: '/practice', label: 'Practice', description: 'Practice assessments' },
+    { to: '/image-library', label: 'Image Library', description: 'Browse K53 images and tools' },
     { to: '/progress', label: 'Results', description: 'View progress and results' },
     { to: '/pricing', label: 'Premium', description: 'Premium access options' },
     { to: '/dltc', label: 'Centers', description: 'Find testing centers' },

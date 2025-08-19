@@ -235,7 +235,7 @@ export default function AchievementExportImport({
             <button
               onClick={handleExport}
               disabled={exporting || !userId}
-              className="bg-white text-slate-900 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded font-medium flex items-center space-x-2"
+              className="bg-white text-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded font-medium flex items-center space-x-2"
             >
               {exporting ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -269,7 +269,7 @@ export default function AchievementExportImport({
             <button
               onClick={triggerFileInput}
               disabled={importing || !userId}
-              className="bg-white text-slate-900 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded font-medium flex items-center space-x-2"
+              className="bg-white text-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded font-medium flex items-center space-x-2"
             >
               {importing ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

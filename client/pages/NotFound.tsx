@@ -15,10 +15,10 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
       <div className="max-w-2xl w-full">
-        <Card className="border-2 border-black bg-white">
-          <CardHeader className="bg-slate-800 text-white p-8 text-center">
+        <Card className="border-2 border-slate-600 bg-slate-800">
+          <CardHeader className="bg-slate-700 text-white p-8 text-center">
             <div className="w-20 h-20 bg-white/20 border-2 border-white/30 flex items-center justify-center mx-auto mb-6">
               <AlertTriangle className="h-10 w-10" />
             </div>
@@ -30,23 +30,23 @@ const NotFound = () => {
             </p>
           </CardHeader>
           <CardContent className="p-8 text-center">
-            <h2 className="text-2xl font-bold text-slate-800 mb-4 uppercase tracking-wide">
+            <h2 className="text-2xl font-bold text-white mb-4 uppercase tracking-wide">
               Access Denied
             </h2>
-            <p className="text-slate-600 mb-6 leading-relaxed">
+            <p className="text-slate-300 mb-6 leading-relaxed">
               The requested resource could not be located within the official
               K53 Assessment Portal system. This may indicate an invalid URL or
               restricted access area.
             </p>
-            <div className="bg-slate-100 border-2 border-black p-4 mb-6">
-              <p className="text-slate-700 text-sm">
+            <div className="bg-slate-700 border-2 border-slate-600 p-4 mb-6">
+              <p className="text-slate-200 text-sm">
                 <strong>Attempted Path:</strong> {location.pathname}
               </p>
             </div>
             <Button
               asChild
               size="lg"
-              className="bg-slate-800 hover:bg-slate-700 font-semibold uppercase tracking-wide px-8 py-4"
+              className="bg-slate-700 hover:bg-slate-600 font-semibold uppercase tracking-wide px-8 py-4"
             >
               <a href="/">
                 <Home className="h-5 w-5 mr-3" />

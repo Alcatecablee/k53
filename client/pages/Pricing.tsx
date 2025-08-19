@@ -340,7 +340,7 @@ function PricingComponent() {
                         onClick={() => setSelectedLocation(location)}
                         className={`p-3 border border-black text-left transition-colors text-sm ${
                           selectedLocation?.city === location.city
-                            ? "bg-white text-slate-900"
+                            ? "bg-white text-white"
                             : "bg-slate-700 text-slate-300 hover:bg-slate-600"
                         }`}
                       >
@@ -398,7 +398,7 @@ function PricingComponent() {
                 >
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <Badge className="bg-white text-slate-900 border border-black px-4 py-1 font-bold uppercase tracking-wide">
+                      <Badge className="bg-white text-white border border-black px-4 py-1 font-bold uppercase tracking-wide">
                         Most Popular
                       </Badge>
                     </div>
@@ -484,7 +484,7 @@ function PricingComponent() {
                       }
                       className={`w-full font-medium uppercase tracking-wide transition-all duration-300 ${
                         plan.popular
-                          ? "bg-white text-slate-900 hover:bg-slate-100"
+                          ? "bg-white text-white hover:bg-slate-100"
                           : "border border-black text-slate-300 hover:bg-slate-700 hover:text-white"
                       }`}
                       variant={plan.popular ? "default" : "outline"}

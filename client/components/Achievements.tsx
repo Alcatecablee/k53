@@ -26,6 +26,7 @@ import {
 } from "@/services/achievementService";
 import AchievementNotifications from "./AchievementNotifications";
 
+
 interface AchievementsProps {
   showUnlockedOnly?: boolean;
   className?: string;
@@ -63,7 +64,7 @@ class AchievementsErrorBoundary extends React.Component<
             </p>
             <button
               onClick={() => this.setState({ hasError: false })}
-              className="bg-white text-slate-900 hover:bg-slate-100 px-4 py-2 rounded font-medium"
+              className="bg-white text-white hover:bg-slate-100 px-4 py-2 rounded font-medium"
             >
               Try Again
             </button>
@@ -105,6 +106,105 @@ const getCategoryIcon = (achievementId: string) => {
       return <Trophy className="h-4 w-4" />;
   }
 };
+
+// Memoized Achievement Card Component
+const AchievementCard = React.memo(({ 
+  achievement, 
+  onShare, 
+  onClick, 
+  sharingAchievement,
+  formatTimestamp 
+}: {
+  achievement: Achievement;
+  onShare: (achievement: Achievement) => void;
+  onClick: (achievement: Achievement) => void;
+  sharingAchievement: string | null;
+  formatTimestamp: (timestamp: string) => string;
+}) => (
+  <div
+    id={`achievement-${achievement.id}`}
+    className={`p-4 rounded-lg border transition-all duration-200 ${
+      achievement.unlocked
+        ? "bg-slate-700 border-slate-600 shadow-md"
+        : "bg-slate-800 border-slate-600 opacity-60"
+    }`}
+    role="article"
+    aria-label={`Achievement: ${achievement.title}`}
+    onClick={() => onClick(achievement)}
+  >
+    <div className="flex items-start justify-between mb-2">
+      <div className="flex items-center gap-2">
+        {getAchievementIcon(achievement.category)}
+        {achievement.category === "mastery" && getCategoryIcon(achievement.id)}
+      </div>
+      <div className="text-xs text-slate-400">
+        {achievement.progress} / {achievement.requirement}
+      </div>
+    </div>
+    
+    <h4 className={`font-semibold mb-1 ${
+      achievement.unlocked ? "text-white" : "text-slate-300"
+    }`}>
+      {achievement.title}
+    </h4>
+    
+    <p className={`text-sm mb-3 ${
+      achievement.unlocked ? "text-slate-200" : "text-slate-400"
+    }`}>
+      {achievement.description}
+    </p>
+
+    {/* Progress Bar */}
+    <div className="w-full bg-slate-700 rounded-full h-1.5 mb-2">
+      <div
+        className={`h-1.5 rounded-full transition-all duration-300 w-dynamic ${
+          achievement.unlocked
+            ? "bg-white"
+            : "bg-slate-500"
+        }`}
+        style={{
+          width: `${Math.min((achievement.progress / achievement.requirement) * 100, 100)}%`,
+        }}
+        role="progressbar"
+        aria-valuenow={achievement.progress}
+        aria-valuemin={0}
+        aria-valuemax={achievement.requirement}
+        aria-label={`Progress: ${achievement.progress} of ${achievement.requirement}`}
+      ></div>
+    </div>
+
+    {achievement.unlocked && (
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1 text-xs text-white">
+          <Trophy className="h-3 w-3" />
+          Unlocked
+          {achievement.unlockedAt && (
+            <span className="text-slate-400 ml-2">
+              {formatTimestamp(achievement.unlockedAt)}
+            </span>
+          )}
+        </div>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onShare(achievement);
+          }}
+          disabled={sharingAchievement === achievement.id}
+          className="p-1 text-slate-400 hover:text-white hover:bg-slate-600 rounded transition-colors disabled:opacity-50"
+          aria-label={`Share achievement: ${achievement.title}`}
+        >
+          {sharingAchievement === achievement.id ? (
+            <div className="h-3 w-3 animate-spin rounded-full border border-slate-400 border-t-white"></div>
+          ) : (
+            <Share2 className="h-3 w-3" />
+          )}
+        </button>
+      </div>
+    )}
+  </div>
+));
+
+AchievementCard.displayName = 'AchievementCard';
 
 function AchievementsComponent({ 
   showUnlockedOnly = false, 
@@ -163,7 +263,7 @@ function AchievementsComponent({
           <p className="text-slate-300 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-white text-slate-900 hover:bg-slate-100 px-4 py-2 rounded font-medium"
+            className="bg-white text-white hover:bg-slate-100 px-4 py-2 rounded font-medium"
           >
             Refresh Page
           </button>
@@ -368,7 +468,7 @@ function AchievementsComponent({
               }}
               className={`px-3 py-1 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-900 ${
                 selectedCategory === category.id
-                  ? "bg-white text-slate-900"
+                  ? "bg-white text-white"
                   : "bg-slate-700 text-slate-300 hover:bg-slate-600"
               }`}
               aria-label={`Filter achievements by ${category.name}`}
@@ -464,104 +564,7 @@ function AchievementsComponent({
   );
 }
 
-// Memoized Achievement Card Component
-const AchievementCard = React.memo(({ 
-  achievement, 
-  onShare, 
-  onClick, 
-  sharingAchievement,
-  formatTimestamp 
-}: {
-  achievement: Achievement;
-  onShare: (achievement: Achievement) => void;
-  onClick: (achievement: Achievement) => void;
-  sharingAchievement: string | null;
-  formatTimestamp: (timestamp: string) => string;
-}) => (
-  <div
-    id={`achievement-${achievement.id}`}
-    className={`p-4 rounded-lg border transition-all duration-200 ${
-      achievement.unlocked
-        ? "bg-slate-700 border-slate-600 shadow-md"
-        : "bg-slate-800 border-slate-600 opacity-60"
-    }`}
-    role="article"
-    aria-label={`Achievement: ${achievement.title}`}
-    onClick={() => onClick(achievement)}
-  >
-    <div className="flex items-start justify-between mb-2">
-      <div className="flex items-center gap-2">
-        {getAchievementIcon(achievement.category)}
-        {achievement.category === "mastery" && getCategoryIcon(achievement.id)}
-      </div>
-      <div className="text-xs text-slate-400">
-        {achievement.progress} / {achievement.requirement}
-      </div>
-    </div>
-    
-    <h4 className={`font-semibold mb-1 ${
-      achievement.unlocked ? "text-white" : "text-slate-300"
-    }`}>
-      {achievement.title}
-    </h4>
-    
-    <p className={`text-sm mb-3 ${
-      achievement.unlocked ? "text-slate-200" : "text-slate-400"
-    }`}>
-      {achievement.description}
-    </p>
 
-    {/* Progress Bar */}
-    <div className="w-full bg-slate-700 rounded-full h-1.5 mb-2">
-      <div
-        className={`h-1.5 rounded-full transition-all duration-300 w-dynamic ${
-          achievement.unlocked
-            ? "bg-white"
-            : "bg-slate-500"
-        }`}
-        style={{
-          width: `${Math.min((achievement.progress / achievement.requirement) * 100, 100)}%`,
-        }}
-        role="progressbar"
-        aria-valuenow={achievement.progress}
-        aria-valuemin={0}
-        aria-valuemax={achievement.requirement}
-        aria-label={`Progress: ${achievement.progress} of ${achievement.requirement}`}
-      ></div>
-    </div>
-
-    {achievement.unlocked && (
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 text-xs text-white">
-          <Trophy className="h-3 w-3" />
-          Unlocked
-          {achievement.unlockedAt && (
-            <span className="text-slate-400 ml-2">
-              {formatTimestamp(achievement.unlockedAt)}
-            </span>
-          )}
-        </div>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onShare(achievement);
-          }}
-          disabled={sharingAchievement === achievement.id}
-          className="p-1 text-slate-400 hover:text-white hover:bg-slate-600 rounded transition-colors disabled:opacity-50"
-          aria-label={`Share achievement: ${achievement.title}`}
-        >
-          {sharingAchievement === achievement.id ? (
-            <div className="h-3 w-3 animate-spin rounded-full border border-slate-400 border-t-white"></div>
-          ) : (
-            <Share2 className="h-3 w-3" />
-          )}
-        </button>
-      </div>
-    )}
-  </div>
-));
-
-AchievementCard.displayName = 'AchievementCard';
 
 // Export with error boundary wrapper
 export default function Achievements(props: AchievementsProps) {

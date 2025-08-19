@@ -247,7 +247,7 @@ export default function EnhancedAnalytics({ userAnswers = [], className = "" }: 
       {/* Learning Insights */}
       {insights.length > 0 && (
         <div className="mb-8">
-          <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                      <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
             <Lightbulb className="h-6 w-6 text-orange-600" />
             Learning Insights
           </h3>
@@ -266,7 +266,7 @@ export default function EnhancedAnalytics({ userAnswers = [], className = "" }: 
                     {insight.icon}
                   </div>
                   <div>
-                    <h4 className="font-semibold text-slate-800 mb-1">
+                    <h4 className="font-semibold text-white mb-1">
                       {insight.title}
                     </h4>
                     <p className="text-slate-600 text-sm">

@@ -25,6 +25,7 @@ import BlogPost from "./pages/BlogPost";
 import AdminNew from "./pages/AdminNew";
 import AdminPro from "./pages/AdminPro";
 import AdminDashboard from "./pages/AdminDashboard";
+import ImageLibrary from "./pages/ImageLibrary";
 import NotFound from "./pages/NotFound";
 import { addResourceHints } from "./utils/seoUtils";
 
@@ -90,6 +91,7 @@ const App = () => (
               <Route path="/admin-old" element={<AdminNew />} />
               <Route path="/admin-pro" element={<AdminPro />} />
               <Route path="/pwa-status" element={<PWAStatus />} />
+              <Route path="/image-library" element={<ImageLibrary />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -125,6 +125,13 @@ export default function Index() {
                   Practice
                 </Link>
                 <Link
+                  to="/image-library"
+                  className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
+                  aria-label="Browse K53 images and tools"
+                >
+                  Images
+                </Link>
+                <Link
                   to="/progress"
                   className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
                   aria-label="View progress and results"
@@ -284,13 +291,14 @@ export default function Index() {
                     tiers.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button
-                      asChild
-                      className="bg-white text-slate-900 hover:bg-slate-100 font-medium transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
-                      aria-label="Begin practice assessment"
-                    >
-                      <Link to="/practice">Begin practice assessment</Link>
-                    </Button>
+                    <Link to="/practice">
+                      <Button
+                        className="bg-white text-white hover:bg-slate-100 font-medium transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
+                        aria-label="Begin practice assessment"
+                      >
+                        Begin practice assessment
+                      </Button>
+                    </Link>
                     <Button
                       asChild
                       variant="outline"
@@ -322,7 +330,7 @@ export default function Index() {
                     <Button
                       asChild
                       size="lg"
-                      className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide w-full transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
+                      className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide w-full transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
                       aria-label="Begin assessment practice"
                     >
                       <Link to="/practice">Begin Assessment</Link>
@@ -437,7 +445,7 @@ export default function Index() {
                   <h3 className="text-lg sm:text-xl font-bold uppercase tracking-wide text-white mb-2 sm:mb-3">
                     K53 Examination Structure
                   </h3>
-                  <div className="bg-white text-slate-900 p-2 text-center transition-all duration-200 hover:bg-slate-50">
+                  <div className="bg-white text-white p-2 text-center transition-all duration-200 hover:bg-slate-50">
                     <div className="text-xs sm:text-sm font-bold uppercase tracking-wide">
                       Free and unlimited for all users
                     </div>
@@ -462,7 +470,7 @@ export default function Index() {
                           <div className="mt-2 text-xs sm:text-sm text-slate-400">
                             8 Questions • Minimum Pass: 6/8 (75%)
                           </div>
-                          <div className="mt-2 bg-white text-slate-900 px-2 py-1 text-xs font-bold uppercase tracking-wide inline-block transition-all duration-200 hover:bg-slate-50">
+                          <div className="mt-2 bg-white text-white px-2 py-1 text-xs font-bold uppercase tracking-wide inline-block transition-all duration-200 hover:bg-slate-50">
                             Free unlimited
                           </div>
                         </div>
@@ -470,7 +478,7 @@ export default function Index() {
                       <div className="sm:text-right">
                         <Button
                           asChild
-                          className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 w-full sm:w-auto"
+                          className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 w-full sm:w-auto"
                           aria-label="Begin vehicle controls module"
                         >
                           <Link to="/practice">Begin Module</Link>
@@ -496,7 +504,7 @@ export default function Index() {
                           <div className="mt-2 text-xs sm:text-sm text-slate-400">
                             28 Questions • Minimum Pass: 23/28 (82%)
                           </div>
-                          <div className="mt-2 bg-white text-slate-900 px-2 py-1 text-xs font-bold uppercase tracking-wide inline-block transition-all duration-200 hover:bg-slate-50">
+                          <div className="mt-2 bg-white text-white px-2 py-1 text-xs font-bold uppercase tracking-wide inline-block transition-all duration-200 hover:bg-slate-50">
                             Free unlimited
                           </div>
                         </div>
@@ -504,7 +512,7 @@ export default function Index() {
                       <div className="sm:text-right">
                         <Button
                           asChild
-                          className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 w-full sm:w-auto"
+                          className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 w-full sm:w-auto"
                           aria-label="Begin road signs and markings module"
                         >
                           <Link to="/practice">Begin Module</Link>
@@ -530,7 +538,7 @@ export default function Index() {
                           <div className="mt-2 text-xs sm:text-sm text-slate-400">
                             28 Questions • Minimum Pass: 22/28 (79%)
                           </div>
-                          <div className="mt-2 bg-white text-slate-900 px-2 py-1 text-xs font-bold uppercase tracking-wide inline-block transition-all duration-200 hover:bg-slate-50">
+                          <div className="mt-2 bg-white text-white px-2 py-1 text-xs font-bold uppercase tracking-wide inline-block transition-all duration-200 hover:bg-slate-50">
                             Free unlimited
                           </div>
                         </div>
@@ -538,7 +546,7 @@ export default function Index() {
                       <div className="sm:text-right">
                         <Button
                           asChild
-                          className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 w-full sm:w-auto"
+                          className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 w-full sm:w-auto"
                           aria-label="Begin traffic regulations module"
                         >
                           <Link to="/practice">Begin Module</Link>
@@ -640,7 +648,7 @@ export default function Index() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide py-3 sm:py-4 text-base sm:text-lg transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
+                  className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-3 sm:py-4 text-base sm:text-lg transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
                   aria-label="Begin assessment preparation"
                 >
                   <Link to="/practice">Begin Assessment Preparation</Link>

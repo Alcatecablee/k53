@@ -207,7 +207,7 @@ export function DataTable<T extends Record<string, any>>({
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between mb-4">
           {title && (
-            <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+            <h2 className="text-xl font-semibold text-white">{title}</h2>
           )}
           <div className="flex items-center space-x-3">
             {exportable && (
@@ -346,7 +346,7 @@ export function DataTable<T extends Record<string, any>>({
                     {columns.map((column) => (
                       <td
                         key={column.key}
-                        className={`px-6 py-4 whitespace-nowrap text-sm text-gray-900 ${
+                        className={`px-6 py-4 whitespace-nowrap text-sm text-white ${
                           column.align === "center"
                             ? "text-center"
                             : column.align === "right"

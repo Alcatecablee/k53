@@ -298,7 +298,7 @@ export default function AdminNew() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="border border-red-200 bg-white max-w-md shadow-lg">
           <CardContent className="p-8 text-center">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+            <h1 className="text-2xl font-semibold text-white mb-4">
               Access Denied
             </h1>
             <p className="text-gray-600 mb-6">
@@ -336,7 +336,7 @@ export default function AdminNew() {
             <Button
               asChild
               variant="ghost"
-              className="text-gray-600 hover:text-gray-900 font-medium"
+              className="text-gray-600 hover:text-white font-medium"
             >
               <Link to="/">
                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -345,7 +345,7 @@ export default function AdminNew() {
             </Button>
 
             <div className="text-center">
-              <h1 className="text-2xl font-semibold text-gray-900">
+              <h1 className="text-2xl font-semibold text-white">
                 SuperK53 Administration
               </h1>
               <p className="text-gray-600 text-sm">
@@ -438,7 +438,7 @@ export default function AdminNew() {
                   <Users className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-2xl font-bold text-white">
                     {stats?.totalUsers || 0}
                   </div>
                   <p className="text-xs text-gray-500">
@@ -455,7 +455,7 @@ export default function AdminNew() {
                   <Crown className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-2xl font-bold text-white">
                     {stats?.activeSubscriptions || 0}
                   </div>
                   <p className="text-xs text-gray-500">
@@ -472,7 +472,7 @@ export default function AdminNew() {
                   <DollarSign className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-2xl font-bold text-white">
                     {formatPrice(stats?.totalRevenue || 0)}
                   </div>
                   <p className="text-xs text-gray-500">Revenue this month</p>
@@ -487,7 +487,7 @@ export default function AdminNew() {
                   <Clock className="h-4 w-4 text-gray-400" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-2xl font-bold text-white">
                     {Math.floor((stats?.avgSessionTime || 0) / 60)}m
                   </div>
                   <p className="text-xs text-gray-500">Average session time</p>
@@ -499,7 +499,7 @@ export default function AdminNew() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-lg font-semibold text-gray-900">
+                  <CardTitle className="text-lg font-semibold text-white">
                     Top Locations
                   </CardTitle>
                 </CardHeader>
@@ -512,7 +512,7 @@ export default function AdminNew() {
                       >
                         <div className="flex items-center space-x-3">
                           <MapPin className="h-4 w-4 text-gray-400" />
-                          <span className="text-gray-900">{location.city}</span>
+                          <span className="text-white">{location.city}</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <span className="text-sm text-gray-500">
@@ -535,7 +535,7 @@ export default function AdminNew() {
 
               <Card className="border border-gray-200 bg-white">
                 <CardHeader>
-                  <CardTitle className="text-lg font-semibold text-gray-900">
+                  <CardTitle className="text-lg font-semibold text-white">
                     System Performance
                   </CardTitle>
                 </CardHeader>
@@ -543,7 +543,7 @@ export default function AdminNew() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
                       <Database className="h-6 w-6 mx-auto mb-2 text-blue-600" />
-                      <div className="text-lg font-semibold text-gray-900">
+                      <div className="text-lg font-semibold text-white">
                         99.9%
                       </div>
                       <div className="text-xs text-gray-500">
@@ -552,7 +552,7 @@ export default function AdminNew() {
                     </div>
                     <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
                       <Server className="h-6 w-6 mx-auto mb-2 text-blue-600" />
-                      <div className="text-lg font-semibold text-gray-900">
+                      <div className="text-lg font-semibold text-white">
                         156ms
                       </div>
                       <div className="text-xs text-gray-500">
@@ -561,14 +561,14 @@ export default function AdminNew() {
                     </div>
                     <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
                       <HardDrive className="h-6 w-6 mx-auto mb-2 text-amber-600" />
-                      <div className="text-lg font-semibold text-gray-900">
+                      <div className="text-lg font-semibold text-white">
                         67%
                       </div>
                       <div className="text-xs text-gray-500">Storage Used</div>
                     </div>
                     <div className="text-center p-4 bg-gray-50 border border-gray-200 rounded">
                       <Wifi className="h-6 w-6 mx-auto mb-2 text-blue-600" />
-                      <div className="text-lg font-semibold text-gray-900">
+                      <div className="text-lg font-semibold text-white">
                         1.2k
                       </div>
                       <div className="text-xs text-gray-500">
@@ -583,7 +583,7 @@ export default function AdminNew() {
             {/* Recent Activity */}
             <Card className="border border-gray-200 bg-white">
               <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900">
+                <CardTitle className="text-lg font-semibold text-white">
                   Recent Activity
                 </CardTitle>
               </CardHeader>
@@ -596,7 +596,7 @@ export default function AdminNew() {
                     >
                       <CreditCard className="h-5 w-5 text-blue-600" />
                       <div className="flex-1">
-                        <div className="font-medium text-gray-900">
+                        <div className="font-medium text-white">
                           Payment {payment.status}
                         </div>
                         <div className="text-sm text-gray-600">
@@ -616,7 +616,7 @@ export default function AdminNew() {
                     >
                       <UserCheck className="h-5 w-5 text-blue-600" />
                       <div className="flex-1">
-                        <div className="font-medium text-gray-900">
+                        <div className="font-medium text-white">
                           User registration
                         </div>
                         <div className="text-sm text-gray-600">
@@ -637,7 +637,7 @@ export default function AdminNew() {
           <TabsContent value="users" className="space-y-6">
             {/* User Management Header */}
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold text-gray-900">
+              <h2 className="text-2xl font-semibold text-white">
                 User Management
               </h2>
               <div className="flex items-center space-x-3">
@@ -677,7 +677,7 @@ export default function AdminNew() {
                         placeholder="Search by email, name, or location..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 border-gray-300 bg-white text-gray-900"
+                        className="pl-10 border-gray-300 bg-white text-white"
                       />
                     </div>
                   </div>
@@ -692,7 +692,7 @@ export default function AdminNew() {
                       value={filterStatus}
                       onValueChange={setFilterStatus}
                     >
-                      <SelectTrigger className="w-48 border-gray-300 bg-white text-gray-900 mt-1">
+                      <SelectTrigger className="w-48 border-gray-300 bg-white text-white mt-1">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -741,7 +741,7 @@ export default function AdminNew() {
                       >
                         <TableCell>
                           <div>
-                            <div className="font-medium text-gray-900">
+                            <div className="font-medium text-white">
                               {user.email}
                             </div>
                             <div className="text-sm text-gray-500">
@@ -766,7 +766,7 @@ export default function AdminNew() {
                         </TableCell>
                         <TableCell>
                           <div className="text-sm">
-                            <div className="text-gray-900 font-medium">
+                            <div className="text-white font-medium">
                               {user.usage?.scenarios_used || 0}/
                               {user.usage?.max_scenarios === -1
                                 ? "∞"
@@ -775,7 +775,7 @@ export default function AdminNew() {
                             <div className="text-gray-500">scenarios</div>
                           </div>
                         </TableCell>
-                        <TableCell className="text-gray-900">
+                        <TableCell className="text-white">
                           {user.location || "Unknown"}
                         </TableCell>
                         <TableCell className="text-gray-500">
@@ -815,7 +815,7 @@ export default function AdminNew() {
                               </AlertDialogTrigger>
                               <AlertDialogContent className="bg-white">
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle className="text-gray-900">
+                                  <AlertDialogTitle className="text-white">
                                     Ban User
                                   </AlertDialogTitle>
                                   <AlertDialogDescription className="text-gray-600">
@@ -851,7 +851,7 @@ export default function AdminNew() {
           {/* Payments Tab */}
           <TabsContent value="payments" className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold text-gray-900">
+              <h2 className="text-2xl font-semibold text-white">
                 Payment Management
               </h2>
               <div className="flex items-center space-x-3">
@@ -886,7 +886,7 @@ export default function AdminNew() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-2xl font-bold text-white">
                     {formatPrice(
                       payments
                         .filter((p) => p.status === "completed")
@@ -903,7 +903,7 @@ export default function AdminNew() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-2xl font-bold text-white">
                     {payments.length > 0
                       ? Math.round(
                           (payments.filter((p) => p.status === "completed")
@@ -967,13 +967,13 @@ export default function AdminNew() {
                         key={payment.id}
                         className="border-gray-100 hover:bg-gray-50"
                       >
-                        <TableCell className="text-gray-900 font-mono text-sm">
+                        <TableCell className="text-white font-mono text-sm">
                           {payment.id}
                         </TableCell>
-                        <TableCell className="text-gray-900">
+                        <TableCell className="text-white">
                           {payment.user_email}
                         </TableCell>
-                        <TableCell className="text-gray-900 font-medium">
+                        <TableCell className="text-white font-medium">
                           {formatPrice(payment.amount_cents)}
                         </TableCell>
                         <TableCell>
@@ -1063,7 +1063,7 @@ export default function AdminNew() {
                       }
                     }
                   }}
-                  className="bg-white text-slate-900"
+                  className="bg-white text-white"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Scenario
@@ -1140,7 +1140,7 @@ export default function AdminNew() {
                         alert("Failed to load question bank");
                       }
                     }}
-                    className="w-full bg-white text-slate-900 hover:bg-slate-100"
+                    className="w-full bg-white text-white hover:bg-slate-100"
                   >
                     <Edit className="h-4 w-4 mr-2" />
                     Edit Question Bank
@@ -1239,7 +1239,7 @@ export default function AdminNew() {
                         alert("Failed to load scenarios");
                       }
                     }}
-                    className="w-full bg-white text-slate-900 hover:bg-slate-100"
+                    className="w-full bg-white text-white hover:bg-slate-100"
                   >
                     <Edit className="h-4 w-4 mr-2" />
                     Manage Scenarios
@@ -1273,7 +1273,7 @@ export default function AdminNew() {
               </h2>
               <Button
                 onClick={checkSystemHealth}
-                className="bg-white text-slate-900"
+                className="bg-white text-white"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh Status
@@ -1620,7 +1620,7 @@ export default function AdminNew() {
                 onClick={() =>
                   alert("Configuration export feature coming soon!")
                 }
-                className="bg-white text-slate-900"
+                className="bg-white text-white"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Export Config
@@ -1824,7 +1824,7 @@ export default function AdminNew() {
               </Button>
               <Button
                 onClick={() => alert("Settings saved successfully!")}
-                className="bg-white text-slate-900"
+                className="bg-white text-white"
               >
                 Save All Settings
               </Button>

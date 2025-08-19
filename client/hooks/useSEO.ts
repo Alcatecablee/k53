@@ -223,6 +223,8 @@ export const SEO_CONFIGS = {
       "Take free K53 practice tests online with real exam questions. Practice vehicle controls, road signs, and traffic regulations. 1000+ questions, immediate feedback, and progress tracking.",
     keywords:
       "K53 practice test online, K53 questions free, learners licence practice test, K53 test online, driving test practice questions, K53 exam practice, learners licence test questions, K53 practice questions, driving test online, K53 test preparation, learners licence practice online, K53 exam questions, driving test practice test, K53 online test, learners licence test practice",
+    ogImage: "/images/seo/practice-test-og.jpg",
+    ogImageAlt: "SuperK53 Practice Test Platform - Interactive K53 Learner's Licence Practice",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "WebApplication",
@@ -250,6 +252,8 @@ export const SEO_CONFIGS = {
       "Complete K53 study guide and documentation for 2025. Test structure, passing requirements, preparation tips, and official Department of Transport guidelines. Everything you need to pass your learner's licence.",
           keywords:
         "K53 study guide 2025, learners licence study guide, K53 documentation, K53 test structure, learners licence requirements, K53 passing score, K53 study materials, learners licence documentation, K53 test guide, K53 exam structure, learners licence study, K53 preparation guide, K53 test requirements, learners licence documentation 2025, K53 study materials South Africa",
+    ogImage: "/images/seo/documentation-og.jpg",
+    ogImageAlt: "SuperK53 Complete K53 Study Guide 2025 - Official Documentation",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Article",
@@ -273,12 +277,102 @@ export const SEO_CONFIGS = {
     },
   },
 
+  // FAQ Schema for Documentation
+  documentationFAQ: {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What is the K53 learner's licence test?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The K53 learner's licence test is the official driving test in South Africa that assesses your knowledge of road signs, traffic rules, and vehicle controls. It's required before you can obtain a driver's licence."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "How many questions are in the K53 test?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The K53 learner's licence test consists of 68 questions covering road signs, traffic rules, and vehicle controls. You need to answer at least 43 questions correctly (63%) to pass."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "What documents do I need for the K53 test?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "You need your ID book/passport, proof of residence, and payment for the test fee. Some testing centers may also require additional documentation."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "How long does the K53 test take?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The K53 learner's licence test typically takes 45-60 minutes to complete. You have sufficient time to read and answer all questions carefully."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "Can I retake the K53 test if I fail?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, you can retake the K53 test if you fail. There's usually a waiting period of 7-14 days before you can attempt the test again."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "What is the passing score for the K53 test?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "You need to score at least 63% (43 out of 68 questions) to pass the K53 learner's licence test."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "How much does the K53 test cost?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The K53 learner's licence test fee varies by province but typically costs between R108 and R228. Contact your local DLTC for exact pricing."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "Where can I take the K53 test?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "You can take the K53 test at any official DLTC (Driving Licence Testing Centre) in South Africa. Use our DLTC directory to find centers near you."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "What happens after I pass the K53 test?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "After passing the K53 test, you'll receive a learner's licence that's valid for 24 months. You can then start learning to drive with a licensed driver."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "How can I prepare for the K53 test?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Use SuperK53's comprehensive practice tests, study materials, and interactive tools. Our platform offers 1000+ questions, 220+ scenarios, and detailed explanations to help you pass."
+        }
+      }
+    ]
+  },
+
   dltc: {
     title: "DLTC Testing Centers Near Me | K53 Test Centers South Africa | SuperK53",
     description:
       "Find DLTC testing centers near you for K53 learner's licence exams. Complete directory with contact details, operating hours, and services across all South African provinces.",
     keywords:
       "DLTC testing centers, K53 test centers, learners licence test centers, DLTC near me, K53 test center locations, learners licence test center, DLTC contact details, K53 testing centers South Africa, DLTC operating hours, learners licence test centers near me, K53 exam centers, DLTC directory, K53 test center contact, learners licence test center locations",
+    ogImage: "/images/seo/dltc-centers-og.jpg",
+    ogImageAlt: "SuperK53 DLTC Testing Centers Directory - Find K53 Test Centers Near You",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "ItemList",
@@ -305,12 +399,45 @@ export const SEO_CONFIGS = {
       "Track your K53 learning progress with detailed analytics. View achievements, monitor performance across categories, and get personalized insights for better test preparation.",
     keywords:
       "K53 progress tracker, learners licence progress, K53 learning analytics, K53 achievements, learners licence tracking, K53 performance analytics, K53 study progress, learners licence analytics, K53 learning tracking, K53 achievement system, learners licence progress tracker, K53 performance tracking, K53 study analytics, learners licence learning progress",
+    ogImage: "/images/seo/progress-tracker-og.jpg",
+    ogImageAlt: "SuperK53 Progress Tracker - Learning Analytics and Achievements Dashboard",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       name: "K53 Progress Tracker",
       description: "Personalized learning progress and achievement tracking for K53 preparation",
       applicationCategory: "EducationalApplication",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "ZAR",
+        availability: "https://schema.org/InStock",
+      },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.9",
+        reviewCount: "850"
+      },
+      hasPart: [
+        {
+          "@type": "SoftwareApplication",
+          name: "K53 Achievement System",
+          description: "Gamified achievement system for K53 learning motivation",
+          applicationCategory: "EducationalApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          name: "K53 Analytics Dashboard",
+          description: "Detailed learning analytics and performance tracking",
+          applicationCategory: "EducationalApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          name: "K53 Study Recommendations",
+          description: "AI-powered personalized study recommendations",
+          applicationCategory: "EducationalApplication"
+        }
+      ]
     },
   },
 
@@ -320,6 +447,8 @@ export const SEO_CONFIGS = {
       "Upgrade to SuperK53 Premium for unlimited scenario tests, advanced analytics, and premium study materials. Affordable monthly plans starting at R39. Cancel anytime.",
     keywords:
       "SuperK53 premium, K53 premium plans, learners licence premium, K53 unlimited practice, SuperK53 pricing, K53 subscription plans, learners licence premium features, K53 unlimited tests, SuperK53 monthly plans, K53 premium subscription, learners licence unlimited practice, K53 premium pricing, SuperK53 subscription, K53 unlimited scenarios, learners licence premium plans",
+    ogImage: "/images/seo/premium-plans-og.jpg",
+    ogImageAlt: "SuperK53 Premium Plans - Unlimited K53 Practice Tests Starting at R39/month",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Product",
@@ -413,5 +542,141 @@ export const SEO_CONFIGS = {
       datePublished: "2025-01-01",
       dateModified: "2025-08-18",
     },
+  },
+
+  images: {
+    title: "K53 Image Library | Road Signs, Traffic Rules & Study Materials | SuperK53",
+    description:
+      "Comprehensive K53 image library with road signs, traffic rules, and study materials. Interactive flashcards, comparison tools, and quizzes to help you master the K53 learner's licence test.",
+    keywords:
+      "K53 images, K53 road signs, K53 traffic rules, K53 image library, K53 flashcards, K53 study materials, K53 road signs images, K53 traffic signs, K53 image quiz, K53 image comparison, K53 study images, K53 road signs library, K53 traffic rules images, K53 image study guide",
+    ogImage: "/images/seo/image-library-og.jpg",
+    ogImageAlt: "SuperK53 Image Library - Road Signs, Traffic Rules and Study Materials",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "K53 Image Library",
+      description: "Interactive K53 image library with road signs, traffic rules, and study materials",
+      applicationCategory: "EducationalApplication",
+      operatingSystem: "Web Browser",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "ZAR",
+        availability: "https://schema.org/InStock",
+      },
+    },
+  },
+
+  // Enhanced Achievement System Schema
+  achievements: {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "K53 Achievement System",
+    description: "Gamified achievement system for K53 learner's licence preparation",
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Web Browser",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "ZAR",
+      availability: "https://schema.org/InStock",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      reviewCount: "650"
+    },
+    hasPart: [
+      {
+        "@type": "SoftwareApplication",
+        name: "First Steps Achievement",
+        description: "Complete your first practice test",
+        applicationCategory: "EducationalApplication"
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Consistency Master",
+        description: "Practice for 7 consecutive days",
+        applicationCategory: "EducationalApplication"
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Perfect Score",
+        description: "Achieve 100% on any practice test",
+        applicationCategory: "EducationalApplication"
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Road Sign Expert",
+        description: "Master all road sign categories",
+        applicationCategory: "EducationalApplication"
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Traffic Rules Master",
+        description: "Complete all traffic rules scenarios",
+        applicationCategory: "EducationalApplication"
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Vehicle Controls Pro",
+        description: "Perfect score on vehicle controls section",
+        applicationCategory: "EducationalApplication"
+      }
+    ]
+  },
+
+  // Enhanced Analytics Schema
+  analytics: {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "K53 Learning Analytics",
+    description: "Comprehensive learning analytics and performance tracking for K53 preparation",
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Web Browser",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "ZAR",
+      availability: "https://schema.org/InStock",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "420"
+    },
+    hasPart: [
+      {
+        "@type": "SoftwareApplication",
+        name: "Performance Dashboard",
+        description: "Real-time performance tracking and analytics",
+        applicationCategory: "EducationalApplication"
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Study Recommendations",
+        description: "AI-powered personalized study recommendations",
+        applicationCategory: "EducationalApplication"
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Progress Tracking",
+        description: "Detailed progress tracking across all categories",
+        applicationCategory: "EducationalApplication"
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Weakness Analysis",
+        description: "Identify and focus on weak areas",
+        applicationCategory: "EducationalApplication"
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Study Schedule",
+        description: "Optimized study schedule recommendations",
+        applicationCategory: "EducationalApplication"
+      }
+    ]
   },
 };

@@ -489,7 +489,7 @@ export default function AdminPro() {
       sortable: true,
       render: (email, user) => (
         <div>
-          <div className="font-medium text-gray-900">{email}</div>
+          <div className="font-medium text-white">{email}</div>
           <div className="text-sm text-gray-500">
             Joined {new Date(user.created_at).toLocaleDateString()}
           </div>
@@ -712,7 +712,7 @@ export default function AdminPro() {
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <Card className="border border-red-200 bg-white max-w-md shadow-lg">
           <CardContent className="p-8 text-center">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+            <h1 className="text-2xl font-semibold text-white mb-4">
               Access Denied
             </h1>
             <p className="text-gray-600 mb-6">
@@ -907,7 +907,7 @@ export default function AdminPro() {
               </div>
               <div className="space-y-6">
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  <h3 className="text-lg font-semibold text-white mb-4">
                     System Health
                   </h3>
                   <div className="space-y-4">
@@ -999,7 +999,7 @@ export default function AdminPro() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-gray-900">
+                  <CardTitle className="text-xl font-bold text-white">
                     Content Import
                   </CardTitle>
                 </CardHeader>
@@ -1013,7 +1013,7 @@ export default function AdminPro() {
 
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-gray-900">
+                  <CardTitle className="text-xl font-bold text-white">
                     Content Statistics
                   </CardTitle>
                 </CardHeader>
@@ -1102,7 +1102,7 @@ export default function AdminPro() {
               {/* System Configuration */}
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-gray-900 flex items-center">
+                  <CardTitle className="text-xl font-bold text-white flex items-center">
                     <Settings className="h-5 w-5 mr-2" />
                     System Configuration
                   </CardTitle>
@@ -1169,7 +1169,7 @@ export default function AdminPro() {
               {/* Payment Configuration */}
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-gray-900 flex items-center">
+                  <CardTitle className="text-xl font-bold text-white flex items-center">
                     <CreditCard className="h-5 w-5 mr-2" />
                     Payment Settings
                   </CardTitle>
@@ -1220,7 +1220,7 @@ export default function AdminPro() {
               {/* Email Configuration */}
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-gray-900 flex items-center">
+                  <CardTitle className="text-xl font-bold text-white flex items-center">
                     <Mail className="h-5 w-5 mr-2" />
                     Email Settings
                   </CardTitle>
@@ -1272,7 +1272,7 @@ export default function AdminPro() {
               {/* Security Configuration */}
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-gray-900 flex items-center">
+                  <CardTitle className="text-xl font-bold text-white flex items-center">
                     <Shield className="h-5 w-5 mr-2" />
                     Security Settings
                   </CardTitle>

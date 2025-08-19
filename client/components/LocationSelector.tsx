@@ -111,7 +111,7 @@ export function LocationSelector({
         <CardContent className="p-6 space-y-6">
           {/* Auto-detect Section */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-slate-800 uppercase tracking-wide">
+            <h3 className="text-lg font-bold text-white uppercase tracking-wide">
               Auto-Detect Location
             </h3>
             <div className="bg-slate-100 p-4 rounded border-2 border-black">
@@ -148,7 +148,7 @@ export function LocationSelector({
 
           {/* Manual Selection */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-slate-800 uppercase tracking-wide">
+            <h3 className="text-lg font-bold text-white uppercase tracking-wide">
               Or Select Manually
             </h3>
             <div className="bg-slate-100 p-4 rounded border-2 border-black">
@@ -180,9 +180,9 @@ export function LocationSelector({
           {/* Selected Location Display */}
           {selectedLocation && (
             <div className="space-y-4">
-              <h3 className="text-lg font-bold text-slate-800 uppercase tracking-wide">
-                Selected Location
-              </h3>
+                          <h3 className="text-lg font-bold text-white uppercase tracking-wide">
+              Selected Location
+            </h3>
               <div className="bg-slate-800 p-4 rounded border-2 border-slate-600 flex items-center space-x-3">
                 <CheckCircle className="h-5 w-5 text-slate-300" />
                 <div>

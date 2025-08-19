@@ -83,7 +83,7 @@ export function StudyMaterials() {
   return (
     <div className="space-y-6">
       <div className="border border-black p-6">
-        <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
+                    <h4 className="text-lg font-bold text-white mb-4 uppercase tracking-wide">
           Study Materials
         </h4>
         <p className="text-slate-700 mb-6">
@@ -102,7 +102,7 @@ export function StudyMaterials() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                      <h5 className="font-bold text-slate-800 text-sm">
+                      <h5 className="font-bold text-white text-sm">
                         {material.title}
                       </h5>
                       {material.premium && (
@@ -141,7 +141,7 @@ export function StudyMaterials() {
           <div className="flex items-start space-x-3">
             <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
             <div>
-              <h5 className="font-bold text-slate-800 text-sm mb-1">
+                              <h5 className="font-bold text-white text-sm mb-1">
                 Study Material Benefits
               </h5>
               <ul className="text-slate-700 text-xs space-y-1">

@@ -93,6 +93,12 @@ export default function Progress() {
   return (
     <AuthenticatedRoute>
       <SEO {...SEO_CONFIGS.progress} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(SEO_CONFIGS.analytics)
+        }}
+      />
       <div className="min-h-screen bg-slate-900">
         {/* Header */}
         <header className="bg-slate-800 border-b border-black sticky top-0 z-50">
@@ -328,7 +334,7 @@ export default function Progress() {
                           {achievement.description}
                         </p>
                         {achievement.unlocked && (
-                          <Badge className="mt-2 bg-white text-slate-900 font-bold uppercase tracking-wide text-xs">
+                          <Badge className="mt-2 bg-white text-white font-bold uppercase tracking-wide text-xs">
                             ACHIEVED
                           </Badge>
                         )}
@@ -399,7 +405,7 @@ export default function Progress() {
                 <div className="flex justify-center space-x-4 mt-8">
                   <Button
                     asChild
-                    className="bg-white text-slate-900 hover:bg-slate-100 font-medium uppercase tracking-wide"
+                    className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide"
                   >
                     <Link to="/practice">
                       Continue Assessment
