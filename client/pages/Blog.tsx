@@ -238,7 +238,7 @@ export default function Blog() {
                         onClick={() => setSelectedCategory(category)}
                         className={
                           selectedCategory === category
-                            ? "bg-white text-white hover:bg-slate-100"
+                            ? "bg-slate-800 text-white hover:bg-slate-700"
                             : "border-black text-slate-300 hover:bg-slate-700 hover:text-white"
                         }
                       >
@@ -361,7 +361,7 @@ export default function Blog() {
                         </div>
                         <Button
                           asChild
-                          className="bg-white text-white hover:bg-slate-100 font-medium"
+                          className="bg-slate-800 text-white hover:bg-slate-700 font-medium"
                         >
                           <Link to={`/blog/${post.slug}`}>
                             Read Article
@@ -501,7 +501,7 @@ export default function Blog() {
                   <Button
                     asChild
                     size="lg"
-                    className="bg-white text-white hover:bg-slate-100 font-medium"
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium"
                   >
                     <Link to="/practice">Start Practicing Now</Link>
                   </Button>

@@ -121,7 +121,7 @@ export default function AchievementAnalytics({
           <p className="text-slate-300 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-white text-white hover:bg-slate-100 px-4 py-2 rounded font-medium"
+            className="bg-slate-800 text-white hover:bg-slate-700 px-4 py-2 rounded font-medium"
           >
             Try Again
           </button>

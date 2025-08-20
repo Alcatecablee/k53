@@ -153,7 +153,7 @@ export function ImageGallery({ mode = 'reference', onImageSelect }: ImageGallery
           {filteredImages.map((image, index) => (
             <Card 
               key={index} 
-              className="bg-slate-800 border border-black hover:border-slate-500 cursor-pointer transition-all duration-300 hover:shadow-lg"
+              className="bg-slate-800 border border-black hover:border-black cursor-pointer transition-all duration-300 hover:shadow-lg"
               onClick={() => handleImageClick(image)}
             >
               <div className="aspect-square overflow-hidden rounded-t-lg">
@@ -191,7 +191,7 @@ export function ImageGallery({ mode = 'reference', onImageSelect }: ImageGallery
           {filteredImages.map((image, index) => (
             <Card 
               key={index} 
-              className="bg-slate-800 border border-black hover:border-slate-500 cursor-pointer transition-all duration-300 hover:shadow-lg"
+              className="bg-slate-800 border border-black hover:border-black cursor-pointer transition-all duration-300 hover:shadow-lg"
               onClick={() => handleImageClick(image)}
             >
               <CardContent className="p-4">

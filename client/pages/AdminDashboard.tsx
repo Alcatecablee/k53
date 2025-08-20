@@ -239,7 +239,7 @@ export default function AdminDashboard() {
               Dashboard Error
             </h1>
             <p className="text-slate-300 mb-6">{error}</p>
-            <Button onClick={loadDashboardData} className="bg-white text-white hover:bg-slate-100">
+            <Button onClick={loadDashboardData} className="bg-slate-800 text-white hover:bg-slate-700">
               Retry
             </Button>
           </CardContent>
@@ -293,7 +293,7 @@ export default function AdminDashboard() {
               </div>
               <Button
                 onClick={loadDashboardData}
-                className="bg-white text-white hover:bg-slate-100"
+                className="bg-slate-800 text-white hover:bg-slate-700"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh
@@ -307,23 +307,23 @@ export default function AdminDashboard() {
         {/* Navigation Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
           <TabsList className="bg-slate-800 border border-black">
-            <TabsTrigger value="dashboard" className="text-white data-[state=active]:bg-white data-[state=active]:text-white">
+            <TabsTrigger value="dashboard" className="text-white data-[state=active]:bg-slate-800 data-[state=active]:text-white">
               <BarChart3 className="h-4 w-4 mr-2" />
               Dashboard
             </TabsTrigger>
-            <TabsTrigger value="users" className="text-white data-[state=active]:bg-white data-[state=active]:text-white">
+            <TabsTrigger value="users" className="text-white data-[state=active]:bg-slate-800 data-[state=active]:text-white">
               <Users className="h-4 w-4 mr-2" />
               Users
             </TabsTrigger>
-            <TabsTrigger value="payments" className="text-white data-[state=active]:bg-white data-[state=active]:text-white">
+            <TabsTrigger value="payments" className="text-white data-[state=active]:bg-slate-800 data-[state=active]:text-white">
               <CreditCard className="h-4 w-4 mr-2" />
               Payments
             </TabsTrigger>
-            <TabsTrigger value="system" className="text-white data-[state=active]:bg-white data-[state=active]:text-white">
+            <TabsTrigger value="system" className="text-white data-[state=active]:bg-slate-800 data-[state=active]:text-white">
               <Settings className="h-4 w-4 mr-2" />
               System
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="text-white data-[state=active]:bg-white data-[state=active]:text-white">
+            <TabsTrigger value="notifications" className="text-white data-[state=active]:bg-slate-800 data-[state=active]:text-white">
               <Bell className="h-4 w-4 mr-2" />
               Notifications
             </TabsTrigger>
@@ -545,7 +545,7 @@ export default function AdminDashboard() {
                               <Button
                                 onClick={() => handleBanUser(user.id, 'Admin action')}
                                 size="sm"
-                                className="bg-white text-white hover:bg-slate-100"
+                                className="bg-slate-800 text-white hover:bg-slate-700"
                               >
                                 Ban
                               </Button>
@@ -553,7 +553,7 @@ export default function AdminDashboard() {
                               <Button
                                 onClick={() => handleUnbanUser(user.id)}
                                 size="sm"
-                                className="bg-white text-white hover:bg-slate-100"
+                                className="bg-slate-800 text-white hover:bg-slate-700"
                               >
                                 Unban
                               </Button>
@@ -651,7 +651,7 @@ export default function AdminDashboard() {
                       </div>
                       <Button
                         onClick={() => setShowMaintenanceModal(true)}
-                        className="bg-white text-white hover:bg-slate-100"
+                        className="bg-slate-800 text-white hover:bg-slate-700"
                       >
                         {maintenanceMode?.is_active ? 'Disable' : 'Enable'}
                       </Button>
@@ -691,7 +691,7 @@ export default function AdminDashboard() {
                   </CardTitle>
                   <Button
                     onClick={() => setShowNotificationModal(true)}
-                    className="bg-white text-white hover:bg-slate-100"
+                    className="bg-slate-800 text-white hover:bg-slate-700"
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     New Notification
@@ -763,7 +763,7 @@ export default function AdminDashboard() {
               <div className="flex space-x-2">
                 <Button
                   onClick={handleToggleMaintenance}
-                  className="bg-white text-white hover:bg-slate-100"
+                  className="bg-slate-800 text-white hover:bg-slate-700"
                 >
                   <Save className="h-4 w-4 mr-2" />
                   {maintenanceMode?.is_active ? 'Disable' : 'Enable'}
@@ -843,7 +843,7 @@ export default function AdminDashboard() {
               <div className="flex space-x-2">
                 <Button
                   onClick={handleCreateNotification}
-                  className="bg-white text-white hover:bg-slate-100"
+                  className="bg-slate-800 text-white hover:bg-slate-700"
                 >
                   <Save className="h-4 w-4 mr-2" />
                   Create

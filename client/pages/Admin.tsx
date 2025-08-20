@@ -154,7 +154,7 @@ export default function Admin() {
             <p className="text-slate-300 mb-6">
               You don't have permission to access this page.
             </p>
-            <Button asChild className="bg-white text-white hover:bg-slate-100">
+            <Button asChild className="bg-slate-800 text-white hover:bg-slate-700">
               <Link to="/">Return Home</Link>
             </Button>
           </CardContent>
@@ -183,7 +183,7 @@ export default function Admin() {
               Dashboard Error
             </h1>
             <p className="text-slate-300 mb-6">{error}</p>
-            <Button onClick={loadDashboardData} className="bg-white text-white hover:bg-slate-100">
+            <Button onClick={loadDashboardData} className="bg-slate-800 text-white hover:bg-slate-700">
               Retry
             </Button>
           </CardContent>
@@ -237,7 +237,7 @@ export default function Admin() {
               </div>
               <Button
                 onClick={loadDashboardData}
-                className="bg-white text-white hover:bg-slate-100"
+                className="bg-slate-800 text-white hover:bg-slate-700"
               >
                 Refresh Data
               </Button>
@@ -429,15 +429,15 @@ export default function Admin() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button className="bg-white text-white hover:bg-slate-100 py-3">
+              <Button className="bg-slate-800 text-white hover:bg-slate-700 py-3">
                 <Activity className="h-4 w-4 mr-2" />
                 View User Activity
               </Button>
-              <Button className="bg-white text-white hover:bg-slate-100 py-3">
+              <Button className="bg-slate-800 text-white hover:bg-slate-700 py-3">
                 <Calendar className="h-4 w-4 mr-2" />
                 Export Reports
               </Button>
-              <Button className="bg-white text-white hover:bg-slate-100 py-3">
+              <Button className="bg-slate-800 text-white hover:bg-slate-700 py-3">
                 <Settings className="h-4 w-4 mr-2" />
                 System Settings
               </Button>

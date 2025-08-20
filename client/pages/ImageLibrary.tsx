@@ -16,8 +16,13 @@ import { ImageProgressTracker } from '@/components/ImageProgressTracker';
 import { ImageFlashcards } from '@/components/ImageFlashcards';
 import { ImageComparison } from '@/components/ImageComparison';
 import { AdvancedImageSearch } from '@/components/AdvancedImageSearch';
+import { ScenarioBuilder } from '@/components/ScenarioBuilder';
+import { LocationMap } from '@/components/LocationMap';
+import { ImageAnalytics } from '@/components/ImageAnalytics';
+import { PersonalizedLearningPaths } from '@/components/PersonalizedLearningPaths';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 export default function ImageLibrary() {
   const [activeTab, setActiveTab] = useState('search');
@@ -221,7 +226,7 @@ export default function ImageLibrary() {
           {/* Tabs Navigation */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
             <div className="bg-slate-800 border border-black p-4 transition-all duration-300 hover:shadow-lg">
-              <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-7 bg-slate-700 border border-black">
+              <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-11 bg-slate-700 border border-black">
                 <TabsTrigger 
                   value="search" 
                   className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
@@ -257,6 +262,30 @@ export default function ImageLibrary() {
                   className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
                 >
                   Gallery
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="scenarios" 
+                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
+                >
+                  Scenarios
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="locations" 
+                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
+                >
+                  Locations
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="analytics" 
+                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
+                >
+                  Analytics
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="paths" 
+                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
+                >
+                  Learning Paths
                 </TabsTrigger>
                 <TabsTrigger 
                   value="progress" 
@@ -337,6 +366,50 @@ export default function ImageLibrary() {
                 </CardHeader>
                 <CardContent className="p-6">
                   <ImageStudyGuide />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="scenarios" className="space-y-6">
+              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
+                <CardHeader className="bg-slate-700 border-b border-black">
+                  <CardTitle className="text-white uppercase tracking-wide">Interactive Scenarios</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <ScenarioBuilder />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="locations" className="space-y-6">
+              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
+                <CardHeader className="bg-slate-700 border-b border-black">
+                  <CardTitle className="text-white uppercase tracking-wide">Location-Based Learning</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <LocationMap />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="analytics" className="space-y-6">
+              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
+                <CardHeader className="bg-slate-700 border-b border-black">
+                  <CardTitle className="text-white uppercase tracking-wide">Image Learning Analytics</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <ImageAnalytics />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="paths" className="space-y-6">
+              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
+                <CardHeader className="bg-slate-700 border-b border-black">
+                  <CardTitle className="text-white uppercase tracking-wide">Personalized Learning Paths</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <PersonalizedLearningPaths />
                 </CardContent>
               </Card>
             </TabsContent>

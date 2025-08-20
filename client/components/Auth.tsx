@@ -282,7 +282,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-white hover:bg-slate-100 text-white font-semibold uppercase tracking-wide py-3"
+              className="w-full bg-slate-600 hover:bg-slate-500 text-white font-semibold uppercase tracking-wide py-3"
             >
               {loading
                 ? "Please wait..."

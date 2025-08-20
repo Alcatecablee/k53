@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { imageMapping, getImagesByCategory } from '@/data/imageMapping';
+import { flashcardService, getCurrentUserId, isAuthenticated } from '@/services/k53ImageFeaturesService';
 
 interface Flashcard {
   id: string;
@@ -43,51 +44,88 @@ export function ImageFlashcards() {
   const [loading, setLoading] = useState(false);
   const [imageError, setImageError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
 
-  // Load user progress from localStorage
+  // Check authentication on component mount
   useEffect(() => {
-    const saved = localStorage.getItem('k53-flashcard-progress');
-    if (saved) {
+    const checkAuth = async () => {
+      const authenticated = await isAuthenticated();
+      setIsUserAuthenticated(authenticated);
+      
+      if (authenticated) {
+        const currentUserId = await getCurrentUserId();
+        setUserId(currentUserId);
+      }
+    };
+    
+    checkAuth();
+  }, []);
+
+  // Load user progress from Supabase
+  useEffect(() => {
+    const loadProgress = async () => {
+      if (!userId) return;
+      
       try {
-        const parsed = JSON.parse(saved);
-        // Convert date strings back to Date objects
-        Object.keys(parsed).forEach(cardId => {
-          if (parsed[cardId].lastReviewed) {
-            parsed[cardId].lastReviewed = new Date(parsed[cardId].lastReviewed);
-          }
-          if (parsed[cardId].nextReview) {
-            parsed[cardId].nextReview = new Date(parsed[cardId].nextReview);
-          }
+        const progress = await flashcardService.getProgress(userId);
+        // Convert Supabase format to component format
+        const progressMap: Record<string, any> = {};
+        progress.forEach(item => {
+          const cardId = `flashcard-${item.image_id}`;
+          progressMap[cardId] = {
+            reviewCount: item.review_count,
+            correctCount: item.correct_count,
+            lastReviewed: item.last_reviewed ? new Date(item.last_reviewed) : null,
+            nextReview: item.next_review ? new Date(item.next_review) : null,
+            mastered: item.mastered,
+            difficulty: item.difficulty
+          };
         });
-        setUserProgress(parsed);
+        setUserProgress(progressMap);
       } catch (error) {
-        const errorMessage = 'Error loading flashcard progress. Data has been reset.';
-        setError(errorMessage);
+        console.error('Error loading flashcard progress:', error);
         toast({
-          title: "Data Error",
-          description: errorMessage,
+          title: "Error",
+          description: "Failed to load progress data",
           variant: "destructive",
         });
-        // Reset corrupted data
-        localStorage.removeItem('k53-flashcard-progress');
       }
-    }
-  }, [toast]);
+    };
+    
+    loadProgress();
+  }, [userId, toast]);
 
-  // Save user progress to localStorage
-  const saveProgress = useCallback((progress: Record<string, any>) => {
+  // Save user progress to Supabase
+  const saveProgress = useCallback(async (progress: Record<string, any>) => {
+    if (!userId) return;
+    
     try {
-      localStorage.setItem('k53-flashcard-progress', JSON.stringify(progress));
+      // Convert component format to Supabase format and save each progress item
+      const savePromises = Object.entries(progress).map(async ([cardId, cardProgress]) => {
+        const imageId = cardId.replace('flashcard-', '');
+        await flashcardService.updateProgress({
+          user_id: userId,
+          image_id: imageId,
+          difficulty: cardProgress.difficulty || 3,
+          last_reviewed: cardProgress.lastReviewed?.toISOString() || new Date().toISOString(),
+          next_review: cardProgress.nextReview?.toISOString() || new Date().toISOString(),
+          review_count: cardProgress.reviewCount || 0,
+          correct_count: cardProgress.correctCount || 0,
+          mastered: cardProgress.mastered || false
+        });
+      });
+      
+      await Promise.all(savePromises);
     } catch (error) {
-      const errorMessage = 'Failed to save progress. Please check your browser storage.';
-      setError(errorMessage);
+      console.error('Failed to save progress:', error);
       toast({
         title: "Save Error",
-        description: errorMessage,
+        description: "Failed to save progress to database",
         variant: "destructive",
       });
     }
-  }, [toast]);
+  }, [userId, toast]);
 
   // Generate flashcards from images
   const generateFlashcards = useCallback((category: string, difficulty: string, mode: string): Flashcard[] => {
@@ -399,7 +437,7 @@ export function ImageFlashcards() {
             {/* Difficulty Selection */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-300">Difficulty</label>
-              <Select value={selectedDifficulty} onValueChange={setSelectedDifficulty}>
+              <Select value={selectedDifficulty} onValueChange={(value: 'all' | 'basic' | 'intermediate' | 'advanced') => setSelectedDifficulty(value)}>
                 <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
                   <SelectValue />
                 </SelectTrigger>
@@ -415,7 +453,7 @@ export function ImageFlashcards() {
             {/* Mode Selection */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-300">Mode</label>
-              <Select value={selectedMode} onValueChange={setSelectedMode}>
+              <Select value={selectedMode} onValueChange={(value: 'study' | 'test' | 'review') => setSelectedMode(value)}>
                 <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
                   <SelectValue />
                 </SelectTrigger>

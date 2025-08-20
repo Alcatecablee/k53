@@ -64,7 +64,7 @@ class AchievementsErrorBoundary extends React.Component<
             </p>
             <button
               onClick={() => this.setState({ hasError: false })}
-              className="bg-white text-white hover:bg-slate-100 px-4 py-2 rounded font-medium"
+              className="bg-slate-600 text-white hover:bg-slate-500 px-4 py-2 rounded font-medium"
             >
               Try Again
             </button>
@@ -263,7 +263,7 @@ function AchievementsComponent({
           <p className="text-slate-300 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-white text-white hover:bg-slate-100 px-4 py-2 rounded font-medium"
+            className="bg-slate-600 text-white hover:bg-slate-500 px-4 py-2 rounded font-medium"
           >
             Refresh Page
           </button>
@@ -468,7 +468,7 @@ function AchievementsComponent({
               }}
               className={`px-3 py-1 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-900 ${
                 selectedCategory === category.id
-                  ? "bg-white text-white"
+                  ? "bg-slate-600 text-white"
                   : "bg-slate-700 text-slate-300 hover:bg-slate-600"
               }`}
               aria-label={`Filter achievements by ${category.name}`}

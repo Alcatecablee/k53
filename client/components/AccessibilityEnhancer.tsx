@@ -45,13 +45,13 @@ export function AccessibilityEnhancer({ children }: AccessibilityEnhancerProps) 
           ref={skipLinkRef}
           href="#main-content"
           onClick={handleSkipLink}
-          className="bg-white text-white px-4 py-2 rounded font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
+                      className="bg-slate-800 text-white px-4 py-2 rounded font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
         >
           Skip to main content
         </a>
         <a
           href="#navigation"
-          className="bg-white text-white px-4 py-2 rounded font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 ml-2"
+                      className="bg-slate-800 text-white px-4 py-2 rounded font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 ml-2"
         >
           Skip to navigation
         </a>

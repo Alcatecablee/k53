@@ -626,7 +626,7 @@ function PracticeComponent() {
                     <h3 className="text-lg font-bold uppercase tracking-wide text-white mb-4 text-center">
                       Official Assessment Categories
                     </h3>
-                    <div className="bg-white text-white p-3 text-center mb-4">
+                    <div className="bg-slate-600 text-white p-3 text-center mb-4">
                       <div className="text-sm font-bold uppercase tracking-wide">
                         Free and unlimited for all users
                       </div>
@@ -696,7 +696,7 @@ function PracticeComponent() {
                         <div className="text-xs text-slate-400 mb-2 uppercase tracking-wide">
                           Duration: 5 Minutes
                         </div>
-                        <div className="p-2 bg-white text-white border border-black mb-2">
+                        <div className="p-2 bg-slate-600 text-white border border-black mb-2">
                           <div className="text-xs font-bold uppercase tracking-wide">
                             Free and unlimited
                           </div>
@@ -711,7 +711,7 @@ function PracticeComponent() {
                         </p>
                         <Button
                           onClick={() => generateTest(false)}
-                          className="w-full bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-2 text-sm"
+                          className="w-full bg-slate-600 text-white hover:bg-slate-500 font-medium uppercase tracking-wide py-2 text-sm"
                         >
                           Begin Practice
                         </Button>
@@ -733,7 +733,7 @@ function PracticeComponent() {
                         <div className="text-xs text-slate-400 mb-2 uppercase tracking-wide">
                           Duration: 25 Minutes
                         </div>
-                        <div className="p-2 bg-white text-white border border-black mb-2">
+                        <div className="p-2 bg-slate-600 text-white border border-black mb-2">
                           <div className="text-xs font-bold uppercase tracking-wide">
                             Free and unlimited
                           </div>
@@ -858,7 +858,7 @@ function PracticeComponent() {
                           <Button
                             onClick={() => generateScenarioTest()}
                             disabled={usageInfo && !usageInfo.canAccess}
-                            className="w-full bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full bg-slate-600 text-white hover:bg-slate-500 font-medium uppercase tracking-wide py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             Start Scenarios
                           </Button>
@@ -973,7 +973,7 @@ function PracticeComponent() {
                   <div className="mt-6 text-center">
                     <Button
                       asChild
-                      className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide"
+                      className="bg-slate-600 text-white hover:bg-slate-500 font-medium uppercase tracking-wide"
                     >
                       <Link to="/pricing">Access premium scenarios</Link>
                     </Button>
@@ -1091,7 +1091,7 @@ function PracticeComponent() {
                   <Button
                     onClick={() => generateTest(isFullTest)}
                     variant="outline"
-                    className="flex-1 border-2 border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white font-semibold uppercase tracking-wide py-3"
+                    className="flex-1 border-2 border-black text-slate-300 hover:bg-slate-700 hover:text-white font-semibold uppercase tracking-wide py-3"
                   >
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Retake Assessment
@@ -1113,7 +1113,7 @@ function PracticeComponent() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      <div className="bg-white border-b-2 border-black shadow-sm mb-8">
+      <div className="bg-slate-800 border-b-2 border-black shadow-sm mb-8">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
             <Button
@@ -1185,7 +1185,7 @@ function PracticeComponent() {
                         <img
                           src={imagePath}
                           alt={testMode === "scenarios" ? "Scenario image" : "Question image"}
-                          className="w-full h-auto rounded-lg border-2 border-slate-200 shadow-lg"
+                          className="w-full h-auto rounded-lg border-2 border-black shadow-lg"
                           onError={(e) => {
                             // Hide image if it fails to load
                             e.currentTarget.style.display = 'none';

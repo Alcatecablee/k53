@@ -61,7 +61,7 @@ import {
   exportQuestions,
   importQuestions,
   getScenarios,
-  addScenario,
+  createScenario,
   updateScenario,
   getContentStats,
 } from "./routes/content";
@@ -181,7 +181,7 @@ export function createServer() {
   app.get("/api/content/questions/export", exportQuestions);
   app.post("/api/content/questions/import", importQuestions);
   app.get("/api/content/scenarios", getScenarios);
-  app.post("/api/content/scenarios", addScenario);
+  app.post("/api/content/scenarios", createScenario);
   app.put("/api/content/scenarios/:scenarioId", updateScenario);
   app.get("/api/content/stats", getContentStats);
 

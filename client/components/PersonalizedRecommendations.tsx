@@ -46,13 +46,13 @@ const getRecommendationIcon = (type: PersonalizedRecommendation['type']) => {
 const getPriorityColor = (priority: PersonalizedRecommendation['priority']) => {
   switch (priority) {
     case "high":
-      return "border-l-orange-500 bg-orange-50";
+      return "border-l-orange-500 bg-orange-900/20";
     case "medium":
-      return "border-l-blue-500 bg-blue-50";
+      return "border-l-blue-500 bg-blue-900/20";
     case "low":
-      return "border-l-green-500 bg-green-50";
+      return "border-l-green-500 bg-green-900/20";
     default:
-      return "border-l-gray-500 bg-gray-50";
+      return "border-l-slate-500 bg-slate-700";
   }
 };
 
@@ -129,11 +129,11 @@ export default function PersonalizedRecommendations({
   if (loading) {
     return (
       <div className={`animate-pulse ${className}`}>
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+        <div className="bg-slate-800 border border-slate-600 rounded-lg p-6">
+          <div className="h-6 bg-slate-600 rounded w-1/3 mb-4"></div>
           <div className="space-y-3">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-20 bg-gray-200 rounded"></div>
+              <div key={i} className="h-20 bg-slate-700 rounded"></div>
             ))}
           </div>
         </div>
@@ -143,7 +143,7 @@ export default function PersonalizedRecommendations({
 
   if (recommendations.length === 0) {
     return (
-      <div className={`bg-white border border-gray-200 rounded-lg p-6 ${className}`}>
+      <div className={`bg-slate-800 border border-slate-600 rounded-lg p-6 ${className}`}>
         <div className="text-center py-8">
           <CheckCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
           <h4 className="text-lg font-medium text-white mb-2">

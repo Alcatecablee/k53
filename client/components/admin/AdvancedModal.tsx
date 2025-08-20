@@ -153,7 +153,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                         className="flex-1"
                       />
                     ) : (
-                      <div className="flex-1 p-2 bg-gray-50 rounded text-white">
+                      <div className="flex-1 p-2 bg-slate-700 rounded text-white">
                         {user?.email}
                       </div>
                     )}
@@ -173,7 +173,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     User ID
                   </Label>
                   <div className="flex items-center space-x-2 mt-1">
-                    <div className="flex-1 p-2 bg-gray-50 rounded text-white font-mono text-sm">
+                    <div className="flex-1 p-2 bg-slate-700 rounded text-white font-mono text-sm">
                       {user?.id}
                     </div>
                     <Button
@@ -195,8 +195,8 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     <Badge
                       className={
                         user?.subscription?.status === "active"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-gray-100 text-gray-800"
+                          ? "bg-green-600 text-white"
+                          : "bg-slate-600 text-white"
                       }
                     >
                       {user?.subscription?.status?.toUpperCase() || "UNKNOWN"}
@@ -220,7 +220,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                         }
                       />
                     ) : (
-                      <div className="p-2 bg-gray-50 rounded text-white">
+                      <div className="p-2 bg-slate-700 rounded text-white">
                         {user?.location || "Not specified"}
                       </div>
                     )}
@@ -233,7 +233,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                   <Label className="text-sm font-medium text-gray-700">
                     Registration Date
                   </Label>
-                  <div className="mt-1 p-2 bg-gray-50 rounded text-white">
+                  <div className="mt-1 p-2 bg-slate-700 rounded text-white">
                     {user?.created_at
                       ? new Date(user.created_at).toLocaleDateString()
                       : "Unknown"}
@@ -244,7 +244,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                   <Label className="text-sm font-medium text-gray-700">
                     Last Seen
                   </Label>
-                  <div className="mt-1 p-2 bg-gray-50 rounded text-white">
+                  <div className="mt-1 p-2 bg-slate-700 rounded text-white">
                     {user?.last_seen
                       ? new Date(user.last_seen).toLocaleDateString()
                       : "Never"}

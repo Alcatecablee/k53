@@ -97,6 +97,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { formatPrice } from "@/services/subscriptionService";
+import { useToast } from "@/hooks/use-toast";
 
 interface DashboardStats {
   totalUsers: number;
@@ -139,6 +140,7 @@ interface Payment {
 
 export default function AdminNew() {
   const { user } = useAuth();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("overview");
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
@@ -256,15 +258,29 @@ export default function AdminNew() {
 
       if (response.ok) {
         const result = await response.json();
-        alert(result.message);
+        toast({
+          title: "Success",
+          description: result.message,
+          duration: 3000,
+        });
         await loadUsers();
       } else {
         const error = await response.json();
-        alert(`Error: ${error.error}`);
+        toast({
+          title: "Error",
+          description: `Error: ${error.error}`,
+          variant: "destructive",
+          duration: 5000,
+        });
       }
     } catch (error) {
       console.error("Error performing user action:", error);
-      alert("Failed to perform action. Please try again.");
+      toast({
+        title: "Error",
+        description: "Failed to perform action. Please try again.",
+        variant: "destructive",
+        duration: 5000,
+      });
     }
   };
 
@@ -295,8 +311,8 @@ export default function AdminNew() {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="border border-red-200 bg-white max-w-md shadow-lg">
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <Card className="border border-red-600 bg-slate-800 max-w-md shadow-lg">
           <CardContent className="p-8 text-center">
             <h1 className="text-2xl font-semibold text-white mb-4">
               Access Denied
@@ -318,7 +334,7 @@ export default function AdminNew() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-center">
           <RefreshCw className="w-16 h-16 text-gray-400 animate-spin mx-auto mb-4" />
           <p className="text-gray-700 font-medium">Loading Dashboard...</p>
@@ -328,9 +344,9 @@ export default function AdminNew() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-900">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 shadow-sm">
+      <div className="bg-slate-800 border-b border-black shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Button
@@ -381,7 +397,7 @@ export default function AdminNew() {
           className="space-y-6"
         >
           {/* Tab Navigation */}
-          <TabsList className="grid w-full grid-cols-6 bg-white border border-gray-200 rounded-lg">
+          <TabsList className="grid w-full grid-cols-6 bg-slate-800 border border-black rounded-lg">
             <TabsTrigger
               value="overview"
               className="text-gray-700 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200"
@@ -430,67 +446,67 @@ export default function AdminNew() {
           <TabsContent value="overview" className="space-y-6">
             {/* Enhanced Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="border border-gray-200 bg-white">
+              <Card className="border border-black bg-slate-800">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600">
+                  <CardTitle className="text-sm font-medium text-slate-300">
                     Total Users
                   </CardTitle>
-                  <Users className="h-4 w-4 text-gray-400" />
+                  <Users className="h-4 w-4 text-slate-400" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-white">
                     {stats?.totalUsers || 0}
                   </div>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-slate-400">
                     +{stats?.todaySignups || 0} today
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="border border-gray-200 bg-white">
+              <Card className="border border-black bg-slate-800">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600">
+                  <CardTitle className="text-sm font-medium text-slate-300">
                     Active Subscriptions
                   </CardTitle>
-                  <Crown className="h-4 w-4 text-gray-400" />
+                  <Crown className="h-4 w-4 text-slate-400" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-white">
                     {stats?.activeSubscriptions || 0}
                   </div>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-slate-400">
                     {stats?.conversionRate.toFixed(1)}% conversion rate
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="border border-gray-200 bg-white">
+              <Card className="border border-black bg-slate-800">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600">
+                  <CardTitle className="text-sm font-medium text-slate-300">
                     Monthly Revenue
                   </CardTitle>
-                  <DollarSign className="h-4 w-4 text-gray-400" />
+                  <DollarSign className="h-4 w-4 text-slate-400" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-white">
                     {formatPrice(stats?.totalRevenue || 0)}
                   </div>
-                  <p className="text-xs text-gray-500">Revenue this month</p>
+                  <p className="text-xs text-slate-400">Revenue this month</p>
                 </CardContent>
               </Card>
 
-              <Card className="border border-gray-200 bg-white">
+              <Card className="border border-black bg-slate-800">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600">
+                  <CardTitle className="text-sm font-medium text-slate-300">
                     Avg Session Time
                   </CardTitle>
-                  <Clock className="h-4 w-4 text-gray-400" />
+                  <Clock className="h-4 w-4 text-slate-400" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-white">
                     {Math.floor((stats?.avgSessionTime || 0) / 60)}m
                   </div>
-                  <p className="text-xs text-gray-500">Average session time</p>
+                  <p className="text-xs text-slate-400">Average session time</p>
                 </CardContent>
               </Card>
             </div>
@@ -677,7 +693,7 @@ export default function AdminNew() {
                         placeholder="Search by email, name, or location..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 border-gray-300 bg-white text-white"
+                        className="pl-10 border-black bg-slate-700 text-white"
                       />
                     </div>
                   </div>
@@ -692,7 +708,7 @@ export default function AdminNew() {
                       value={filterStatus}
                       onValueChange={setFilterStatus}
                     >
-                      <SelectTrigger className="w-48 border-gray-300 bg-white text-white mt-1">
+                      <SelectTrigger className="w-48 border-black bg-slate-700 text-white mt-1">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1063,7 +1079,7 @@ export default function AdminNew() {
                       }
                     }
                   }}
-                  className="bg-white text-white"
+                  className="bg-slate-600 text-white"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Scenario
@@ -1128,20 +1144,20 @@ export default function AdminNew() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button
-                    onClick={async () => {
-                      try {
-                        const response = await fetch("/api/content/questions");
-                        const data = await response.json();
-                        alert(
-                          `Question Bank:\n\nTotal Questions: ${data.stats?.total || 0}\nCategories: ${data.stats?.categories?.length || 0}\nDifficulties: ${data.stats?.difficulties?.length || 0}\n\nFirst 3 questions loaded. Question editor interface coming soon!`,
-                        );
-                      } catch (error) {
-                        alert("Failed to load question bank");
-                      }
-                    }}
-                    className="w-full bg-white text-white hover:bg-slate-100"
-                  >
+                                      <Button
+                      onClick={async () => {
+                        try {
+                          const response = await fetch("/api/content/questions");
+                          const data = await response.json();
+                          alert(
+                            `Question Bank:\n\nTotal Questions: ${data.stats?.total || 0}\nCategories: ${data.stats?.categories?.length || 0}\nDifficulties: ${data.stats?.difficulties?.length || 0}\n\nFirst 3 questions loaded. Question editor interface coming soon!`,
+                          );
+                        } catch (error) {
+                          alert("Failed to load question bank");
+                        }
+                      }}
+                      className="w-full bg-slate-600 text-white hover:bg-slate-500"
+                    >
                     <Edit className="h-4 w-4 mr-2" />
                     Edit Question Bank
                   </Button>
@@ -1239,7 +1255,7 @@ export default function AdminNew() {
                         alert("Failed to load scenarios");
                       }
                     }}
-                    className="w-full bg-white text-white hover:bg-slate-100"
+                    className="w-full bg-slate-800 text-white hover:bg-slate-700"
                   >
                     <Edit className="h-4 w-4 mr-2" />
                     Manage Scenarios
@@ -1273,7 +1289,7 @@ export default function AdminNew() {
               </h2>
               <Button
                 onClick={checkSystemHealth}
-                className="bg-white text-white"
+                className="bg-slate-600 text-white"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh Status
@@ -1620,7 +1636,7 @@ export default function AdminNew() {
                 onClick={() =>
                   alert("Configuration export feature coming soon!")
                 }
-                className="bg-white text-white"
+                className="bg-slate-600 text-white"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Export Config
@@ -1824,7 +1840,7 @@ export default function AdminNew() {
               </Button>
               <Button
                 onClick={() => alert("Settings saved successfully!")}
-                className="bg-white text-white"
+                className="bg-slate-600 text-white"
               >
                 Save All Settings
               </Button>

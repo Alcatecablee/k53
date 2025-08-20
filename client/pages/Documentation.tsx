@@ -1178,28 +1178,28 @@ export default function Documentation() {
                 <div className="grid md:grid-cols-4 gap-4">
                   <Button
                     onClick={() => setActiveSection("getting-started")}
-                    className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3"
                   >
                     <PlayCircle className="h-4 w-4 mr-2" />
                     Getting Started
                   </Button>
                   <Button
                     onClick={() => setActiveSection("k53-information")}
-                    className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3"
                   >
                     <FileText className="h-4 w-4 mr-2" />
                     K53 Info
                   </Button>
                   <Button
                     onClick={() => setActiveSection("faq")}
-                    className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3"
                   >
                     <HelpCircle className="h-4 w-4 mr-2" />
                     FAQ
                   </Button>
                   <Button
                     onClick={() => setActiveSection("support")}
-                    className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide py-3"
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3"
                   >
                     <Phone className="h-4 w-4 mr-2" />
                     Support
@@ -1237,7 +1237,7 @@ export default function Documentation() {
                               onClick={() => setActiveSection(section.id)}
                               className={`w-full text-left p-3 border border-black transition-colors flex items-center space-x-3 ${
                                 activeSection === section.id
-                                  ? "bg-white text-white"
+                                  ? "bg-slate-800 text-white"
                                   : "bg-slate-700 text-white hover:bg-slate-600"
                               }`}
                             >

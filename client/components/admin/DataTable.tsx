@@ -188,12 +188,12 @@ export function DataTable<T extends Record<string, any>>({
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+      <div className="bg-slate-800 rounded-lg shadow-sm border border-slate-600 p-8">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded mb-6"></div>
+          <div className="h-8 bg-slate-600 rounded mb-6"></div>
           <div className="space-y-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-12 bg-gray-100 rounded"></div>
+              <div key={i} className="h-12 bg-slate-700 rounded"></div>
             ))}
           </div>
         </div>
@@ -202,9 +202,9 @@ export function DataTable<T extends Record<string, any>>({
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div className="bg-slate-800 rounded-lg shadow-sm border border-slate-600">
       {/* Header */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-slate-600">
         <div className="flex items-center justify-between mb-4">
           {title && (
             <h2 className="text-xl font-semibold text-white">{title}</h2>
@@ -272,7 +272,7 @@ export function DataTable<T extends Record<string, any>>({
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-slate-700 border-b border-slate-600">
             <tr>
               <th className="w-12 px-6 py-3">
                 <input
@@ -329,7 +329,7 @@ export function DataTable<T extends Record<string, any>>({
                 return (
                   <tr
                     key={globalIndex}
-                    className={`hover:bg-gray-50 transition-colors ${
+                    className={`hover:bg-slate-700 transition-colors ${
                       onRowClick ? "cursor-pointer" : ""
                     } ${selectedRows.has(globalIndex) ? "bg-blue-50" : ""}`}
                     onClick={() => onRowClick?.(row)}

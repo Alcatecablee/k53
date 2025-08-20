@@ -198,7 +198,7 @@ export function PayPalCheckout({
             <div className="space-y-2">
               <Button
                 onClick={() => setShowPayPal(true)}
-                className="w-full bg-white text-white hover:bg-slate-100 py-3 text-lg font-semibold"
+                className="w-full bg-slate-600 text-white hover:bg-slate-500 py-3 text-lg font-semibold"
                 disabled={loading || showPayPal}
               >
                 <CreditCard className="h-5 w-5 mr-2" />

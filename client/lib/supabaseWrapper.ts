@@ -201,6 +201,32 @@ export const supabase = {
     },
   },
 
+  // Database methods
+  from: (table: string) => {
+    if (!supabaseClient || clientInitializationFailed) {
+      // Return a mock query builder that returns empty results
+      return {
+        select: () => ({
+          eq: () => ({ single: () => Promise.resolve({ data: null, error: null }) }),
+          single: () => Promise.resolve({ data: null, error: null }),
+        }),
+        insert: () => ({
+          select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }),
+        }),
+        upsert: () => ({
+          select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }),
+        }),
+        update: () => ({
+          eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }),
+        }),
+        delete: () => ({
+          eq: () => Promise.resolve({ data: null, error: null }),
+        }),
+      };
+    }
+    return supabaseClient.from(table);
+  },
+
   // Keep the original client available for direct access when needed
   _client: supabaseClient,
 

@@ -81,7 +81,7 @@ export default function BlogPost() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Article Not Found</h1>
           <p className="text-slate-400 mb-6">The article you're looking for doesn't exist.</p>
-          <Button asChild className="bg-white text-white hover:bg-slate-100">
+          <Button asChild className="bg-slate-800 text-white hover:bg-slate-700">
             <Link to="/blog">Back to Blog</Link>
           </Button>
         </div>
@@ -391,7 +391,7 @@ export default function BlogPost() {
                   <Button
                     asChild
                     size="lg"
-                    className="bg-white text-white hover:bg-slate-100 font-medium"
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium"
                   >
                     <Link to="/practice">Start Practicing Now</Link>
                   </Button>

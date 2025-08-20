@@ -334,7 +334,7 @@ export default function Progress() {
                           {achievement.description}
                         </p>
                         {achievement.unlocked && (
-                          <Badge className="mt-2 bg-white text-white font-bold uppercase tracking-wide text-xs">
+                          <Badge className="mt-2 bg-slate-600 text-white font-bold uppercase tracking-wide text-xs">
                             ACHIEVED
                           </Badge>
                         )}
@@ -405,7 +405,7 @@ export default function Progress() {
                 <div className="flex justify-center space-x-4 mt-8">
                   <Button
                     asChild
-                    className="bg-white text-white hover:bg-slate-100 font-medium uppercase tracking-wide"
+                    className="bg-slate-600 text-white hover:bg-slate-500 font-medium uppercase tracking-wide"
                   >
                     <Link to="/practice">
                       Continue Assessment

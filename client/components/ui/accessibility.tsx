@@ -134,7 +134,7 @@ export const AccessibleNavItem: React.FC<{
   ariaLabel
 }) => {
   const baseClasses = "nav-accessible flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors";
-  const activeClasses = isActive ? "bg-blue-100 text-blue-900" : "text-gray-600 hover:bg-gray-50 hover:text-white";
+      const activeClasses = isActive ? "bg-slate-800 text-white" : "text-white hover:bg-slate-700 hover:text-white";
   const disabledClasses = isDisabled ? "opacity-50 cursor-not-allowed" : "";
   
   const commonProps = {
