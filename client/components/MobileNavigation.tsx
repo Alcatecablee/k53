@@ -66,7 +66,6 @@ export function MobileNavigation({ isOpen, onToggle, onClose }: MobileNavigation
   { to: '/dltc', label: 'Centers', description: 'Find testing centers' },
   { to: '/docs', label: 'Docs', description: 'Platform documentation' },
   { to: '/blog', label: 'Blog', description: 'Blog articles' },
-  { to: '/admin', label: 'Admin', description: 'Admin panel' },
   {
     to: 'https://taxfy.co.za',
     label: 'Tax',
