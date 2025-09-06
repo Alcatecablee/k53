@@ -1,16 +1,10 @@
+'use client';
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { useToast } from '@/hooks/use-toast';
-import { 
-  flashcardService, 
-  searchService, 
-  exportService, 
-  mobileService,
-  getCurrentUserId, 
-  isAuthenticated as checkIsAuthenticated 
-} from '@/services/k53ImageFeaturesService';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Button  } from '@/components/ui/button';
+import {  Badge  } from '@/components/ui/badge';
+import {  useToast  } from '@/hooks/use-toast';
+import {  flashcardService, searchService, exportService, mobileService, getCurrentUserId, isAuthenticated  } from '@/services/k53ImageFeaturesService';
 
 export function SupabaseTest() {
   const { toast } = useToast();
@@ -23,9 +17,9 @@ export function SupabaseTest() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const authenticated = await checkIsAuthenticated();
+        const authenticated = await isAuthenticated();
         setIsAuthenticated(authenticated);
-        
+
         if (authenticated) {
           const currentUserId = await getCurrentUserId();
           setUserId(currentUserId);
@@ -36,20 +30,20 @@ export function SupabaseTest() {
         setUserId(null);
       }
     };
-    
+
     checkAuth();
   }, []);
 
   // Test flashcard service
   const testFlashcardService = async () => {
     if (!userId) return;
-    
+
     try {
       setLoading(true);
-      
+
       // Test getting progress
       const progress = await flashcardService.getProgress(userId);
-      
+
       // Test creating a sample progress entry
       const testProgress = await flashcardService.updateProgress({
         user_id: userId,
@@ -59,8 +53,8 @@ export function SupabaseTest() {
         correct_count: 1,
         mastered: false
       });
-      
-      setTestResults(prev => ({
+
+      setTestResults((prev) => ({
         ...prev,
         flashcard: {
           progressCount: progress.length,
@@ -68,21 +62,21 @@ export function SupabaseTest() {
           success: true
         }
       }));
-      
+
       toast({
         title: "Flashcard Service Test",
-        description: `Success! Found ${progress.length} progress records`,
+        description: `Success! Found ${progress.length} progress records`
       });
     } catch (error) {
       console.error('Flashcard service test failed:', error);
-      setTestResults(prev => ({
+      setTestResults((prev) => ({
         ...prev,
         flashcard: { success: false, error: error.message }
       }));
       toast({
         title: "Flashcard Service Test Failed",
         description: error.message,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -92,10 +86,10 @@ export function SupabaseTest() {
   // Test search service
   const testSearchService = async () => {
     if (!userId) return;
-    
+
     try {
       setLoading(true);
-      
+
       // Test recording a search
       const searchRecord = await searchService.recordSearch({
         user_id: userId,
@@ -104,11 +98,11 @@ export function SupabaseTest() {
         results_count: 10,
         search_type: 'text'
       });
-      
+
       // Test getting search history
       const history = await searchService.getSearchHistory(userId, 5);
-      
-      setTestResults(prev => ({
+
+      setTestResults((prev) => ({
         ...prev,
         search: {
           searchRecorded: !!searchRecord,
@@ -116,21 +110,21 @@ export function SupabaseTest() {
           success: true
         }
       }));
-      
+
       toast({
         title: "Search Service Test",
-        description: `Success! Recorded search and found ${history.length} history items`,
+        description: `Success! Recorded search and found ${history.length} history items`
       });
     } catch (error) {
       console.error('Search service test failed:', error);
-      setTestResults(prev => ({
+      setTestResults((prev) => ({
         ...prev,
         search: { success: false, error: error.message }
       }));
       toast({
         title: "Search Service Test Failed",
         description: error.message,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -140,10 +134,10 @@ export function SupabaseTest() {
   // Test export service
   const testExportService = async () => {
     if (!userId) return;
-    
+
     try {
       setLoading(true);
-      
+
       // Test creating a collection
       const collection = await exportService.createCollection({
         user_id: userId,
@@ -154,8 +148,8 @@ export function SupabaseTest() {
         tags: ['test'],
         is_public: false
       });
-      
-      setTestResults(prev => ({
+
+      setTestResults((prev) => ({
         ...prev,
         export: {
           collectionCreated: !!collection,
@@ -163,21 +157,21 @@ export function SupabaseTest() {
           success: true
         }
       }));
-      
+
       toast({
         title: "Export Service Test",
-        description: `Success! Created collection: ${collection?.name}`,
+        description: `Success! Created collection: ${collection?.name}`
       });
     } catch (error) {
       console.error('Export service test failed:', error);
-      setTestResults(prev => ({
+      setTestResults((prev) => ({
         ...prev,
         export: { success: false, error: error.message }
       }));
       toast({
         title: "Export Service Test Failed",
         description: error.message,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -187,13 +181,13 @@ export function SupabaseTest() {
   // Test mobile service
   const testMobileService = async () => {
     if (!userId) return;
-    
+
     try {
       setLoading(true);
-      
+
       // Test getting mobile settings
       const settings = await mobileService.getMobileSettings(userId);
-      
+
       // Test updating mobile settings
       const updatedSettings = await mobileService.updateMobileSettings({
         user_id: userId,
@@ -215,8 +209,8 @@ export function SupabaseTest() {
         cache_size_mb: 100,
         lazy_load_threshold: 200
       });
-      
-      setTestResults(prev => ({
+
+      setTestResults((prev) => ({
         ...prev,
         mobile: {
           settingsRetrieved: !!settings,
@@ -224,21 +218,21 @@ export function SupabaseTest() {
           success: true
         }
       }));
-      
+
       toast({
         title: "Mobile Service Test",
-        description: "Success! Mobile settings retrieved and updated",
+        description: "Success! Mobile settings retrieved and updated"
       });
     } catch (error) {
       console.error('Mobile service test failed:', error);
-      setTestResults(prev => ({
+      setTestResults((prev) => ({
         ...prev,
         mobile: { success: false, error: error.message }
       }));
       toast({
         title: "Mobile Service Test Failed",
         description: error.message,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -275,8 +269,8 @@ export function SupabaseTest() {
             </p>
           </div>
         </CardContent>
-      </Card>
-    );
+      </Card>);
+
   }
 
   return (
@@ -309,27 +303,27 @@ export function SupabaseTest() {
             <CardContent className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-slate-300">Flashcard Service</span>
-                <Badge 
+                <Badge
                   variant={testResults.flashcard?.success ? "default" : "destructive"}
-                  className={testResults.flashcard?.success ? "bg-green-600" : ""}
-                >
+                  className={testResults.flashcard?.success ? "bg-green-600" : ""}>
+                  
                   {testResults.flashcard?.success ? "✅ Pass" : "❌ Fail"}
                 </Badge>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-300">Search Service</span>
-                <Badge 
+                <Badge
                   variant={testResults.search?.success ? "default" : "destructive"}
-                  className={testResults.search?.success ? "bg-green-600" : ""}
-                >
+                  className={testResults.search?.success ? "bg-green-600" : ""}>
+                  
                   {testResults.search?.success ? "✅ Pass" : "❌ Fail"}
                 </Badge>
               </div>
-              <Button 
-                onClick={testFlashcardService} 
+              <Button
+                onClick={testFlashcardService}
                 disabled={loading}
-                className="w-full"
-              >
+                className="w-full">
+                
                 Test Phase 1
               </Button>
             </CardContent>
@@ -353,10 +347,10 @@ export function SupabaseTest() {
                   ⏳ Pending
                 </Badge>
               </div>
-              <Button 
+              <Button
                 disabled={true}
-                className="w-full bg-slate-600"
-              >
+                className="w-full bg-slate-600">
+                
                 Test Phase 2 (Coming Soon)
               </Button>
             </CardContent>
@@ -380,10 +374,10 @@ export function SupabaseTest() {
                   ⏳ Pending
                 </Badge>
               </div>
-              <Button 
+              <Button
                 disabled={true}
-                className="w-full bg-slate-600"
-              >
+                className="w-full bg-slate-600">
+                
                 Test Phase 3 (Coming Soon)
               </Button>
             </CardContent>
@@ -397,27 +391,27 @@ export function SupabaseTest() {
             <CardContent className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-slate-300">Export Service</span>
-                <Badge 
+                <Badge
                   variant={testResults.export?.success ? "default" : "destructive"}
-                  className={testResults.export?.success ? "bg-green-600" : ""}
-                >
+                  className={testResults.export?.success ? "bg-green-600" : ""}>
+                  
                   {testResults.export?.success ? "✅ Pass" : "❌ Fail"}
                 </Badge>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-300">Mobile Service</span>
-                <Badge 
+                <Badge
                   variant={testResults.mobile?.success ? "default" : "destructive"}
-                  className={testResults.mobile?.success ? "bg-green-600" : ""}
-                >
+                  className={testResults.mobile?.success ? "bg-green-600" : ""}>
+                  
                   {testResults.mobile?.success ? "✅ Pass" : "❌ Fail"}
                 </Badge>
               </div>
-              <Button 
-                onClick={testExportService} 
+              <Button
+                onClick={testExportService}
                 disabled={loading}
-                className="w-full"
-              >
+                className="w-full">
+                
                 Test Phase 4
               </Button>
             </CardContent>
@@ -426,18 +420,18 @@ export function SupabaseTest() {
 
         {/* Run All Tests Button */}
         <div className="flex justify-center">
-          <Button 
-            onClick={runAllTests} 
+          <Button
+            onClick={runAllTests}
             disabled={loading}
-            className="px-8 py-3 text-lg"
-          >
+            className="px-8 py-3 text-lg">
+            
             {loading ? "Running Tests..." : "Run All Tests"}
           </Button>
         </div>
 
         {/* Detailed Results */}
-        {Object.keys(testResults).length > 0 && (
-          <Card className="bg-slate-700 border-slate-600">
+        {Object.keys(testResults).length > 0 &&
+        <Card className="bg-slate-700 border-slate-600">
             <CardHeader>
               <CardTitle className="text-white">Test Results Details</CardTitle>
             </CardHeader>
@@ -447,8 +441,8 @@ export function SupabaseTest() {
               </pre>
             </CardContent>
           </Card>
-        )}
+        }
       </CardContent>
-    </Card>
-  );
-} 
+    </Card>);
+
+}

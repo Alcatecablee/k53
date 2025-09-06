@@ -1,0 +1,81 @@
+  async getDailyUsage(date?: string): Promise<DailyUsage | null> {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const targetDate = date || new Date().toISOString().split("T")[0];
+
+    // Try to get usage from database first, but handle errors gracefully
+    try {
+      const { data: dbUsage, error } = await supabaseClient.
+      from("daily_usage").
+      select("*").
+      eq("user_id", user.id).
+      eq("date", targetDate).
+      single();
+
+      if (dbUsage && !error) {
+        return dbUsage as DailyUsage;
+      }
+
+      // If no record exists, try to create one
+      const defaultUsage: DailyUsage = {
+        id: `usage-${user.id}-${targetDate}`,
+        user_id: user.id,
+        date: targetDate,
+        scenarios_used: 0,
+        questions_used: 0,
+        max_scenarios: 5, // Free tier default
+        max_questions: 10
+      };
+
+      const { data: newUsage, error: insertError } = await supabaseClient.
+      from("daily_usage").
+      insert(defaultUsage).
+      select().
+      single();
+
+      if (newUsage && !insertError) {
+        return newUsage as DailyUsage;
+      }
+    } catch (dbError) {
+      console.warn("Database access failed, falling back to localStorage:", dbError);
+    }
+
+    // Fallback to localStorage if database fails
+    const storageKey = `daily_usage_${user.id}_${targetDate}`;
+    const stored = localStorage.getItem(storageKey);
+
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        // If stored data is corrupted, use default
+        const defaultUsage: DailyUsage = {
+          id: `usage-${user.id}-${targetDate}`,
+          user_id: user.id,
+          date: targetDate,
+          scenarios_used: 0,
+          questions_used: 0,
+          max_scenarios: 5,
+          max_questions: 10
+        };
+        localStorage.setItem(storageKey, JSON.stringify(defaultUsage));
+        return defaultUsage;
+      }
+    }
+
+    // Store and return default usage
+    const defaultUsage: DailyUsage = {
+      id: `usage-${user.id}-${targetDate}`,
+      user_id: user.id,
+      date: targetDate,
+      scenarios_used: 0,
+      questions_used: 0,
+      max_scenarios: 5,
+      max_questions: 10
+    };
+    localStorage.setItem(storageKey, JSON.stringify(defaultUsage));
+    return defaultUsage;
+  }

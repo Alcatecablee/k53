@@ -1,0 +1,82 @@
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+
+export function WorkingShare() {
+  const { toast } = useToast();
+
+  const shareToFacebook = () => {
+    const currentUrl = window.location.href;
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+    // [NeuroLint] Removed console.log: "Sharing to Facebook:", shareUrl
+    window.open(shareUrl, "_blank");
+  };
+
+  const shareToTwitter = () => {
+    const currentUrl = window.location.href;
+    const shareUrl = `https://twitter.com/intent/tweet?text=Check out this K53 article&url=${encodeURIComponent(currentUrl)}`;
+    // [NeuroLint] Removed console.log: "Sharing to Twitter:", shareUrl
+    window.open(shareUrl, "_blank");
+  };
+
+  const copyLink = () => {
+    const currentUrl = window.location.href;
+    // [NeuroLint] Removed console.log: "Copying URL:", currentUrl
+
+    // Try modern clipboard API
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(currentUrl).then(() => {
+        toast({
+          title: "Success",
+          description: "Link copied to clipboard!"
+        });
+      }).catch(() => {
+        toast({
+          title: "Error",
+          description: "Failed to copy link",
+          variant: "destructive"
+        });
+      });
+    } else {
+      // Fallback
+      toast({
+        title: "Copy Link",
+        description: `Please copy this URL: ${currentUrl}`
+      });
+    }
+  };
+
+  return (
+    <Card className="bg-slate-800 border border-black">
+      <CardHeader>
+        <CardTitle className="text-white">Working Share Buttons</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <Button aria-label="Share on Facebook" variant="default"
+        onClick={shareToFacebook}
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+          
+          Share on Facebook
+        </Button>
+        
+        <Button aria-label="Share on Twitter" variant="default"
+        onClick={shareToTwitter}
+        className="w-full bg-sky-500 hover:bg-sky-600 text-white">
+          
+          Share on Twitter
+        </Button>
+        
+        <Button aria-label="Copy Link" variant="default"
+        onClick={copyLink}
+        className="w-full bg-green-600 hover:bg-green-700 text-white">
+          
+          Copy Link
+        </Button>
+        
+        <div className="bg-slate-700 border border-black p-3 rounded text-xs text-slate-300">
+          <p>Current URL: {window.location.href}</p>
+        </div>
+      </CardContent>
+    </Card>);
+
+}

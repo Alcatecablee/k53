@@ -33,7 +33,7 @@ export const showNotification = (message: string, options: NotificationOptions =
     description,
     duration,
     variant: type === "error" ? "destructive" : "default",
-    action: actionElement,
+    ...(actionElement && { action: actionElement }),
   });
 };
 
@@ -73,37 +73,21 @@ export const showInfo = (message: string, title?: string) => {
   });
 };
 
+import { logger } from './loggingService';
+
 // Replace console.warn with structured logging
-export const logWarning = (message: string, context?: any) => {
-  // In development, still log to console for debugging
-  if (process.env.NODE_ENV === "development") {
-    console.warn(`[${new Date().toISOString()}] WARNING:`, message, context);
-  }
-  
-  // In production, you might want to send to a logging service
-  // logToService('warning', message, context);
+export const logWarning = (message: string, context?: unknown) => {
+  logger.warn(message, { action: 'notification_warning' }, context);
 };
 
 // Replace console.error with structured logging
-export const logError = (message: string, error?: any, context?: any) => {
-  // In development, still log to console for debugging
-  if (process.env.NODE_ENV === "development") {
-    console.error(`[${new Date().toISOString()}] ERROR:`, message, error, context);
-  }
-  
-  // In production, you might want to send to a logging service
-  // logToService('error', message, { error, context });
+export const logError = (message: string, error?: unknown, context?: unknown) => {
+  logger.error(message, { action: 'notification_error' }, context, error instanceof Error ? error : undefined);
 };
 
 // Replace console.log with structured logging
-export const logInfo = (message: string, data?: any) => {
-  // In development, still log to console for debugging
-  if (process.env.NODE_ENV === "development") {
-    console.log(`[${new Date().toISOString()}] INFO:`, message, data);
-  }
-  
-  // In production, you might want to send to a logging service
-  // logToService('info', message, data);
+export const logInfo = (message: string, data?: unknown) => {
+  logger.info(message, { action: 'notification_info' }, data);
 };
 
 // Utility for common error patterns

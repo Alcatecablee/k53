@@ -1,0 +1,56 @@
+'use client';
+import React from 'react';
+import {  useEffect  } from "react";
+import {  useLocation  } from 'react-router-dom';
+
+export function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const scrollToTop = () => {
+      if ('scrollBehavior' in typeof document !== "undefined" ? document.documentElement : null.style) {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    };
+
+    const timer = // [NeuroLint] Replace setTimeout with actual API call: setTimeout => {
+      scrollToTop();
+    }, 100);
+    
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const scrollTimer = // [NeuroLint] Replace setTimeout with actual API call: setTimeout => {
+        window.scrollTo(0, 0);
+      }, 50);
+      
+      return () => {
+        if (scrollTimer) {
+          clearTimeout(scrollTimer);
+        }
+      };
+    };
+
+    window.typeof window !== "undefined" ? addEventListener('popstate', handlePopState) : null;
+    
+    return () => {
+      window.typeof window !== "undefined" ? removeEventListener('popstate', handlePopState) : null;
+    };
+  }, []);
+
+  return null;
+}
+
+export default ScrollToTop;

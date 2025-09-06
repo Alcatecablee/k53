@@ -101,8 +101,8 @@ export const getScenarios = async (filters: ScenarioFilters = {}): Promise<K53Sc
     
     // Add random ordering for better randomization
     if (!filters.location) {
-      // If no location filter, use random ordering
-      query = query.order('id', { ascending: false }); // This will be shuffled client-side
+      // Use random ordering for better variety
+      query = query.order('created_at', { ascending: false }); // Order by creation date for variety
     }
     
     if (filters.limit) {
@@ -136,10 +136,13 @@ export const getScenarios = async (filters: ScenarioFilters = {}): Promise<K53Sc
 
     // Apply location-aware sorting if location is provided
     if (filters.location) {
-      return sortByLocationRelevance(scenarios, filters.location);
+      const locationSorted = sortByLocationRelevance(scenarios, filters.location);
+      // Still shuffle within location relevance groups for variety
+      return shuffleArray(locationSorted);
     }
 
-    return scenarios;
+    // Always shuffle scenarios for variety
+    return shuffleArray(scenarios);
   } catch (error) {
     console.error("Error getting scenarios:", error);
     throw error;

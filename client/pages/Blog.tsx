@@ -1,35 +1,15 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import {
-  Search,
-  Calendar,
-  Clock,
-  User,
-  ArrowRight,
-  BookOpen,
-  TrendingUp,
-  Award,
-  MapPin,
-  Car,
-  Shield,
-  FileText,
-  Users,
-  Star,
-  Filter,
-  ChevronDown,
-  ChevronUp,
-  ExternalLink,
-  Tag,
-  Eye,
-  ThumbsUp,
-} from "lucide-react";
-import { Link } from "react-router-dom";
-import { SEO } from "@/components/SEO";
-import { SEO_CONFIGS } from "@/hooks/useSEO";
-import { blogService, BlogPost, BlogSearchFilters } from "@/services/blogService";
+'use client';
+import React from 'react';
+import {  useState, useEffect  } from "react";
+import {  Button  } from '@/components/ui/button';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Badge  } from '@/components/ui/badge';
+import {  Input  } from '@/components/ui/input';
+import {  Search, Calendar, Clock, User, ArrowRight, BookOpen, TrendingUp, Award, MapPin, Car, Shield, FileText, Users, Star, Filter, ChevronDown, ChevronUp, ExternalLink, Tag, Eye, ThumbsUp  } from 'lucide-react';
+import {  Link  } from 'react-router-dom';
+import {  SEO  } from '@/components/SEO';
+import {  SEO_CONFIGS  } from '@/hooks/useSEO';
+import {  blogService, BlogPost, BlogSearchFilters  } from '@/services/blogService';
 
 
 
@@ -65,11 +45,11 @@ export default function Blog() {
   useEffect(() => {
     const filterPosts = async () => {
       const filters: BlogSearchFilters = {};
-      
+
       if (searchTerm) {
         filters.searchTerm = searchTerm;
       }
-      
+
       if (selectedCategory !== "All") {
         filters.category = selectedCategory;
       }
@@ -120,38 +100,38 @@ export default function Blog() {
                 <nav className="hidden md:flex items-center space-x-6">
                   <Link
                     to="/"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Home
                   </Link>
                   <Link
                     to="/practice"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Practice
                   </Link>
                   <Link
                     to="/progress"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Results
                   </Link>
                   <Link
                     to="/pricing"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Premium
                   </Link>
                   <Link
                     to="/dltc"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Centers
                   </Link>
                   <Link
                     to="/docs"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Docs
                   </Link>
                 </nav>
@@ -159,8 +139,8 @@ export default function Blog() {
                 <Button
                   asChild
                   variant="ghost"
-                  className="text-slate-300 hover:text-white hover:bg-slate-700 font-medium text-sm uppercase tracking-wide"
-                >
+                  className="text-slate-300 hover:text-white hover:bg-slate-700 font-medium text-sm uppercase tracking-wide">
+                  
                   <Link to="/practice">
                     <User className="h-4 w-4 mr-2" />
                     Sign In
@@ -208,76 +188,76 @@ export default function Blog() {
                       placeholder="Search articles, tips, and guides..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-slate-700 border-black text-white placeholder:text-slate-400"
-                    />
+                      className="pl-10 bg-slate-700 border-black text-white placeholder:text-slate-400" />
+                    
                   </div>
                   <Button
                     variant="outline"
                     onClick={() => setShowFilters(!showFilters)}
-                    className="border-black text-slate-300 hover:bg-slate-700 hover:text-white"
-                  >
+                    className="border-black text-slate-300 hover:bg-slate-700 hover:text-white">
+                    
                     <Filter className="h-4 w-4 mr-2" />
                     Filters
-                    {showFilters ? (
-                      <ChevronUp className="h-4 w-4 ml-2" />
-                    ) : (
-                      <ChevronDown className="h-4 w-4 ml-2" />
-                    )}
+                    {showFilters ?
+                    <ChevronUp className="h-4 w-4 ml-2" /> :
+
+                    <ChevronDown className="h-4 w-4 ml-2" />
+                    }
                   </Button>
                 </div>
 
-                {showFilters && (
-                  <div className="flex flex-wrap gap-2">
-                    {CATEGORIES.map((category) => (
-                      <Button
-                        key={category}
-                        variant={
-                          selectedCategory === category ? "default" : "outline"
-                        }
-                        size="sm"
-                        onClick={() => setSelectedCategory(category)}
-                        className={
-                          selectedCategory === category
-                            ? "bg-slate-800 text-white hover:bg-slate-700"
-                            : "border-black text-slate-300 hover:bg-slate-700 hover:text-white"
-                        }
-                      >
+                {showFilters &&
+                <div className="flex flex-wrap gap-2">
+                    {CATEGORIES.map((category) =>
+                  <Button
+                    key={category}
+                    variant={
+                    selectedCategory === category ? "default" : "outline"
+                    }
+                    size="sm"
+                    onClick={() => setSelectedCategory(category)}
+                    className={
+                    selectedCategory === category ?
+                    "bg-slate-800 text-white hover:bg-slate-700" :
+                    "border-black text-slate-300 hover:bg-slate-700 hover:text-white"
+                    }>
+                    
                         {category}
                       </Button>
-                    ))}
+                  )}
                   </div>
-                )}
+                }
               </div>
             </div>
           </div>
         </section>
 
         {/* Loading State */}
-        {loading && (
-          <section className="py-16">
+        {loading &&
+        <section className="py-16">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto text-center">
                 <div className="animate-pulse">
                   <div className="h-8 bg-slate-700 rounded mb-8 mx-auto w-64"></div>
                   <div className="grid md:grid-cols-2 gap-8">
-                    {[1, 2].map((i) => (
-                      <div key={i} className="bg-slate-800 border border-black p-6">
+                    {[1, 2].map((i) =>
+                  <div key={i} className="bg-slate-800 border border-black p-6">
                         <div className="h-48 bg-slate-700 rounded mb-4"></div>
                         <div className="h-6 bg-slate-700 rounded mb-2"></div>
                         <div className="h-4 bg-slate-700 rounded mb-4"></div>
                         <div className="h-4 bg-slate-700 rounded w-3/4"></div>
                       </div>
-                    ))}
+                  )}
                   </div>
                 </div>
               </div>
             </div>
           </section>
-        )}
+        }
 
         {/* Featured Posts */}
-        {!loading && featuredPosts.length > 0 && (
-          <section className="py-16">
+        {!loading && featuredPosts.length > 0 &&
+        <section className="py-16">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
                 <div className="flex items-center mb-8">
@@ -288,11 +268,11 @@ export default function Blog() {
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8">
-                  {featuredPosts.map((post) => (
-                    <Card
-                      key={post.id}
-                      className="bg-slate-800 border border-black hover:border-white transition-colors overflow-hidden"
-                    >
+                  {featuredPosts.map((post) =>
+                <Card
+                  key={post.id}
+                  className="bg-slate-800 border border-black hover:border-white transition-colors overflow-hidden">
+                  
                       <div className="relative h-48 bg-slate-700">
                         <div className="absolute inset-0 bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center">
                           <div className="text-center">
@@ -349,20 +329,20 @@ export default function Blog() {
                           </div>
                         </div>
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {post.tags.slice(0, 3).map((tag) => (
-                            <Badge
-                              key={tag}
-                              variant="outline"
-                              className="text-xs border-slate-600 text-slate-300"
-                            >
+                          {post.tags.slice(0, 3).map((tag) =>
+                      <Badge
+                        key={tag}
+                        variant="outline"
+                        className="text-xs border-slate-600 text-slate-300">
+                        
                               {tag}
                             </Badge>
-                          ))}
+                      )}
                         </div>
                         <Button
-                          asChild
-                          className="bg-slate-800 text-white hover:bg-slate-700 font-medium"
-                        >
+                      asChild
+                      className="bg-slate-800 text-white hover:bg-slate-700 font-medium">
+                      
                           <Link to={`/blog/${post.slug}`}>
                             Read Article
                             <ArrowRight className="h-4 w-4 ml-2" />
@@ -370,16 +350,16 @@ export default function Blog() {
                         </Button>
                       </CardContent>
                     </Card>
-                  ))}
+                )}
                 </div>
               </div>
             </div>
           </section>
-        )}
+        }
 
         {/* Regular Posts */}
-        {!loading && (
-          <section className="py-16">
+        {!loading &&
+        <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <div className="flex items-center justify-between mb-8">
@@ -394,13 +374,13 @@ export default function Blog() {
                 </div>
               </div>
 
-              {regularPosts.length > 0 ? (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {regularPosts.map((post) => (
-                    <Card
-                      key={post.id}
-                      className="bg-slate-800 border border-black hover:border-white transition-colors overflow-hidden"
-                    >
+              {regularPosts.length > 0 ?
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {regularPosts.map((post) =>
+                <Card
+                  key={post.id}
+                  className="bg-slate-800 border border-black hover:border-white transition-colors overflow-hidden">
+                  
                       <div className="relative h-32 bg-slate-700">
                         <div className="absolute inset-0 bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center">
                           <div className="text-center">
@@ -444,22 +424,22 @@ export default function Blog() {
                           </div>
                         </div>
                         <div className="flex flex-wrap gap-1 mb-4">
-                          {post.tags.slice(0, 2).map((tag) => (
-                            <Badge
-                              key={tag}
-                              variant="outline"
-                              className="text-xs border-slate-600 text-slate-300"
-                            >
+                          {post.tags.slice(0, 2).map((tag) =>
+                      <Badge
+                        key={tag}
+                        variant="outline"
+                        className="text-xs border-slate-600 text-slate-300">
+                        
                               {tag}
                             </Badge>
-                          ))}
+                      )}
                         </div>
                         <Button
-                          asChild
-                          variant="outline"
-                          size="sm"
-                          className="border-black text-slate-300 hover:bg-slate-700 hover:text-white w-full"
-                        >
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="border-black text-slate-300 hover:bg-slate-700 hover:text-white w-full">
+                      
                           <Link to={`/blog/${post.slug}`}>
                             Read More
                             <ArrowRight className="h-3 w-3 ml-1" />
@@ -467,10 +447,10 @@ export default function Blog() {
                         </Button>
                       </CardContent>
                     </Card>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12">
+                )}
+                </div> :
+
+              <div className="text-center py-12">
                   <BookOpen className="h-16 w-16 text-slate-600 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-white mb-2">
                     No articles found
@@ -479,11 +459,11 @@ export default function Blog() {
                     Try adjusting your search terms or filters.
                   </p>
                 </div>
-              )}
+              }
             </div>
           </div>
         </section>
-        )}
+        }
 
         {/* CTA Section */}
         <section className="py-16">
@@ -501,16 +481,16 @@ export default function Blog() {
                   <Button
                     asChild
                     size="lg"
-                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium"
-                  >
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium">
+                    
                     <Link to="/practice">Start Practicing Now</Link>
                   </Button>
                   <Button
                     asChild
                     variant="outline"
                     size="lg"
-                    className="border-black text-slate-300 hover:bg-slate-700 hover:text-white"
-                  >
+                    className="border-black text-slate-300 hover:bg-slate-700 hover:text-white">
+                    
                     <Link to="/pricing">View Premium Plans</Link>
                   </Button>
                 </div>
@@ -519,6 +499,6 @@ export default function Blog() {
           </div>
         </section>
       </div>
-    </>
-  );
+    </>);
+
 }

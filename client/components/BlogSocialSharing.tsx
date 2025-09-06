@@ -1,0 +1,257 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Share2,
+  Facebook,
+  Twitter,
+  Linkedin,
+  MessageCircle,
+  Mail,
+  Copy,
+  Check,
+  ExternalLink,
+  Users,
+  TrendingUp,
+} from "lucide-react";
+import { BlogPost } from "@/services/blogService";
+
+interface BlogSocialSharingProps {
+  post: BlogPost;
+  onShare?: (platform: string) => void;
+}
+
+export function BlogSocialSharing({ post, onShare }: BlogSocialSharingProps) {
+  const [copied, setCopied] = useState(false);
+  const [showShareOptions, setShowShareOptions] = useState(false);
+
+  const shareData = {
+    title: post.title,
+    text: post.excerpt,
+    url: `${window.location.origin}/blog/${post.slug}`,
+  };
+
+  const shareOptions = [
+    {
+      name: "Facebook",
+      icon: Facebook,
+      color: "bg-blue-600 hover:bg-blue-700",
+      action: () => shareToFacebook(),
+    },
+    {
+      name: "Twitter",
+      icon: Twitter,
+      color: "bg-sky-500 hover:bg-sky-600",
+      action: () => shareToTwitter(),
+    },
+    {
+      name: "LinkedIn",
+      icon: Linkedin,
+      color: "bg-blue-700 hover:bg-blue-800",
+      action: () => shareToLinkedIn(),
+    },
+    {
+      name: "WhatsApp",
+      icon: MessageCircle,
+      color: "bg-green-600 hover:bg-green-700",
+      action: () => shareToWhatsApp(),
+    },
+    {
+      name: "Email",
+      icon: Mail,
+      color: "bg-slate-600 hover:bg-slate-700",
+      action: () => shareToEmail(),
+    },
+  ];
+
+  const shareToFacebook = () => {
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}`;
+    window.open(url, "_blank", "width=600,height=400");
+    onShare?.("facebook");
+  };
+
+  const shareToTwitter = () => {
+    const text = `${shareData.title} - ${shareData.text}`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareData.url)}`;
+    window.open(url, "_blank", "width=600,height=400");
+    onShare?.("twitter");
+  };
+
+  const shareToLinkedIn = () => {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareData.url)}`;
+    window.open(url, "_blank", "width=600,height=400");
+    onShare?.("linkedin");
+  };
+
+  const shareToWhatsApp = () => {
+    const text = `${shareData.title}\n\n${shareData.text}\n\n${shareData.url}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
+    onShare?.("whatsapp");
+  };
+
+  const shareToEmail = () => {
+    const subject = encodeURIComponent(shareData.title);
+    const body = encodeURIComponent(`${shareData.text}\n\nRead more: ${shareData.url}`);
+    const url = `mailto:?subject=${subject}&body=${body}`;
+    window.location.href = url;
+    onShare?.("email");
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(shareData.url);
+        setCopied(true);
+        onShare?.("copy");
+        setTimeout(() => setCopied(false), 2000);
+      } else {
+        // Fallback for older browsers
+        const textArea = document.createElement("textarea");
+        textArea.value = shareData.url;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+          document.execCommand("copy");
+          setCopied(true);
+          onShare?.("copy");
+          setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+          console.error("Fallback copy failed:", err);
+        }
+        
+        document.body.removeChild(textArea);
+      }
+    } catch (error) {
+      console.error("Failed to copy to clipboard:", error);
+    }
+  };
+
+  const handleNativeShare = async () => {
+    // Check if native sharing is available
+    if (navigator.share) {
+      try {
+        // Try to share using native API
+        await navigator.share(shareData);
+        onShare?.("native");
+      } catch (error) {
+        console.error("Error sharing:", error);
+        // Fallback to showing share options
+        setShowShareOptions(true);
+      }
+    } else {
+      // Native sharing not available, show options immediately
+      setShowShareOptions(true);
+    }
+  };
+
+  return (
+    <Card className="bg-slate-800 border border-black">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-white text-lg flex items-center">
+          <Share2 className="h-5 w-5 mr-2" />
+          Share This Article
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* Primary Share Button */}
+        <Button
+          onClick={handleNativeShare}
+          className="w-full bg-slate-700 text-white hover:bg-slate-600 font-medium"
+        >
+          <Share2 className="h-4 w-4 mr-2" />
+          {navigator.share ? "Share Article" : "Share Options"}
+        </Button>
+        
+        {/* Manual Toggle Button */}
+        <Button
+          onClick={() => setShowShareOptions(!showShareOptions)}
+          variant="outline"
+          size="sm"
+          className="w-full border-black text-slate-300 hover:bg-slate-700 hover:text-white"
+        >
+          {showShareOptions ? "Hide Options" : "Show All Options"}
+        </Button>
+
+        {/* Share Options */}
+        {showShareOptions && (
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-2">
+              {shareOptions.map((option) => (
+                <Button
+                  key={option.name}
+                  onClick={option.action}
+                  variant="outline"
+                  size="sm"
+                  className={`${option.color} text-white border-black hover:opacity-90`}
+                >
+                  <option.icon className="h-4 w-4 mr-2" />
+                  {option.name}
+                </Button>
+              ))}
+            </div>
+            
+            {/* Debug Info (remove in production) */}
+            <div className="bg-slate-700 border border-black p-3 rounded text-xs text-slate-300">
+              <p>Debug Info:</p>
+              <p>Native Share: {navigator.share ? "Available" : "Not Available"}</p>
+              <p>URL: {shareData.url}</p>
+              <p>Title: {shareData.title}</p>
+            </div>
+
+            {/* Copy Link */}
+            <div className="flex gap-2">
+              <Button
+                onClick={copyToClipboard}
+                variant="outline"
+                size="sm"
+                className="flex-1 border-black text-slate-300 hover:bg-slate-700 hover:text-white"
+              >
+                {copied ? (
+                  <>
+                    <Check className="h-4 w-4 mr-2" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4 mr-2" />
+                    Copy Link
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Share Statistics */}
+        <div className="pt-4 border-t border-black">
+          <div className="flex items-center justify-between text-sm text-slate-400">
+            <div className="flex items-center">
+              <Users className="h-4 w-4 mr-1" />
+              <span>{post.views.toLocaleString()} views</span>
+            </div>
+            <div className="flex items-center">
+              <TrendingUp className="h-4 w-4 mr-1" />
+              <span>{post.likes} likes</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Share Tips */}
+        <div className="bg-slate-700 border border-black p-3 rounded">
+          <p className="text-xs text-slate-300">
+            Help others prepare for their K53 test by sharing this article. 
+            Knowledge shared is knowledge multiplied!
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+} 

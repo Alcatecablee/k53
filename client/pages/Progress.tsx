@@ -1,34 +1,17 @@
+'use client';
 import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  ArrowLeft,
-  TrendingUp,
-  Target,
-  Clock,
-  Award,
-  AlertTriangle,
-  Gamepad2,
-  TrafficCone,
-  Clipboard,
-  Dice1,
-  BarChart3,
-  Users,
-  LogOut,
-  BookOpen,
-  MapPin,
-  CheckCircle,
-  Info,
-} from "lucide-react";
-import { Link } from "react-router-dom";
-import { AuthenticatedRoute } from "@/components/AuthenticatedRoute";
-import { SEO } from "@/components/SEO";
-import { SEO_CONFIGS } from "@/hooks/useSEO";
-import { useAuth } from "@/contexts/AuthContext";
-import { getUserStatistics, type UserStatistics } from "@/services/statisticsService";
-import { getUserProgress, getDefaultProgress } from "@/services/achievementService";
-import { hasPremiumAccess } from "@/services/subscriptionService";
+import {  Button  } from '@/components/ui/button';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Badge  } from '@/components/ui/badge';
+import {  ArrowLeft, TrendingUp, Target, Clock, Award, AlertTriangle, Gamepad2, TrafficCone, Clipboard, Dice1, BarChart3, Users, LogOut, BookOpen, MapPin, CheckCircle, Info  } from 'lucide-react';
+import {  Link  } from 'react-router-dom';
+import {  AuthenticatedRoute  } from '@/components/AuthenticatedRoute';
+import {  SEO  } from '@/components/SEO';
+import {  SEO_CONFIGS  } from '@/hooks/useSEO';
+import {  useAuth  } from '@/contexts/AuthContext';
+import {  getUserStatistics, type, UserStatistics  } from '@/services/statisticsService';
+import {  getUserProgress, getDefaultProgress  } from '@/services/achievementService';
+import {  hasPremiumAccess  } from '@/services/subscriptionService';
 
 export default function Progress() {
   const { user, signOut } = useAuth();
@@ -41,11 +24,11 @@ export default function Progress() {
     const loadData = async () => {
       try {
         const [stats, progressData, premiumStatus] = await Promise.all([
-          getUserStatistics(),
-          getUserProgress(),
-          hasPremiumAccess()
-        ]);
-        
+        getUserStatistics(),
+        getUserProgress(),
+        hasPremiumAccess()]
+        );
+
         setUserStats(stats);
         setProgress(progressData);
         setIsPremium(premiumStatus);
@@ -97,8 +80,8 @@ export default function Progress() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(SEO_CONFIGS.analytics)
-        }}
-      />
+        }} />
+      
       <div className="min-h-screen bg-slate-900">
         {/* Header */}
         <header className="bg-slate-800 border-b border-black sticky top-0 z-50">
@@ -126,26 +109,26 @@ export default function Progress() {
                 <nav className="hidden md:flex items-center space-x-6">
                   <Link
                     to="/"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Home
                   </Link>
                   <Link
                     to="/practice"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Practice
                   </Link>
                   <Link
                     to="/dltc"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Centers
                   </Link>
                   <Link
                     to="/pricing"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Premium
                   </Link>
                 </nav>
@@ -154,8 +137,8 @@ export default function Progress() {
                   <Button
                     asChild
                     variant="ghost"
-                    className="text-slate-400 hover:text-white font-semibold uppercase tracking-wide"
-                  >
+                    className="text-slate-400 hover:text-white font-semibold uppercase tracking-wide">
+                    
                     <Link to="/profile">
                       <Users className="h-4 w-4 mr-2" />
                       Profile
@@ -164,8 +147,8 @@ export default function Progress() {
                   <Button
                     variant="ghost"
                     onClick={signOut}
-                    className="text-slate-400 hover:text-white font-semibold uppercase tracking-wide"
-                  >
+                    className="text-slate-400 hover:text-white font-semibold uppercase tracking-wide">
+                    
                     <LogOut className="h-4 w-4 mr-2" />
                     Sign Out
                   </Button>
@@ -187,21 +170,21 @@ export default function Progress() {
               </p>
             </div>
 
-            {loading ? (
-              <div className="space-y-8">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="bg-slate-800 border border-black p-8 animate-pulse">
+            {loading ?
+            <div className="space-y-8">
+                {[...Array(4)].map((_, i) =>
+              <div key={i} className="bg-slate-800 border border-black p-8 animate-pulse">
                     <div className="h-8 bg-slate-700 rounded mb-4"></div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {[...Array(3)].map((_, j) => (
-                        <div key={j} className="h-32 bg-slate-700 rounded"></div>
-                      ))}
+                      {[...Array(3)].map((_, j) =>
+                  <div key={j} className="h-32 bg-slate-700 rounded"></div>
+                  )}
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <>
+              )}
+              </div> :
+
+            <>
                 {/* Performance Overview */}
                 <div className="bg-slate-800 border border-black p-8 mb-8">
                   <h2 className="text-2xl font-bold text-white mb-6 uppercase tracking-wide">
@@ -317,13 +300,13 @@ export default function Progress() {
                     Assessment Achievements
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {progress?.achievements?.slice(0, 6).map((achievement: any, index: number) => (
-                      <div
-                        key={index}
-                        className={`bg-slate-700 border border-black p-4 ${
-                          achievement.unlocked ? "opacity-100" : "opacity-50"
-                        }`}
-                      >
+                    {progress?.achievements?.slice(0, 6).map((achievement: any, index: number) =>
+                  <div
+                    key={index}
+                    className={`bg-slate-700 border border-black p-4 ${
+                    achievement.unlocked ? "opacity-100" : "opacity-50"}`
+                    }>
+                    
                         <div className="flex items-center space-x-3 mb-2">
                           <Award className="h-5 w-5 text-white" />
                           <h3 className="font-bold text-white uppercase tracking-wide text-sm">
@@ -333,13 +316,13 @@ export default function Progress() {
                         <p className="text-slate-300 text-xs">
                           {achievement.description}
                         </p>
-                        {achievement.unlocked && (
-                          <Badge className="mt-2 bg-slate-600 text-white font-bold uppercase tracking-wide text-xs">
+                        {achievement.unlocked &&
+                    <Badge className="mt-2 bg-slate-600 text-white font-bold uppercase tracking-wide text-xs">
                             ACHIEVED
                           </Badge>
-                        )}
+                    }
                       </div>
-                    ))}
+                  )}
                   </div>
                 </div>
 
@@ -357,30 +340,30 @@ export default function Progress() {
                         </h3>
                       </div>
                       <div className="space-y-2 text-sm">
-                        {userStats?.questionStats.averageScore < 75 && (
-                          <div className="flex items-center space-x-2">
+                        {userStats?.questionStats.averageScore < 75 &&
+                      <div className="flex items-center space-x-2">
                             <AlertTriangle className="h-4 w-4 text-red-400" />
                             <span className="text-slate-300">Practice vehicle controls more frequently</span>
                           </div>
-                        )}
-                        {userStats?.scenarioStats.averageScore < 75 && (
-                          <div className="flex items-center space-x-2">
+                      }
+                        {userStats?.scenarioStats.averageScore < 75 &&
+                      <div className="flex items-center space-x-2">
                             <AlertTriangle className="h-4 w-4 text-red-400" />
                             <span className="text-slate-300">Complete more driving scenarios</span>
                           </div>
-                        )}
-                        {userStats?.passRate < 80 && (
-                          <div className="flex items-center space-x-2">
+                      }
+                        {userStats?.passRate < 80 &&
+                      <div className="flex items-center space-x-2">
                             <AlertTriangle className="h-4 w-4 text-red-400" />
                             <span className="text-slate-300">Review failed assessment areas</span>
                           </div>
-                        )}
-                        {userStats?.passRate >= 80 && (
-                          <div className="flex items-center space-x-2">
+                      }
+                        {userStats?.passRate >= 80 &&
+                      <div className="flex items-center space-x-2">
                             <CheckCircle className="h-4 w-4 text-green-400" />
                             <span className="text-slate-300">Excellent progress - continue current study pattern</span>
                           </div>
-                        )}
+                      }
                       </div>
                     </div>
 
@@ -404,28 +387,28 @@ export default function Progress() {
                 {/* Action Buttons */}
                 <div className="flex justify-center space-x-4 mt-8">
                   <Button
-                    asChild
-                    className="bg-slate-600 text-white hover:bg-slate-500 font-medium uppercase tracking-wide"
-                  >
+                  asChild
+                  className="bg-slate-600 text-white hover:bg-slate-500 font-medium uppercase tracking-wide">
+                  
                     <Link to="/practice">
                       Continue Assessment
                     </Link>
                   </Button>
                   <Button
-                    asChild
-                    variant="outline"
-                    className="border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide"
-                  >
+                  asChild
+                  variant="outline"
+                  className="border-black text-slate-300 hover:bg-slate-700 hover:text-white font-medium uppercase tracking-wide">
+                  
                     <Link to="/profile">
                       View Profile
                     </Link>
                   </Button>
                 </div>
               </>
-            )}
+            }
           </div>
         </div>
       </div>
-    </AuthenticatedRoute>
-  );
+    </AuthenticatedRoute>);
+
 }

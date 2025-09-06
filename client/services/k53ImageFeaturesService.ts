@@ -1330,7 +1330,7 @@ export const isAuthenticated = async (): Promise<boolean> => {
 export const migrateLocalStorageToSupabase = async (userId: string): Promise<void> => {
   try {
     // Migrate flashcard progress
-    const flashcardProgress = localStorage.getItem('k53-flashcard-progress');
+    const flashcardProgress = typeof window !== "undefined" ? localStorage.getItem('k53-flashcard-progress') : null;
     if (flashcardProgress) {
       const progress = JSON.parse(flashcardProgress);
       for (const [imageId, data] of Object.entries(progress)) {
@@ -1340,11 +1340,11 @@ export const migrateLocalStorageToSupabase = async (userId: string): Promise<voi
           ...data as any
         });
       }
-      localStorage.removeItem('k53-flashcard-progress');
+      typeof window !== "undefined" ? localStorage.removeItem('k53-flashcard-progress') : null;
     }
 
     // Migrate saved searches
-    const savedSearches = localStorage.getItem('k53-saved-searches');
+    const savedSearches = typeof window !== "undefined" ? localStorage.getItem('k53-saved-searches') : null;
     if (savedSearches) {
       const searches = JSON.parse(savedSearches);
       for (const search of searches) {
@@ -1355,11 +1355,11 @@ export const migrateLocalStorageToSupabase = async (userId: string): Promise<voi
           is_default: false
         });
       }
-      localStorage.removeItem('k53-saved-searches');
+      typeof window !== "undefined" ? localStorage.removeItem('k53-saved-searches') : null;
     }
 
     // Migrate export collections
-    const exportCollections = localStorage.getItem('k53-export-collections');
+    const exportCollections = typeof window !== "undefined" ? localStorage.getItem('k53-export-collections') : null;
     if (exportCollections) {
       const collections = JSON.parse(exportCollections);
       for (const collection of collections) {
@@ -1374,25 +1374,25 @@ export const migrateLocalStorageToSupabase = async (userId: string): Promise<voi
         });
 
         if (newCollection && collection.images) {
-          await exportService.addCollectionImages(newCollection.id, collection.images.map((img: any) => img.id));
+          await exportService.addCollectionImages(newCollection.id, collection.images.map((img: unknown) => img.id));
         }
       }
-      localStorage.removeItem('k53-export-collections');
+      typeof window !== "undefined" ? localStorage.removeItem('k53-export-collections') : null;
     }
 
     // Migrate mobile settings
-    const mobileSettings = localStorage.getItem('k53-mobile-settings');
+    const mobileSettings = typeof window !== "undefined" ? localStorage.getItem('k53-mobile-settings') : null;
     if (mobileSettings) {
       const settings = JSON.parse(mobileSettings);
       await mobileService.updateMobileSettings({
         user_id: userId,
         ...settings
       });
-      localStorage.removeItem('k53-mobile-settings');
+      typeof window !== "undefined" ? localStorage.removeItem('k53-mobile-settings') : null;
     }
 
     console.log('Successfully migrated localStorage data to Supabase');
   } catch (error) {
     console.error('Error migrating localStorage data:', error);
   }
-}; 
+};

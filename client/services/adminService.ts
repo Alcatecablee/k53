@@ -465,6 +465,59 @@ class AdminService {
     }
     return response.json();
   }
+
+  // Comprehensive Content Data
+  async getContentData(type: 'questions' | 'scenarios' | 'user_progress' | 'user_scenarios', params?: {
+    limit?: number;
+    category?: string;
+    difficulty?: string;
+  }): Promise<{
+    data: any[];
+    stats: any;
+    timestamp: string;
+  }> {
+    const searchParams = new URLSearchParams();
+    if (params?.limit) searchParams.append('limit', params.limit.toString());
+    if (params?.category) searchParams.append('category', params.category);
+    if (params?.difficulty) searchParams.append('difficulty', params.difficulty);
+
+    const response = await fetch(`${this.baseUrl}/content/${type}?${searchParams}`);
+    if (!response.ok) {
+      throw new Error(`Failed to load ${type} data: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  // Comprehensive Analytics
+  async getComprehensiveAnalytics(period: '7d' | '30d' | '90d' = '30d'): Promise<{
+    period: string;
+    summary: {
+      totalRegistrations: number;
+      totalTests: number;
+      totalScenarios: number;
+      totalRevenue: number;
+      testPassRate: number;
+      scenarioAccuracy: number;
+    };
+    dailyData: Array<{
+      date: string;
+      registrations: number;
+      tests: number;
+      scenarios: number;
+      revenue: number;
+    }>;
+    topPerformers: {
+      byTests: Array<{ userId: string; email: string; count: number }>;
+      byScenarios: Array<{ userId: string; email: string; count: number }>;
+      byRevenue: Array<{ userId: string; email: string; amount: number }>;
+    };
+  }> {
+    const response = await fetch(`${this.baseUrl}/analytics/comprehensive?period=${period}`);
+    if (!response.ok) {
+      throw new Error(`Failed to load comprehensive analytics: ${response.status}`);
+    }
+    return response.json();
+  }
 }
 
 export const adminService = new AdminService(); 

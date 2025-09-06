@@ -1,10 +1,10 @@
-import { supabase } from '@/lib/supabase';
-import type { 
-  Achievement, 
-  UserProgress, 
-  AchievementNotification, 
-  AchievementHistory 
-} from '@/types';
+import {  supabase  } from '@/lib/supabase';
+import type {
+  Achievement,
+  UserProgress,
+  AchievementNotification,
+  AchievementHistory } from
+'@/types';
 
 // Database achievement service
 export class AchievementDatabaseService {
@@ -21,16 +21,16 @@ export class AchievementDatabaseService {
         return [];
       }
 
-      const { data, error } = await supabase._client
-        .from('achievements')
-        .select('*')
-        .eq('user_id', userId)
-        .order('achievement_type', { ascending: true })
-        .order('requirement', { ascending: true });
+      const { data, error } = await supabase._client.
+      from('achievements').
+      select('*').
+      eq('user_id', userId).
+      order('achievement_type', { ascending: true }).
+      order('requirement', { ascending: true });
 
       if (error) throw error;
 
-      return data.map(achievement => ({
+      return data.map((achievement) => ({
         id: achievement.id,
         title: achievement.title,
         description: achievement.description,
@@ -40,7 +40,7 @@ export class AchievementDatabaseService {
         unlocked: achievement.unlocked_at !== null,
         progress: achievement.progress || 0,
         unlockedAt: achievement.unlocked_at,
-        sharedAt: undefined, // Not implemented in current schema
+        sharedAt: undefined // Not implemented in current schema
       }));
     } catch (error) {
       console.error('Error fetching achievements:', error);
@@ -55,24 +55,24 @@ export class AchievementDatabaseService {
 
   // Update achievement progress
   static async updateAchievementProgress(
-    userId: string,
-    achievementId: string,
-    newProgress: number
-  ): Promise<boolean> {
+  userId: string,
+  achievementId: string,
+  newProgress: number)
+  : Promise<boolean> {
     try {
       if (!supabase._client) {
         console.log('Supabase client not available');
         return false;
       }
 
-      const { error } = await supabase._client
-        .from('achievements')
-        .update({ 
-          progress: newProgress,
-          unlocked_at: newProgress >= 1 ? new Date().toISOString() : null // Simplified logic
-        })
-        .eq('id', achievementId)
-        .eq('user_id', userId);
+      const { error } = await supabase._client.
+      from('achievements').
+      update({
+        progress: newProgress,
+        unlocked_at: newProgress >= 1 ? new Date().toISOString() : null // Simplified logic
+      }).
+      eq('id', achievementId).
+      eq('user_id', userId);
 
       if (error) throw error;
 
@@ -91,25 +91,25 @@ export class AchievementDatabaseService {
 
   // Get achievements by category
   static async getAchievementsByCategory(
-    userId: string,
-    category: string
-  ): Promise<Achievement[]> {
+  userId: string,
+  category: string)
+  : Promise<Achievement[]> {
     try {
       if (!supabase._client) {
         console.log('Supabase client not available');
         return [];
       }
 
-      const { data, error } = await supabase._client
-        .from('achievements')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('achievement_type', category)
-        .order('requirement', { ascending: true });
+      const { data, error } = await supabase._client.
+      from('achievements').
+      select('*').
+      eq('user_id', userId).
+      eq('achievement_type', category).
+      order('requirement', { ascending: true });
 
       if (error) throw error;
 
-      return data.map(achievement => ({
+      return data.map((achievement) => ({
         id: achievement.id,
         title: achievement.title,
         description: achievement.description,
@@ -119,7 +119,7 @@ export class AchievementDatabaseService {
         unlocked: achievement.unlocked_at !== null,
         progress: achievement.progress || 0,
         unlockedAt: achievement.unlocked_at,
-        sharedAt: undefined,
+        sharedAt: undefined
       }));
     } catch (error) {
       console.error('Error fetching achievements by category:', error);
@@ -132,20 +132,20 @@ export class AchievementDatabaseService {
     total: number;
     unlocked: number;
     progress: number;
-    byCategory: Record<string, { total: number; unlocked: number }>;
+    byCategory: Record<string, {total: number;unlocked: number;}>;
   }> {
     try {
       const achievements = await this.getAchievements(userId);
-      
+
       const stats = {
         total: achievements.length,
-        unlocked: achievements.filter(a => a.unlocked).length,
-        progress: Math.round((achievements.filter(a => a.unlocked).length / achievements.length) * 100),
-        byCategory: {} as Record<string, { total: number; unlocked: number }>
+        unlocked: achievements.filter((a) => a.unlocked).length,
+        progress: Math.round(achievements.filter((a) => a.unlocked).length / achievements.length * 100),
+        byCategory: {} as Record<string, {total: number;unlocked: number;}>
       };
 
       // Group by category
-      achievements.forEach(achievement => {
+      achievements.forEach((achievement) => {
         if (!stats.byCategory[achievement.category]) {
           stats.byCategory[achievement.category] = { total: 0, unlocked: 0 };
         }
@@ -169,10 +169,10 @@ export class AchievementDatabaseService {
 
   // Share achievement (placeholder - not implemented in current schema)
   static async shareAchievement(
-    userId: string,
-    achievementId: string,
-    platform?: string
-  ): Promise<boolean> {
+  userId: string,
+  achievementId: string,
+  platform?: string)
+  : Promise<boolean> {
     try {
       if (!supabase._client) {
         console.log('Supabase client not available');
@@ -193,7 +193,7 @@ export class AchievementDatabaseService {
   static async getAchievementNotifications(userId: string): Promise<AchievementNotification[]> {
     try {
       const key = `achievement_notifications_${userId}`;
-      const stored = localStorage.getItem(key);
+      const stored = typeof window !== "undefined" ? localStorage.getItem(key) : null;
       if (stored) {
         return JSON.parse(stored);
       }
@@ -206,36 +206,36 @@ export class AchievementDatabaseService {
 
   // Add notification (using localStorage)
   static async addNotification(
-    userId: string,
-    achievementId: string,
-    type: 'unlocked' | 'milestone' | 'shared' = 'unlocked'
-  ): Promise<void> {
+  userId: string,
+  achievementId: string,
+  type: 'unlocked' | 'milestone' | 'shared' = 'unlocked')
+  : Promise<void> {
     try {
       const notifications = await this.getAchievementNotifications(userId);
       const achievement = await this.getAchievementById(achievementId);
-      
+
       if (achievement) {
         const notification: AchievementNotification = {
           id: `notif-${Date.now()}`,
           achievementId,
           title: achievement.title,
-          description: type === 'unlocked' 
-            ? `Congratulations! You've unlocked ${achievement.title}`
-            : `Progress update for ${achievement.title}`,
+          description: type === 'unlocked' ?
+          `Congratulations! You've unlocked ${achievement.title}` :
+          `Progress update for ${achievement.title}`,
           timestamp: new Date().toISOString(),
           read: false,
           type
         };
-        
+
         notifications.unshift(notification);
-        
+
         // Keep only last 50 notifications
         if (notifications.length > 50) {
           notifications.splice(50);
         }
-        
+
         const key = `achievement_notifications_${userId}`;
-        localStorage.setItem(key, JSON.stringify(notifications));
+        typeof window !== "undefined" ? localStorage.setItem(key, JSON.stringify(notifications)) : null);
       }
     } catch (error) {
       console.error('Error adding notification:', error);
@@ -246,13 +246,13 @@ export class AchievementDatabaseService {
   static async markNotificationAsRead(userId: string, notificationId: string): Promise<boolean> {
     try {
       const notifications = await this.getAchievementNotifications(userId);
-      const updated = notifications.map(n => 
-        n.id === notificationId ? { ...n, read: true } : n
+      const updated = notifications.map((n) =>
+      n.id === notificationId ? { ...n, read: true } : n
       );
-      
+
       const key = `achievement_notifications_${userId}`;
-      localStorage.setItem(key, JSON.stringify(updated));
-      
+      typeof window !== "undefined" ? localStorage.setItem(key, JSON.stringify(updated)) : null);
+
       return true;
     } catch (error) {
       console.error('Error marking notification as read:', error);
@@ -264,7 +264,7 @@ export class AchievementDatabaseService {
   static async getAchievementHistory(userId: string): Promise<AchievementHistory[]> {
     try {
       const key = `achievement_history_${userId}`;
-      const stored = localStorage.getItem(key);
+      const stored = typeof window !== "undefined" ? localStorage.getItem(key) : null;
       if (stored) {
         return JSON.parse(stored);
       }
@@ -277,11 +277,11 @@ export class AchievementDatabaseService {
 
   // Add history entry (using localStorage)
   static async addHistoryEntry(
-    userId: string,
-    achievementId: string,
-    action: 'unlocked' | 'shared' | 'viewed',
-    metadata?: any
-  ): Promise<void> {
+  userId: string,
+  achievementId: string,
+  action: 'unlocked' | 'shared' | 'viewed',
+  metadata?: any)
+  : Promise<void> {
     try {
       const history = await this.getAchievementHistory(userId);
       const entry: AchievementHistory = {
@@ -290,16 +290,16 @@ export class AchievementDatabaseService {
         timestamp: new Date().toISOString(),
         metadata
       };
-      
+
       history.unshift(entry);
-      
+
       // Keep only last 200 entries
       if (history.length > 200) {
         history.splice(200);
       }
-      
+
       const key = `achievement_history_${userId}`;
-      localStorage.setItem(key, JSON.stringify(history));
+      typeof window !== "undefined" ? localStorage.setItem(key, JSON.stringify(history)) : null);
     } catch (error) {
       console.error('Error adding history entry:', error);
     }
@@ -312,11 +312,11 @@ export class AchievementDatabaseService {
         return null;
       }
 
-      const { data, error } = await supabase._client
-        .from('achievements')
-        .select('*')
-        .eq('id', achievementId)
-        .single();
+      const { data, error } = await supabase._client.
+      from('achievements').
+      select('*').
+      eq('id', achievementId).
+      single();
 
       if (error || !data) return null;
 
@@ -330,7 +330,7 @@ export class AchievementDatabaseService {
         unlocked: data.unlocked_at !== null,
         progress: data.progress || 0,
         unlockedAt: data.unlocked_at,
-        sharedAt: undefined,
+        sharedAt: undefined
       };
     } catch (error) {
       console.error('Error getting achievement by ID:', error);
@@ -340,14 +340,14 @@ export class AchievementDatabaseService {
 
   // Export achievements (enhanced version)
   static async exportAchievements(
-    userId: string,
-    format: 'json' | 'csv' | 'pdf' = 'json'
-  ): Promise<string> {
+  userId: string,
+  format: 'json' | 'csv' | 'pdf' = 'json')
+  : Promise<string> {
     try {
       const achievements = await this.getAchievements(userId);
       const history = await this.getAchievementHistory(userId);
       const stats = await this.getAchievementStats(userId);
-      
+
       const exportData = {
         user: { id: userId },
         achievements,
@@ -355,28 +355,28 @@ export class AchievementDatabaseService {
         stats,
         exportDate: new Date().toISOString(),
         totalAchievements: achievements.length,
-        unlockedAchievements: achievements.filter(a => a.unlocked).length,
+        unlockedAchievements: achievements.filter((a) => a.unlocked).length
       };
-      
+
       // Add to history
       await this.addHistoryEntry(userId, 'export', 'viewed', { format });
-      
+
       if (format === 'json') {
         return JSON.stringify(exportData, null, 2);
       } else {
         // Enhanced CSV export
         const headers = ['Title', 'Description', 'Category', 'Progress', 'Requirement', 'Unlocked', 'UnlockedAt'];
-        const rows = achievements.map(a => [
-          a.title,
-          a.description,
-          a.category,
-          a.progress,
-          a.requirement,
-          a.unlocked ? 'Yes' : 'No',
-          a.unlockedAt || ''
-        ]);
-        
-        return [headers, ...rows].map(row => row.join(',')).join('\n');
+        const rows = achievements.map((a) => [
+        a.title,
+        a.description,
+        a.category,
+        a.progress,
+        a.requirement,
+        a.unlocked ? 'Yes' : 'No',
+        a.unlockedAt || '']
+        );
+
+        return [headers, ...rows].map((row) => row.join(',')).join('\n');
       }
     } catch (error) {
       console.error('Error exporting achievements:', error);
@@ -386,9 +386,9 @@ export class AchievementDatabaseService {
 
   // Import achievements (enhanced version)
   static async importAchievements(
-    userId: string,
-    importData: any
-  ): Promise<{ success: boolean; imported: number; error?: string }> {
+  userId: string,
+  importData: any)
+  : Promise<{success: boolean;imported: number;error?: string;}> {
     try {
       let imported = 0;
 
@@ -412,7 +412,7 @@ export class AchievementDatabaseService {
       // Add import history entry
       await this.addHistoryEntry(userId, 'import', 'viewed', {
         importedCount: imported,
-        totalCount: importData.achievements.length,
+        totalCount: importData.achievements.length
       });
 
       return { success: true, imported };
@@ -436,76 +436,97 @@ export class AchievementDatabaseService {
       }
 
       // Get all users with their achievement counts
-      const { data, error } = await supabase._client
-        .from('achievements')
-        .select('user_id, unlocked_at')
-        .not('unlocked_at', 'is', null);
+      const { data, error } = await supabase._client.
+      from('achievements').
+      select('user_id, unlocked_at').
+      not('unlocked_at', 'is', null);
 
       if (error) throw error;
 
       // Group by user and count achievements
-      const userStats = new Map<string, number>();
-      data.forEach(achievement => {
-        const count = userStats.get(achievement.user_id) || 0;
-        userStats.set(achievement.user_id, count + 1);
-      });
+      const userAchievements = data.reduce((acc: any, achievement) => {
+        const userId = achievement.user_id;
+        if (!acc[userId]) {
+          acc[userId] = { userId, totalAchievements: 0, totalPoints: 0 };
+        }
+        acc[userId].totalAchievements += 1;
+        acc[userId].totalPoints += 10; // Simple point system
+        return acc;
+      }, {});
 
-      // Convert to leaderboard format
-      const leaderboard = Array.from(userStats.entries())
-        .map(([userId, totalAchievements]) => ({
-          userId,
-          totalAchievements,
-          totalPoints: totalAchievements * 10, // Simple point calculation
-          rank: 0 // Will be set below
-        }))
-        .sort((a, b) => b.totalAchievements - a.totalAchievements);
-
-      // Add ranks
-      leaderboard.forEach((entry, index) => {
-        entry.rank = index + 1;
-      });
+      // Convert to array and sort by points
+      const leaderboard = Object.values(userAchievements).
+      sort((a: any, b: any) => b.totalPoints - a.totalPoints).
+      map((user: any, index) => ({
+        ...user,
+        rank: index + 1
+      }));
 
       return leaderboard;
     } catch (error) {
-      console.error('Error getting leaderboard:', error);
+      console.error('Error fetching leaderboard:', error);
       return [];
     }
   }
 
-  // Get achievement analytics (enhanced version)
-  static async getAchievementAnalytics(userId: string): Promise<any> {
+  // Get analytics for a user
+  static async getAnalytics(userId: string): Promise<{
+    totalAchievements: number;
+    unlockedAchievements: number;
+    completionRate: number;
+    achievementsByCategory: Record<string, number>;
+    recentUnlocks: Achievement[];
+    analytics: any[];
+  }> {
     try {
+      if (!supabase._client) {
+        console.log('Supabase client not available');
+        return {
+          totalAchievements: 0,
+          unlockedAchievements: 0,
+          completionRate: 0,
+          achievementsByCategory: {},
+          recentUnlocks: [],
+          analytics: []
+        };
+      }
+
       const achievements = await this.getAchievements(userId);
-      const history = await this.getAchievementHistory(userId);
-      const notifications = await this.getAchievementNotifications(userId);
-      
-      const unlockedAchievements = achievements.filter(a => a.unlocked);
-      const recentUnlocks = history
-        .filter(h => h.action === 'unlocked')
-        .slice(0, 10);
-      
-      // Calculate average time to unlock (simplified)
-      const averageTimeToUnlock = recentUnlocks.length > 0 ? 120 : 0; // minutes
-      
+
+      // Calculate analytics
+      const totalAchievements = achievements.length;
+      const unlockedAchievements = achievements.filter((a) => a.unlocked).length;
+
+      const achievementsByCategory = achievements.reduce((acc, achievement) => {
+        acc[achievement.category] = (acc[achievement.category] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+
+      const recentUnlocks = achievements.
+      filter((a) => a.unlocked).
+      sort((a, b) => new Date(b.unlockedAt || '').getTime() - new Date(a.unlockedAt || '').getTime()).
+      slice(0, 5);
+
+      const completionRate = totalAchievements > 0 ? unlockedAchievements / totalAchievements * 100 : 0;
+
       return {
-        totalAchievements: achievements.length,
-        unlockedAchievements: unlockedAchievements.length,
-        completionRate: achievements.length > 0 ? (unlockedAchievements.length / achievements.length) * 100 : 0,
-        averageTimeToUnlock,
-        achievementsByCategory: achievements.reduce((acc, achievement) => {
-          if (achievement.unlocked) {
-            acc[achievement.category] = (acc[achievement.category] || 0) + 1;
-          }
-          return acc;
-        }, {} as Record<string, number>),
+        totalAchievements,
+        unlockedAchievements,
+        completionRate,
+        achievementsByCategory,
         recentUnlocks,
-        totalNotifications: notifications.length,
-        unreadNotifications: notifications.filter(n => !n.read).length,
-        history: history.slice(0, 50), // Recent history
+        analytics: [] // Placeholder for future analytics data
       };
     } catch (error) {
-      console.error('Error getting analytics:', error);
-      return null;
+      console.error('Error fetching analytics:', error);
+      return {
+        totalAchievements: 0,
+        unlockedAchievements: 0,
+        completionRate: 0,
+        achievementsByCategory: {},
+        recentUnlocks: [],
+        analytics: []
+      };
     }
   }
 
@@ -525,10 +546,10 @@ export class AchievementDatabaseService {
       }
 
       // Get a template user's achievements to copy
-      const { data: templateAchievements, error } = await supabase._client
-        .from('achievements')
-        .select('*')
-        .limit(1);
+      const { data: templateAchievements, error } = await supabase._client.
+      from('achievements').
+      select('*').
+      limit(1);
 
       if (error || !templateAchievements || templateAchievements.length === 0) {
         console.log('No template achievements found');
@@ -536,10 +557,10 @@ export class AchievementDatabaseService {
       }
 
       // Get all unique achievement definitions
-      const { data: allAchievements, error: allError } = await supabase._client
-        .from('achievements')
-        .select('*')
-        .eq('user_id', templateAchievements[0].user_id);
+      const { data: allAchievements, error: allError } = await supabase._client.
+      from('achievements').
+      select('*').
+      eq('user_id', templateAchievements[0].user_id);
 
       if (allError || !allAchievements) {
         console.log('Could not get template achievements');
@@ -547,7 +568,7 @@ export class AchievementDatabaseService {
       }
 
       // Create achievements for the new user
-      const newAchievements = allAchievements.map(achievement => ({
+      const newAchievements = allAchievements.map((achievement) => ({
         user_id: userId,
         title: achievement.title,
         description: achievement.description,
@@ -559,9 +580,9 @@ export class AchievementDatabaseService {
       }));
 
       // Insert all achievements
-      const { error: insertError } = await supabase._client
-        .from('achievements')
-        .insert(newAchievements);
+      const { error: insertError } = await supabase._client.
+      from('achievements').
+      insert(newAchievements);
 
       if (insertError) throw insertError;
 
@@ -576,11 +597,11 @@ export class AchievementDatabaseService {
   // Clear all local data (for testing/reset)
   static async clearLocalData(userId: string): Promise<void> {
     try {
-      localStorage.removeItem(`achievement_notifications_${userId}`);
-      localStorage.removeItem(`achievement_history_${userId}`);
+      typeof window !== "undefined" ? localStorage.removeItem(`achievement_notifications_${userId}`) : null;
+      typeof window !== "undefined" ? localStorage.removeItem(`achievement_history_${userId}`) : null;
       console.log('Local achievement data cleared');
     } catch (error) {
       console.error('Error clearing local data:', error);
     }
   }
-} 
+}

@@ -1,6 +1,16 @@
 import { RequestHandler } from "express";
 import { createClient } from "@supabase/supabase-js";
 
+// Fisher-Yates shuffle function
+const shuffleArray = <T>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 // Database client
 let supabase: any = null;
 
@@ -9,7 +19,7 @@ const getDatabase = () => {
     const supabaseUrl =
       process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
     const supabaseKey =
-      process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+      process.env.VITE_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
       return null;
@@ -21,9 +31,9 @@ const getDatabase = () => {
 };
 
 // Get question bank from database
-export const getQuestionBank: RequestHandler = async (req, res) => {
+export const getQuestionBank: RequestHandler = async (_req, res) => {
   try {
-    const { category, difficulty, limit = 50 } = req.query;
+    const { category, difficulty, limit = 50 } = _req.query;
     const db = getDatabase();
 
     if (!db) {
@@ -100,9 +110,9 @@ export const getQuestionBank: RequestHandler = async (req, res) => {
 };
 
 // Export questions as CSV
-export const exportQuestions: RequestHandler = async (req, res) => {
+export const exportQuestions: RequestHandler = async (_req, res) => {
   try {
-    const { format = "csv" } = req.query;
+    const { format = "csv" } = _req.query;
     const db = getDatabase();
 
     if (!db) {
@@ -128,7 +138,7 @@ export const exportQuestions: RequestHandler = async (req, res) => {
         "Category",
         "Difficulty",
       ];
-      const rows = (questions || []).map((q) => [
+      const rows = (questions || []).map((q: any) => [
         q.id,
         `"${q.question_text || q.question}"`,
         `"${q.options[0]}"`,
@@ -140,7 +150,7 @@ export const exportQuestions: RequestHandler = async (req, res) => {
         q.difficulty,
       ]);
 
-      const csv = [headers.join(","), ...rows.map((row) => row.join(","))].join(
+      const csv = [headers.join(","), ...rows.map((row: any) => row.join(","))].join(
         "\n",
       );
 
@@ -164,12 +174,12 @@ export const exportQuestions: RequestHandler = async (req, res) => {
 };
 
 // Import questions from CSV
-export const importQuestions: RequestHandler = async (req, res) => {
+export const importQuestions: RequestHandler = async (_req, res) => {
   try {
-    const { csvData } = req.body;
+    const { _csvData } = _req.body;
     const db = getDatabase();
 
-    if (!csvData) {
+    if (!_csvData) {
       return res.status(400).json({ error: "CSV data is required" });
     }
 
@@ -230,9 +240,9 @@ export const importQuestions: RequestHandler = async (req, res) => {
 };
 
 // Get scenarios from database
-export const getScenarios: RequestHandler = async (req, res) => {
+export const getScenarios: RequestHandler = async (_req, res) => {
   try {
-    const { difficulty, location, type, limit = 50 } = req.query;
+    const { difficulty, location, type, limit = 50 } = _req.query;
     const db = getDatabase();
 
     if (!db) {
@@ -263,6 +273,9 @@ export const getScenarios: RequestHandler = async (req, res) => {
       query = query.eq("type", type);
     }
 
+    // Add random ordering for better variety
+    query = query.order('created_at', { ascending: false });
+
     const { data: scenarios, error } = await query.limit(Number(limit));
 
     if (error) {
@@ -281,23 +294,26 @@ export const getScenarios: RequestHandler = async (req, res) => {
     }
 
     // Get total counts for stats
+    const { count: totalScenarios } = await db.from("scenarios").select("*", { count: "exact", head: true });
     const { data: allScenarios } = await db.from("scenarios").select("difficulty, location, type");
     
-    const totalScenarios = allScenarios?.length || 0;
     const difficulties = [...new Set(allScenarios?.map(s => s.difficulty) || [])];
     const locations = [...new Set(allScenarios?.map(s => s.location) || [])];
     const types = [...new Set(allScenarios?.map(s => s.type) || [])];
+
+    // Shuffle scenarios for better variety
+    const shuffledScenarios = scenarios ? shuffleArray(scenarios) : [];
 
     const stats = {
       total: totalScenarios,
       difficulties,
       locations,
       types,
-      filtered: scenarios?.length || 0,
+      filtered: shuffledScenarios.length,
     };
 
     res.json({
-      scenarios: scenarios || [],
+      scenarios: shuffledScenarios,
       stats,
       timestamp: new Date().toISOString(),
     });
@@ -318,16 +334,16 @@ export const getScenarios: RequestHandler = async (req, res) => {
 };
 
 // Create new scenario
-export const createScenario: RequestHandler = async (req, res) => {
+export const createScenario: RequestHandler = async (_req, res) => {
   try {
-    const { title, description, difficulty, location, type, active = true } = req.body;
+    const { _title, _description, _difficulty, _location, _type, _active = true } = _req.body;
     const db = getDatabase();
 
     if (!db) {
       return res.status(503).json({ error: "Database not available" });
     }
 
-    if (!title || !description || !difficulty || !location || !type) {
+    if (!_title || !description || !difficulty || !location || !type) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -360,9 +376,9 @@ export const createScenario: RequestHandler = async (req, res) => {
 };
 
 // Update scenario
-export const updateScenario: RequestHandler = async (req, res) => {
+export const updateScenario: RequestHandler = async (_req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = _req.params;
     const updates = req.body;
     const db = getDatabase();
 
@@ -381,7 +397,7 @@ export const updateScenario: RequestHandler = async (req, res) => {
       return res.status(500).json({ error: "Failed to update scenario" });
     }
 
-    if (!data || data.length === 0) {
+    if (!_data || data.length === 0) {
       return res.status(404).json({ error: "Scenario not found" });
     }
 
@@ -397,9 +413,9 @@ export const updateScenario: RequestHandler = async (req, res) => {
 };
 
 // Delete scenario
-export const deleteScenario: RequestHandler = async (req, res) => {
+export const deleteScenario: RequestHandler = async (_req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = _req.params;
     const db = getDatabase();
 
     if (!db) {
@@ -424,7 +440,7 @@ export const deleteScenario: RequestHandler = async (req, res) => {
 };
 
 // Get content statistics
-export const getContentStats: RequestHandler = async (req, res) => {
+export const getContentStats: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
 

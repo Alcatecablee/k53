@@ -1,28 +1,21 @@
+'use client';
 import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { MobileNavigation } from "@/components/MobileNavigation";
-import { AccessibilityEnhancer } from "@/components/AccessibilityEnhancer";
-import { SEO } from "@/components/SEO";
-import { SEO_CONFIGS } from "@/hooks/useSEO";
-import { User, LogOut } from "lucide-react";
-import { ImageGallery } from '@/components/ImageGallery';
-import { ImageQuiz } from '@/components/ImageQuiz';
-import { ImageStudyGuide } from '@/components/ImageStudyGuide';
-import { ImageProgressTracker } from '@/components/ImageProgressTracker';
-import { ImageFlashcards } from '@/components/ImageFlashcards';
-import { ImageComparison } from '@/components/ImageComparison';
-import { AdvancedImageSearch } from '@/components/AdvancedImageSearch';
-import { ScenarioBuilder } from '@/components/ScenarioBuilder';
-import { LocationMap } from '@/components/LocationMap';
-import { ImageAnalytics } from '@/components/ImageAnalytics';
-import { PersonalizedLearningPaths } from '@/components/PersonalizedLearningPaths';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {  Button  } from '@/components/ui/button';
+import {  Badge  } from '@/components/ui/badge';
+import {  Link  } from 'react-router-dom';
+import {  useAuth  } from '@/contexts/AuthContext';
+import {  useIsMobile  } from '@/hooks/use-mobile';
+import {  MobileNavigation  } from '@/components/MobileNavigation';
+import {  AccessibilityEnhancer  } from '@/components/AccessibilityEnhancer';
+import {  SEO  } from '@/components/SEO';
+import {  SEO_CONFIGS  } from '@/hooks/useSEO';
+import {  User, LogOut  } from 'lucide-react';
+import {  ImageGallery  } from '@/components/ImageGallery';
+import {  ImageQuiz  } from '@/components/ImageQuiz';
+import {  AdvancedImageSearch  } from '@/components/AdvancedImageSearch';
+import {  Tabs, TabsContent, TabsList, TabsTrigger  } from '@/components/ui/tabs';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger  } from '@/components/ui/dialog';
 
 export default function ImageLibrary() {
   const [activeTab, setActiveTab] = useState('search');
@@ -40,7 +33,7 @@ export default function ImageLibrary() {
   } catch (error) {
     console.warn(
       "Auth context not available, continuing without authentication:",
-      error,
+      error
     );
   }
 
@@ -75,64 +68,64 @@ export default function ImageLibrary() {
                 <Link
                   to="/"
                   className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
-                  aria-label="Home page"
-                >
+                  aria-label="Home page">
+                  
                   Home
                 </Link>
                 <Link
                   to="/practice"
                   className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
-                  aria-label="Practice assessments"
-                >
+                  aria-label="Practice assessments">
+                  
                   Practice
                 </Link>
                 <Link
                   to="/image-library"
                   className="text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
-                  aria-label="Browse K53 images and tools"
-                >
+                  aria-label="Browse K53 images and tools">
+                  
                   Images
                 </Link>
                 <Link
                   to="/progress"
                   className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
-                  aria-label="View progress and results"
-                >
+                  aria-label="View progress and results">
+                  
                   Results
                 </Link>
                 <Link
                   to="/pricing"
                   className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
-                  aria-label="Premium access options"
-                >
+                  aria-label="Premium access options">
+                  
                   Premium
                 </Link>
                 <Link
                   to="/dltc"
                   className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
-                  aria-label="Find testing centers"
-                >
+                  aria-label="Find testing centers">
+                  
                   Centers
                 </Link>
                 <Link
                   to="/docs"
                   className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
-                  aria-label="Platform documentation"
-                >
+                  aria-label="Platform documentation">
+                  
                   Docs
                 </Link>
                 <Link
                   to="/blog"
                   className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
-                  aria-label="Blog articles"
-                >
+                  aria-label="Blog articles">
+                  
                   Blog
                 </Link>
                 <Link
                   to="/admin"
                   className="text-slate-400 hover:text-white text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
-                  aria-label="Admin panel"
-                >
+                  aria-label="Admin panel">
+                  
                   Admin
                 </Link>
                 <a
@@ -140,57 +133,57 @@ export default function ImageLibrary() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-slate-500 hover:text-slate-400 text-xs font-normal transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
-                  aria-label="Tax services (opens in new tab)"
-                >
+                  aria-label="Tax services (opens in new tab)">
+                  
                   Tax
                 </a>
               </nav>
 
               <div className="flex items-center space-x-2 border-l border-black pl-4">
-                {user ? (
-                  <>
+                {user ?
+                <>
                     <Button
-                      asChild
-                      variant="ghost"
-                      size="icon"
-                      className="text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
-                      aria-label="User profile"
-                    >
+                    asChild
+                    variant="ghost"
+                    size="icon"
+                    className="text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
+                    aria-label="User profile">
+                    
                       <Link to="/profile">
                         <User className="h-5 w-5" />
                       </Link>
                     </Button>
                     <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={signOut}
-                      className="text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
-                      aria-label="Sign out"
-                    >
+                    variant="ghost"
+                    size="icon"
+                    onClick={signOut}
+                    className="text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
+                    aria-label="Sign out">
+                    
                       <LogOut className="h-5 w-5" />
                     </Button>
-                  </>
-                ) : (
-                  <Button
-                    asChild
-                    variant="ghost"
-                    className="text-slate-300 hover:text-white hover:bg-slate-700 font-medium text-sm uppercase tracking-wide transition-all duration-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
-                    aria-label="Sign in to access practice"
-                  >
+                  </> :
+
+                <Button
+                  asChild
+                  variant="ghost"
+                  className="text-slate-300 hover:text-white hover:bg-slate-700 font-medium text-sm uppercase tracking-wide transition-all duration-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
+                  aria-label="Sign in to access practice">
+                  
                     <Link to="/practice">
                       <User className="h-4 w-4 mr-2" />
                       <span className="hidden sm:inline">Sign In</span>
                       <span className="sm:hidden">Sign In</span>
                     </Link>
                   </Button>
-                )}
+                }
 
                 {/* Mobile Navigation Component */}
                 <MobileNavigation
                   isOpen={mobileMenuOpen}
                   onToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  onClose={() => setMobileMenuOpen(false)}
-                />
+                  onClose={() => setMobileMenuOpen(false)} />
+                
               </div>
             </div>
           </div>
@@ -218,7 +211,7 @@ export default function ImageLibrary() {
                 </div>
               </div>
               <p className="text-base sm:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto transition-all duration-300">
-                Access {Object.values({ signs: 1727, controls: 6, scenarios: 11, locations: 44, landmarks: 30 }).reduce((sum, count) => sum + count, 0)} authentic South African K53 images with advanced learning tools including flashcards, comparison tools, and interactive quizzes.
+                Access {Object.values({ signs: 1727, controls: 6, scenarios: 11, locations: 44, landmarks: 30 }).reduce((sum, count) => sum + count, 0)} authentic South African K53 images with search, quiz, and gallery tools.
               </p>
             </div>
           </div>
@@ -226,73 +219,30 @@ export default function ImageLibrary() {
           {/* Tabs Navigation */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
             <div className="bg-slate-800 border border-black p-4 transition-all duration-300 hover:shadow-lg">
-              <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-11 bg-slate-700 border border-black">
-                <TabsTrigger 
-                  value="search" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
+              <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-3 bg-slate-700 border border-black">
+                <TabsTrigger
+                  value="search"
+                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white">
+                  
                   Search
                 </TabsTrigger>
-                <TabsTrigger 
-                  value="flashcards" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
-                  Flashcards
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="comparison" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
-                  Compare
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="quiz" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
+
+                <TabsTrigger
+                  value="quiz"
+                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white">
+                  
                   Quiz
                 </TabsTrigger>
-                <TabsTrigger 
-                  value="study" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
-                  Study
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="gallery" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
+
+                <TabsTrigger
+                  value="gallery"
+                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white">
+                  
                   Gallery
                 </TabsTrigger>
-                <TabsTrigger 
-                  value="scenarios" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
-                  Scenarios
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="locations" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
-                  Locations
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="analytics" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
-                  Analytics
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="paths" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
-                  Learning Paths
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="progress" 
-                  className="text-slate-300 data-[state=active]:text-white data-[state=active]:bg-slate-600 transition-all duration-200 hover:bg-slate-600 hover:text-white"
-                >
-                  Progress
-                </TabsTrigger>
+
+
+
               </TabsList>
             </div>
 
@@ -319,27 +269,7 @@ export default function ImageLibrary() {
               </Card>
             </TabsContent>
 
-            <TabsContent value="flashcards" className="space-y-6">
-              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
-                <CardHeader className="bg-slate-700 border-b border-black">
-                  <CardTitle className="text-white uppercase tracking-wide">Flashcards</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <ImageFlashcards />
-                </CardContent>
-              </Card>
-            </TabsContent>
 
-            <TabsContent value="comparison" className="space-y-6">
-              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
-                <CardHeader className="bg-slate-700 border-b border-black">
-                  <CardTitle className="text-white uppercase tracking-wide">Image Comparison</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <ImageComparison />
-                </CardContent>
-              </Card>
-            </TabsContent>
 
             <TabsContent value="quiz" className="space-y-6">
               <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
@@ -347,86 +277,22 @@ export default function ImageLibrary() {
                   <CardTitle className="text-white uppercase tracking-wide">Image-Based Quiz</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6">
-                  <ImageQuiz 
+                  <ImageQuiz
                     category="signs"
                     difficulty="basic"
                     questionCount={10}
                     onComplete={(results) => {
                       console.log('Quiz completed:', results);
-                    }}
-                  />
+                    }} />
+                  
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="study" className="space-y-6">
-              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
-                <CardHeader className="bg-slate-700 border-b border-black">
-                  <CardTitle className="text-white uppercase tracking-wide">Study Guide</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <ImageStudyGuide />
-                </CardContent>
-              </Card>
-            </TabsContent>
 
-            <TabsContent value="scenarios" className="space-y-6">
-              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
-                <CardHeader className="bg-slate-700 border-b border-black">
-                  <CardTitle className="text-white uppercase tracking-wide">Interactive Scenarios</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <ScenarioBuilder />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="locations" className="space-y-6">
-              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
-                <CardHeader className="bg-slate-700 border-b border-black">
-                  <CardTitle className="text-white uppercase tracking-wide">Location-Based Learning</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <LocationMap />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="analytics" className="space-y-6">
-              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
-                <CardHeader className="bg-slate-700 border-b border-black">
-                  <CardTitle className="text-white uppercase tracking-wide">Image Learning Analytics</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <ImageAnalytics />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="paths" className="space-y-6">
-              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
-                <CardHeader className="bg-slate-700 border-b border-black">
-                  <CardTitle className="text-white uppercase tracking-wide">Personalized Learning Paths</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <PersonalizedLearningPaths />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="progress" className="space-y-6">
-              <Card className="bg-slate-800 border border-black transition-all duration-300 hover:shadow-lg">
-                <CardHeader className="bg-slate-700 border-b border-black">
-                  <CardTitle className="text-white uppercase tracking-wide">Learning Progress</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <ImageProgressTracker />
-                </CardContent>
-              </Card>
-            </TabsContent>
           </Tabs>
         </div>
       </div>
-    </AccessibilityEnhancer>
-  );
-} 
+    </AccessibilityEnhancer>);
+
+}

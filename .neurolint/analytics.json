@@ -1,0 +1,54 @@
+{
+  "version": "1.2.1",
+  "timestamp": "2025-08-24T12:37:24.426Z",
+  "sessionId": "session_1756039037762_g9mpzw0kd",
+  "sessionDuration": 6664,
+  "metrics": {
+    "analysis": {
+      "totalFiles": 306,
+      "totalIssues": 227,
+      "issuesByLayer": {
+        "2": 3,
+        "3": 2,
+        "4": 120,
+        "5": 102
+      },
+      "issuesByType": {
+        "hydration": 120,
+        "nextjs": 102,
+        "warning": 5
+      },
+      "performance": {
+        "averageTime": 18.859477124183005,
+        "totalTime": 5771,
+        "slowestFiles": []
+      }
+    },
+    "fixes": {
+      "totalApplied": 0,
+      "successRate": 0,
+      "fixesByLayer": {},
+      "fixesByRule": {},
+      "rollbacks": 0
+    },
+    "usage": {
+      "commands": {
+        "initialize": 133,
+        "fix": 2,
+        "rules": 1,
+        "stats": 1,
+        "clean": 1
+      },
+      "platforms": {
+        "cli": 444
+      },
+      "sessions": 138,
+      "activeUsers": {}
+    },
+    "quality": {
+      "codeQualityScore": 80,
+      "modernizationProgress": 0,
+      "technicalDebt": 0
+    }
+  }
+}

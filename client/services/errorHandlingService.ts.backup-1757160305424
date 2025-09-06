@@ -1,0 +1,482 @@
+import { logger, logError, logErrorBoundary } from './loggingService';
+import { ApiError, ErrorLog } from '@/types';
+
+// Error severity levels
+export enum ErrorSeverity {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+  CRITICAL = 'critical'
+}
+
+// Error categories
+export enum ErrorCategory {
+  NETWORK = 'network',
+  VALIDATION = 'validation',
+  AUTHENTICATION = 'authentication',
+  AUTHORIZATION = 'authorization',
+  DATABASE = 'database',
+  UI = 'ui',
+  BUSINESS_LOGIC = 'business_logic',
+  THIRD_PARTY = 'third_party',
+  UNKNOWN = 'unknown'
+}
+
+// Error context
+export interface ErrorContext {
+  user_id?: string;
+  session_id?: string;
+  component?: string;
+  action?: string;
+  url?: string;
+  user_agent?: string;
+  timestamp: string;
+  severity: ErrorSeverity;
+  category: ErrorCategory;
+  recoverable: boolean;
+  retry_count?: number;
+  max_retries?: number;
+  [key: string]: unknown;
+}
+
+// Error handling strategy
+export interface ErrorStrategy {
+  retry: boolean;
+  max_retries: number;
+  retry_delay: number;
+  fallback?: () => void;
+  user_notification?: boolean;
+  auto_recovery?: boolean;
+}
+
+// Error recovery action
+export interface RecoveryAction {
+  type: 'retry' | 'fallback' | 'redirect' | 'refresh' | 'clear_cache' | 'logout';
+  description: string;
+  action: () => void | Promise<void>;
+}
+
+class ErrorHandlingService {
+  private errorLogs: ErrorLog[] = [];
+  private recoveryStrategies: Map<ErrorCategory, ErrorStrategy> = new Map();
+  private isInitialized = false;
+
+  constructor() {
+    this.initializeDefaultStrategies();
+  }
+
+  private initializeDefaultStrategies(): void {
+    // Network errors - retry with exponential backoff
+    this.recoveryStrategies.set(ErrorCategory.NETWORK, {
+      retry: true,
+      max_retries: 3,
+      retry_delay: 1000,
+      user_notification: true,
+      auto_recovery: true
+    });
+
+    // Authentication errors - redirect to login
+    this.recoveryStrategies.set(ErrorCategory.AUTHENTICATION, {
+      retry: false,
+      max_retries: 0,
+      retry_delay: 0,
+      fallback: () => this.handleAuthenticationError(),
+      user_notification: true,
+      auto_recovery: false
+    });
+
+    // Authorization errors - show access denied
+    this.recoveryStrategies.set(ErrorCategory.AUTHORIZATION, {
+      retry: false,
+      max_retries: 0,
+      retry_delay: 0,
+      user_notification: true,
+      auto_recovery: false
+    });
+
+    // Validation errors - show user-friendly message
+    this.recoveryStrategies.set(ErrorCategory.VALIDATION, {
+      retry: false,
+      max_retries: 0,
+      retry_delay: 0,
+      user_notification: true,
+      auto_recovery: false
+    });
+
+    // Database errors - retry with fallback
+    this.recoveryStrategies.set(ErrorCategory.DATABASE, {
+      retry: true,
+      max_retries: 2,
+      retry_delay: 2000,
+      fallback: () => this.handleDatabaseError(),
+      user_notification: true,
+      auto_recovery: true
+    });
+
+    // UI errors - refresh component
+    this.recoveryStrategies.set(ErrorCategory.UI, {
+      retry: true,
+      max_retries: 1,
+      retry_delay: 500,
+      user_notification: false,
+      auto_recovery: true
+    });
+
+    // Unknown errors - log and notify
+    this.recoveryStrategies.set(ErrorCategory.UNKNOWN, {
+      retry: false,
+      max_retries: 0,
+      retry_delay: 0,
+      user_notification: true,
+      auto_recovery: false
+    });
+  }
+
+  public initialize(): void {
+    if (this.isInitialized) return;
+
+    // Set up global error handlers
+    this.setupGlobalErrorHandlers();
+    
+    this.isInitialized = true;
+    logger.info('Error handling service initialized', {
+      action: 'error_handling_init'
+    });
+  }
+
+  private setupGlobalErrorHandlers(): void {
+    if (typeof window === 'undefined') return;
+
+    // Handle unhandled promise rejections
+    window.addEventListener('unhandledrejection', (event) => {
+      this.handleUnhandledRejection(event);
+    });
+
+    // Handle global errors
+    window.addEventListener('error', (event) => {
+      this.handleGlobalError(event);
+    });
+
+    // Handle resource loading errors
+    window.addEventListener('error', (event) => {
+      if (event.target && event.target !== window) {
+        this.handleResourceError(event);
+      }
+    }, true);
+  }
+
+  public handleError(
+    error: Error | string,
+    context: Partial<ErrorContext> = {},
+    strategy?: ErrorStrategy
+  ): void {
+    const errorMessage = typeof error === 'string' ? error : error.message;
+    const errorObj = typeof error === 'string' ? new Error(error) : error;
+    
+    const errorContext: ErrorContext = {
+      severity: ErrorSeverity.MEDIUM,
+      category: ErrorCategory.UNKNOWN,
+      recoverable: true,
+      timestamp: new Date().toISOString(),
+      ...context
+    };
+
+    // Determine error category and severity
+    this.categorizeError(errorObj, errorContext);
+    this.determineSeverity(errorObj, errorContext);
+
+    // Get recovery strategy
+    const recoveryStrategy = strategy || this.recoveryStrategies.get(errorContext.category);
+    if (recoveryStrategy) {
+      errorContext.recoverable = recoveryStrategy.retry || !!recoveryStrategy.fallback;
+      errorContext.max_retries = recoveryStrategy.max_retries;
+    }
+
+    // Log the error
+    this.logError(errorObj, errorContext);
+
+    // Execute recovery strategy
+    if (recoveryStrategy) {
+      this.executeRecoveryStrategy(errorObj, errorContext, recoveryStrategy);
+    }
+  }
+
+  private categorizeError(error: Error, context: ErrorContext): void {
+    const message = error.message.toLowerCase();
+    const stack = error.stack?.toLowerCase() || '';
+
+    if (message.includes('network') || message.includes('fetch') || message.includes('timeout')) {
+      context.category = ErrorCategory.NETWORK;
+    } else if (message.includes('auth') || message.includes('login') || message.includes('token')) {
+      context.category = ErrorCategory.AUTHENTICATION;
+    } else if (message.includes('permission') || message.includes('access') || message.includes('forbidden')) {
+      context.category = ErrorCategory.AUTHORIZATION;
+    } else if (message.includes('validation') || message.includes('invalid') || message.includes('required')) {
+      context.category = ErrorCategory.VALIDATION;
+    } else if (message.includes('database') || message.includes('sql') || message.includes('query')) {
+      context.category = ErrorCategory.DATABASE;
+    } else if (stack.includes('react') || stack.includes('component') || stack.includes('render')) {
+      context.category = ErrorCategory.UI;
+    } else if (message.includes('api') || message.includes('external')) {
+      context.category = ErrorCategory.THIRD_PARTY;
+    } else {
+      context.category = ErrorCategory.UNKNOWN;
+    }
+  }
+
+  private determineSeverity(error: Error, context: ErrorContext): void {
+    const message = error.message.toLowerCase();
+    
+    if (message.includes('critical') || message.includes('fatal') || context.category === ErrorCategory.AUTHENTICATION) {
+      context.severity = ErrorSeverity.CRITICAL;
+    } else if (message.includes('error') || context.category === ErrorCategory.DATABASE) {
+      context.severity = ErrorSeverity.HIGH;
+    } else if (message.includes('warning') || context.category === ErrorCategory.VALIDATION) {
+      context.severity = ErrorSeverity.MEDIUM;
+    } else {
+      context.severity = ErrorSeverity.LOW;
+    }
+  }
+
+  private logError(error: Error, context: ErrorContext): void {
+    const errorLog: ErrorLog = {
+      id: `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      error_type: context.category,
+      message: error.message,
+      stack_trace: error.stack,
+      user_id: context.user_id,
+      session_id: context.session_id,
+      user_agent: context.user_agent,
+      url: context.url,
+      resolved: false,
+      created_at: context.timestamp
+    };
+
+    this.errorLogs.push(errorLog);
+
+    // Log to logging service
+    logError('Error handled by error handling service', context, { error_log: errorLog }, error);
+  }
+
+  private async executeRecoveryStrategy(
+    error: Error,
+    context: ErrorContext,
+    strategy: ErrorStrategy
+  ): Promise<void> {
+    if (strategy.retry && context.retry_count !== undefined && context.retry_count < strategy.max_retries) {
+      await this.retryOperation(error, context, strategy);
+    } else if (strategy.fallback) {
+      strategy.fallback();
+    } else if (strategy.user_notification) {
+      this.notifyUser(error, context);
+    }
+  }
+
+  private async retryOperation(
+    error: Error,
+    context: ErrorContext,
+    strategy: ErrorStrategy
+  ): Promise<void> {
+    const retryCount = (context.retry_count || 0) + 1;
+    const delay = strategy.retry_delay * Math.pow(2, retryCount - 1);
+
+    logger.info(`Retrying operation (attempt ${retryCount}/${strategy.max_retries})`, {
+      action: 'error_retry',
+      retry_count: retryCount,
+      delay
+    });
+
+    // [NeuroLint] Replace setTimeout with actual API call: setTimeout => {
+      // This would typically retry the original operation
+      // For now, we just log the retry attempt
+      context.retry_count = retryCount;
+      this.handleError(error, context, strategy);
+    }, delay);
+  }
+
+  private handleAuthenticationError(): void {
+    // Redirect to login page
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+    }
+  }
+
+  private handleDatabaseError(): void {
+    // Show offline mode or cached data
+    logger.warn('Database error - switching to offline mode', {
+      action: 'database_error_fallback'
+    });
+  }
+
+  private notifyUser(error: Error, context: ErrorContext): void {
+    // This would integrate with your notification system
+    const message = this.getUserFriendlyMessage(error, context);
+    
+    logger.info('User notification sent', {
+      action: 'error_user_notification',
+      message,
+      severity: context.severity
+    });
+  }
+
+  private getUserFriendlyMessage(error: Error, context: ErrorContext): string {
+    switch (context.category) {
+      case ErrorCategory.NETWORK:
+        return 'Connection error. Please check your internet connection and try again.';
+      case ErrorCategory.AUTHENTICATION:
+        return 'Your session has expired. Please log in again.';
+      case ErrorCategory.AUTHORIZATION:
+        return 'You don\'t have permission to perform this action.';
+      case ErrorCategory.VALIDATION:
+        return 'Please check your input and try again.';
+      case ErrorCategory.DATABASE:
+        return 'Service temporarily unavailable. Please try again later.';
+      case ErrorCategory.UI:
+        return 'Something went wrong with the interface. Please refresh the page.';
+      default:
+        return 'An unexpected error occurred. Please try again.';
+    }
+  }
+
+  // Public methods for specific error types
+  public handleApiError(apiError: ApiError, context: Partial<ErrorContext> = {}): void {
+    const error = new Error(apiError.message);
+    this.handleError(error, {
+      ...context,
+      category: ErrorCategory.NETWORK,
+      severity: ErrorSeverity.HIGH
+    });
+  }
+
+  public handleNetworkError(url: string, error: Error, context: Partial<ErrorContext> = {}): void {
+    this.handleError(error, {
+      ...context,
+      category: ErrorCategory.NETWORK,
+      severity: ErrorSeverity.HIGH,
+      url
+    });
+  }
+
+  public handleValidationError(field: string, message: string, context: Partial<ErrorContext> = {}): void {
+    const error = new Error(`Validation error for ${field}: ${message}`);
+    this.handleError(error, {
+      ...context,
+      category: ErrorCategory.VALIDATION,
+      severity: ErrorSeverity.MEDIUM
+    });
+  }
+
+  public handleComponentError(error: Error, componentName: string, context: Partial<ErrorContext> = {}): void {
+    this.handleError(error, {
+      ...context,
+      category: ErrorCategory.UI,
+      severity: ErrorSeverity.MEDIUM,
+      component: componentName
+    });
+  }
+
+  // Global error handlers
+  private handleUnhandledRejection(event: PromiseRejectionEvent): void {
+    this.handleError(event.reason, {
+      category: ErrorCategory.UNKNOWN,
+      severity: ErrorSeverity.HIGH,
+      action: 'unhandled_rejection'
+    });
+  }
+
+  private handleGlobalError(event: ErrorEvent): void {
+    this.handleError(event.error || new Error(event.message), {
+      category: ErrorCategory.UNKNOWN,
+      severity: ErrorSeverity.HIGH,
+      action: 'global_error',
+      url: event.filename
+    });
+  }
+
+  private handleResourceError(event: Event): void {
+    const target = event.target as HTMLElement;
+    const error = new Error(`Failed to load resource: ${target.tagName}`);
+    
+    this.handleError(error, {
+      category: ErrorCategory.NETWORK,
+      severity: ErrorSeverity.LOW,
+      action: 'resource_error',
+      url: target instanceof HTMLImageElement ? target.src : undefined
+    });
+  }
+
+  // Error boundary integration
+  public handleErrorBoundary(error: Error, errorInfo: React.ErrorInfo, context: Partial<ErrorContext> = {}): void {
+    logErrorBoundary(error, errorInfo, context);
+    
+    this.handleError(error, {
+      ...context,
+      category: ErrorCategory.UI,
+      severity: ErrorSeverity.HIGH,
+      action: 'error_boundary'
+    });
+  }
+
+  // Utility methods
+  public getErrorLogs(): ErrorLog[] {
+    return [...this.errorLogs];
+  }
+
+  public getErrorLogsByCategory(category: ErrorCategory): ErrorLog[] {
+    return this.errorLogs.filter(log => log.error_type === category);
+  }
+
+  public getErrorLogsBySeverity(severity: ErrorSeverity): ErrorLog[] {
+    return this.errorLogs.filter(log => {
+      const context = this.getErrorContext(log);
+      return context?.severity === severity;
+    });
+  }
+
+  private getErrorContext(errorLog: ErrorLog): ErrorContext | null {
+    // This would typically retrieve the context from storage or memory
+    // For now, return null
+    return null;
+  }
+
+  public clearErrorLogs(): void {
+    this.errorLogs = [];
+  }
+
+  public destroy(): void {
+    this.clearErrorLogs();
+    this.recoveryStrategies.clear();
+    this.isInitialized = false;
+    
+    logger.info('Error handling service destroyed', {
+      action: 'error_handling_destroy'
+    });
+  }
+}
+
+// Create singleton instance
+export const errorHandlingService = new ErrorHandlingService();
+
+// Export convenience functions
+export const handleError = (error: Error | string, context?: Partial<ErrorContext>) =>
+  errorHandlingService.handleError(error, context);
+
+export const handleApiError = (apiError: ApiError, context?: Partial<ErrorContext>) =>
+  errorHandlingService.handleApiError(apiError, context);
+
+export const handleNetworkError = (url: string, error: Error, context?: Partial<ErrorContext>) =>
+  errorHandlingService.handleNetworkError(url, error, context);
+
+export const handleValidationError = (field: string, message: string, context?: Partial<ErrorContext>) =>
+  errorHandlingService.handleValidationError(field, message, context);
+
+export const handleComponentError = (error: Error, componentName: string, context?: Partial<ErrorContext>) =>
+  errorHandlingService.handleComponentError(error, componentName, context);
+
+export const handleErrorBoundary = (error: Error, errorInfo: React.ErrorInfo, context?: Partial<ErrorContext>) =>
+  errorHandlingService.handleErrorBoundary(error, errorInfo, context);
+
+// Auto-initialize when module is imported
+if (typeof window !== 'undefined') {
+  errorHandlingService.initialize();
+} 

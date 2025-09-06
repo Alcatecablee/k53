@@ -1,0 +1,58 @@
+import {  Button  } from '@/components/ui/button';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  useToast  } from '@/hooks/use-toast';
+
+export function BasicShareTest() {
+  const { toast } = useToast();
+
+  const testShare = () => {
+    // [NeuroLint] Removed console.log: "Share button clicked!"
+    toast({
+      title: "Share Test",
+      description: "Share button clicked! This is a test."
+    });
+
+    // Try to open a simple URL
+    try {
+      window.open("https://www.google.com", "_blank");
+    } catch (error) {
+
+
+      // [NeuroLint] Removed console.error: "Error opening window:", error
+    }};
+  const testFacebook = () => {
+    const url = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.href);
+    window.open(url, "_blank");
+  };
+
+  const testTwitter = () => {
+    const url = "https://twitter.com/intent/tweet?text=Test&url=" + encodeURIComponent(window.location.href);
+    window.open(url, "_blank");
+  };
+
+  return (
+    <Card className="bg-slate-800 border border-black">
+      <CardHeader>
+        <CardTitle className="text-white">Basic Share Test</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <Button aria-label="Test Click (Should Show Alert)" variant="default" onClick={testShare} className="w-full bg-red-600 hover:bg-red-700">
+          Test Click (Should Show Alert)
+        </Button>
+        
+        <Button aria-label="Test Facebook Share" variant="default" onClick={testFacebook} className="w-full bg-blue-600 hover:bg-blue-700">
+          Test Facebook Share
+        </Button>
+        
+        <Button aria-label="Test Twitter Share" variant="default" onClick={testTwitter} className="w-full bg-sky-500 hover:bg-sky-600">
+          Test Twitter Share
+        </Button>
+        
+        <div className="bg-slate-700 border border-black p-3 rounded text-xs text-slate-300">
+          <p>Current URL: {window.location.href}</p>
+          <p>User Agent: {navigator.userAgent}</p>
+        </div>
+      </CardContent>
+    </Card>);
+
+}

@@ -1,0 +1,80 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+
+export function FinalShare() {
+  const { toast } = useToast();
+  
+  const shareToFacebook = () => {
+    const url = window.location.href;
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    // [NeuroLint] Removed console.log: "Sharing to Facebook:", shareUrl
+    window.open(shareUrl, "_blank");
+  };
+
+  const shareToTwitter = () => {
+    const url = window.location.href;
+    const shareUrl = `https://twitter.com/intent/tweet?text=Check out this K53 article&url=${encodeURIComponent(url)}`;
+    // [NeuroLint] Removed console.log: "Sharing to Twitter:", shareUrl
+    window.open(shareUrl, "_blank");
+  };
+
+  const copyLink = () => {
+    const url = window.location.href;
+    // [NeuroLint] Removed console.log: "Copying URL:", url
+    
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(() => {
+        toast({
+          title: "Success",
+          description: "Link copied to clipboard!",
+        });
+      }).catch(() => {
+        toast({
+          title: "Error",
+          description: "Failed to copy link",
+          variant: "destructive",
+        });
+      });
+    } else {
+      toast({
+        title: "Copy Link",
+        description: `Please copy this URL: ${url}`,
+      });
+    }
+  };
+
+  return (
+    <Card className="bg-slate-800 border border-black">
+      <CardHeader>
+        <CardTitle className="text-white">Share This Article</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <Button 
+          onClick={shareToFacebook} 
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          Share on Facebook
+        </Button>
+        
+        <Button 
+          onClick={shareToTwitter} 
+          className="w-full bg-sky-500 hover:bg-sky-600 text-white"
+        >
+          Share on Twitter
+        </Button>
+        
+        <Button 
+          onClick={copyLink} 
+          className="w-full bg-green-600 hover:bg-green-700 text-white"
+        >
+          Copy Link
+        </Button>
+        
+        <div className="bg-slate-700 border border-black p-3 rounded text-xs text-slate-300">
+          <p>Current URL: {window.location.href}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+} 

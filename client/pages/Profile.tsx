@@ -1,62 +1,25 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
-import { Progress } from "@/components/ui/progress";
-import {
-  ArrowLeft,
-  User,
-  MapPin,
-  Mail,
-  Calendar,
-  Settings,
-  LogOut,
-  Edit,
-  Save,
-  X,
-  Award,
-  Target,
-  Clock,
-  Shield,
-  Bell,
-  Globe,
-  BookOpen,
-  TrendingUp,
-  CheckCircle,
-  AlertCircle,
-  Crown,
-  FileText,
-  Database,
-  BarChart3,
-  Lock,
-  Eye,
-  EyeOff,
-} from "lucide-react";
-import { Link } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
-import { AuthenticatedRoute } from "@/components/AuthenticatedRoute";
-import {
-  getUserProfile,
-  updateUserProfile,
-  getUserStats,
-  getUserProgress,
-} from "@/services/databaseService";
-import { LocationSelector } from "@/components/LocationSelector";
-import {
-  getStoredLocation,
-  getCurrentLocation,
-  reverseGeocode,
-  storeLocation,
-  type UserLocation,
-} from "@/services/locationService";
-import { useToast } from "@/hooks/use-toast";
-import { getUserSubscription, hasPremiumAccess, hasPaidSubscription } from "@/services/subscriptionService";
-import { getUserProgress as getAchievementProgress, ACHIEVEMENTS } from "@/services/achievementService";
+'use client';
+import React from 'react';
+import {  useState, useEffect  } from "react";
+import {  Button  } from '@/components/ui/button';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Input  } from '@/components/ui/input';
+import {  Label  } from '@/components/ui/label';
+import {  Badge  } from '@/components/ui/badge';
+import {  Textarea  } from '@/components/ui/textarea';
+import {  Switch  } from '@/components/ui/switch';
+import {  Separator  } from '@/components/ui/separator';
+import {  Progress  } from '@/components/ui/progress';
+import {  ArrowLeft, User, MapPin, Mail, Calendar, Settings, LogOut, Edit, Save, X, Award, Target, Clock, Shield, Bell, Globe, BookOpen, TrendingUp, CheckCircle, AlertCircle, Crown, FileText, Database, BarChart3, Lock, Eye, EyeOff  } from 'lucide-react';
+import {  Link  } from 'react-router-dom';
+import {  useAuth  } from '@/contexts/AuthContext';
+import {  AuthenticatedRoute  } from '@/components/AuthenticatedRoute';
+import {  getUserProfile, updateUserProfile, getUserStats  } from '@/services/databaseService';
+import {  LocationSelector  } from '@/components/LocationSelector';
+import {  getStoredLocation, getCurrentLocation, reverseGeocode, storeLocation, type, UserLocation  } from '@/services/locationService';
+import {  useToast  } from '@/hooks/use-toast';
+import {  getUserSubscription, hasPremiumAccess, hasPaidSubscription  } from '@/services/subscriptionService';
+import {  getUserProgress, ACHIEVEMENTS  } from '@/services/achievementService';
 
 function ProfileComponent() {
   const { user, signOut } = useAuth();
@@ -78,8 +41,8 @@ function ProfileComponent() {
       notifications: true,
       darkMode: false,
       autoLocation: true,
-      practiceReminders: true,
-    },
+      practiceReminders: true
+    }
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -88,15 +51,15 @@ function ProfileComponent() {
       try {
         if (user) {
           const [profileData, statsData, subscriptionData] = await Promise.all([
-            getUserProfile().catch(() => null),
-            getUserStats().catch(() => null),
-            getUserSubscription().catch(() => null),
-          ]);
+          getUserProfile().catch(() => null),
+          getUserStats().catch(() => null),
+          getUserSubscription().catch(() => null)]
+          );
 
           // Get achievement data synchronously since it's not a Promise
           let achievementData = null;
           try {
-            achievementData = getAchievementProgress();
+            achievementData = getUserProgress();
           } catch (error) {
             console.warn("Error loading achievement data:", error);
             achievementData = null;
@@ -117,8 +80,8 @@ function ProfileComponent() {
                 notifications: profileData.preferences?.notifications ?? true,
                 darkMode: profileData.preferences?.darkMode ?? false,
                 autoLocation: profileData.preferences?.autoLocation ?? true,
-                practiceReminders: profileData.preferences?.practiceReminders ?? true,
-              },
+                practiceReminders: profileData.preferences?.practiceReminders ?? true
+              }
             });
           }
 
@@ -130,7 +93,7 @@ function ProfileComponent() {
             setUserLocation({
               city: profileData.location_city,
               region: profileData.location_region,
-              displayName: `${profileData.location_city}, ${profileData.location_region}`,
+              displayName: `${profileData.location_city}, ${profileData.location_region}`
             });
             locationSet = true;
           }
@@ -151,13 +114,13 @@ function ProfileComponent() {
               const detectedLocation = reverseGeocode(coords);
               setUserLocation(detectedLocation);
               locationSet = true;
-              
+
               // Save detected location to profile and storage
               if (user) {
                 try {
                   await updateUserProfile({
                     location_city: detectedLocation.city,
-                    location_region: detectedLocation.region,
+                    location_region: detectedLocation.region
                   });
                   storeLocation(detectedLocation);
                 } catch (error) {
@@ -179,7 +142,7 @@ function ProfileComponent() {
         toast({
           title: "Error",
           description: "Failed to load profile data. Please try again.",
-          variant: "destructive",
+          variant: "destructive"
         });
       } finally {
         setLoading(false);
@@ -196,18 +159,18 @@ function ProfileComponent() {
       try {
         await updateUserProfile({
           location_city: location.city,
-          location_region: location.region,
+          location_region: location.region
         });
         toast({
           title: "Location Updated",
-          description: "Your location has been successfully updated.",
+          description: "Your location has been successfully updated."
         });
       } catch (error) {
         console.warn("Error updating location:", error);
         toast({
           title: "Error",
           description: "Failed to update location. Please try again.",
-          variant: "destructive",
+          variant: "destructive"
         });
       }
     }
@@ -221,14 +184,14 @@ function ProfileComponent() {
       setIsEditing(false);
       toast({
         title: "Profile Updated",
-        description: "Your profile has been successfully updated.",
+        description: "Your profile has been successfully updated."
       });
     } catch (error) {
       console.warn("Error updating profile:", error);
       toast({
         title: "Error",
         description: "Failed to update profile. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setSaving(false);
@@ -244,8 +207,8 @@ function ProfileComponent() {
         notifications: profile?.preferences?.notifications ?? true,
         darkMode: profile?.preferences?.darkMode ?? false,
         autoLocation: profile?.preferences?.autoLocation ?? true,
-        practiceReminders: profile?.preferences?.practiceReminders ?? true,
-      },
+        practiceReminders: profile?.preferences?.practiceReminders ?? true
+      }
     });
     setIsEditing(false);
   };
@@ -256,14 +219,14 @@ function ProfileComponent() {
         type: "Free",
         status: "Active",
         expiresAt: null,
-        features: ["Basic Practice", "Limited Scenarios", "Standard Support"],
+        features: ["Basic Practice", "Limited Scenarios", "Standard Support"]
       };
     }
 
     const planNames = {
       free: "Free",
       basic: "Basic",
-      standard: "Standard", 
+      standard: "Standard",
       premium: "Premium"
     };
 
@@ -278,13 +241,13 @@ function ProfileComponent() {
       type: planNames[subscription.plan_type] || "Free",
       status: subscription.status === "active" ? "Active" : subscription.status,
       expiresAt: subscription.current_period_end ? new Date(subscription.current_period_end).toLocaleDateString() : null,
-      features: planFeatures[subscription.plan_type] || planFeatures.free,
+      features: planFeatures[subscription.plan_type] || planFeatures.free
     };
   };
 
   const getAchievementData = () => {
     if (!achievements || achievements.length === 0) {
-      return ACHIEVEMENTS.map(achievement => ({
+      return ACHIEVEMENTS.map((achievement) => ({
         id: achievement.id,
         name: achievement.title,
         description: achievement.description,
@@ -295,10 +258,10 @@ function ProfileComponent() {
       }));
     }
 
-    return achievements.map(achievement => {
-      const iconMap: { [key: string]: string } = {
+    return achievements.map((achievement) => {
+      const iconMap: {[key: string]: string;} = {
         target: "Target",
-        trophy: "Award", 
+        trophy: "Award",
         "map-pin": "MapPin",
         flame: "Clock",
         zap: "TrendingUp",
@@ -321,7 +284,7 @@ function ProfileComponent() {
   };
 
   const getIconComponent = (iconName: string) => {
-    const iconMap: { [key: string]: any } = {
+    const iconMap: {[key: string]: any;} = {
       Target,
       Award,
       BookOpen,
@@ -331,7 +294,7 @@ function ProfileComponent() {
       BarChart3,
       FileText,
       Shield,
-      TrendingUp,
+      TrendingUp
     };
     return iconMap[iconName] || Target;
   };
@@ -345,8 +308,8 @@ function ProfileComponent() {
             Loading Profile...
           </p>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   const subscriptionStatus = getSubscriptionStatus();
@@ -361,8 +324,8 @@ function ProfileComponent() {
             <Button
               asChild
               variant="ghost"
-              className="text-gray-300 hover:text-white font-semibold uppercase tracking-wide"
-            >
+              className="text-gray-300 hover:text-white font-semibold uppercase tracking-wide">
+              
               <Link to="/">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Portal
@@ -381,8 +344,8 @@ function ProfileComponent() {
             <Button
               variant="ghost"
               onClick={signOut}
-              className="text-gray-300 hover:text-white font-semibold uppercase tracking-wide"
-            >
+              className="text-gray-300 hover:text-white font-semibold uppercase tracking-wide">
+              
               <LogOut className="h-4 w-4 mr-2" />
               Sign Out
             </Button>
@@ -402,43 +365,43 @@ function ProfileComponent() {
                     <User className="h-5 w-5" />
                     <span>Account Information</span>
                   </CardTitle>
-                  {!isEditing ? (
-                    <Button
-                      onClick={() => setIsEditing(true)}
-                      variant="outline"
-                      size="sm"
-                      className="border-gray-400 text-gray-300 hover:bg-gray-600 hover:text-white"
-                    >
+                  {!isEditing ?
+                  <Button
+                    onClick={() => setIsEditing(true)}
+                    variant="outline"
+                    size="sm"
+                    className="border-gray-400 text-gray-300 hover:bg-gray-600 hover:text-white">
+                    
                       <Edit className="h-4 w-4 mr-1" />
                       Edit
-                    </Button>
-                  ) : (
-                    <div className="flex space-x-2">
+                    </Button> :
+
+                  <div className="flex space-x-2">
                       <Button
-                        onClick={handleSaveProfile}
-                        disabled={saving}
-                        size="sm"
-                        className="bg-slate-600 text-white hover:bg-slate-500"
-                      >
+                      onClick={handleSaveProfile}
+                      disabled={saving}
+                      size="sm"
+                      className="bg-slate-600 text-white hover:bg-slate-500">
+                      
                         <Save className="h-4 w-4 mr-1" />
                         {saving ? "Saving..." : "Save"}
                       </Button>
                       <Button
-                        onClick={handleCancelEdit}
-                        variant="outline"
-                        size="sm"
-                        className="border-gray-400 text-gray-300 hover:bg-gray-600 hover:text-white"
-                      >
+                      onClick={handleCancelEdit}
+                      variant="outline"
+                      size="sm"
+                      className="border-gray-400 text-gray-300 hover:bg-gray-600 hover:text-white">
+                      
                         <X className="h-4 w-4 mr-1" />
                         Cancel
                       </Button>
                     </div>
-                  )}
+                  }
                 </div>
               </CardHeader>
               <CardContent className="p-6 bg-gray-800">
-                {!isEditing ? (
-                  <div className="space-y-4">
+                {!isEditing ?
+                <div className="space-y-4">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <Label className="text-gray-300 font-semibold">
@@ -479,16 +442,16 @@ function ProfileComponent() {
                         <div className="flex items-center space-x-2 mt-1">
                           <Calendar className="h-4 w-4 text-gray-400" />
                           <span className="text-gray-200">
-                            {user?.created_at
-                              ? new Date(user.created_at).toLocaleDateString()
-                              : "Unknown"}
+                            {user?.created_at ?
+                          new Date(user.created_at).toLocaleDateString() :
+                          "Unknown"}
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {profile?.bio && (
-                      <div>
+                    {profile?.bio &&
+                  <div>
                         <Label className="text-gray-300 font-semibold">
                           Bio
                         </Label>
@@ -496,10 +459,10 @@ function ProfileComponent() {
                           <span className="text-gray-200">{profile.bio}</span>
                         </div>
                       </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="space-y-4">
+                  }
+                  </div> :
+
+                <div className="space-y-4">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="email" className="text-gray-300 font-semibold">
@@ -517,12 +480,12 @@ function ProfileComponent() {
                           Full Name
                         </Label>
                         <Input
-                          id="full_name"
-                          value={editForm.full_name}
-                          onChange={(e) => setEditForm({ ...editForm, full_name: e.target.value })}
-                          className="mt-1 bg-gray-700 border-gray-600 text-gray-200"
-                          placeholder="Enter your full name"
-                        />
+                        id="full_name"
+                        value={editForm.full_name}
+                        onChange={(e) => setEditForm({ ...editForm, full_name: e.target.value })}
+                        className="mt-1 bg-gray-700 border-gray-600 text-gray-200"
+                        placeholder="Enter your full name" />
+                      
                       </div>
 
                       <div>
@@ -530,12 +493,12 @@ function ProfileComponent() {
                           Phone Number
                         </Label>
                         <Input
-                          id="phone"
-                          value={editForm.phone}
-                          onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
-                          className="mt-1 bg-gray-700 border-gray-600 text-gray-200"
-                          placeholder="Enter your phone number"
-                        />
+                        id="phone"
+                        value={editForm.phone}
+                        onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                        className="mt-1 bg-gray-700 border-gray-600 text-gray-200"
+                        placeholder="Enter your phone number" />
+                      
                       </div>
 
                       <div>
@@ -545,9 +508,9 @@ function ProfileComponent() {
                         <div className="flex items-center space-x-2 mt-1">
                           <Calendar className="h-4 w-4 text-gray-400" />
                           <span className="text-gray-200">
-                            {user?.created_at
-                              ? new Date(user.created_at).toLocaleDateString()
-                              : "Unknown"}
+                            {user?.created_at ?
+                          new Date(user.created_at).toLocaleDateString() :
+                          "Unknown"}
                           </span>
                         </div>
                       </div>
@@ -558,16 +521,16 @@ function ProfileComponent() {
                         Bio
                       </Label>
                       <Textarea
-                        id="bio"
-                        value={editForm.bio}
-                        onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
-                        className="mt-1 bg-gray-700 border-gray-600 text-gray-200"
-                        placeholder="Tell us about yourself..."
-                        rows={3}
-                      />
+                      id="bio"
+                      value={editForm.bio}
+                      onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
+                      className="mt-1 bg-gray-700 border-gray-600 text-gray-200"
+                      placeholder="Tell us about yourself..."
+                      rows={3} />
+                    
                     </div>
                   </div>
-                )}
+                }
               </CardContent>
             </Card>
 
@@ -596,8 +559,8 @@ function ProfileComponent() {
                         onClick={() => setShowLocationSelector(true)}
                         variant="outline"
                         size="sm"
-                        className="border-gray-400 text-gray-300 hover:bg-gray-600 hover:text-white"
-                      >
+                        className="border-gray-400 text-gray-300 hover:bg-gray-600 hover:text-white">
+                        
                         <Settings className="h-4 w-4 mr-1" />
                         Change
                       </Button>
@@ -631,12 +594,12 @@ function ProfileComponent() {
                     <Switch
                       checked={editForm.preferences.notifications}
                       onCheckedChange={(checked) =>
-                        setEditForm({
-                          ...editForm,
-                          preferences: { ...editForm.preferences, notifications: checked },
-                        })
-                      }
-                    />
+                      setEditForm({
+                        ...editForm,
+                        preferences: { ...editForm.preferences, notifications: checked }
+                      })
+                      } />
+                    
                   </div>
 
                   <Separator className="bg-gray-600" />
@@ -652,12 +615,12 @@ function ProfileComponent() {
                     <Switch
                       checked={editForm.preferences.autoLocation}
                       onCheckedChange={(checked) =>
-                        setEditForm({
-                          ...editForm,
-                          preferences: { ...editForm.preferences, autoLocation: checked },
-                        })
-                      }
-                    />
+                      setEditForm({
+                        ...editForm,
+                        preferences: { ...editForm.preferences, autoLocation: checked }
+                      })
+                      } />
+                    
                   </div>
 
                   <Separator className="bg-gray-600" />
@@ -673,12 +636,12 @@ function ProfileComponent() {
                     <Switch
                       checked={editForm.preferences.practiceReminders}
                       onCheckedChange={(checked) =>
-                        setEditForm({
-                          ...editForm,
-                          preferences: { ...editForm.preferences, practiceReminders: checked },
-                        })
-                      }
-                    />
+                      setEditForm({
+                        ...editForm,
+                        preferences: { ...editForm.preferences, practiceReminders: checked }
+                      })
+                      } />
+                    
                   </div>
                 </div>
               </CardContent>
@@ -700,45 +663,45 @@ function ProfileComponent() {
                       <div
                         key={achievement.id}
                         className={`p-4 rounded-lg border-2 ${
-                          achievement.earned
-                            ? "border-green-600 bg-gray-700"
-                            : "border-gray-600 bg-gray-700"
-                        }`}
-                      >
+                        achievement.earned ?
+                        "border-green-600 bg-gray-700" :
+                        "border-gray-600 bg-gray-700"}`
+                        }>
+                        
                         <div className="flex items-center space-x-2 mb-2">
                           <IconComponent className={`h-5 w-5 ${
-                            achievement.earned ? "text-green-400" : "text-gray-500"
-                          }`} />
+                          achievement.earned ? "text-green-400" : "text-gray-500"}`
+                          } />
                           <h4 className={`font-semibold ${
-                            achievement.earned ? "text-green-400" : "text-gray-400"
-                          }`}>
+                          achievement.earned ? "text-green-400" : "text-gray-400"}`
+                          }>
                             {achievement.name}
                           </h4>
                         </div>
                         <p className={`text-sm ${
-                          achievement.earned ? "text-gray-300" : "text-gray-500"
-                        }`}>
+                        achievement.earned ? "text-gray-300" : "text-gray-500"}`
+                        }>
                           {achievement.description}
                         </p>
-                        {achievement.earned ? (
-                          <div className="flex items-center space-x-1 mt-2">
+                        {achievement.earned ?
+                        <div className="flex items-center space-x-1 mt-2">
                             <CheckCircle className="h-4 w-4 text-green-400" />
                             <span className="text-xs text-green-400 font-semibold">Earned</span>
-                          </div>
-                        ) : (
-                          <div className="mt-2">
+                          </div> :
+
+                        <div className="mt-2">
                             <div className="flex justify-between text-xs text-gray-500 mb-1">
                               <span>Progress</span>
                               <span>{achievement.progress}/{achievement.requirement}</span>
                             </div>
-                            <Progress 
-                              value={(achievement.progress / achievement.requirement) * 100} 
-                              className="h-1 bg-gray-600" 
-                            />
+                            <Progress
+                            value={achievement.progress / achievement.requirement * 100}
+                            className="h-1 bg-gray-600" />
+                          
                           </div>
-                        )}
-                      </div>
-                    );
+                        }
+                      </div>);
+
                   })}
                 </div>
               </CardContent>
@@ -785,23 +748,23 @@ function ProfileComponent() {
                     </div>
                   </div>
 
-                  {stats?.totalTests > 0 && (
-                    <>
+                  {stats?.totalTests > 0 &&
+                  <>
                       <Separator className="bg-gray-600" />
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-400">Progress</span>
                           <span className="text-gray-200 font-semibold">
-                            {Math.min((stats.totalTests / 50) * 100, 100).toFixed(1)}%
+                            {Math.min(stats.totalTests / 50 * 100, 100).toFixed(1)}%
                           </span>
                         </div>
-                        <Progress value={Math.min((stats.totalTests / 50) * 100, 100)} className="h-2 bg-gray-700" />
+                        <Progress value={Math.min(stats.totalTests / 50 * 100, 100)} className="h-2 bg-gray-700" />
                         <p className="text-xs text-gray-500 text-center">
                           {stats.totalTests}/50 tests completed
                         </p>
                       </div>
                     </>
-                  )}
+                  }
                 </div>
               </CardContent>
             </Card>
@@ -818,20 +781,20 @@ function ProfileComponent() {
                 <div className="text-center space-y-4">
                   <div>
                     <Badge className={`mb-2 ${
-                      subscriptionStatus.status === "Active" 
-                        ? "bg-slate-600 text-white" 
-                        : "bg-slate-600 text-white"
-                    }`}>
+                    subscriptionStatus.status === "Active" ?
+                    "bg-slate-600 text-white" :
+                    "bg-slate-600 text-white"}`
+                    }>
                       {subscriptionStatus.status}
                     </Badge>
                     <h3 className="text-xl font-bold text-gray-200">
                       {subscriptionStatus.type} Plan
                     </h3>
-                    {subscriptionStatus.expiresAt && (
-                      <p className="text-sm text-gray-400">
+                    {subscriptionStatus.expiresAt &&
+                    <p className="text-sm text-gray-400">
                         Expires: {subscriptionStatus.expiresAt}
                       </p>
-                    )}
+                    }
                   </div>
 
                   <Separator className="bg-gray-600" />
@@ -839,19 +802,19 @@ function ProfileComponent() {
                   <div className="space-y-2">
                     <h4 className="font-semibold text-gray-300">Features:</h4>
                     <ul className="text-sm text-gray-400 space-y-1">
-                      {subscriptionStatus.features.map((feature, index) => (
-                        <li key={index} className="flex items-center space-x-2">
+                      {subscriptionStatus.features.map((feature, index) =>
+                      <li key={index} className="flex items-center space-x-2">
                           <CheckCircle className="h-3 w-3 text-white" />
                           <span>{feature}</span>
                         </li>
-                      ))}
+                      )}
                     </ul>
                   </div>
 
                   <Button
                     asChild
-                    className="w-full bg-gray-700 hover:bg-gray-600 text-white"
-                  >
+                    className="w-full bg-gray-700 hover:bg-gray-600 text-white">
+                    
                     <Link to="/pricing">Manage Subscription</Link>
                   </Button>
                 </div>
@@ -865,8 +828,8 @@ function ProfileComponent() {
                 <div className="space-y-3">
                   <Button
                     asChild
-                    className="w-full bg-slate-600 text-white hover:bg-slate-500"
-                  >
+                    className="w-full bg-slate-600 text-white hover:bg-slate-500">
+                    
                     <Link to="/practice">
                       <Target className="h-4 w-4 mr-2" />
                       Start Practice
@@ -876,8 +839,8 @@ function ProfileComponent() {
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
-                  >
+                    className="w-full border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white">
+                    
                     <Link to="/progress">
                       <TrendingUp className="h-4 w-4 mr-2" />
                       View Progress
@@ -887,8 +850,8 @@ function ProfileComponent() {
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
-                  >
+                    className="w-full border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white">
+                    
                     <Link to="/study-materials">
                       <BookOpen className="h-4 w-4 mr-2" />
                       Study Materials
@@ -902,21 +865,21 @@ function ProfileComponent() {
       </div>
 
       {/* Location Selector Modal */}
-      {showLocationSelector && (
-        <LocationSelector
-          onLocationSelected={handleLocationSelected}
-          onClose={() => setShowLocationSelector(false)}
-          currentLocation={userLocation}
-        />
-      )}
-    </div>
-  );
+      {showLocationSelector &&
+      <LocationSelector
+        onLocationSelected={handleLocationSelected}
+        onClose={() => setShowLocationSelector(false)}
+        currentLocation={userLocation} />
+
+      }
+    </div>);
+
 }
 
 export default function Profile() {
   return (
     <AuthenticatedRoute>
       <ProfileComponent />
-    </AuthenticatedRoute>
-  );
+    </AuthenticatedRoute>);
+
 }

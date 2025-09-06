@@ -141,10 +141,17 @@ class PushNotificationService {
     }
   }
 
+  private notificationInterval: NodeJS.Timeout | null = null;
+
   // Schedule notifications based on user activity
   scheduleNotifications(): void {
+    // Clear existing interval if any
+    if (this.notificationInterval) {
+      clearInterval(this.notificationInterval);
+    }
+    
     // Check for daily reminders every hour
-    setInterval(async () => {
+    this.notificationInterval = setInterval(async () => {
       const now = new Date();
       const hour = now.getHours();
       
@@ -158,6 +165,14 @@ class PushNotificationService {
         await this.sendStreakReminder();
       }
     }, 60 * 60 * 1000); // Check every hour
+  }
+
+  // Stop notifications
+  stopNotifications(): void {
+    if (this.notificationInterval) {
+      clearInterval(this.notificationInterval);
+      this.notificationInterval = null;
+    }
   }
 
   // Initialize notification service

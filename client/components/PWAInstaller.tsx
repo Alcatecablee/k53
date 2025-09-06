@@ -1,15 +1,10 @@
+'use client';
 import React, { useEffect, useState } from 'react';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { 
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from './ui/dialog';
-import { Download, Smartphone, Wifi, WifiOff, Bell, BellOff, X } from 'lucide-react';
-import { BeforeInstallPromptEvent, PWAStatus } from '../types/pwa';
+import {  Button  } from './ui/button';
+import {  Badge  } from './ui/badge';
+import {  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle  } from './ui/dialog';
+import {  Download, Smartphone, Wifi, WifiOff, Bell, BellOff, X  } from 'lucide-react';
+import {  BeforeInstallPromptEvent, PWAStatus  } from '../types/pwa';
 
 export const PWAInstaller: React.FC = () => {
   const [pwaStatus, setPwaStatus] = useState<PWAStatus>({
@@ -26,11 +21,11 @@ export const PWAInstaller: React.FC = () => {
     initializePWA();
     checkOnlineStatus();
     checkNotificationPermission();
-    
+
     // Listen for online/offline events
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-    
+
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
@@ -41,15 +36,15 @@ export const PWAInstaller: React.FC = () => {
     try {
       // Check if app is installed
       const isInstalled = window.matchMedia('(display-mode: standalone)').matches ||
-                         (window.navigator as any).standalone === true;
-      
+      (window.navigator as any).standalone === true;
+
       // Check if service worker is registered
       const hasServiceWorker = 'serviceWorker' in navigator;
-      
+
       // Register service worker
       if (hasServiceWorker) {
         const registration = await navigator.serviceWorker.register('/sw.js');
-        
+
         // Listen for service worker updates
         registration.addEventListener('updatefound', () => {
           const newWorker = registration.installing;
@@ -64,7 +59,7 @@ export const PWAInstaller: React.FC = () => {
         });
       }
 
-      setPwaStatus(prev => ({
+      setPwaStatus((prev) => ({
         ...prev,
         isInstalled,
         hasServiceWorker
@@ -74,13 +69,13 @@ export const PWAInstaller: React.FC = () => {
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         setDeferredPrompt(e as BeforeInstallPromptEvent);
-        setPwaStatus(prev => ({ ...prev, canInstall: true }));
+        setPwaStatus((prev) => ({ ...prev, canInstall: true }));
         setShowInstallPrompt(true);
       });
 
       // Listen for appinstalled event
       window.addEventListener('appinstalled', () => {
-        setPwaStatus(prev => ({ ...prev, isInstalled: true, canInstall: false }));
+        setPwaStatus((prev) => ({ ...prev, isInstalled: true, canInstall: false }));
         setShowInstallPrompt(false);
         setDeferredPrompt(null);
       });
@@ -91,25 +86,25 @@ export const PWAInstaller: React.FC = () => {
   };
 
   const checkOnlineStatus = () => {
-    setPwaStatus(prev => ({ ...prev, isOnline: navigator.onLine }));
+    setPwaStatus((prev) => ({ ...prev, isOnline: navigator.onLine }));
   };
 
   const checkNotificationPermission = async () => {
     if ('Notification' in window) {
       const permission = Notification.permission;
-      setPwaStatus(prev => ({ 
-        ...prev, 
-        notificationsEnabled: permission === 'granted' 
+      setPwaStatus((prev) => ({
+        ...prev,
+        notificationsEnabled: permission === 'granted'
       }));
     }
   };
 
   const handleOnline = () => {
-    setPwaStatus(prev => ({ ...prev, isOnline: true }));
+    setPwaStatus((prev) => ({ ...prev, isOnline: true }));
   };
 
   const handleOffline = () => {
-    setPwaStatus(prev => ({ ...prev, isOnline: false }));
+    setPwaStatus((prev) => ({ ...prev, isOnline: false }));
   };
 
   const handleInstallClick = async () => {
@@ -117,13 +112,13 @@ export const PWAInstaller: React.FC = () => {
       try {
         await deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
-        
+
         if (outcome === 'accepted') {
           console.log('PWA installed successfully');
         } else {
           console.log('PWA installation dismissed');
         }
-        
+
         setDeferredPrompt(null);
         setShowInstallPrompt(false);
       } catch (error) {
@@ -135,11 +130,11 @@ export const PWAInstaller: React.FC = () => {
   const requestNotificationPermission = async () => {
     try {
       const permission = await Notification.requestPermission();
-      setPwaStatus(prev => ({ 
-        ...prev, 
-        notificationsEnabled: permission === 'granted' 
+      setPwaStatus((prev) => ({
+        ...prev,
+        notificationsEnabled: permission === 'granted'
       }));
-      
+
       if (permission === 'granted') {
         // Subscribe to push notifications
         await subscribeToPushNotifications();
@@ -153,28 +148,28 @@ export const PWAInstaller: React.FC = () => {
     try {
       const registration = await navigator.serviceWorker.ready;
       const vapidKey = process.env.VITE_VAPID_PUBLIC_KEY;
-      
+
       if (!vapidKey) {
         return; // VAPID key not available
       }
-      
+
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: vapidKey
       });
-      
+
       // Send subscription to server
       await fetch('/api/push/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(subscription)
       });
-      
+
       // Push notification subscription successful
     } catch (error) {
+
       // Push notification subscription failed
-    }
-  };
+    }};
 
   const showUpdateNotification = () => {
     if ('serviceWorker' in navigator) {
@@ -216,11 +211,11 @@ export const PWAInstaller: React.FC = () => {
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-300">Connection</span>
               <div className="flex items-center gap-2">
-                {pwaStatus.isOnline ? (
-                  <Wifi className="h-4 w-4 text-green-500" />
-                ) : (
-                  <WifiOff className="h-4 w-4 text-red-500" />
-                )}
+                {pwaStatus.isOnline ?
+                <Wifi className="h-4 w-4 text-green-500" /> :
+
+                <WifiOff className="h-4 w-4 text-red-500" />
+                }
                 <Badge variant={pwaStatus.isOnline ? "default" : "destructive"}>
                   {pwaStatus.isOnline ? "Online" : "Offline"}
                 </Badge>
@@ -229,40 +224,40 @@ export const PWAInstaller: React.FC = () => {
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-300">Notifications</span>
               <div className="flex items-center gap-2">
-                {pwaStatus.notificationsEnabled ? (
-                  <Bell className="h-4 w-4 text-green-500" />
-                ) : (
-                  <BellOff className="h-4 w-4 text-red-500" />
-                )}
+                {pwaStatus.notificationsEnabled ?
+                <Bell className="h-4 w-4 text-green-500" /> :
+
+                <BellOff className="h-4 w-4 text-red-500" />
+                }
                 <Badge variant={pwaStatus.notificationsEnabled ? "default" : "secondary"}>
                   {pwaStatus.notificationsEnabled ? "Enabled" : "Disabled"}
                 </Badge>
               </div>
             </div>
-            {!pwaStatus.notificationsEnabled && (
-              <Button 
-                onClick={requestNotificationPermission}
-                variant="outline"
-                size="sm"
-                className="w-full border-black text-slate-50 hover:bg-slate-700"
-              >
+            {!pwaStatus.notificationsEnabled &&
+            <Button
+              onClick={requestNotificationPermission}
+              variant="outline"
+              size="sm"
+              className="w-full border-black text-slate-50 hover:bg-slate-700">
+              
                 Enable Notifications
               </Button>
-            )}
-            {pwaStatus.notificationsEnabled && (
-              <Button 
-                onClick={sendTestNotification}
-                variant="outline"
-                size="sm"
-                className="w-full border-black text-slate-50 hover:bg-slate-700"
-              >
+            }
+            {pwaStatus.notificationsEnabled &&
+            <Button
+              onClick={sendTestNotification}
+              variant="outline"
+              size="sm"
+              className="w-full border-black text-slate-50 hover:bg-slate-700">
+              
                 Test Notification
               </Button>
-            )}
+            }
           </div>
         </DialogContent>
-      </Dialog>
-    );
+      </Dialog>);
+
   }
 
   if (!showInstallPrompt) {
@@ -300,16 +295,16 @@ export const PWAInstaller: React.FC = () => {
             <Button onClick={handleInstallClick} className="flex-1 bg-slate-700 text-slate-50 hover:bg-slate-600 border border-black">
               Install App
             </Button>
-            <Button 
-              onClick={() => setShowInstallPrompt(false)} 
+            <Button
+              onClick={() => setShowInstallPrompt(false)}
               variant="outline"
-              className="border-black text-slate-50 hover:bg-slate-700"
-            >
+              className="border-black text-slate-50 hover:bg-slate-700">
+              
               Later
             </Button>
           </div>
         </div>
       </DialogContent>
-    </Dialog>
-  );
-}; 
+    </Dialog>);
+
+};

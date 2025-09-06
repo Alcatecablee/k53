@@ -1,14 +1,15 @@
+'use client';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/hooks/use-toast';
-import { imageMapping, getImagesByCategory } from '@/data/imageMapping';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Button  } from '@/components/ui/button';
+import {  Badge  } from '@/components/ui/badge';
+import {  Input  } from '@/components/ui/input';
+import {  Select, SelectContent, SelectItem, SelectTrigger, SelectValue  } from '@/components/ui/select';
+import {  Checkbox  } from '@/components/ui/checkbox';
+import {  Label  } from '@/components/ui/label';
+import {  Tabs, TabsContent, TabsList, TabsTrigger  } from '@/components/ui/tabs';
+import {  useToast  } from '@/hooks/use-toast';
+import {  imageMapping, getImagesByCategory  } from '@/data/imageMapping';
 
 interface SearchFilters {
   text: string;
@@ -18,7 +19,7 @@ interface SearchFilters {
   contexts: string[];
   difficulties: string[];
   tags: string[];
-  dateRange?: { start: Date; end: Date };
+  dateRange?: {start: Date;end: Date;};
 }
 
 interface SavedSearch {
@@ -40,7 +41,7 @@ export function AdvancedImageSearch() {
     difficulties: [],
     tags: []
   });
-  
+
   const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
@@ -66,7 +67,7 @@ export function AdvancedImageSearch() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        const searchesWithDates = parsed.map((search: any) => ({
+        const searchesWithDates = parsed.map((search: unknown) => ({
           ...search,
           createdAt: new Date(search.createdAt),
           lastUsed: new Date(search.lastUsed)
@@ -78,7 +79,7 @@ export function AdvancedImageSearch() {
         toast({
           title: "Data Error",
           description: errorMessage,
-          variant: "destructive",
+          variant: "destructive"
         });
         localStorage.removeItem('k53-saved-searches');
       }
@@ -95,7 +96,7 @@ export function AdvancedImageSearch() {
       toast({
         title: "Save Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   }, [toast]);
@@ -104,23 +105,23 @@ export function AdvancedImageSearch() {
   const filteredImages = useMemo(() => {
     try {
       const allImages = Object.values(imageMapping).flat();
-      
-      return allImages.filter(image => {
+
+      return allImages.filter((image) => {
         // Text search
         if (filters.text) {
           const searchText = filters.text.toLowerCase();
-          const matchesText = 
-            image.description?.toLowerCase().includes(searchText) ||
-            image.filename.toLowerCase().includes(searchText) ||
-            image.context?.some(ctx => ctx.toLowerCase().includes(searchText));
-          
+          const matchesText =
+          image.description?.toLowerCase().includes(searchText) ||
+          image.filename.toLowerCase().includes(searchText) ||
+          image.context?.some((ctx) => ctx.toLowerCase().includes(searchText));
+
           if (!matchesText) return false;
         }
 
         // Category filter
         if (filters.categories.length > 0) {
-          const imageCategory = Object.keys(imageMapping).find(cat => 
-            imageMapping[cat as keyof typeof imageMapping]?.includes(image)
+          const imageCategory = Object.keys(imageMapping).find((cat) =>
+          imageMapping[cat as keyof typeof imageMapping]?.includes(image)
           );
           if (!imageCategory || !filters.categories.includes(imageCategory)) {
             return false;
@@ -130,8 +131,8 @@ export function AdvancedImageSearch() {
         // Color filter
         if (filters.colors.length > 0) {
           const imageColors = image.colors || [];
-          const hasMatchingColor = filters.colors.some(color => 
-            imageColors.includes(color)
+          const hasMatchingColor = filters.colors.some((color) =>
+          imageColors.includes(color)
           );
           if (!hasMatchingColor) return false;
         }
@@ -145,8 +146,8 @@ export function AdvancedImageSearch() {
         // Context filter
         if (filters.contexts.length > 0) {
           const imageContexts = image.context || [];
-          const hasMatchingContext = filters.contexts.some(context => 
-            imageContexts.includes(context)
+          const hasMatchingContext = filters.contexts.some((context) =>
+          imageContexts.includes(context)
           );
           if (!hasMatchingContext) return false;
         }
@@ -160,8 +161,8 @@ export function AdvancedImageSearch() {
         // Tag filter
         if (filters.tags.length > 0) {
           const imageTags = image.tags || [];
-          const hasMatchingTag = filters.tags.some(tag => 
-            imageTags.includes(tag)
+          const hasMatchingTag = filters.tags.some((tag) =>
+          imageTags.includes(tag)
           );
           if (!hasMatchingTag) return false;
         }
@@ -174,7 +175,7 @@ export function AdvancedImageSearch() {
       toast({
         title: "Filter Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
       return [];
     }
@@ -183,7 +184,7 @@ export function AdvancedImageSearch() {
   // Sort filtered images
   const sortedImages = useMemo(() => {
     const sorted = [...filteredImages].sort((a, b) => {
-      let aValue: any, bValue: any;
+      let aValue: unknown, bValue: unknown;
 
       switch (sortBy) {
         case 'name':
@@ -191,11 +192,11 @@ export function AdvancedImageSearch() {
           bValue = b.filename;
           break;
         case 'category':
-          aValue = Object.keys(imageMapping).find(cat => 
-            imageMapping[cat as keyof typeof imageMapping]?.includes(a)
+          aValue = Object.keys(imageMapping).find((cat) =>
+          imageMapping[cat as keyof typeof imageMapping]?.includes(a)
           ) || '';
-          bValue = Object.keys(imageMapping).find(cat => 
-            imageMapping[cat as keyof typeof imageMapping]?.includes(b)
+          bValue = Object.keys(imageMapping).find((cat) =>
+          imageMapping[cat as keyof typeof imageMapping]?.includes(b)
           ) || '';
           break;
         case 'difficulty':
@@ -241,19 +242,19 @@ export function AdvancedImageSearch() {
     toast({
       title: "Search Saved",
       description: `Search "${searchName}" has been saved.`,
-      variant: "default",
+      variant: "default"
     });
   }, [filters, savedSearches, saveSearches, toast]);
 
   // Load saved search
   const loadSavedSearch = useCallback((search: SavedSearch) => {
     setFilters(search.filters);
-    
+
     // Update last used
-    const updatedSearches = savedSearches.map(s => 
-      s.id === search.id 
-        ? { ...s, lastUsed: new Date() }
-        : s
+    const updatedSearches = savedSearches.map((s) =>
+    s.id === search.id ?
+    { ...s, lastUsed: new Date() } :
+    s
     );
     setSavedSearches(updatedSearches);
     saveSearches(updatedSearches);
@@ -261,20 +262,20 @@ export function AdvancedImageSearch() {
     toast({
       title: "Search Loaded",
       description: `Loaded search "${search.name}".`,
-      variant: "default",
+      variant: "default"
     });
   }, [savedSearches, saveSearches, toast]);
 
   // Delete saved search
   const deleteSavedSearch = useCallback((searchId: string) => {
-    const updatedSearches = savedSearches.filter(s => s.id !== searchId);
+    const updatedSearches = savedSearches.filter((s) => s.id !== searchId);
     setSavedSearches(updatedSearches);
     saveSearches(updatedSearches);
 
     toast({
       title: "Search Deleted",
       description: "Search has been deleted.",
-      variant: "default",
+      variant: "default"
     });
   }, [savedSearches, saveSearches, toast]);
 
@@ -293,13 +294,13 @@ export function AdvancedImageSearch() {
     toast({
       title: "Filters Cleared",
       description: "All filters have been cleared.",
-      variant: "default",
+      variant: "default"
     });
   }, [toast]);
 
   // Update filter
-  const updateFilter = useCallback((key: keyof SearchFilters, value: any) => {
-    setFilters(prev => ({
+  const updateFilter = useCallback((key: keyof SearchFilters, value: unknown) => {
+    setFilters((prev) => ({
       ...prev,
       [key]: value
     }));
@@ -322,18 +323,18 @@ export function AdvancedImageSearch() {
               <div className="text-red-400 text-lg font-medium">
                 {error}
               </div>
-              <Button 
+              <Button
                 onClick={() => setError(null)}
                 variant="outline"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
-              >
+                className="border-slate-600 text-slate-300 hover:bg-slate-700">
+
                 Try Again
               </Button>
             </div>
           </CardContent>
         </Card>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -360,8 +361,8 @@ export function AdvancedImageSearch() {
               placeholder="Search by description, filename, or context..."
               value={filters.text}
               onChange={(e) => updateFilter('text', e.target.value)}
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
-            />
+              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400" />
+
           </div>
 
           {/* Advanced Filters Toggle */}
@@ -369,8 +370,8 @@ export function AdvancedImageSearch() {
             <Button
               variant="outline"
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-              className="border-slate-600 text-slate-300 hover:bg-slate-700"
-            >
+              className="border-slate-600 text-slate-300 hover:bg-slate-700">
+
               {showAdvancedFilters ? 'Hide' : 'Show'} Advanced Filters
             </Button>
             
@@ -378,45 +379,45 @@ export function AdvancedImageSearch() {
               <Button
                 variant="outline"
                 onClick={clearFilters}
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
-              >
+                className="border-slate-600 text-slate-300 hover:bg-slate-700">
+
                 Clear All
               </Button>
               <Button
                 variant="outline"
                 onClick={saveCurrentSearch}
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
-              >
+                className="border-slate-600 text-slate-300 hover:bg-slate-700">
+
                 Save Search
               </Button>
             </div>
           </div>
 
           {/* Advanced Filters */}
-          {showAdvancedFilters && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {showAdvancedFilters &&
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Categories */}
               <div className="space-y-3">
                 <Label className="text-slate-300">Categories</Label>
                 <div className="space-y-2 max-h-32 overflow-y-auto">
-                  {filterOptions.categories.map(category => (
-                    <div key={category} className="flex items-center space-x-2">
+                  {filterOptions.categories.map((category) =>
+                <div key={category} className="flex items-center space-x-2">
                       <Checkbox
-                        id={`category-${category}`}
-                        checked={filters.categories.includes(category)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            updateFilter('categories', [...filters.categories, category]);
-                          } else {
-                            updateFilter('categories', filters.categories.filter(c => c !== category));
-                          }
-                        }}
-                      />
+                    id={`category-${category}`}
+                    checked={filters.categories.includes(category)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        updateFilter('categories', [...filters.categories, category]);
+                      } else {
+                        updateFilter('categories', filters.categories.filter((c) => c !== category));
+                      }
+                    }} />
+
                       <Label htmlFor={`category-${category}`} className="text-slate-300 text-sm">
                         {category.charAt(0).toUpperCase() + category.slice(1)}
                       </Label>
                     </div>
-                  ))}
+                )}
                 </div>
               </div>
 
@@ -424,24 +425,24 @@ export function AdvancedImageSearch() {
               <div className="space-y-3">
                 <Label className="text-slate-300">Colors</Label>
                 <div className="space-y-2 max-h-32 overflow-y-auto">
-                  {filterOptions.colors.map(color => (
-                    <div key={color} className="flex items-center space-x-2">
+                  {filterOptions.colors.map((color) =>
+                <div key={color} className="flex items-center space-x-2">
                       <Checkbox
-                        id={`color-${color}`}
-                        checked={filters.colors.includes(color)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            updateFilter('colors', [...filters.colors, color]);
-                          } else {
-                            updateFilter('colors', filters.colors.filter(c => c !== color));
-                          }
-                        }}
-                      />
+                    id={`color-${color}`}
+                    checked={filters.colors.includes(color)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        updateFilter('colors', [...filters.colors, color]);
+                      } else {
+                        updateFilter('colors', filters.colors.filter((c) => c !== color));
+                      }
+                    }} />
+
                       <Label htmlFor={`color-${color}`} className="text-slate-300 text-sm capitalize">
                         {color}
                       </Label>
                     </div>
-                  ))}
+                )}
                 </div>
               </div>
 
@@ -449,24 +450,24 @@ export function AdvancedImageSearch() {
               <div className="space-y-3">
                 <Label className="text-slate-300">Shapes</Label>
                 <div className="space-y-2 max-h-32 overflow-y-auto">
-                  {filterOptions.shapes.map(shape => (
-                    <div key={shape} className="flex items-center space-x-2">
+                  {filterOptions.shapes.map((shape) =>
+                <div key={shape} className="flex items-center space-x-2">
                       <Checkbox
-                        id={`shape-${shape}`}
-                        checked={filters.shapes.includes(shape)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            updateFilter('shapes', [...filters.shapes, shape]);
-                          } else {
-                            updateFilter('shapes', filters.shapes.filter(s => s !== shape));
-                          }
-                        }}
-                      />
+                    id={`shape-${shape}`}
+                    checked={filters.shapes.includes(shape)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        updateFilter('shapes', [...filters.shapes, shape]);
+                      } else {
+                        updateFilter('shapes', filters.shapes.filter((s) => s !== shape));
+                      }
+                    }} />
+
                       <Label htmlFor={`shape-${shape}`} className="text-slate-300 text-sm capitalize">
                         {shape}
                       </Label>
                     </div>
-                  ))}
+                )}
                 </div>
               </div>
 
@@ -474,24 +475,24 @@ export function AdvancedImageSearch() {
               <div className="space-y-3">
                 <Label className="text-slate-300">Contexts</Label>
                 <div className="space-y-2 max-h-32 overflow-y-auto">
-                  {filterOptions.contexts.map(context => (
-                    <div key={context} className="flex items-center space-x-2">
+                  {filterOptions.contexts.map((context) =>
+                <div key={context} className="flex items-center space-x-2">
                       <Checkbox
-                        id={`context-${context}`}
-                        checked={filters.contexts.includes(context)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            updateFilter('contexts', [...filters.contexts, context]);
-                          } else {
-                            updateFilter('contexts', filters.contexts.filter(c => c !== context));
-                          }
-                        }}
-                      />
+                    id={`context-${context}`}
+                    checked={filters.contexts.includes(context)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        updateFilter('contexts', [...filters.contexts, context]);
+                      } else {
+                        updateFilter('contexts', filters.contexts.filter((c) => c !== context));
+                      }
+                    }} />
+
                       <Label htmlFor={`context-${context}`} className="text-slate-300 text-sm capitalize">
                         {context.replace('-', ' ')}
                       </Label>
                     </div>
-                  ))}
+                )}
                 </div>
               </div>
 
@@ -499,24 +500,24 @@ export function AdvancedImageSearch() {
               <div className="space-y-3">
                 <Label className="text-slate-300">Difficulties</Label>
                 <div className="space-y-2 max-h-32 overflow-y-auto">
-                  {filterOptions.difficulties.map(difficulty => (
-                    <div key={difficulty} className="flex items-center space-x-2">
+                  {filterOptions.difficulties.map((difficulty) =>
+                <div key={difficulty} className="flex items-center space-x-2">
                       <Checkbox
-                        id={`difficulty-${difficulty}`}
-                        checked={filters.difficulties.includes(difficulty)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            updateFilter('difficulties', [...filters.difficulties, difficulty]);
-                          } else {
-                            updateFilter('difficulties', filters.difficulties.filter(d => d !== difficulty));
-                          }
-                        }}
-                      />
+                    id={`difficulty-${difficulty}`}
+                    checked={filters.difficulties.includes(difficulty)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        updateFilter('difficulties', [...filters.difficulties, difficulty]);
+                      } else {
+                        updateFilter('difficulties', filters.difficulties.filter((d) => d !== difficulty));
+                      }
+                    }} />
+
                       <Label htmlFor={`difficulty-${difficulty}`} className="text-slate-300 text-sm capitalize">
                         {difficulty}
                       </Label>
                     </div>
-                  ))}
+                )}
                 </div>
               </div>
 
@@ -524,28 +525,28 @@ export function AdvancedImageSearch() {
               <div className="space-y-3">
                 <Label className="text-slate-300">Tags</Label>
                 <div className="space-y-2 max-h-32 overflow-y-auto">
-                  {filterOptions.tags.map(tag => (
-                    <div key={tag} className="flex items-center space-x-2">
+                  {filterOptions.tags.map((tag) =>
+                <div key={tag} className="flex items-center space-x-2">
                       <Checkbox
-                        id={`tag-${tag}`}
-                        checked={filters.tags.includes(tag)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            updateFilter('tags', [...filters.tags, tag]);
-                          } else {
-                            updateFilter('tags', filters.tags.filter(t => t !== tag));
-                          }
-                        }}
-                      />
+                    id={`tag-${tag}`}
+                    checked={filters.tags.includes(tag)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        updateFilter('tags', [...filters.tags, tag]);
+                      } else {
+                        updateFilter('tags', filters.tags.filter((t) => t !== tag));
+                      }
+                    }} />
+
                       <Label htmlFor={`tag-${tag}`} className="text-slate-300 text-sm capitalize">
                         {tag}
                       </Label>
                     </div>
-                  ))}
+                )}
                 </div>
               </div>
             </div>
-          )}
+          }
         </CardContent>
       </Card>
 
@@ -575,8 +576,8 @@ export function AdvancedImageSearch() {
               variant="outline"
               size="sm"
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-              className="border-slate-600 text-slate-300 hover:bg-slate-700"
-            >
+              className="border-slate-600 text-slate-300 hover:bg-slate-700">
+
               {sortOrder === 'asc' ? '↑' : '↓'}
             </Button>
           </div>
@@ -588,16 +589,16 @@ export function AdvancedImageSearch() {
               variant={viewMode === 'grid' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setViewMode('grid')}
-              className={viewMode === 'grid' ? 'bg-blue-600' : 'border-slate-600 text-slate-300 hover:bg-slate-700'}
-            >
+              className={viewMode === 'grid' ? 'bg-blue-600' : 'border-slate-600 text-slate-300 hover:bg-slate-700'}>
+
               Grid
             </Button>
             <Button
               variant={viewMode === 'list' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setViewMode('list')}
-              className={viewMode === 'list' ? 'bg-blue-600' : 'border-slate-600 text-slate-300 hover:bg-slate-700'}
-            >
+              className={viewMode === 'list' ? 'bg-blue-600' : 'border-slate-600 text-slate-300 hover:bg-slate-700'}>
+
               List
             </Button>
           </div>
@@ -605,23 +606,23 @@ export function AdvancedImageSearch() {
       </div>
 
       {/* Saved Searches */}
-      {savedSearches.length > 0 && (
-        <Card className="bg-slate-800 border-slate-600">
+      {savedSearches.length > 0 &&
+      <Card className="bg-slate-800 border-slate-600">
           <CardHeader>
             <CardTitle className="text-white">Saved Searches</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {savedSearches.map(search => (
-                <div key={search.id} className="p-4 bg-slate-700 rounded-lg border border-slate-600">
+              {savedSearches.map((search) =>
+            <div key={search.id} className="p-4 bg-slate-700 rounded-lg border border-slate-600">
                   <div className="flex justify-between items-start mb-2">
                     <h4 className="text-white font-medium">{search.name}</h4>
                     <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => deleteSavedSearch(search.id)}
-                      className="border-red-600 text-red-400 hover:bg-red-900/20"
-                    >
+                  variant="outline"
+                  size="sm"
+                  onClick={() => deleteSavedSearch(search.id)}
+                  className="border-red-600 text-red-400 hover:bg-red-900/20">
+
                       Delete
                     </Button>
                   </div>
@@ -629,33 +630,33 @@ export function AdvancedImageSearch() {
                     Last used: {search.lastUsed.toLocaleDateString()}
                   </p>
                   <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => loadSavedSearch(search)}
-                    className="w-full border-slate-600 text-slate-300 hover:bg-slate-600"
-                  >
+                variant="outline"
+                size="sm"
+                onClick={() => loadSavedSearch(search)}
+                className="w-full border-slate-600 text-slate-300 hover:bg-slate-600">
+
                     Load Search
                   </Button>
                 </div>
-              ))}
+            )}
             </div>
           </CardContent>
         </Card>
-      )}
+      }
 
       {/* Results */}
-      {sortedImages.length > 0 ? (
-        <div className={viewMode === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4' : 'space-y-4'}>
-          {sortedImages.map((image, index) => (
-            <Card key={image.id || index} className="bg-slate-800 border-slate-600 hover:border-slate-500 transition-colors">
+      {sortedImages.length > 0 ?
+      <div className={viewMode === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4' : 'space-y-4'}>
+          {sortedImages.map((image, index) =>
+        <Card key={image.id || index} className="bg-slate-800 border-slate-600 hover:border-slate-500 transition-colors">
               <CardContent className="p-4">
                 <div className="aspect-square relative overflow-hidden rounded-lg border border-slate-600 mb-3">
                   <img
-                    src={image.path}
-                    alt={image.description || image.filename}
-                    className="w-full h-full object-contain"
-                    loading="lazy"
-                  />
+                src={image.path}
+                alt={image.description || image.filename}
+                className="w-full h-full object-contain"
+                loading="lazy" />
+
                 </div>
                 
                 <div className="space-y-2">
@@ -664,24 +665,24 @@ export function AdvancedImageSearch() {
                   </h4>
                   
                   <div className="flex flex-wrap gap-1">
-                    {image.difficulty && (
-                      <Badge variant="outline" className="text-xs">
+                    {image.difficulty &&
+                <Badge variant="outline" className="text-xs">
                         {image.difficulty}
                       </Badge>
-                    )}
-                    {image.context?.slice(0, 2).map((ctx, i) => (
-                      <Badge key={i} variant="outline" className="text-xs">
+                }
+                    {image.context?.slice(0, 2).map((ctx, i) =>
+                <Badge key={i} variant="outline" className="text-xs">
                         {ctx}
                       </Badge>
-                    ))}
+                )}
                   </div>
                 </div>
               </CardContent>
             </Card>
-          ))}
-        </div>
-      ) : (
-        <Card className="bg-slate-800 border-slate-600">
+        )}
+        </div> :
+
+      <Card className="bg-slate-800 border-slate-600">
           <CardContent className="p-12">
             <div className="text-center space-y-4">
               <p className="text-slate-300 text-lg">
@@ -691,16 +692,19 @@ export function AdvancedImageSearch() {
                 Try adjusting your filters or search terms.
               </p>
               <Button
-                onClick={clearFilters}
-                variant="outline"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
-              >
+              onClick={clearFilters}
+              variant="outline"
+              className="border-slate-600 text-slate-300 hover:bg-slate-700">
+
                 Clear All Filters
               </Button>
             </div>
           </CardContent>
         </Card>
-      )}
-    </div>
-  );
-} 
+      }
+    </div>);
+
+}
+
+
+export default AdvancedImageSearch;

@@ -1,116 +1,109 @@
-import { supabase, supabaseClient } from "@/lib/supabase";
-import {
-  SUBSCRIPTION_PLANS,
-  type UserSubscription,
-  type DailyUsage,
-  type SubscriptionPlan,
-} from "@/types/subscription";
-import { isOfflineMode } from "@/services/networkService";
-import { logWarning } from "@/services/notificationService";
+import { supabase, supabaseClient } from '@/lib/supabase';
+import { SUBSCRIPTION_PLANS, UserSubscription, DailyUsage, SubscriptionPlan } from '@/types/subscription';
+import { isOfflineMode } from '@/services/networkService';
+import { logWarning } from '@/services/notificationService';
+import type { User } from '@supabase/supabase-js';
 
 // Get user's current subscription
 export const getUserSubscription = async (): Promise<UserSubscription | null> => {
   try {
     // Check if we have a valid user session
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
+    const response = await supabase.auth.getUser();
+    const user = response.data?.user;
+    
+    if (response.error || !user?.id) {
+      console.warn('No authenticated user found:', response.error);
       return null;
     }
 
-    // Try to get subscription from database
+    // Check if we're in offline mode
+    if (isOfflineMode()) {
+      console.warn('Offline mode detected, returning null subscription');
+      return null;
+    }
+
+    // Check if supabaseClient is available
+    if (!supabaseClient) {
+      console.warn('Supabase client not available');
+      return null;
+    }
+
+    // Get subscription from database
     const { data: subscription, error } = await supabaseClient
-      .from("user_subscriptions")
-      .select("*")
-      .eq("user_id", user.id)
+      .from('user_subscriptions')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('status', 'active')
       .single();
 
-    if (subscription && !error) {
-      return subscription as UserSubscription;
-    }
-
-    // If no subscription exists, create a default free subscription
-    const defaultSubscription = {
-      user_id: user.id,
-      plan_type: "free" as const,
-      status: "active" as const,
-      price_cents: 0,
-      currency: "ZAR",
-      billing_cycle: "monthly" as const,
-      current_period_start: new Date().toISOString(),
-      current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
-    };
-
-    const { data: newSubscription, error: insertError } = await supabaseClient
-      .from("user_subscriptions")
-      .insert(defaultSubscription)
-      .select()
-      .single();
-
-    if (newSubscription && !insertError) {
-      return newSubscription as UserSubscription;
-    }
-
-    // Fallback to default subscription if database fails
-    return {
-      id: `free-${user.id}`,
-      user_id: user.id,
-      plan_type: "free" as const,
-      status: "active" as const,
-      price_cents: 0,
-      currency: "ZAR",
-      billing_cycle: "monthly" as const,
-      current_period_start: new Date().toISOString(),
-      current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-  } catch (error) {
-    console.error("Error getting user subscription:", error);
-    
-    // Handle specific error codes
-    if (error && typeof error === 'object' && 'code' in error) {
-      const errorCode = (error as any).code;
-      if (errorCode === '406' || errorCode === '400' || errorCode === '409') {
-        console.warn("Database access issue - using fallback subscription");
-        
-        // If it's a 406 error, the user might have an invalid session
-        if (errorCode === '406') {
-          console.warn("406 error detected - user session may be invalid");
-          // Optionally trigger a re-authentication
-          // await supabase.auth.refreshSession();
-        }
+    if (error) {
+      // No subscription found is not necessarily an error
+      if (error.code === 'PGRST116') {
+        console.log('No active subscription found for user');
+        return null;
       }
+      throw error;
     }
-    
+
+    return subscription as UserSubscription;
+  } catch (error) {
+    console.error('Error in getUserSubscription:', error);
     return null;
   }
 };
 
-// Get user's daily usage
-export const getDailyUsage = async (
-  date?: string,
-): Promise<DailyUsage | null> => {
+// Check if user has an active subscription
+export const hasActiveSubscription = async (): Promise<boolean> => {
+  const subscription = await getUserSubscription();
+  return subscription !== null && subscription.status === 'active';
+};
+
+// Check if user can access scenarios based on their subscription
+export const canAccessScenarios = async (): Promise<boolean> => {
   try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) return null;
+    const subscription = await getUserSubscription();
+    
+    if (!subscription) {
+      // Free tier users can access scenarios with daily limits
+      const usage = await getDailyUsage();
+      return usage ? usage.scenarios_used < 5 : true;
+    }
+
+    // Premium users check their specific limits
+    const plan = getSubscriptionPlan(subscription.plan_type);
+    if (!plan) return false;
+
+    // Check if subscription is active and not expired
+    if (subscription.status !== 'active') return false;
+    
+    // Check expiration if current_period_end exists
+    if (subscription.current_period_end) {
+      const expirationDate = new Date(subscription.current_period_end);
+      if (expirationDate < new Date()) return false;
+    }
+
+    // Check daily limits
+    const usage = await getDailyUsage();
+    if (!usage) return true;
+
+    return plan.max_scenarios_per_day === -1 || usage.scenarios_used < plan.max_scenarios_per_day;
+  } catch (error) {
+    console.error('Error checking scenario access:', error);
+    return false;
+  }
+};
+
+// Get user's daily usage for a specific date
+export const getDailyUsage = async (date?: string): Promise<DailyUsage | null> => {
+  try {
+    const response = await supabase.auth.getUser();
+    const user = response.data?.user;
+    
+    if (!user?.id) return null;
 
     const targetDate = date || new Date().toISOString().split("T")[0];
 
-    // Try to get usage from database first
-    const { data: dbUsage, error } = await supabaseClient
-      .from("daily_usage")
-      .select("*")
-      .eq("user_id", user.id)
-      .eq("date", targetDate)
-      .single();
-
-    if (dbUsage && !error) {
-      return dbUsage as DailyUsage;
-    }
-
-    // If no record exists, create one
+    // Default usage object
     const defaultUsage: DailyUsage = {
       id: `usage-${user.id}-${targetDate}`,
       user_id: user.id,
@@ -118,204 +111,232 @@ export const getDailyUsage = async (
       scenarios_used: 0,
       questions_used: 0,
       max_scenarios: 5, // Free tier default
-      max_questions: 10,
+      max_questions: 10
     };
 
-    const { data: newUsage, error: insertError } = await supabaseClient
-      .from("daily_usage")
-      .insert(defaultUsage)
-      .select()
-      .single();
+    // Check if supabaseClient is available
+    if (!supabaseClient) {
+      console.warn('Supabase client not available, using localStorage fallback');
+      const storageKey = `daily_usage_${user.id}_${targetDate}`;
+      const stored = localStorage.getItem(storageKey);
+      
+      if (stored) {
+        try {
+          return JSON.parse(stored) as DailyUsage;
+        } catch (parseError) {
+          console.warn("Failed to parse stored usage data:", parseError);
+        }
+      }
+      
+      localStorage.setItem(storageKey, JSON.stringify(defaultUsage));
+      return defaultUsage;
+    }
 
-    if (newUsage && !insertError) {
-      return newUsage as DailyUsage;
+    // Try to get usage from database first
+    try {
+      const { data: dbUsage, error } = await supabaseClient
+        .from("daily_usage")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("date", targetDate)
+        .maybeSingle();
+
+      if (dbUsage && !error) {
+        return dbUsage as DailyUsage;
+      }
+
+      // If no record exists, create one
+      const insertPayload = {
+        user_id: user.id,
+        date: targetDate,
+        scenarios_used: 0,
+        questions_used: 0,
+        max_scenarios: 5,
+        max_questions: 10
+      };
+      const { data: newUsage, error: insertError } = await supabaseClient
+        .from("daily_usage")
+        .insert(insertPayload)
+        .select()
+        .single();
+
+      if (newUsage && !insertError) {
+        return newUsage as DailyUsage;
+      }
+
+    } catch (dbError) {
+      console.warn("Database access failed, falling back to localStorage:", dbError);
     }
 
     // Fallback to localStorage if database fails
     const storageKey = `daily_usage_${user.id}_${targetDate}`;
     const stored = localStorage.getItem(storageKey);
-    
+
     if (stored) {
       try {
-        return JSON.parse(stored);
-      } catch {
-        // If stored data is corrupted, use default
-        localStorage.setItem(storageKey, JSON.stringify(defaultUsage));
-        return defaultUsage;
+        return JSON.parse(stored) as DailyUsage;
+      } catch (parseError) {
+        console.warn("Failed to parse stored usage data:", parseError);
       }
     }
 
-    // Store and return default usage
+    // Save default to localStorage and return it
     localStorage.setItem(storageKey, JSON.stringify(defaultUsage));
     return defaultUsage;
 
-    // Create new daily usage record in localStorage as fallback
-    const usage: DailyUsage = {
-      id: `usage-${user.id}-${targetDate}`,
-      user_id: user.id,
-      date: targetDate,
-      scenarios_used: 0,
-      questions_used: 0,
-      max_scenarios: 5, // Free tier default
-      max_questions: 10,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-
-    localStorage.setItem(storageKey, JSON.stringify(usage));
-    return usage;
   } catch (error) {
-    logWarning("Error getting daily usage", { error, context: "getDailyUsage" });
-    
-    // Handle specific error codes
-    if (error && typeof error === 'object' && 'code' in error) {
-      const errorCode = (error as any).code;
-      if (errorCode === '406' || errorCode === '400' || errorCode === '409') {
-        console.warn("Database access issue - using localStorage fallback");
-        
-        // If it's a 406 error, the user might have an invalid session
-        if (errorCode === '406') {
-          console.warn("406 error detected - user session may be invalid");
-          // Optionally trigger a re-authentication
-          // await supabase.auth.refreshSession();
-        }
-      }
-    }
-    
+    console.error("Error getting daily usage:", error);
     return null;
   }
 };
 
-// Update daily usage
-export const updateDailyUsage = async (
-  type: "scenarios" | "questions",
-  increment: number = 1,
-): Promise<DailyUsage | null> => {
+// Update user's daily usage
+export const updateDailyUsage = async (usage: Partial<DailyUsage>): Promise<boolean> => {
   try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) return null;
+    const response = await supabase.auth.getUser();
+    const user = response.data?.user;
+    
+    if (!user?.id) return false;
 
     const today = new Date().toISOString().split("T")[0];
-    let usage = await getDailyUsage(today);
+    const storageKey = `daily_usage_${user.id}_${today}`;
 
-    if (!usage) return null;
-
-    // Update usage count
-    if (type === "scenarios") {
-      usage.scenarios_used += increment;
-    } else {
-      usage.questions_used += increment;
+    // Check if supabaseClient is available
+    if (!supabaseClient) {
+      console.warn('Supabase client not available, using localStorage fallback');
+      const currentUsage = await getDailyUsage(today);
+      const updatedUsage = { ...currentUsage, ...usage };
+      localStorage.setItem(storageKey, JSON.stringify(updatedUsage));
+      return true;
     }
-
-    usage.updated_at = new Date().toISOString();
 
     // Try to update in database first
-    const { data: updatedUsage, error } = await supabaseClient
-      .from("daily_usage")
-      .update({
-        scenarios_used: usage.scenarios_used,
-        questions_used: usage.questions_used,
-        updated_at: usage.updated_at,
-      })
-      .eq("user_id", user.id)
-      .eq("date", today)
-      .select()
-      .single();
+    try {
+      const { error } = await supabaseClient
+        .from("daily_usage")
+        .upsert({
+          user_id: user.id,
+          date: today,
+          ...usage,
+          updated_at: new Date().toISOString()
+        });
 
-    if (updatedUsage && !error) {
-      return updatedUsage as DailyUsage;
+      if (!error) {
+        return true;
+      }
+    } catch (dbError) {
+      console.warn("Database update failed, falling back to localStorage:", dbError);
     }
 
-    // Fallback to localStorage if database fails
-    const storageKey = `daily_usage_${user.id}_${today}`;
-    localStorage.setItem(storageKey, JSON.stringify(usage));
+    // Fallback to localStorage
+    const currentUsage = await getDailyUsage(today);
+    const updatedUsage = { ...currentUsage, ...usage };
+    localStorage.setItem(storageKey, JSON.stringify(updatedUsage));
+    return true;
 
-    return usage;
   } catch (error) {
-    logWarning("Error updating daily usage", { error, context: "updateDailyUsage" });
-    return null;
+    console.error("Error updating daily usage:", error);
+    return false;
   }
-};
-
-// Check if user can access scenarios
-// NOTE: Question-based assessments (Practice & Official) are ALWAYS FREE and UNLIMITED for ALL users
-// Only scenario-based assessments have usage limits based on subscription tier
-export const canAccessScenarios = async (): Promise<{
-  canAccess: boolean;
-  remaining: number;
-  isSubscribed: boolean;
-}> => {
-  try {
-    const [subscription, usage] = await Promise.all([
-      getUserSubscription(),
-      getDailyUsage(),
-    ]);
-
-    // Check if user has active subscription
-    const isSubscribed =
-      subscription?.plan_type !== "free" && subscription?.status === "active";
-
-    if (isSubscribed) {
-      return { canAccess: true, remaining: -1, isSubscribed: true }; // Unlimited
-    }
-
-    // Free user - check daily limits
-    const maxScenarios = usage?.max_scenarios || 5;
-    const used = usage?.scenarios_used || 0;
-    const remaining = Math.max(0, maxScenarios - used);
-
-    return {
-      canAccess: remaining > 0,
-      remaining,
-      isSubscribed: false,
-    };
-  } catch (error) {
-    logWarning("Error checking scenario access", { error, context: "canAccessScenarios" });
-    return { canAccess: true, remaining: 5, isSubscribed: false }; // Fallback to allow access
-  }
-};
-
-// Get subscription plan by ID
-export const getSubscriptionPlan = (
-  planId: string,
-): SubscriptionPlan | null => {
-  return SUBSCRIPTION_PLANS.find((plan) => plan.id === planId) || null;
 };
 
 // Format price for display
-export const formatPrice = (
-  priceCents: number,
-  currency: string = "ZAR",
-): string => {
-  const amount = priceCents / 100;
-  if (currency === "ZAR") {
-    return `R${amount.toFixed(0)}`;
-  }
-  return `${currency} ${amount.toFixed(2)}`;
+export const formatPrice = (priceCents: number): string => {
+  return new Intl.NumberFormat('en-ZA', {
+    style: 'currency',
+    currency: 'ZAR'
+  }).format(priceCents / 100);
 };
 
-// Check if it's a new day (reset usage)
-export const isNewDay = (lastUsageDate: string): boolean => {
-  const today = new Date().toISOString().split("T")[0];
-  return lastUsageDate !== today;
+// Get subscription plan by ID
+export const getSubscriptionPlan = (planId: string): SubscriptionPlan | null => {
+  return SUBSCRIPTION_PLANS.find(plan => plan.id === planId) || null;
 };
 
-// Get user's purchased scenario packs
-export const getUserScenarioPacks = async (): Promise<string[]> => {
+// Check if user has reached daily limits
+export const hasReachedDailyLimit = async (type: 'scenarios' | 'questions'): Promise<boolean> => {
   try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) return [];
+    const usage = await getDailyUsage();
+    if (!usage) return false;
 
-    // For now, return empty array since we don't have the database set up
-    // In production, this would query the user_purchases table
-    return [];
+    const subscription = await getUserSubscription();
+    if (!subscription) {
+      // Free tier limits
+      return type === 'scenarios' ? usage.scenarios_used >= 5 : usage.questions_used >= 10;
+    }
+
+    // Premium users have higher limits
+    const plan = getSubscriptionPlan(subscription.plan_type);
+    if (!plan) return false;
+    const limit = type === 'scenarios' ? plan.max_scenarios_per_day : plan.max_questions_per_day;
+    if (limit === -1) return false;
+    const used = type === 'scenarios' ? usage.scenarios_used : usage.questions_used;
+
+    return used >= limit;
   } catch (error) {
-    logWarning("Error getting user scenario packs", { error, context: "getUserScenarioPacks" });
-    return [];
+    console.error('Error checking daily limits:', error);
+    return false;
+  }
+};
+
+// Increment usage counter
+export const incrementUsage = async (type: 'scenarios' | 'questions'): Promise<boolean> => {
+  try {
+    const usage = await getDailyUsage();
+    if (!usage) return false;
+
+    const updatedUsage = {
+      ...usage,
+      [type === 'scenarios' ? 'scenarios_used' : 'questions_used']: 
+        (usage[type === 'scenarios' ? 'scenarios_used' : 'questions_used'] || 0) + 1
+    };
+
+    return await updateDailyUsage(updatedUsage);
+  } catch (error) {
+    console.error('Error incrementing usage:', error);
+    return false;
+  }
+};
+
+// Reset daily usage (for testing or admin purposes)
+export const resetDailyUsage = async (): Promise<boolean> => {
+  try {
+    const response = await supabase.auth.getUser();
+    const user = response.data?.user;
+    
+    if (!user?.id) return false;
+
+    const today = new Date().toISOString().split("T")[0];
+    const storageKey = `daily_usage_${user.id}_${today}`;
+
+    // Check if supabaseClient is available
+    if (!supabaseClient) {
+      localStorage.removeItem(storageKey);
+      return true;
+    }
+
+    // Try to reset in database
+    try {
+      const { error } = await supabaseClient
+        .from("daily_usage")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("date", today);
+
+      if (!error) {
+        localStorage.removeItem(storageKey);
+        return true;
+      }
+    } catch (dbError) {
+      console.warn("Database reset failed, falling back to localStorage:", dbError);
+    }
+
+    // Fallback to localStorage
+    localStorage.removeItem(storageKey);
+    return true;
+  } catch (error) {
+    console.error('Error resetting daily usage:', error);
+    return false;
   }
 };
 
@@ -323,11 +344,8 @@ export const getUserScenarioPacks = async (): Promise<string[]> => {
 export const hasPremiumAccess = async (): Promise<boolean> => {
   try {
     const subscription = await getUserSubscription();
-    
-    // Check if user has active premium subscription
     const isPremium = subscription?.plan_type === "premium" && subscription?.status === "active";
-    
-    return isPremium;
+    return Boolean(isPremium);
   } catch (error) {
     logWarning("Error checking premium access", { error, context: "hasPremiumAccess" });
     return false;
@@ -338,11 +356,8 @@ export const hasPremiumAccess = async (): Promise<boolean> => {
 export const hasPaidSubscription = async (): Promise<boolean> => {
   try {
     const subscription = await getUserSubscription();
-    
-    // Check if user has any active paid subscription
-    const isPaid = subscription?.plan_type !== "free" && subscription?.status === "active";
-    
-    return isPaid;
+    const isPaid = subscription != null && subscription.plan_type !== "free" && subscription.status === "active";
+    return Boolean(isPaid);
   } catch (error) {
     logWarning("Error checking paid subscription", { error, context: "hasPaidSubscription" });
     return false;

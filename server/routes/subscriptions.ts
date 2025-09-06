@@ -40,7 +40,7 @@ const requireAuth: RequestHandler = (req, res, next) => {
 };
 
 // Validate scenario access for a user
-export const validateScenarioAccess: RequestHandler = async (req, res) => {
+export const validateScenarioAccess: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -53,7 +53,7 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
     }
 
     const userId = (req as any).user?.id;
-    if (!userId) {
+    if (!_userId) {
       return res.status(401).json({ error: "User not authenticated" });
     }
 
@@ -97,7 +97,7 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
       .single();
 
     let currentUsage = usage;
-    if (!currentUsage) {
+    if (!_currentUsage) {
       // Create new usage record for today
       const { data: newUsage } = await db
         .from("daily_usage")
@@ -139,7 +139,7 @@ export const validateScenarioAccess: RequestHandler = async (req, res) => {
 };
 
 // Record scenario usage
-export const recordScenarioUsage: RequestHandler = async (req, res) => {
+export const recordScenarioUsage: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -151,7 +151,7 @@ export const recordScenarioUsage: RequestHandler = async (req, res) => {
     }
 
     const userId = (req as any).user?.id;
-    if (!userId) {
+    if (!_userId) {
       return res.status(401).json({ error: "User not authenticated" });
     }
 

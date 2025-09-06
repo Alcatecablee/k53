@@ -1,0 +1,102 @@
+'use client';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
+import {  supabase  } from '@/lib/supabaseWrapper';
+
+interface AuthContextType {
+  user: User | null;
+  loading: boolean;
+  signOut: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function AuthProvider({ children }: {children: React.ReactNode;}) {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    let subscription: any = null;
+
+    // Get initial session - wrapper handles all errors gracefully
+    const initAuth = async () => {
+      try {
+        const {
+          data: { session }
+        } = await supabase.auth.getSession();
+        if (isMounted) {
+          setUser(session?.user ?? null);
+        }
+      } catch (error) {
+        // [NeuroLint] Removed console.warn: 
+          "Auth initialization error, continuing in offline mode:",
+          error
+        
+        if (isMounted) {
+          setUser(null);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    initAuth();
+
+    // Listen for auth changes - wrapper handles all errors
+    try {
+      const result = supabase.auth.onAuthStateChange((_event, session) => {
+        if (isMounted) {
+          setUser(session?.user ?? null);
+          setLoading(false);
+        }
+      });
+      subscription = result?.data?.subscription;
+    } catch (error) {
+      // [NeuroLint] Removed console.warn: "Auth state change listener error:", error
+      if (isMounted) {
+        setLoading(false);
+      }
+    }
+
+    return () => {
+      isMounted = false;
+      try {
+        if (subscription?.unsubscribe) {
+          subscription.unsubscribe();
+        }
+      } catch (error) {
+        // [NeuroLint] Removed console.warn: "Error unsubscribing from auth changes:", error
+      }
+    };
+  }, []);
+
+  const signOut = async () => {
+    try {
+      // Wrapper handles all errors, just clear local state
+      await supabase.auth.signOut();
+    } catch (error) {
+      // [NeuroLint] Removed console.warn: "Sign out error:", error
+    } finally {
+      setUser(null);
+    }
+  };
+
+  const value = {
+    user,
+    loading,
+    signOut
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}

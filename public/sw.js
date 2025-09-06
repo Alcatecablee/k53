@@ -8,59 +8,59 @@ const isDevelopment = self.location.hostname === 'localhost' || self.location.ho
 
 // Core files to cache immediately
 const STATIC_FILES = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/client/App.tsx',
-  '/client/global.css',
-  '/images/pwa/icon-192x192.svg',
-  '/images/pwa/icon-512x512.svg',
-  '/images/pwa/icon-72x72.svg'
-];
+'/',
+'/index.html',
+'/manifest.json',
+'/client/App.tsx',
+'/client/global.css',
+'/images/pwa/icon-192x192.svg',
+'/images/pwa/icon-512x512.svg',
+'/images/pwa/icon-72x72.svg'];
+
 
 // API endpoints to cache
 const API_ENDPOINTS = [
-  '/api/scenarios',
-  '/api/progress',
-  '/api/achievements',
-  '/api/user',
-  '/api/analytics'
-];
+'/api/scenarios',
+'/api/progress',
+'/api/achievements',
+'/api/user',
+'/api/analytics'];
+
 
 // Install event - cache static files
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => {
-        return cache.addAll(STATIC_FILES);
-      })
-      .then(() => {
-        return self.skipWaiting();
-      })
-      .catch((error) => {
-        console.error('Service Worker install failed:', error);
-      })
+    caches.open(STATIC_CACHE).
+    then((cache) => {
+      return cache.addAll(STATIC_FILES);
+    }).
+    then(() => {
+      return self.skipWaiting();
+    }).
+    catch((error) => {
+      console.error('Service Worker install failed:', error);
+    })
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (cacheName !== STATIC_CACHE && 
-                cacheName !== DYNAMIC_CACHE && 
-                cacheName !== API_CACHE) {
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      })
-      .then(() => {
-        return self.clients.claim();
-      })
+    caches.keys().
+    then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== STATIC_CACHE &&
+          cacheName !== DYNAMIC_CACHE &&
+          cacheName !== API_CACHE) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).
+    then(() => {
+      return self.clients.claim();
+    })
   );
 });
 
@@ -75,12 +75,12 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
 
   // Skip Supabase and other external API requests
-  if (url.hostname.includes('supabase.co') || 
-      url.hostname.includes('supabase.com') ||
-      url.hostname.includes('googleapis.com') ||
-      url.hostname.includes('gstatic.com') ||
-      url.hostname.includes('google-analytics.com') ||
-      url.hostname.includes('googletagmanager.com')) {
+  if (url.hostname.includes('supabase.co') ||
+  url.hostname.includes('supabase.com') ||
+  url.hostname.includes('googleapis.com') ||
+  url.hostname.includes('gstatic.com') ||
+  url.hostname.includes('google-analytics.com') ||
+  url.hostname.includes('googletagmanager.com')) {
     // Let these requests pass through without service worker interference
     return;
   }
@@ -106,7 +106,7 @@ async function handleApiRequest(request) {
   try {
     // Try network first
     const networkResponse = await fetch(request);
-    
+
     if (networkResponse.ok) {
       // Cache successful responses
       const cache = await caches.open(API_CACHE);
@@ -114,24 +114,24 @@ async function handleApiRequest(request) {
       return networkResponse;
     }
   } catch (error) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Network failed, try cache
-  }
-
-  // Fallback to cache
-  const cachedResponse = await caches.match(request);
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-
-  // Return offline response for API calls
-  return new Response(
-    JSON.stringify({ 
-      error: 'Offline mode', 
-      message: 'Please check your connection and try again',
-      timestamp: Date.now()
-    }),
-    {
-      status: 503,
+  } // Fallback to cache
+  const cachedResponse = await caches.match(request);if (cachedResponse) {return cachedResponse;} // Return offline response for API calls
+  return new Response(JSON.stringify({ error: 'Offline mode', message: 'Please check your connection and try again', timestamp: Date.now() }), { status: 503,
       statusText: 'Service Unavailable',
       headers: { 'Content-Type': 'application/json' }
     }
@@ -141,17 +141,17 @@ async function handleApiRequest(request) {
 // Handle static requests (CSS, JS, images, etc.)
 async function handleStaticRequest(request) {
   // Skip chrome-extension and other unsupported schemes
-  if (request.url.startsWith('chrome-extension://') || 
-      request.url.startsWith('moz-extension://') ||
-      request.url.startsWith('safari-extension://') ||
-      request.url.startsWith('ms-browser-extension://')) {
+  if (request.url.startsWith('chrome-extension://') ||
+  request.url.startsWith('moz-extension://') ||
+  request.url.startsWith('safari-extension://') ||
+  request.url.startsWith('ms-browser-extension://')) {
     return new Response('Unsupported scheme', { status: 400 });
   }
 
   try {
     // Try network
     const networkResponse = await fetch(request);
-    
+
     if (networkResponse.ok) {
       // Cache successful responses
       const cache = await caches.open(DYNAMIC_CACHE);
@@ -159,24 +159,24 @@ async function handleStaticRequest(request) {
       return networkResponse;
     }
   } catch (error) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Network failed
-  }
-
-  // Return offline page for navigation requests
-  if (request.mode === 'navigate') {
-    return caches.match('/index.html');
-  }
-
-  return new Response('Offline', { status: 503 });
-}
-
-// Background sync for offline actions
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'background-sync') {
-    event.waitUntil(performBackgroundSync());
-  }
-});
-
+  } // Return offline page for navigation requests
+  if (request.mode === 'navigate') {return caches.match('/index.html');}return new Response('Offline', { status: 503 });} // Background sync for offline actions
+self.addEventListener('sync', (event) => {if (event.tag === 'background-sync') {event.waitUntil(performBackgroundSync());}});
 // Background sync implementation
 async function performBackgroundSync() {
   try {
@@ -210,17 +210,17 @@ self.addEventListener('push', (event) => {
       primaryKey: 1
     },
     actions: [
-      {
-        action: 'practice',
-        title: 'Start Practice',
-        icon: '/images/pwa/shortcut-practice.svg'
-      },
-      {
-        action: 'dismiss',
-        title: 'Dismiss',
-        icon: '/images/pwa/icon-72x72.svg'
-      }
-    ]
+    {
+      action: 'practice',
+      title: 'Start Practice',
+      icon: '/images/pwa/shortcut-practice.svg'
+    },
+    {
+      action: 'dismiss',
+      title: 'Dismiss',
+      icon: '/images/pwa/icon-72x72.svg'
+    }]
+
   };
 
   event.waitUntil(
@@ -237,28 +237,28 @@ self.addEventListener('notificationclick', (event) => {
       clients.openWindow('/practice')
     );
   } else if (event.action === 'dismiss') {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Just close the notification
-  } else {
-    // Default action - open the app
-    event.waitUntil(
-      clients.openWindow('/')
-    );
-  }
-});
-
-// Helper functions for background sync
-async function getStoredProgress() {
-  // Implementation for getting stored progress data
-  return null;
-}
-
-async function syncProgressToServer(progressData) {
-  // Implementation for syncing progress to server
-  return fetch('/api/progress', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(progressData)
-  });
+  } else {// Default action - open the app
+    event.waitUntil(clients.openWindow('/'));}}); // Helper functions for background sync
+async function getStoredProgress() {// Implementation for getting stored progress data
+  return null;}async function syncProgressToServer(progressData) {// Implementation for syncing progress to server
+  return fetch('/api/progress', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(progressData)
+    });
 }
 
 async function getStoredAchievements() {
@@ -276,26 +276,26 @@ async function syncAchievementsToServer(achievementData) {
 }
 
 async function clearStoredData() {
-  // Implementation for clearing stored data after sync
-}
 
-// Message handling for communication with main thread
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-  
-  if (event.data && event.data.type === 'GET_VERSION') {
-    // Check if ports are available before posting message
-    if (event.ports && event.ports.length > 0) {
-      event.ports[0].postMessage({ version: CACHE_NAME });
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Implementation for clearing stored data after sync
+} // Message handling for communication with main thread
+self.addEventListener('message', (event) => {if (event.data && event.data.type === 'SKIP_WAITING') {self.skipWaiting();}if (event.data && event.data.type === 'GET_VERSION') {// Check if ports are available before posting message
+      if (event.ports && event.ports.length > 0) {event.ports[0].postMessage({ version: CACHE_NAME });}}if (event.data && event.data.type === 'CACHE_SCENARIOS') {event.waitUntil(cacheScenarios(event.data.scenarios));
     }
-  }
-  
-  if (event.data && event.data.type === 'CACHE_SCENARIOS') {
-    event.waitUntil(cacheScenarios(event.data.scenarios));
-  }
-});
+  });
 
 // Cache scenarios function
 async function cacheScenarios(scenarios) {
@@ -308,4 +308,4 @@ async function cacheScenarios(scenarios) {
   } catch (error) {
     console.error('Failed to cache scenarios:', error);
   }
-} 
+}

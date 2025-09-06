@@ -39,8 +39,14 @@ export default function AchievementLeaderboard({
         setLoading(true);
         setError(null);
         
-        const data = await AchievementDatabaseService.getLeaderboard(20);
-        setLeaderboard(data);
+        const data = await AchievementDatabaseService.getLeaderboard();
+        setLeaderboard(data.map(entry => ({
+          user_id: entry.userId,
+          total_achievements: entry.totalAchievements,
+          total_points: entry.totalPoints,
+          username: `User ${entry.userId.substring(0, 8)}`,
+          rank: entry.rank
+        })));
       } catch (err) {
         console.error('Error loading leaderboard:', err);
         setError('Failed to load leaderboard data');

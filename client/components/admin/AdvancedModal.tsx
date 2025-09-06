@@ -1,12 +1,13 @@
+'use client';
 import React, { useState, useEffect } from "react";
-import { X, Download, Edit, Save, Copy, RefreshCw } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ProgressRing } from "./Charts";
+import {  X, Download, Edit, Save, Copy, RefreshCw  } from 'lucide-react';
+import {  Button  } from '@/components/ui/button';
+import {  Input  } from '@/components/ui/input';
+import {  Label  } from '@/components/ui/label';
+import {  Textarea  } from '@/components/ui/textarea';
+import {  Badge  } from '@/components/ui/badge';
+import {  Tabs, TabsContent, TabsList, TabsTrigger  } from '@/components/ui/tabs';
+import {  ProgressRing  } from './Charts';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -21,7 +22,7 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
   title,
   size = "md",
-  children,
+  children
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -42,7 +43,7 @@ export const Modal: React.FC<ModalProps> = ({
     md: "max-w-2xl",
     lg: "max-w-4xl",
     xl: "max-w-6xl",
-    full: "max-w-full mx-4",
+    full: "max-w-full mx-4"
   };
 
   return (
@@ -51,13 +52,13 @@ export const Modal: React.FC<ModalProps> = ({
         {/* Backdrop */}
         <div
           className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-          onClick={onClose}
-        />
+          onClick={onClose} />
+
 
         {/* Modal */}
         <div
-          className={`relative bg-white rounded-lg shadow-xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-hidden`}
-        >
+          className={`relative bg-white rounded-lg shadow-xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-hidden`}>
+
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-white">{title}</h2>
@@ -65,8 +66,8 @@ export const Modal: React.FC<ModalProps> = ({
               variant="ghost"
               size="sm"
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
-            >
+              className="text-gray-400 hover:text-gray-600">
+
               <X className="w-5 h-5" />
             </Button>
           </div>
@@ -77,22 +78,22 @@ export const Modal: React.FC<ModalProps> = ({
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 interface UserDetailModalProps {
-  user: any;
+  user: unknown;
   isOpen: boolean;
   onClose: () => void;
-  onSave?: (user: any) => void;
+  onSave?: (user: unknown) => void;
 }
 
 export const UserDetailModal: React.FC<UserDetailModalProps> = ({
   user,
   isOpen,
   onClose,
-  onSave,
+  onSave
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState(user);
@@ -135,34 +136,34 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                 <div>
                   <Label
                     htmlFor="email"
-                    className="text-sm font-medium text-gray-700"
-                  >
+                    className="text-sm font-medium text-gray-700">
+
                     Email Address
                   </Label>
                   <div className="flex items-center space-x-2 mt-1">
-                    {isEditing ? (
-                      <Input
-                        id="email"
-                        value={editedUser?.email || ""}
-                        onChange={(e) =>
-                          setEditedUser((prev) => ({
-                            ...prev,
-                            email: e.target.value,
-                          }))
-                        }
-                        className="flex-1"
-                      />
-                    ) : (
-                      <div className="flex-1 p-2 bg-slate-700 rounded text-white">
+                    {isEditing ?
+                    <Input
+                      id="email"
+                      value={editedUser?.email || ""}
+                      onChange={(e) =>
+                      setEditedUser((prev) => ({
+                        ...prev,
+                        email: e.target.value
+                      }))
+                      }
+                      className="flex-1" /> :
+
+
+                    <div className="flex-1 p-2 bg-slate-700 rounded text-white">
                         {user?.email}
                       </div>
-                    )}
+                    }
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => copyToClipboard(user?.email || "")}
-                      className="border-gray-300"
-                    >
+                      className="border-gray-300">
+
                       <Copy className="w-3 h-3" />
                     </Button>
                   </div>
@@ -180,8 +181,8 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                       size="sm"
                       variant="outline"
                       onClick={() => copyToClipboard(user?.id || "")}
-                      className="border-gray-300"
-                    >
+                      className="border-gray-300">
+
                       <Copy className="w-3 h-3" />
                     </Button>
                   </div>
@@ -194,11 +195,11 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                   <div className="mt-1">
                     <Badge
                       className={
-                        user?.subscription?.status === "active"
-                          ? "bg-green-600 text-white"
-                          : "bg-slate-600 text-white"
-                      }
-                    >
+                      user?.subscription?.status === "active" ?
+                      "bg-green-600 text-white" :
+                      "bg-slate-600 text-white"
+                      }>
+
                       {user?.subscription?.status?.toUpperCase() || "UNKNOWN"}
                     </Badge>
                   </div>
@@ -209,21 +210,21 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     Location
                   </Label>
                   <div className="mt-1">
-                    {isEditing ? (
-                      <Input
-                        value={editedUser?.location || ""}
-                        onChange={(e) =>
-                          setEditedUser((prev) => ({
-                            ...prev,
-                            location: e.target.value,
-                          }))
-                        }
-                      />
-                    ) : (
-                      <div className="p-2 bg-slate-700 rounded text-white">
+                    {isEditing ?
+                    <Input
+                      value={editedUser?.location || ""}
+                      onChange={(e) =>
+                      setEditedUser((prev) => ({
+                        ...prev,
+                        location: e.target.value
+                      }))
+                      } /> :
+
+
+                    <div className="p-2 bg-slate-700 rounded text-white">
                         {user?.location || "Not specified"}
                       </div>
-                    )}
+                    }
                   </div>
                 </div>
               </div>
@@ -234,9 +235,9 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     Registration Date
                   </Label>
                   <div className="mt-1 p-2 bg-slate-700 rounded text-white">
-                    {user?.created_at
-                      ? new Date(user.created_at).toLocaleDateString()
-                      : "Unknown"}
+                    {user?.created_at ?
+                    new Date(user.created_at).toLocaleDateString() :
+                    "Unknown"}
                   </div>
                 </div>
 
@@ -245,9 +246,9 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     Last Seen
                   </Label>
                   <div className="mt-1 p-2 bg-slate-700 rounded text-white">
-                    {user?.last_seen
-                      ? new Date(user.last_seen).toLocaleDateString()
-                      : "Never"}
+                    {user?.last_seen ?
+                    new Date(user.last_seen).toLocaleDateString() :
+                    "Never"}
                   </div>
                 </div>
 
@@ -282,11 +283,11 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                   </div>
                   <p className="text-sm text-blue-700">
                     Since{" "}
-                    {user?.subscription?.created_at
-                      ? new Date(
-                          user.subscription.created_at,
-                        ).toLocaleDateString()
-                      : "Unknown"}
+                    {user?.subscription?.created_at ?
+                    new Date(
+                      user.subscription.created_at
+                    ).toLocaleDateString() :
+                    "Unknown"}
                   </p>
                 </div>
               </div>
@@ -302,9 +303,9 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     </span>
                     <span className="text-sm font-medium">
                       {user?.usage?.scenarios_used || 0} /{" "}
-                      {user?.usage?.max_scenarios === -1
-                        ? "∞"
-                        : user?.usage?.max_scenarios || 5}
+                      {user?.usage?.max_scenarios === -1 ?
+                      "∞" :
+                      user?.usage?.max_scenarios || 5}
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
@@ -312,11 +313,11 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                       className="bg-blue-600 h-2 rounded-full"
                       style={{
                         width:
-                          user?.usage?.max_scenarios === -1
-                            ? "100%"
-                            : `${Math.min(100, ((user?.usage?.scenarios_used || 0) / (user?.usage?.max_scenarios || 5)) * 100)}%`,
-                      }}
-                    />
+                        user?.usage?.max_scenarios === -1 ?
+                        "100%" :
+                        `${Math.min(100, (user?.usage?.scenarios_used || 0) / (user?.usage?.max_scenarios || 5) * 100)}%`
+                      }} />
+
                   </div>
                 </div>
               </div>
@@ -328,19 +329,19 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
               <div className="text-center">
                 <ProgressRing
                   progress={
-                    user?.usage?.max_scenarios === -1
-                      ? 100
-                      : Math.min(
-                          100,
-                          ((user?.usage?.scenarios_used || 0) /
-                            (user?.usage?.max_scenarios || 5)) *
-                            100,
-                        )
+                  user?.usage?.max_scenarios === -1 ?
+                  100 :
+                  Math.min(
+                    100,
+                    (user?.usage?.scenarios_used || 0) / (
+                    user?.usage?.max_scenarios || 5) *
+                    100
+                  )
                   }
                   size={120}
                   color="#3B82F6"
-                  label="Scenarios Used"
-                />
+                  label="Scenarios Used" />
+
               </div>
 
               <div className="col-span-2 space-y-4">
@@ -356,9 +357,9 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                   </div>
                   <div className="p-4 bg-gray-50 rounded-lg">
                     <div className="text-2xl font-bold text-white">
-                      {user?.usage?.max_scenarios === -1
-                        ? "∞"
-                        : user?.usage?.max_scenarios || 5}
+                      {user?.usage?.max_scenarios === -1 ?
+                      "∞" :
+                      user?.usage?.max_scenarios || 5}
                     </div>
                     <div className="text-sm text-gray-600">Daily Limit</div>
                   </div>
@@ -374,38 +375,38 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
               </h3>
               <div className="space-y-3">
                 {[
-                  {
-                    action: "Completed scenario",
-                    time: "2 hours ago",
-                    type: "success",
-                  },
-                  {
-                    action: "Started practice session",
-                    time: "4 hours ago",
-                    type: "info",
-                  },
-                  {
-                    action: "Updated profile",
-                    time: "1 day ago",
-                    type: "info",
-                  },
-                  {
-                    action: "Subscribed to Pro plan",
-                    time: "3 days ago",
-                    type: "success",
-                  },
-                ].map((activity, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg"
-                  >
+                {
+                  action: "Completed scenario",
+                  time: "2 hours ago",
+                  type: "success"
+                },
+                {
+                  action: "Started practice session",
+                  time: "4 hours ago",
+                  type: "info"
+                },
+                {
+                  action: "Updated profile",
+                  time: "1 day ago",
+                  type: "info"
+                },
+                {
+                  action: "Subscribed to Pro plan",
+                  time: "3 days ago",
+                  type: "success"
+                }].
+                map((activity, index) =>
+                <div
+                  key={index}
+                  className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+
                     <div
-                      className={`w-3 h-3 rounded-full ${
-                        activity.type === "success"
-                          ? "bg-green-400"
-                          : "bg-blue-400"
-                      }`}
-                    />
+                    className={`w-3 h-3 rounded-full ${
+                    activity.type === "success" ?
+                    "bg-green-400" :
+                    "bg-blue-400"}`
+                    } />
+
                     <div className="flex-1">
                       <div className="text-sm font-medium text-white">
                         {activity.action}
@@ -415,7 +416,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
                       </div>
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </TabsContent>
@@ -424,41 +425,41 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
         {/* Actions */}
         <div className="flex items-center justify-between pt-6 border-t border-gray-200 mt-6">
           <div className="flex items-center space-x-2">
-            {!isEditing ? (
-              <Button
-                onClick={() => setIsEditing(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-              >
+            {!isEditing ?
+            <Button
+              onClick={() => setIsEditing(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white">
+
                 <Edit className="w-4 h-4 mr-2" />
                 Edit User
-              </Button>
-            ) : (
-              <>
+              </Button> :
+
+            <>
                 <Button
-                  onClick={handleSave}
-                  disabled={loading}
-                  className="bg-green-600 hover:bg-green-700 text-white"
-                >
-                  {loading ? (
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                  ) : (
-                    <Save className="w-4 h-4 mr-2" />
-                  )}
+                onClick={handleSave}
+                disabled={loading}
+                className="bg-green-600 hover:bg-green-700 text-white">
+
+                  {loading ?
+                <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> :
+
+                <Save className="w-4 h-4 mr-2" />
+                }
                   Save Changes
                 </Button>
                 <Button
-                  onClick={() => {
-                    setIsEditing(false);
-                    setEditedUser(user);
-                  }}
-                  variant="outline"
-                  className="border-gray-300"
-                >
+                onClick={() => {
+                  setIsEditing(false);
+                  setEditedUser(user);
+                }}
+                variant="outline"
+                className="border-gray-300">
+
                   <X className="w-4 h-4 mr-2" />
                   Cancel
                 </Button>
               </>
-            )}
+            }
           </div>
 
           <div className="flex items-center space-x-2">
@@ -469,15 +470,15 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({
             <Button
               onClick={onClose}
               variant="outline"
-              className="border-gray-300"
-            >
+              className="border-gray-300">
+
               Close
             </Button>
           </div>
         </div>
       </div>
-    </Modal>
-  );
+    </Modal>);
+
 };
 
 interface SystemLogModalProps {
@@ -489,9 +490,9 @@ interface SystemLogModalProps {
 export const SystemLogModal: React.FC<SystemLogModalProps> = ({
   isOpen,
   onClose,
-  logType,
+  logType
 }) => {
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(false);
 
@@ -502,12 +503,14 @@ export const SystemLogModal: React.FC<SystemLogModalProps> = ({
   }, [isOpen, logType]);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: NodeJS.Timeout | null = null;
     if (autoRefresh && isOpen) {
       interval = setInterval(fetchLogs, 5000);
     }
     return () => {
-      if (interval) clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+      }
     };
   }, [autoRefresh, isOpen]);
 
@@ -518,7 +521,7 @@ export const SystemLogModal: React.FC<SystemLogModalProps> = ({
         database: "/api/system/database/logs",
         error: "/api/system/logs/errors",
         access: "/api/system/logs/access",
-        security: "/api/system/security/threats",
+        security: "/api/system/security/threats"
       };
 
       const response = await fetch(endpoints[logType]);
@@ -555,13 +558,13 @@ export const SystemLogModal: React.FC<SystemLogModalProps> = ({
               onClick={fetchLogs}
               disabled={loading}
               variant="outline"
-              className="border-gray-300"
-            >
-              {loading ? (
-                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <RefreshCw className="w-4 h-4 mr-2" />
-              )}
+              className="border-gray-300">
+
+              {loading ?
+              <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> :
+
+              <RefreshCw className="w-4 h-4 mr-2" />
+              }
               Refresh
             </Button>
 
@@ -570,8 +573,8 @@ export const SystemLogModal: React.FC<SystemLogModalProps> = ({
                 type="checkbox"
                 checked={autoRefresh}
                 onChange={(e) => setAutoRefresh(e.target.checked)}
-                className="rounded border-gray-300"
-              />
+                className="rounded border-gray-300" />
+
               <span className="text-sm text-gray-700">Auto-refresh (5s)</span>
             </label>
           </div>
@@ -580,11 +583,11 @@ export const SystemLogModal: React.FC<SystemLogModalProps> = ({
         </div>
 
         <div className="space-y-2 max-h-96 overflow-y-auto">
-          {logs.map((log, index) => (
-            <div
-              key={index}
-              className="p-4 bg-gray-50 border border-gray-200 rounded-lg font-mono text-sm"
-            >
+          {logs.map((log, index) =>
+          <div
+            key={index}
+            className="p-4 bg-gray-50 border border-gray-200 rounded-lg font-mono text-sm">
+
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="text-gray-500 text-xs mb-1">
@@ -593,32 +596,32 @@ export const SystemLogModal: React.FC<SystemLogModalProps> = ({
                   <div className="text-white">
                     {log.message || log.description}
                   </div>
-                  {log.data && (
-                    <div className="text-gray-600 text-xs mt-1">
+                  {log.data &&
+                <div className="text-gray-600 text-xs mt-1">
                       {JSON.stringify(log.data, null, 2)}
                     </div>
-                  )}
+                }
                 </div>
-                {log.severity && (
-                  <Badge
-                    className={
-                      log.severity === "critical"
-                        ? "bg-red-100 text-red-800"
-                        : log.severity === "error"
-                          ? "bg-red-100 text-red-800"
-                          : log.severity === "warning"
-                            ? "bg-orange-100 text-orange-800"
-                            : "bg-blue-100 text-blue-800"
-                    }
-                  >
+                {log.severity &&
+              <Badge
+                className={
+                log.severity === "critical" ?
+                "bg-red-100 text-red-800" :
+                log.severity === "error" ?
+                "bg-red-100 text-red-800" :
+                log.severity === "warning" ?
+                "bg-orange-100 text-orange-800" :
+                "bg-blue-100 text-blue-800"
+                }>
+
                     {log.severity.toUpperCase()}
                   </Badge>
-                )}
+              }
               </div>
             </div>
-          ))}
+          )}
         </div>
       </div>
-    </Modal>
-  );
+    </Modal>);
+
 };

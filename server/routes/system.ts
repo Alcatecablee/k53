@@ -59,11 +59,11 @@ if (systemLogs.length === 0) {
 }
 
 // Get database logs
-export const getDatabaseLogs: RequestHandler = async (req, res) => {
+export const getDatabaseLogs: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     const logs = systemLogs
-      .filter((log) => log.type === "database" || log.type === "system")
+      .filter((log: any) => log.type === "database" || log.type === "system")
       .slice(0, 50);
 
     // Add real database metrics
@@ -105,7 +105,7 @@ export const getDatabaseLogs: RequestHandler = async (req, res) => {
 };
 
 // Backup database
-export const backupDatabase: RequestHandler = async (req, res) => {
+export const backupDatabase: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -123,7 +123,7 @@ export const backupDatabase: RequestHandler = async (req, res) => {
     for (const table of tables) {
       try {
         const { data, error } = await db.from(table).select("*");
-        if (!error && data) {
+        if (!_error && data) {
           backup.tables[table] = data;
         } else {
           backup.tables[table] = [];
@@ -152,9 +152,9 @@ export const backupDatabase: RequestHandler = async (req, res) => {
 
 // Toggle maintenance mode
 let maintenanceMode = false;
-export const toggleMaintenanceMode: RequestHandler = async (req, res) => {
+export const toggleMaintenanceMode: RequestHandler = async (_req, res) => {
   try {
-    const { enabled } = req.body;
+    const { _enabled } = _req.body;
     maintenanceMode = enabled !== undefined ? enabled : !maintenanceMode;
 
     logEvent(
@@ -174,7 +174,7 @@ export const toggleMaintenanceMode: RequestHandler = async (req, res) => {
 };
 
 // Get server performance metrics
-export const getPerformanceMetrics: RequestHandler = async (req, res) => {
+export const getPerformanceMetrics: RequestHandler = async (_req, res) => {
   try {
     const startTime = Date.now();
 
@@ -220,9 +220,9 @@ export const getPerformanceMetrics: RequestHandler = async (req, res) => {
 };
 
 // Get error logs
-export const getErrorLogs: RequestHandler = async (req, res) => {
+export const getErrorLogs: RequestHandler = async (_req, res) => {
   try {
-    const { limit = 50 } = req.query;
+    const { limit = 50 } = _req.query;
 
     const logs = errorLogs.slice(0, Number(limit));
     const summary = {
@@ -250,9 +250,9 @@ export const getErrorLogs: RequestHandler = async (req, res) => {
 };
 
 // Restart services
-export const restartServices: RequestHandler = async (req, res) => {
+export const restartServices: RequestHandler = async (_req, res) => {
   try {
-    const { services } = req.body;
+    const { _services } = _req.body;
 
     // Simulate service restart
     const servicesToRestart = services || ["api", "database", "cache"];
@@ -283,7 +283,7 @@ export const restartServices: RequestHandler = async (req, res) => {
 };
 
 // Security scan
-export const runSecurityScan: RequestHandler = async (req, res) => {
+export const runSecurityScan: RequestHandler = async (_req, res) => {
   try {
     const scanResults = {
       scanId: Date.now().toString(),
@@ -326,14 +326,14 @@ export const runSecurityScan: RequestHandler = async (req, res) => {
 };
 
 // Get access logs
-export const getAccessLogs: RequestHandler = async (req, res) => {
+export const getAccessLogs: RequestHandler = async (_req, res) => {
   try {
-    const { limit = 50 } = req.query;
+    const { limit = 50 } = _req.query;
 
     const logs = accessLogs.slice(0, Number(limit));
     const summary = {
       total: accessLogs.length,
-      uniqueIPs: new Set(logs.map((log) => log.data?.ip).filter(Boolean)).size,
+      uniqueIPs: new Set(logs.map((log: any) => log.data?.ip).filter(Boolean)).size,
       last24h: logs.filter(
         (log) =>
           new Date(log.timestamp) > new Date(Date.now() - 24 * 60 * 60 * 1000),
@@ -352,7 +352,7 @@ export const getAccessLogs: RequestHandler = async (req, res) => {
 };
 
 // Threat detection
-export const getThreatDetection: RequestHandler = async (req, res) => {
+export const getThreatDetection: RequestHandler = async (_req, res) => {
   try {
     const threats = [
       {
@@ -386,8 +386,8 @@ export const getThreatDetection: RequestHandler = async (req, res) => {
 
     const summary = {
       totalThreats: threats.length,
-      criticalThreats: threats.filter((t) => t.severity === "critical").length,
-      blockedThreats: threats.filter((t) => t.blocked).length,
+      criticalThreats: threats.filter((t: any) => t.severity === "critical").length,
+      blockedThreats: threats.filter((t: any) => t.blocked).length,
       last24h: threats.length,
     };
 

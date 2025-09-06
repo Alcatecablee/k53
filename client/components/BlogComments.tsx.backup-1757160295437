@@ -1,0 +1,399 @@
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  MessageCircle,
+  User,
+  Clock,
+  ThumbsUp,
+  ThumbsDown,
+  Reply,
+  Flag,
+  Send,
+  Loader2,
+} from "lucide-react";
+import { BlogPost } from "@/services/blogService";
+
+interface Comment {
+  id: string;
+  postId: string;
+  author: string;
+  authorId: string;
+  content: string;
+  createdAt: string;
+  likes: number;
+  dislikes: number;
+  replies: Comment[];
+  isModerated: boolean;
+  userLiked?: boolean;
+  userDisliked?: boolean;
+}
+
+interface BlogCommentsProps {
+  post: BlogPost;
+  onCommentAdded?: (comment: Comment) => void;
+}
+
+export function BlogComments({ post, onCommentAdded }: BlogCommentsProps) {
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState("");
+  const [replyTo, setReplyTo] = useState<string | null>(null);
+  const [replyContent, setReplyContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+
+  // Mock user state - in real app, this would come from auth context
+  const [currentUser] = useState({
+    id: "user-1",
+    name: "Test User",
+    email: "test@example.com",
+    avatar: null,
+  });
+
+  useEffect(() => {
+    loadComments();
+  }, [post.id]);
+
+  const loadComments = async () => {
+    setLoading(true);
+    try {
+      // Mock comments data - in real app, this would fetch from API
+      const mockComments: Comment[] = [
+        {
+          id: "1",
+          postId: post.id,
+          author: "John Doe",
+          authorId: "user-2",
+          content: "This guide is incredibly helpful! I've been studying for my K53 test and this article clarified so many things I was confused about.",
+          createdAt: "2025-01-15T10:30:00Z",
+          likes: 12,
+          dislikes: 0,
+          replies: [],
+          isModerated: false,
+        },
+        {
+          id: "2",
+          postId: post.id,
+          author: "Sarah Wilson",
+          authorId: "user-3",
+          content: "Great tips! I especially found the section about vehicle controls very useful. Would love to see more articles like this.",
+          createdAt: "2025-01-14T15:45:00Z",
+          likes: 8,
+          dislikes: 1,
+          replies: [
+            {
+              id: "2-1",
+              postId: post.id,
+              author: "K53 Instructor",
+              authorId: "user-4",
+              content: "Thank you Sarah! We're working on more detailed guides for each section. Stay tuned!",
+              createdAt: "2025-01-14T16:00:00Z",
+              likes: 5,
+              dislikes: 0,
+              replies: [],
+              isModerated: false,
+            },
+          ],
+          isModerated: false,
+        },
+      ];
+      setComments(mockComments);
+    } catch (error) {
+      // [NeuroLint] Removed console.error: "Failed to load comments:", error
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmitComment = async () => {
+    if (!newComment.trim()) return;
+
+    setLoading(true);
+    try {
+      const comment: Comment = {
+        id: `comment-${Date.now()}`,
+        postId: post.id,
+        author: currentUser.name,
+        authorId: currentUser.id,
+        content: newComment.trim(),
+        createdAt: new Date().toISOString(),
+        likes: 0,
+        dislikes: 0,
+        replies: [],
+        isModerated: false,
+      };
+
+      setComments(prev => [comment, ...prev]);
+      setNewComment("");
+      onCommentAdded?.(comment);
+    } catch (error) {
+      // [NeuroLint] Removed console.error: "Failed to submit comment:", error
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmitReply = async (parentId: string) => {
+    if (!replyContent.trim()) return;
+
+    setLoading(true);
+    try {
+      const reply: Comment = {
+        id: `reply-${Date.now()}`,
+        postId: post.id,
+        author: currentUser.name,
+        authorId: currentUser.id,
+        content: replyContent.trim(),
+        createdAt: new Date().toISOString(),
+        likes: 0,
+        dislikes: 0,
+        replies: [],
+        isModerated: false,
+      };
+
+      setComments(prev => prev.map(comment => 
+        comment.id === parentId 
+          ? { ...comment, replies: [...comment.replies, reply] }
+          : comment
+      ));
+
+      setReplyContent("");
+      setReplyTo(null);
+    } catch (error) {
+      // [NeuroLint] Removed console.error: "Failed to submit reply:", error
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLike = async (commentId: string) => {
+    setComments(prev => prev.map(comment => {
+      if (comment.id === commentId) {
+        const wasLiked = comment.userLiked;
+        const wasDisliked = comment.userDisliked;
+        
+        return {
+          ...comment,
+          likes: wasLiked ? comment.likes - 1 : comment.likes + 1,
+          dislikes: wasDisliked ? comment.dislikes - 1 : comment.dislikes,
+          userLiked: !wasLiked,
+          userDisliked: false,
+        };
+      }
+      return comment;
+    }));
+  };
+
+  const handleDislike = async (commentId: string) => {
+    setComments(prev => prev.map(comment => {
+      if (comment.id === commentId) {
+        const wasLiked = comment.userLiked;
+        const wasDisliked = comment.userDisliked;
+        
+        return {
+          ...comment,
+          likes: wasLiked ? comment.likes - 1 : comment.likes,
+          dislikes: wasDisliked ? comment.dislikes - 1 : comment.dislikes + 1,
+          userLiked: false,
+          userDisliked: !wasDisliked,
+        };
+      }
+      return comment;
+    }));
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+    
+    if (diffInHours < 1) return "Just now";
+    if (diffInHours < 24) return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+    
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 7) return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+    
+    return date.toLocaleDateString();
+  };
+
+  const renderComment = (comment: Comment, isReply = false) => (
+    <div key={comment.id} className={`${isReply ? 'ml-8 border-l-2 border-slate-600 pl-4' : ''}`}>
+      <div className="flex items-start space-x-3 mb-4">
+        <Avatar className="h-8 w-8">
+          <AvatarImage src={comment.authorId === currentUser.id ? currentUser.avatar : undefined} />
+          <AvatarFallback className="bg-slate-600 text-white text-xs">
+            {comment.author.charAt(0).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+        
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center space-x-2 mb-1">
+            <span className="text-sm font-medium text-white">{comment.author}</span>
+            <span className="text-xs text-slate-400">{formatDate(comment.createdAt)}</span>
+            {comment.authorId === "user-4" && (
+              <Badge className="bg-blue-600 text-white text-xs">Instructor</Badge>
+            )}
+          </div>
+          
+          <p className="text-sm text-slate-300 mb-2">{comment.content}</p>
+          
+          <div className="flex items-center space-x-4 text-xs">
+            <button
+              onClick={() => handleLike(comment.id)}
+              className={`flex items-center space-x-1 ${
+                comment.userLiked ? 'text-blue-400' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <ThumbsUp className="h-3 w-3" />
+              <span>{comment.likes}</span>
+            </button>
+            
+            <button
+              onClick={() => handleDislike(comment.id)}
+              className={`flex items-center space-x-1 ${
+                comment.userDisliked ? 'text-red-400' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <ThumbsDown className="h-3 w-3" />
+              <span>{comment.dislikes}</span>
+            </button>
+            
+            {!isReply && (
+              <button
+                onClick={() => setReplyTo(comment.id)}
+                className="flex items-center space-x-1 text-slate-400 hover:text-white"
+              >
+                <Reply className="h-3 w-3" />
+                <span>Reply</span>
+              </button>
+            )}
+            
+            <button className="flex items-center space-x-1 text-slate-400 hover:text-white">
+              <Flag className="h-3 w-3" />
+              <span>Report</span>
+            </button>
+          </div>
+          
+          {/* Reply Form */}
+          {replyTo === comment.id && (
+            <div className="mt-3 space-y-2">
+              <Textarea
+                value={replyContent}
+                onChange={(e) => setReplyContent(e.target.value)}
+                placeholder="Write your reply..."
+                className="bg-slate-700 border-black text-white placeholder:text-slate-400 text-sm"
+                rows={2}
+              />
+              <div className="flex space-x-2">
+                <Button
+                  onClick={() => handleSubmitReply(comment.id)}
+                  disabled={loading || !replyContent.trim()}
+                  size="sm"
+                  className="bg-slate-700 text-white hover:bg-slate-600"
+                >
+                  {loading ? (
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                  ) : (
+                    <Send className="h-3 w-3" />
+                  )}
+                  Reply
+                </Button>
+                <Button
+                  onClick={() => {
+                    setReplyTo(null);
+                    setReplyContent("");
+                  }}
+                  variant="outline"
+                  size="sm"
+                  className="border-black text-slate-300 hover:bg-slate-700"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          )}
+          
+          {/* Replies */}
+          {comment.replies.length > 0 && (
+            <div className="mt-4 space-y-3">
+              {comment.replies.map(reply => renderComment(reply, true))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <Card className="bg-slate-800 border border-black">
+      <CardHeader>
+        <CardTitle className="text-white text-lg flex items-center">
+          <MessageCircle className="h-5 w-5 mr-2" />
+          Comments ({comments.length})
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {/* Comment Form */}
+        <div className="space-y-3">
+          <div className="flex items-start space-x-3">
+            <Avatar className="h-8 w-8">
+              <AvatarImage src={currentUser.avatar} />
+              <AvatarFallback className="bg-slate-600 text-white text-xs">
+                {currentUser.name.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            
+            <div className="flex-1">
+              <Textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Share your thoughts on this article..."
+                className="bg-slate-700 border-black text-white placeholder:text-slate-400"
+                rows={3}
+              />
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-xs text-slate-400">
+                  Be respectful and constructive in your comments
+                </p>
+                <Button
+                  onClick={handleSubmitComment}
+                  disabled={loading || !newComment.trim()}
+                  size="sm"
+                  className="bg-slate-700 text-white hover:bg-slate-600"
+                >
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="h-4 w-4" />
+                  )}
+                  Post Comment
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Comments List */}
+        {loading && comments.length === 0 ? (
+          <div className="text-center py-8">
+            <Loader2 className="h-8 w-8 animate-spin text-slate-400 mx-auto mb-2" />
+            <p className="text-slate-400">Loading comments...</p>
+          </div>
+        ) : comments.length > 0 ? (
+          <div className="space-y-4">
+            {comments.map(comment => renderComment(comment))}
+          </div>
+        ) : (
+          <div className="text-center py-8">
+            <MessageCircle className="h-12 w-12 text-slate-600 mx-auto mb-4" />
+            <p className="text-slate-400 mb-2">No comments yet</p>
+            <p className="text-sm text-slate-500">Be the first to share your thoughts!</p>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+} 

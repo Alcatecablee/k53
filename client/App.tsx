@@ -13,22 +13,24 @@ import { PWAInstaller } from "@/components/PWAInstaller";
 import { PWAStatus } from "@/components/PWAStatus";
 import { SkipToMainContent, LiveRegion } from "@/components/ui/accessibility";
 import { ScrollToTop } from "@/components/ScrollToTop";
-import Index from "./pages/Index";
-import Practice from "./pages/Practice";
-import Progress from "./pages/Progress";
-import Profile from "./pages/Profile";
-import Pricing from "./pages/Pricing";
-import DLTC from "./pages/DLTC";
-import Documentation from "./pages/Documentation";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import AdminNew from "./pages/AdminNew";
-import AdminPro from "./pages/AdminPro";
-import AdminDashboard from "./pages/AdminDashboard";
-import ImageLibrary from "./pages/ImageLibrary";
-import NotFound from "./pages/NotFound";
-import { SupabaseTest } from "./components/SupabaseTest";
+import { lazy, Suspense } from "react";
 import { addResourceHints } from "./utils/seoUtils";
+import { PageLoadingSpinner } from "@/components/LoadingSpinner";
+
+// Lazy load pages for code splitting
+const Index = lazy(() => import("./pages/Index"));
+const Practice = lazy(() => import("./pages/Practice"));
+const Progress = lazy(() => import("./pages/Progress"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const DLTC = lazy(() => import("./pages/DLTC"));
+const Documentation = lazy(() => import("./pages/Documentation"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const AdminPro = lazy(() => import("./pages/AdminPro"));
+const ImageLibrary = lazy(() => import("./pages/ImageLibrary"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const SupabaseTest = lazy(() => import("./components/SupabaseTest").then(module => ({ default: module.SupabaseTest })));
 
 const queryClient = new QueryClient();
 
@@ -78,25 +80,25 @@ const App = () => (
           </LiveRegion>
           <BrowserRouter>
             <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/practice" element={<Practice />} />
-              <Route path="/progress" element={<Progress />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/dltc" element={<DLTC />} />
-              <Route path="/docs" element={<Documentation />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin-old" element={<AdminNew />} />
-              <Route path="/admin-pro" element={<AdminPro />} />
-              <Route path="/pwa-status" element={<PWAStatus />} />
-              <Route path="/image-library" element={<ImageLibrary />} />
-              <Route path="/test-supabase" element={<SupabaseTest />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Suspense fallback={<PageLoadingSpinner />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/practice" element={<Practice />} />
+                <Route path="/progress" element={<Progress />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/dltc" element={<DLTC />} />
+                <Route path="/docs" element={<Documentation />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/admin" element={<AdminPro />} />
+                <Route path="/pwa-status" element={<PWAStatus />} />
+                <Route path="/image-library" element={<ImageLibrary />} />
+                <Route path="/test-supabase" element={<SupabaseTest />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>

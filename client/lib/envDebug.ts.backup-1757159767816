@@ -1,0 +1,31 @@
+// Environment debugging utility
+import { env } from "./env";
+
+export function isEnvironmentValid(): boolean {
+  return env.isConfigured && Boolean(env.supabaseUrl && env.supabaseAnonKey);
+}
+
+export function getEnvironmentStatus(): string {
+  if (!env.isConfigured) return "Not Configured";
+  if (!env.supabaseUrl || !env.supabaseAnonKey) return "Missing Credentials";
+  return "Valid";
+}
+
+// Debug function - only logs in development
+export function debugEnvironment(): void {
+  if (env.isDevelopment) {
+    // Only log in development environment
+    const status = getEnvironmentStatus();
+    const isValid = isEnvironmentValid();
+    
+    // Use a proper logging service instead of console.log
+    // This would integrate with your logging infrastructure
+  }
+}
+
+// Auto-run debug in development
+if (env.isDevelopment && typeof window !== "undefined") {
+  // [NeuroLint] Replace setTimeout with actual API call: setTimeout => {
+    debugEnvironment();
+  }, 1000);
+}

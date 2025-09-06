@@ -5,7 +5,7 @@ A comprehensive K53 learner's license preparation platform for South African dri
 ## 🚀 Features
 
 - **K53 Practice Tests**: Traditional question-based tests covering Vehicle Controls, Road Signs, and Traffic Rules
-- **AI Scenarios**: 220+ location-aware driving scenarios tailored to South African cities
+- **AI Scenarios**: 429 location-aware driving scenarios tailored to South African cities
 - **Progress Tracking**: Comprehensive analytics and performance monitoring
 - **Offline Support**: Works even without internet connectivity
 - **Location-Specific Content**: Scenarios customized for different regions
@@ -88,8 +88,8 @@ npm test           # Run tests
 
 ### ✅ Production-Ready Features
 
-- ✅ Complete K53 question bank (1000+ questions)
-- ✅ 220+ AI scenarios with location awareness
+- ✅ Complete K53 question bank (85 questions in database, 69 local fallback)
+- ✅ 429 AI scenarios with location awareness
 - ✅ PayPal payment integration with card/guest checkout
 - ✅ Real database-backed subscription management
 - ✅ Server-side usage enforcement (unbypassable)
@@ -183,6 +183,54 @@ npm test           # Run tests
 - [Security Setup](SECURITY.md) - **START HERE**
 - [Implementation Notes](IMPLEMENTATION_NOTES.md)
 - [Agent Guidelines](AGENTS.md)
+
+## 📊 Data Storage & Access
+
+### Database (Supabase)
+- **Scenarios**: 429 records in `public.scenarios` table
+- **Questions**: 85 records in `public.questions` table
+- **Test Centers**: 3 records in `public.test_centers` table
+- **User Data**: `public.user_subscriptions`, `public.user_progress`
+- **Analytics**: `public.user_analytics`, `public.system_notifications`
+
+### Local Files
+- **Questions Fallback**: `client/data/k53Questions.ts` (69 questions)
+- **Images**: `public/images/` (4,523 images)
+- **Configuration**: `client/lib/supabase.ts`, `client/lib/env.ts`
+
+### API Endpoints
+- **Development**: http://localhost:3000
+- **Questions**: `GET /api/content/questions` (returns 85 questions)
+- **Scenarios**: `GET /api/content/scenarios` (returns 429 scenarios)
+- **Enterprise**: `GET /api/enterprise/dashboard-stats` (returns JSON stats)
+
+### ⚠️ Known Issues
+- **Test Centers**: Only 3 test centers vs claimed 500+
+- **Language Support**: Claims 11 languages but only English implemented
+- **Success Rate**: Claims 92% success rate without real data
+
+### Environment Configuration
+**File**: `.env`
+**Required Variables**:
+```
+VITE_SUPABASE_URL=https://lxzwakeusanxquhshcph.supabase.co
+VITE_SUPABASE_ANON_KEY=[your-anon-key]
+VITE_SUPABASE_SERVICE_ROLE_KEY=[your-service-role-key]
+PAYPAL_CLIENT_ID=[your-paypal-client-id]
+PAYPAL_CLIENT_SECRET=[your-paypal-client-secret]
+```
+
+### Running the Application
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Access application
+http://localhost:3000
+```
 
 ## 🤝 Contributing
 

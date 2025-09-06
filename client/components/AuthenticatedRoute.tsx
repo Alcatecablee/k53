@@ -22,7 +22,11 @@ export function AuthenticatedRoute({ children }: AuthenticatedRouteProps) {
       }
     }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
   }, [user]);
 
   if (loading && !showOfflineOption) {

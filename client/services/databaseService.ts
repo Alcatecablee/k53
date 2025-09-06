@@ -126,25 +126,25 @@ export const getUserStats = async () => {
 
     const progress = data as UserProgress[];
 
-    const questionTests = progress.filter((p) => p.test_type === "questions");
-    const scenarioTests = progress.filter((p) => p.test_type === "scenarios");
+    const questionTests = progress.filter((p: any) => p.test_type === "questions");
+    const scenarioTests = progress.filter((p: any) => p.test_type === "scenarios");
 
     const questionStats = {
       total: questionTests.length,
-      passed: questionTests.filter((p) => p.passed).length,
+      passed: questionTests.filter((p: any) => p.passed).length,
       averageScore:
         questionTests.length > 0
-          ? questionTests.reduce((sum, p) => sum + p.score, 0) /
+          ? questionTests.reduce((sum: any, p: any) => sum + p.score, 0) /
             questionTests.length
           : 0,
     };
 
     const scenarioStats = {
       total: scenarioTests.length,
-      passed: scenarioTests.filter((p) => p.passed).length,
+      passed: scenarioTests.filter((p: any) => p.passed).length,
       averageScore:
         scenarioTests.length > 0
-          ? scenarioTests.reduce((sum, p) => sum + p.score, 0) /
+          ? scenarioTests.reduce((sum: any, p: any) => sum + p.score, 0) /
             scenarioTests.length
           : 0,
     };
@@ -153,11 +153,11 @@ export const getUserStats = async () => {
       totalTests: progress.length,
       averageScore:
         progress.length > 0
-          ? progress.reduce((sum, p) => sum + p.score, 0) / progress.length
+          ? progress.reduce((sum: any, p: any) => sum + p.score, 0) / progress.length
           : 0,
       passRate:
         progress.length > 0
-          ? (progress.filter((p) => p.passed).length / progress.length) * 100
+          ? (progress.filter((p: any) => p.passed).length / progress.length) * 100
           : 0,
       questionStats,
       scenarioStats,
@@ -275,7 +275,7 @@ export const getScenarioStats = async (scenarioId: string) => {
     ).length;
     const averageTime =
       scenarios.length > 0
-        ? scenarios.reduce((sum, s) => sum + s.time_taken, 0) / scenarios.length
+        ? scenarios.reduce((sum: any, s: any) => sum + s.time_taken, 0) / scenarios.length
         : 0;
 
     return {

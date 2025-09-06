@@ -1,0 +1,179 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Share2,
+  Facebook,
+  Twitter,
+  Linkedin,
+  MessageCircle,
+  Mail,
+  Copy,
+  Check,
+} from "lucide-react";
+
+interface SimpleShareProps {
+  title: string;
+  text: string;
+  url: string;
+}
+
+export function SimpleShare({ title, text, url }: SimpleShareProps) {
+  const [copied, setCopied] = useState(false);
+
+  const shareToFacebook = () => {
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(shareUrl, "_blank", "width=600,height=400");
+  };
+
+  const shareToTwitter = () => {
+    const shareText = `${title} - ${text}`;
+    const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
+    window.open(shareUrl, "_blank", "width=600,height=400");
+  };
+
+  const shareToLinkedIn = () => {
+    const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+    window.open(shareUrl, "_blank", "width=600,height=400");
+  };
+
+  const shareToWhatsApp = () => {
+    const shareText = `${title}\n\n${text}\n\n${url}`;
+    const shareUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(shareUrl, "_blank");
+  };
+
+  const shareToEmail = () => {
+    const subject = encodeURIComponent(title);
+    const body = encodeURIComponent(`${text}\n\nRead more: ${url}`);
+    const mailtoUrl = `mailto:?subject=${subject}&body=${body}`;
+    window.location.href = mailtoUrl;
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        // Fallback for older browsers
+        const textArea = document.createElement("textarea");
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error("Failed to copy:", error);
+    }
+  };
+
+  const handleNativeShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title,
+          text,
+          url,
+        });
+      } catch (error) {
+        console.error("Native share failed:", error);
+      }
+    }
+  };
+
+  return (
+    <Card className="bg-slate-800 border border-black">
+      <CardHeader>
+        <CardTitle className="text-white text-lg">Share This Article</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* Native Share Button */}
+        {navigator.share && (
+          <Button
+            onClick={handleNativeShare}
+            className="w-full bg-slate-700 text-white hover:bg-slate-600"
+          >
+            <Share2 className="h-4 w-4 mr-2" />
+            Share (Native)
+          </Button>
+        )}
+
+        {/* Platform Buttons */}
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            onClick={shareToFacebook}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            <Facebook className="h-4 w-4 mr-2" />
+            Facebook
+          </Button>
+          
+          <Button
+            onClick={shareToTwitter}
+            className="bg-sky-500 hover:bg-sky-600 text-white"
+          >
+            <Twitter className="h-4 w-4 mr-2" />
+            Twitter
+          </Button>
+          
+          <Button
+            onClick={shareToLinkedIn}
+            className="bg-blue-700 hover:bg-blue-800 text-white"
+          >
+            <Linkedin className="h-4 w-4 mr-2" />
+            LinkedIn
+          </Button>
+          
+          <Button
+            onClick={shareToWhatsApp}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            <MessageCircle className="h-4 w-4 mr-2" />
+            WhatsApp
+          </Button>
+        </div>
+
+        {/* Email and Copy */}
+        <div className="flex gap-2">
+          <Button
+            onClick={shareToEmail}
+            className="flex-1 bg-slate-600 hover:bg-slate-700 text-white"
+          >
+            <Mail className="h-4 w-4 mr-2" />
+            Email
+          </Button>
+          
+          <Button
+            onClick={copyToClipboard}
+            className="flex-1 border-black text-slate-300 hover:bg-slate-700 hover:text-white"
+            variant="outline"
+          >
+            {copied ? (
+              <>
+                <Check className="h-4 w-4 mr-2" />
+                Copied!
+              </>
+            ) : (
+              <>
+                <Copy className="h-4 w-4 mr-2" />
+                Copy Link
+              </>
+            )}
+          </Button>
+        </div>
+
+        {/* Debug Info */}
+        <div className="bg-slate-700 border border-black p-3 rounded text-xs text-slate-300">
+          <p><strong>Debug Info:</strong></p>
+          <p>Native Share: {navigator.share ? "Available" : "Not Available"}</p>
+          <p>Clipboard: {navigator.clipboard ? "Available" : "Not Available"}</p>
+          <p>URL: {url}</p>
+          <p>Title: {title}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+} 

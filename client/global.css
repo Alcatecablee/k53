@@ -28,27 +28,24 @@
   color: white !important;
 }
 
-/* FIX WHITE BACKGROUND WITH WHITE TEXT ISSUES */
-/* Override white backgrounds to be dark */
-.bg-white {
-  background-color: rgb(31 41 55) !important; /* gray-800 */
-}
+/* FIX WHITE/LIGHT BACKGROUND WITH WHITE TEXT ISSUES */
+/* Override white/very light backgrounds to dark */
+.bg-white { background-color: rgb(31 41 55) !important; /* gray-800 */ }
+.bg-gray-50, .bg-gray-100, .bg-gray-200, .bg-gray-300 { background-color: rgb(31 41 55) !important; }
+.bg-slate-50, .bg-slate-100, .bg-slate-200, .bg-slate-300 { background-color: rgb(31 41 55) !important; }
+.bg-orange-50, .bg-amber-50, .bg-yellow-50 { background-color: rgb(51 65 81) !important; /* slate-700 */ }
 
-.bg-gray-50, .bg-gray-100 {
-  background-color: rgb(55 65 81) !important; /* gray-700 */
-}
-
-.bg-gray-200 {
-  background-color: rgb(75 85 99) !important; /* gray-600 */
-}
-
-/* Ensure text on white backgrounds is visible */
-.bg-white .text-white, .bg-gray-50 .text-white, .bg-gray-100 .text-white, .bg-gray-200 .text-white {
+/* Ensure text on previously light backgrounds remains visible */
+.bg-white .text-white, .bg-gray-50 .text-white, .bg-gray-100 .text-white, .bg-gray-200 .text-white,
+.bg-slate-50 .text-white, .bg-slate-100 .text-white, .bg-slate-200 .text-white, .bg-slate-300 .text-white,
+.bg-orange-50 .text-white, .bg-amber-50 .text-white, .bg-yellow-50 .text-white {
   color: white !important;
 }
 
-/* Override any remaining white text on white background combinations */
-.bg-white.text-white, .bg-gray-50.text-white, .bg-gray-100.text-white, .bg-gray-200.text-white {
+/* Override any remaining white text on white/light background combinations */
+.bg-white.text-white, .bg-gray-50.text-white, .bg-gray-100.text-white, .bg-gray-200.text-white,
+.bg-slate-50.text-white, .bg-slate-100.text-white, .bg-slate-200.text-white, .bg-slate-300.text-white,
+.bg-orange-50.text-white, .bg-amber-50.text-white, .bg-yellow-50.text-white {
   background-color: rgb(31 41 55) !important;
   color: white !important;
 }

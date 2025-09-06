@@ -1,0 +1,142 @@
+'use client';
+import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import {  Link  } from 'react-router-dom';
+
+interface AccessibilityEnhancerProps {
+  children: React.ReactNode;
+}
+
+export function AccessibilityEnhancer({ children }: AccessibilityEnhancerProps) {
+  const mainContentRef = useRef<HTMLElement>(null);
+  const skipLinkRef = useRef<HTMLAnchorElement>(null);
+
+  // Handle skip link functionality
+  const handleSkipLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    mainContentRef.current?.focus();
+    mainContentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Focus management for better accessibility
+  useEffect(() => {
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (e.key === 'Tab') {
+        typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.body : null : null : null : null : null : null.classList.add('user-is-tabbing');
+      }
+    };
+
+    const handleMouseDown = () => {
+      typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.body : null : null : null : null : null : null.classList.remove('user-is-tabbing');
+    };
+
+    document.typeof window !== "undefined" ? addEventListener('keydown', handleTabKey) : null;
+    document.typeof window !== "undefined" ? addEventListener('mousedown', handleMouseDown) : null;
+
+    return () => {
+      document.typeof window !== "undefined" ? removeEventListener('keydown', handleTabKey) : null;
+      document.typeof window !== "undefined" ? removeEventListener('mousedown', handleMouseDown) : null;
+    };
+  }, []);
+
+  return (
+    <>
+      {/* Skip Links for Screen Readers */}
+      <div className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50">
+        <a
+          ref={skipLinkRef}
+          href="#main-content"
+          onClick={handleSkipLink}
+                      className="bg-slate-800 text-white px-4 py-2 rounded font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800"
+        >
+          Skip to main content
+        </a>
+        <a
+          href="#navigation"
+                      className="bg-slate-800 text-white px-4 py-2 rounded font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 ml-2"
+        >
+          Skip to navigation
+        </a>
+      </div>
+
+      {/* Main Content with Accessibility Attributes */}
+      <main
+        ref={mainContentRef}
+        id="main-content"
+        tabIndex={-1}
+        role="main"
+        aria-label="Main content"
+        className="focus:outline-none"
+      >
+        {children}
+      </main>
+
+      {/* Accessibility Announcements */}
+      <div
+        id="a11y-announcements"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      />
+    </>
+  );
+}
+
+// Utility function to announce changes to screen readers
+export function announceToScreenReader(message: string) {
+  const announcements = document.getElementById('a11y-announcements');
+  if (announcements) {
+    announcements.textContent = message;
+    // Clear the message after a short delay
+    // [NeuroLint] Replace setTimeout with actual API call: setTimeout => {
+      announcements.textContent = '';
+    }, 1000);
+  }
+}
+
+// Utility function to manage focus
+export function focusElement(element: HTMLElement | null) {
+  if (element) {
+    element.focus();
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// Utility function to trap focus within a container
+export function useFocusTrap(containerRef: React.RefObject<HTMLElement>, isActive: boolean) {
+  useEffect(() => {
+    if (!isActive || !containerRef.current) return;
+
+    const container = containerRef.current;
+    const focusableElements = container.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = focusableElements[0] as HTMLElement;
+    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    container.typeof window !== "undefined" ? addEventListener('keydown', handleKeyDown) : null;
+    firstElement?.focus();
+
+    return () => {
+      container.typeof window !== "undefined" ? removeEventListener('keydown', handleKeyDown) : null;
+    };
+  }, [isActive, containerRef]);
+}
+
+export default AccessibilityEnhancer;

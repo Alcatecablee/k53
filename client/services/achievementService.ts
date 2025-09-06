@@ -90,7 +90,7 @@ export const getUserProgress = (): UserProgress => {
     return getDefaultProgress();
   }
 
-  const stored = localStorage.getItem("k53_user_progress");
+  const stored = typeof window !== "undefined" ? localStorage.getItem("k53_user_progress") : null;
   if (!stored) {
     return getDefaultProgress();
   }
@@ -111,7 +111,7 @@ export const getUserProgress = (): UserProgress => {
   } catch (error) {
     console.error('Error parsing user progress:', error);
     // Clear corrupted data
-    localStorage.removeItem("k53_user_progress");
+    typeof window !== "undefined" ? localStorage.removeItem("k53_user_progress") : null;
     return getDefaultProgress();
   }
 };
@@ -126,7 +126,9 @@ export const saveUserProgress = (progress: UserProgress): void => {
       throw new Error('Invalid progress data');
     }
     
-    localStorage.setItem("k53_user_progress", JSON.stringify(progress));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("k53_user_progress", JSON.stringify(progress));
+    }
   } catch (error) {
     console.error('Error saving user progress:', error);
     // Don't throw - this is not critical for app functionality
@@ -163,7 +165,7 @@ export const getAchievementNotifications = (): AchievementNotification[] => {
   if (typeof window === "undefined") return [];
   
   try {
-    const stored = localStorage.getItem(NOTIFICATIONS_KEY);
+    const stored = typeof window !== "undefined" ? localStorage.getItem(NOTIFICATIONS_KEY) : null;
     return stored ? JSON.parse(stored) : [];
   } catch {
     return [];
@@ -175,7 +177,9 @@ export const saveAchievementNotifications = (notifications: AchievementNotificat
   if (typeof window === "undefined") return;
   
   try {
-    localStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(notifications));
+    if (typeof window !== "undefined") {
+      localStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(notifications));
+    }
   } catch (error) {
     console.error('Error saving achievement notifications:', error);
   }
@@ -186,7 +190,7 @@ export const getAchievementHistory = (): AchievementHistory[] => {
   if (typeof window === "undefined") return [];
   
   try {
-    const stored = localStorage.getItem(HISTORY_KEY);
+    const stored = typeof window !== "undefined" ? localStorage.getItem(HISTORY_KEY) : null;
     return stored ? JSON.parse(stored) : [];
   } catch {
     return [];
@@ -198,7 +202,9 @@ export const saveAchievementHistory = (history: AchievementHistory[]): void => {
   if (typeof window === "undefined") return;
   
   try {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    if (typeof window !== "undefined") {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    }
   } catch (error) {
     console.error('Error saving achievement history:', error);
   }
@@ -206,7 +212,7 @@ export const saveAchievementHistory = (history: AchievementHistory[]): void => {
 
 // Get default achievements (all locked)
 export const getDefaultAchievements = (): Achievement[] => {
-  return ACHIEVEMENTS.map((achievement) => ({
+  return ACHIEVEMENTS.map((achievement: unknown) => ({
     ...achievement,
     unlocked: false,
     progress: 0,
@@ -267,7 +273,7 @@ const isConsecutiveDay = (date1: string, date2: string): boolean => {
 
 // Check and update achievements
 export const checkAchievements = (progress: UserProgress): Achievement[] => {
-  const achievements = progress.achievements.map((achievement) => {
+  const achievements = progress.achievements.map((achievement: unknown) => {
     let progressValue = 0;
     let unlocked = achievement.unlocked;
     let unlockedAt = achievement.unlockedAt;
@@ -397,7 +403,7 @@ export const clearAllNotifications = (): void => {
 export const addAchievementHistory = (
   achievementId: string, 
   action: "unlocked" | "shared" | "viewed",
-  metadata?: any
+  metadata?: unknown
 ): void => {
   const history = getAchievementHistory();
   const historyEntry: AchievementHistory = {
@@ -465,15 +471,15 @@ export const calculatePerformanceStats = (
   userAnswers: { correct: boolean; category: string; responseTime: number }[]
 ): PerformanceStats => {
   const totalAnswers = userAnswers.length;
-  const correctAnswers = userAnswers.filter((answer) => answer.correct).length;
+  const correctAnswers = userAnswers.filter((answer: unknown) => answer.correct).length;
   const accuracy = totalAnswers > 0 ? (correctAnswers / totalAnswers) * 100 : 0;
   
   const averageResponseTime = userAnswers.length > 0 
-    ? userAnswers.reduce((sum, answer) => sum + answer.responseTime, 0) / userAnswers.length 
+    ? userAnswers.reduce((sum: unknown, answer: unknown) => sum + answer.responseTime, 0) / userAnswers.length 
     : 0;
 
   // Calculate weak and strong categories
-  const categoryStats = userAnswers.reduce((acc, answer) => {
+  const categoryStats = userAnswers.reduce((acc: unknown, answer: unknown) => {
     if (!acc[answer.category]) {
       acc[answer.category] = { correct: 0, total: 0 };
     }
@@ -740,4 +746,4 @@ const getMotivationRecommendation = (progress: UserProgress) => {
     };
   }
   return null;
-}; 
+};

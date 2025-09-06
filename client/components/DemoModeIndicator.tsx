@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { AlertTriangle, X, Settings, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getEnvironmentStatus } from "@/lib/env";
+import { useToast } from "@/hooks/use-toast";
 
 export function DemoModeIndicator() {
+  const { toast } = useToast();
   const [isDismissed, setIsDismissed] = useState(false);
   const [envStatus, setEnvStatus] = useState(() => getEnvironmentStatus());
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -11,7 +13,7 @@ export function DemoModeIndicator() {
   // Refresh environment status
   const refreshEnvironment = () => {
     setIsRefreshing(true);
-    setTimeout(() => {
+    const refreshTimer = setTimeout(() => {
       const newStatus = getEnvironmentStatus();
       setEnvStatus(newStatus);
       setIsRefreshing(false);
@@ -19,11 +21,23 @@ export function DemoModeIndicator() {
       // If environment is now valid, auto-dismiss and reload page
       if (newStatus.isValid) {
         setIsDismissed(true);
-        setTimeout(() => {
+        const reloadTimer = setTimeout(() => {
           window.location.reload();
         }, 1000);
+        
+        return () => {
+          if (reloadTimer) {
+            clearTimeout(reloadTimer);
+          }
+        };
       }
     }, 1000);
+    
+    return () => {
+      if (refreshTimer) {
+        clearTimeout(refreshTimer);
+      }
+    };
   };
 
   // Auto-refresh on mount to catch environment changes
@@ -32,7 +46,11 @@ export function DemoModeIndicator() {
       const newStatus = getEnvironmentStatus();
       setEnvStatus(newStatus);
     }, 2000);
-    return () => clearTimeout(timer);
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
   }, []);
 
   // Only show if environment is not configured and not dismissed
@@ -87,15 +105,16 @@ export function DemoModeIndicator() {
               className="bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200"
               asChild
             >
-              <a
-                href="#fly-setup"
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert(
-                    "Check FLY_SETUP.md in your project for detailed instructions on setting Fly.dev environment variables.",
-                  );
-                }}
-              >
+                              <a
+                  href="#fly-setup"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toast({
+                      title: "Setup Guide",
+                      description: "Check FLY_SETUP.md in your project for detailed instructions on setting Fly.dev environment variables.",
+                    });
+                  }}
+                >
                 <Settings className="h-4 w-4 mr-1" />
                 Setup Guide
               </a>

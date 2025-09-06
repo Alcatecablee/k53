@@ -1,0 +1,372 @@
+import { ApiError, UserEvent, ErrorLog, AnalyticsEvent } from '@/types';
+import { env } from '@/lib/env';
+
+// Log levels
+export enum LogLevel {
+  DEBUG = 0,
+  INFO = 1,
+  WARN = 2,
+  ERROR = 3,
+  CRITICAL = 4
+}
+
+// Log context
+export interface LogContext {
+  user_id: string | undefined;
+  session_id: string | undefined;
+  component: string | undefined;
+  action: string | undefined;
+  url: string | undefined;
+  user_agent: string | undefined;
+  timestamp: string;
+  [key: string]: unknown;
+}
+
+// Log entry interface
+export interface LogEntry {
+  id: string;
+  level: LogLevel;
+  message: string;
+  context: LogContext;
+  data: unknown | undefined;
+  error: Error | undefined;
+  timestamp: string;
+}
+
+// Logging configuration
+export interface LoggingConfig {
+  level: LogLevel;
+  enableConsole: boolean;
+  enableRemote: boolean;
+  remoteEndpoint: string | undefined;
+  batchSize: number;
+  flushInterval: number;
+  maxQueueSize: number;
+}
+
+// Default configuration
+const defaultConfig: LoggingConfig = {
+  level: env.nodeEnv === 'production' ? LogLevel.INFO : LogLevel.DEBUG,
+  enableConsole: env.nodeEnv === 'development',
+  enableRemote: env.nodeEnv === 'production',
+  remoteEndpoint: import.meta.env.VITE_LOGGING_ENDPOINT,
+  batchSize: 10,
+  flushInterval: 5000, // 5 seconds
+  maxQueueSize: 1000
+};
+
+class LoggingService {
+  private config: LoggingConfig;
+  private queue: LogEntry[] = [];
+  private flushTimer: NodeJS.Timeout | null = null;
+  private sessionId: string;
+
+  constructor(config: Partial<LoggingConfig> = {}) {
+    this.config = { ...defaultConfig, ...config };
+    this.sessionId = this.generateSessionId();
+    this.startFlushTimer();
+  }
+
+  private generateSessionId(): string {
+    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  private createLogEntry(
+    level: LogLevel,
+    message: string,
+    context: Partial<LogContext> = {},
+    data?: unknown,
+    error?: Error
+  ): LogEntry {
+    return {
+      id: `log_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      level,
+      message,
+      context: {
+        user_id: undefined,
+        session_id: this.sessionId,
+        component: undefined,
+        action: undefined,
+        url: typeof window !== 'undefined' ? window.location.href : undefined,
+        user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
+        timestamp: new Date().toISOString(),
+        ...context
+      },
+      data,
+      error,
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  private shouldLog(level: LogLevel): boolean {
+    return level >= this.config.level;
+  }
+
+  private logToConsole(entry: LogEntry): void {
+    if (!this.config.enableConsole) return;
+
+    const { level, message, context, data, error } = entry;
+    const timestamp = new Date(entry.timestamp).toLocaleTimeString();
+    const prefix = `[${timestamp}] [${LogLevel[level]}]`;
+
+    switch (level) {
+      case LogLevel.DEBUG:
+        // [NeuroLint] Removed console.debug: prefix, message, { context, data, error }
+        break;
+      case LogLevel.INFO:
+        // [NeuroLint] Removed console.info: prefix, message, { context, data }
+        break;
+      case LogLevel.WARN:
+        // [NeuroLint] Removed console.warn: prefix, message, { context, data, error }
+        break;
+      case LogLevel.ERROR:
+      case LogLevel.CRITICAL:
+        // [NeuroLint] Removed console.error: prefix, message, { context, data, error }
+        break;
+    }
+  }
+
+  private async sendToRemote(entries: LogEntry[]): Promise<void> {
+    if (!this.config.enableRemote || !this.config.remoteEndpoint) return;
+
+    try {
+      const response = await fetch(this.config.remoteEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ logs: entries }),
+      });
+
+      if (!response.ok) {
+        // [NeuroLint] Removed console.warn: 'Failed to send logs to remote endpoint:', response.status
+      }
+    } catch (error) {
+      // [NeuroLint] Removed console.warn: 'Error sending logs to remote endpoint:', error
+    }
+  }
+
+  private addToQueue(entry: LogEntry): void {
+    if (this.queue.length >= this.config.maxQueueSize) {
+      this.queue.shift(); // Remove oldest entry
+    }
+    this.queue.push(entry);
+
+    if (this.queue.length >= this.config.batchSize) {
+      this.flush();
+    }
+  }
+
+  private startFlushTimer(): void {
+    if (this.flushTimer) {
+      clearInterval(this.flushTimer);
+    }
+
+    this.flushTimer = setInterval(() => {
+      this.flush();
+    }, this.config.flushInterval);
+  }
+
+  private async flush(): Promise<void> {
+    if (this.queue.length === 0) return;
+
+    const entries = [...this.queue];
+    this.queue = [];
+
+    // Send to remote endpoint
+    await this.sendToRemote(entries);
+  }
+
+  // Public logging methods
+  debug(message: string, context?: Partial<LogContext>, data?: unknown): void {
+    if (!this.shouldLog(LogLevel.DEBUG)) return;
+
+    const entry = this.createLogEntry(LogLevel.DEBUG, message, context, data);
+    this.logToConsole(entry);
+    this.addToQueue(entry);
+  }
+
+  info(message: string, context?: Partial<LogContext>, data?: unknown): void {
+    if (!this.shouldLog(LogLevel.INFO)) return;
+
+    const entry = this.createLogEntry(LogLevel.INFO, message, context, data);
+    this.logToConsole(entry);
+    this.addToQueue(entry);
+  }
+
+  warn(message: string, context?: Partial<LogContext>, data?: unknown, error?: Error): void {
+    if (!this.shouldLog(LogLevel.WARN)) return;
+
+    const entry = this.createLogEntry(LogLevel.WARN, message, context, data, error);
+    this.logToConsole(entry);
+    this.addToQueue(entry);
+  }
+
+  error(message: string, context?: Partial<LogContext>, data?: unknown, error?: Error): void {
+    if (!this.shouldLog(LogLevel.ERROR)) return;
+
+    const entry = this.createLogEntry(LogLevel.ERROR, message, context, data, error);
+    this.logToConsole(entry);
+    this.addToQueue(entry);
+  }
+
+  critical(message: string, context?: Partial<LogContext>, data?: unknown, error?: Error): void {
+    if (!this.shouldLog(LogLevel.CRITICAL)) return;
+
+    const entry = this.createLogEntry(LogLevel.CRITICAL, message, context, data, error);
+    this.logToConsole(entry);
+    this.addToQueue(entry);
+  }
+
+  // Specialized logging methods
+  logUserEvent(event: UserEvent): void {
+    this.info('User event recorded', {
+      user_id: event.user_id,
+      event_type: event.event_type,
+      action: 'user_event'
+    }, event.event_data);
+  }
+
+  logApiError(error: ApiError, context: Partial<LogContext> = {}): void {
+    this.error('API error occurred', {
+      ...context,
+      action: 'api_error',
+      error_code: error.code
+    }, error.details, new Error(error.message));
+  }
+
+  logErrorLog(errorLog: ErrorLog): void {
+    this.error('Error log recorded', {
+      user_id: errorLog.user_id,
+      error_type: errorLog.error_type,
+      action: 'error_log'
+    }, { url: errorLog.url, user_agent: errorLog.user_agent }, new Error(errorLog.message));
+  }
+
+  logAnalyticsEvent(event: AnalyticsEvent): void {
+    this.info('Analytics event recorded', {
+      user_id: event.user_id,
+      event_type: event.event_type,
+      action: 'analytics_event'
+    }, event.properties);
+  }
+
+  // Performance logging
+  logPerformance(operation: string, duration: number, context?: Partial<LogContext>): void {
+    const level = duration > 1000 ? LogLevel.WARN : LogLevel.INFO;
+    const message = `Performance: ${operation} took ${duration}ms`;
+    
+    if (level === LogLevel.WARN) {
+      this.warn(message, { ...context, action: 'performance', duration });
+    } else {
+      this.info(message, { ...context, action: 'performance', duration });
+    }
+  }
+
+  // Security logging
+  logSecurityEvent(event: string, details: unknown, context?: Partial<LogContext>): void {
+    this.warn(`Security event: ${event}`, {
+      ...context,
+      action: 'security_event'
+    }, details);
+  }
+
+  // Component lifecycle logging
+  logComponentLifecycle(component: string, lifecycle: 'mount' | 'unmount' | 'update', context?: Partial<LogContext>): void {
+    this.debug(`Component ${component} ${lifecycle}`, {
+      ...context,
+      component,
+      action: 'component_lifecycle',
+      lifecycle
+    });
+  }
+
+  // Cleanup method
+  destroy(): void {
+    if (this.flushTimer) {
+      clearInterval(this.flushTimer);
+      this.flushTimer = null;
+    }
+    this.flush();
+  }
+
+  // Get current queue size
+  getQueueSize(): number {
+    return this.queue.length;
+  }
+
+  // Force flush
+  async forceFlush(): Promise<void> {
+    await this.flush();
+  }
+}
+
+// Create singleton instance
+export const logger = new LoggingService();
+
+// Export convenience functions
+export const logDebug = (message: string, context?: Partial<LogContext>, data?: unknown) => 
+  logger.debug(message, context, data);
+
+export const logInfo = (message: string, context?: Partial<LogContext>, data?: unknown) => 
+  logger.info(message, context, data);
+
+export const logWarn = (message: string, context?: Partial<LogContext>, data?: unknown, error?: Error) => 
+  logger.warn(message, context, data, error);
+
+export const logError = (message: string, context?: Partial<LogContext>, data?: unknown, error?: Error) => 
+  logger.error(message, context, data, error);
+
+export const logCritical = (message: string, context?: Partial<LogContext>, data?: unknown, error?: Error) => 
+  logger.critical(message, context, data, error);
+
+// Performance monitoring
+export const withPerformanceLogging = <T extends unknown[], R>(
+  operation: string,
+  fn: (...args: T) => Promise<R> | R,
+  context?: Partial<LogContext>
+) => {
+  return async (...args: T): Promise<R> => {
+    const start = performance.now();
+    try {
+      const result = await fn(...args);
+      const duration = performance.now() - start;
+      logger.logPerformance(operation, duration, context);
+      return result;
+    } catch (error) {
+      const duration = performance.now() - start;
+      logger.logPerformance(operation, duration, context);
+      throw error;
+    }
+  };
+};
+
+// Error boundary logging
+export const logErrorBoundary = (error: Error, errorInfo: React.ErrorInfo, context?: Partial<LogContext>): void => {
+  logger.error('Error boundary caught error', {
+    ...context,
+    action: 'error_boundary',
+    component_stack: errorInfo.componentStack
+  }, { error_info: errorInfo }, error);
+};
+
+// Network error logging
+export const logNetworkError = (url: string, error: Error, context?: Partial<LogContext>): void => {
+  logger.error('Network request failed', {
+    ...context,
+    action: 'network_error',
+    url
+  }, { error_name: error.name, error_message: error.message }, error);
+};
+
+// Authentication logging
+export const logAuthEvent = (event: 'login' | 'logout' | 'signup' | 'password_reset', userId?: string, context?: Partial<LogContext>): void => {
+  logger.info(`Authentication event: ${event}`, {
+    ...context,
+    action: 'auth_event',
+    user_id: userId
+  });
+};
+
+// Export the service class for testing
+export { LoggingService }; 

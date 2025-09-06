@@ -1,14 +1,14 @@
 interface OfflineData {
-  scenarios: any[];
-  progress: any;
-  achievements: any[];
-  user: any;
+  scenarios: unknown[];
+  progress: unknown;
+  achievements: unknown[];
+  user: unknown;
   timestamp: number;
 }
 
 interface SyncQueue {
   type: 'progress' | 'achievement' | 'scenario';
-  data: any;
+  data: unknown;
   timestamp: number;
 }
 
@@ -60,7 +60,7 @@ class PWAService {
 
   private async loadOfflineData(): Promise<void> {
     try {
-      const stored = localStorage.getItem('superk53_offline_data');
+      const stored = typeof window !== "undefined" ? localStorage.getItem('superk53_offline_data') : null;
       if (stored) {
         this.offlineData = JSON.parse(stored);
       }
@@ -72,7 +72,9 @@ class PWAService {
   private async saveOfflineData(): Promise<void> {
     try {
       if (this.offlineData) {
-        localStorage.setItem('superk53_offline_data', JSON.stringify(this.offlineData));
+        if (typeof window !== "undefined") {
+          localStorage.setItem('superk53_offline_data', JSON.stringify(this.offlineData));
+        }
       }
     } catch (error) {
       console.error('Failed to save offline data:', error);
@@ -81,7 +83,7 @@ class PWAService {
 
   private async loadSyncQueue(): Promise<void> {
     try {
-      const stored = localStorage.getItem('superk53_sync_queue');
+      const stored = typeof window !== "undefined" ? localStorage.getItem('superk53_sync_queue') : null;
       if (stored) {
         this.syncQueue = JSON.parse(stored);
       }
@@ -92,7 +94,9 @@ class PWAService {
 
   private async saveSyncQueue(): Promise<void> {
     try {
-      localStorage.setItem('superk53_sync_queue', JSON.stringify(this.syncQueue));
+      if (typeof window !== "undefined") {
+        localStorage.setItem('superk53_sync_queue', JSON.stringify(this.syncQueue));
+      }
     } catch (error) {
       console.error('Failed to save sync queue:', error);
     }
@@ -108,7 +112,7 @@ class PWAService {
   }
 
   // Cache scenarios for offline use
-  async cacheScenarios(scenarios: any[]): Promise<void> {
+  async cacheScenarios(scenarios: unknown[]): Promise<void> {
     try {
       if (!this.offlineData) {
         this.offlineData = {
@@ -149,7 +153,7 @@ class PWAService {
   }
 
   // Get cached scenarios
-  async getCachedScenarios(): Promise<any[]> {
+  async getCachedScenarios(): Promise<unknown[]> {
     try {
       if (this.offlineData?.scenarios) {
         return this.offlineData.scenarios;
@@ -173,7 +177,7 @@ class PWAService {
   }
 
   // Save progress for offline sync
-  async saveProgress(progress: any): Promise<void> {
+  async saveProgress(progress: unknown): Promise<void> {
     try {
       if (!this.offlineData) {
         this.offlineData = {
@@ -208,7 +212,7 @@ class PWAService {
   }
 
   // Save achievement for offline sync
-  async saveAchievement(achievement: any): Promise<void> {
+  async saveAchievement(achievement: unknown): Promise<void> {
     try {
       if (!this.offlineData) {
         this.offlineData = {
@@ -280,7 +284,7 @@ class PWAService {
   }
 
   // Sync progress to server
-  private async syncProgress(progress: any): Promise<void> {
+  private async syncProgress(progress: unknown): Promise<void> {
     try {
       const response = await fetch('/api/progress', {
         method: 'POST',
@@ -298,7 +302,7 @@ class PWAService {
   }
 
   // Sync achievement to server
-  private async syncAchievement(achievement: any): Promise<void> {
+  private async syncAchievement(achievement: unknown): Promise<void> {
     try {
       const response = await fetch('/api/achievements', {
         method: 'POST',
@@ -316,7 +320,7 @@ class PWAService {
   }
 
   // Sync scenario to server
-  private async syncScenario(scenario: any): Promise<void> {
+  private async syncScenario(scenario: unknown): Promise<void> {
     try {
       const response = await fetch('/api/scenarios', {
         method: 'POST',
@@ -351,8 +355,11 @@ class PWAService {
 
   // Check if app is installed
   isAppInstalled(): boolean {
-    return window.matchMedia('(display-mode: standalone)').matches ||
-           (window.navigator as any).standalone === true;
+    if (typeof window !== "undefined") {
+      return window.matchMedia('(display-mode: standalone)').matches ||
+             (window.navigator as any).standalone === true;
+    }
+    return false;
   }
 
   // Request notification permission
@@ -381,7 +388,7 @@ class PWAService {
           return true; // Already subscribed
         }
         
-        const vapidKey = process.env.VITE_VAPID_PUBLIC_KEY;
+        const vapidKey = import.meta.env.VITE_VAPID_PUBLIC_KEY;
         if (!vapidKey) {
           console.warn('VAPID public key not found. Push notifications may not work.');
           return false;
@@ -414,8 +421,10 @@ class PWAService {
       this.offlineData = null;
       this.syncQueue = [];
       
-      localStorage.removeItem('superk53_offline_data');
-      localStorage.removeItem('superk53_sync_queue');
+      if (typeof window !== "undefined") {
+        localStorage.removeItem('superk53_offline_data');
+        localStorage.removeItem('superk53_sync_queue');
+      }
       
       // Clear service worker caches
       if ('caches' in window) {
@@ -432,4 +441,4 @@ class PWAService {
   }
 }
 
-export const pwaService = PWAService.getInstance(); 
+export const pwaService = PWAService.getInstance();

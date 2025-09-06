@@ -34,8 +34,46 @@ export const getScenarios = async (
     
     throw new Error("No scenarios found with specified filters");
   } catch (error) {
-    // Database scenarios unavailable, throw error for proper handling
-    throw new Error("Scenarios are currently unavailable. Please try again later.");
+    console.error("Error fetching scenarios:", error);
+    
+    // Try direct database query as fallback
+    try {
+      console.log("Attempting direct database query for scenarios");
+      const { data: dbScenarios, error: dbError } = await supabaseClient
+        .from("scenarios")
+        .select("*")
+        .limit(count);
+      
+      if (dbError) {
+        console.error("Database query error:", dbError);
+        throw new Error("Database connection failed");
+      }
+      
+      if (dbScenarios && dbScenarios.length > 0) {
+        console.log(`Direct query successful: ${dbScenarios.length} scenarios`);
+        return dbScenarios.map((s: any) => ({
+          id: s.id,
+          category: s.category,
+          title: s.title,
+          scenario: s.scenario,
+          question: s.question,
+          options: s.options,
+          correct: s.correct,
+          explanation: s.explanation,
+          difficulty: s.difficulty,
+          context: s.context,
+          timeOfDay: s.time_of_day,
+          weather: s.weather,
+          language: s.language,
+          location: s.location,
+        }));
+      }
+      
+      throw new Error("No scenarios found in database");
+    } catch (directError) {
+      console.error("Direct database query failed:", directError);
+      throw new Error("Unable to fetch scenarios from database");
+    }
   }
 };
 
@@ -89,7 +127,7 @@ const useLocationAwareSelection = (
   userLocation?: UserLocation,
 ) => {
   // Convert database format to local format
-  const convertedScenarios = scenarios.map((s) => ({
+  const convertedScenarios = scenarios.map((s: any) => ({
     id: s.id,
     category: s.category,
     title: s.title,
@@ -109,7 +147,7 @@ const useLocationAwareSelection = (
   // Apply location-aware scoring if user location is available
   if (userLocation) {
 
-    const scoredScenarios = convertedScenarios.map((scenario) => {
+    const scoredScenarios = convertedScenarios.map((scenario: any) => {
       let score = 0;
       let matchReason = "no-location";
 
@@ -236,11 +274,11 @@ const useLocationAwareSelection = (
     // Create weighted selection
     const result: any[] = [];
 
-    const highPriority = scoredScenarios.filter((s) => s.score >= 8);
+    const highPriority = scoredScenarios.filter((s: any) => s.score >= 8);
     const mediumPriority = scoredScenarios.filter(
       (s) => s.score >= 5 && s.score < 8,
     );
-    const lowPriority = scoredScenarios.filter((s) => s.score < 5);
+    const lowPriority = scoredScenarios.filter((s: any) => s.score < 5);
 
     const shuffledHigh = shuffleArray(highPriority);
     const shuffledMedium = shuffleArray(mediumPriority);
@@ -253,23 +291,23 @@ const useLocationAwareSelection = (
     result.push(
       ...shuffledHigh
         .slice(0, Math.min(targetHigh, shuffledHigh.length))
-        .map((s) => s.scenario),
+        .map((s: any) => s.scenario),
     );
     result.push(
       ...shuffledMedium
         .slice(0, Math.min(targetMedium, shuffledMedium.length))
-        .map((s) => s.scenario),
+        .map((s: any) => s.scenario),
     );
     result.push(
       ...shuffledLow
         .slice(0, Math.min(targetLow, shuffledLow.length))
-        .map((s) => s.scenario),
+        .map((s: any) => s.scenario),
     );
 
     if (result.length < count) {
       const remaining = [...shuffledHigh, ...shuffledMedium, ...shuffledLow]
         .slice(result.length)
-        .map((s) => s.scenario);
+        .map((s: any) => s.scenario);
       result.push(...remaining.slice(0, count - result.length));
     }
 
@@ -288,7 +326,7 @@ const generateRandomTestFromDb = (
   signsCount: number,
   rulesCount: number,
 ) => {
-  const convertedQuestions = questions.map((q) => ({
+  const convertedQuestions = questions.map((q: any) => ({
     id: q.id,
     category: q.category,
     question: q.question_text,
@@ -298,9 +336,9 @@ const generateRandomTestFromDb = (
     language: "en", // Default to English
   }));
 
-  const allControlsQuestions = convertedQuestions.filter((q) => q.category === "controls");
-  const allSignsQuestions = convertedQuestions.filter((q) => q.category === "signs");
-  const allRulesQuestions = convertedQuestions.filter((q) => q.category === "rules");
+  const allControlsQuestions = convertedQuestions.filter((q: any) => q.category === "controls");
+  const allSignsQuestions = convertedQuestions.filter((q: any) => q.category === "signs");
+  const allRulesQuestions = convertedQuestions.filter((q: any) => q.category === "rules");
   
   // Use available questions if requested count exceeds available
   const actualControlsCount = Math.min(controlsCount, allControlsQuestions.length);

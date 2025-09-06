@@ -1,15 +1,16 @@
+'use client';
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { Slider } from '@/components/ui/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Progress } from '@/components/ui/progress';
-import { useToast } from '@/hooks/use-toast';
-import { imageMapping, ImageAsset } from '@/data/imageMapping';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Button  } from '@/components/ui/button';
+import {  Badge  } from '@/components/ui/badge';
+import {  Switch  } from '@/components/ui/switch';
+import {  Slider  } from '@/components/ui/slider';
+import {  Select, SelectContent, SelectItem, SelectTrigger, SelectValue  } from '@/components/ui/select';
+import {  Label  } from '@/components/ui/label';
+import {  Tabs, TabsContent, TabsList, TabsTrigger  } from '@/components/ui/tabs';
+import {  Progress  } from '@/components/ui/progress';
+import {  useToast  } from '@/hooks/use-toast';
+import {  imageMapping, ImageAsset  } from '@/data/imageMapping';
 
 interface MobileSettings {
   touchGestures: boolean;
@@ -87,15 +88,15 @@ export function MobileOptimization() {
   });
 
   const [voiceCommands, setVoiceCommands] = useState<VoiceCommand[]>([
-    { id: '1', phrase: 'Next image', action: 'Navigate to next image', enabled: true },
-    { id: '2', phrase: 'Previous image', action: 'Navigate to previous image', enabled: true },
-    { id: '3', phrase: 'Start quiz', action: 'Begin image quiz', enabled: true },
-    { id: '4', phrase: 'Show answer', action: 'Display image answer', enabled: true },
-    { id: '5', phrase: 'Save to collection', action: 'Add image to collection', enabled: false },
-    { id: '6', phrase: 'Search images', action: 'Open search interface', enabled: false },
-    { id: '7', phrase: 'Toggle fullscreen', action: 'Switch fullscreen mode', enabled: true },
-    { id: '8', phrase: 'Share image', action: 'Share current image', enabled: false }
-  ]);
+  { id: '1', phrase: 'Next image', action: 'Navigate to next image', enabled: true },
+  { id: '2', phrase: 'Previous image', action: 'Navigate to previous image', enabled: true },
+  { id: '3', phrase: 'Start quiz', action: 'Begin image quiz', enabled: true },
+  { id: '4', phrase: 'Show answer', action: 'Display image answer', enabled: true },
+  { id: '5', phrase: 'Save to collection', action: 'Add image to collection', enabled: false },
+  { id: '6', phrase: 'Search images', action: 'Open search interface', enabled: false },
+  { id: '7', phrase: 'Toggle fullscreen', action: 'Switch fullscreen mode', enabled: true },
+  { id: '8', phrase: 'Share image', action: 'Share current image', enabled: false }]
+  );
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -108,14 +109,14 @@ export function MobileOptimization() {
 
   // Handle voice commands
   const handleVoiceCommand = useCallback((transcript: string) => {
-    const command = voiceCommands.find(cmd => 
-      cmd.enabled && transcript.includes(cmd.phrase.toLowerCase())
+    const command = voiceCommands.find((cmd) =>
+    cmd.enabled && transcript.includes(cmd.phrase.toLowerCase())
     );
 
     if (command) {
       toast({
         title: "Voice Command",
-        description: `Executing: ${command.action}`,
+        description: `Executing: ${command.action}`
       });
 
       // Execute the command
@@ -152,7 +153,7 @@ export function MobileOptimization() {
         recognitionInstance.interimResults = false;
         recognitionInstance.lang = 'en-US';
 
-        recognitionInstance.onresult = (event: any) => {
+        recognitionInstance.onresult = (event: unknown) => {
           try {
             const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
             handleVoiceCommand(transcript);
@@ -161,15 +162,15 @@ export function MobileOptimization() {
             toast({
               title: "Voice Command Error",
               description: "Failed to process voice command. Please try again.",
-              variant: "destructive",
+              variant: "destructive"
             });
           }
         };
 
-        recognitionInstance.onerror = (event: any) => {
+        recognitionInstance.onerror = (event: unknown) => {
           console.error('Speech recognition error:', event.error);
           setIsListening(false);
-          
+
           let errorMessage = 'Voice recognition error occurred.';
           switch (event.error) {
             case 'no-speech':
@@ -185,11 +186,11 @@ export function MobileOptimization() {
               errorMessage = 'Network error occurred. Please check your connection.';
               break;
           }
-          
+
           toast({
             title: "Voice Recognition Error",
             description: errorMessage,
-            variant: "destructive",
+            variant: "destructive"
           });
         };
 
@@ -199,7 +200,7 @@ export function MobileOptimization() {
         toast({
           title: "Voice Recognition Error",
           description: "Failed to initialize voice recognition. Please try again.",
-          variant: "destructive",
+          variant: "destructive"
         });
       }
     }
@@ -218,7 +219,7 @@ export function MobileOptimization() {
         toast({
           title: "Settings Error",
           description: errorMessage,
-          variant: "destructive",
+          variant: "destructive"
         });
       }
     }
@@ -234,7 +235,7 @@ export function MobileOptimization() {
       toast({
         title: "Save Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   }, [toast]);
@@ -250,7 +251,7 @@ export function MobileOptimization() {
       toast({
         title: "Voice Commands",
         description: "Voice commands are not supported in your browser.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
 
@@ -260,7 +261,7 @@ export function MobileOptimization() {
 
     toast({
       title: "Setting Updated",
-      description: `${key.replace(/([A-Z])/g, ' $1').toLowerCase()} has been ${value ? 'enabled' : 'disabled'}.`,
+      description: `${key.replace(/([A-Z])/g, ' $1').toLowerCase()} has been ${value ? 'enabled' : 'disabled'}.`
     });
   }, [settings, saveSettings, recognition, toast]);
 
@@ -270,7 +271,7 @@ export function MobileOptimization() {
       toast({
         title: "Voice Commands",
         description: "Voice commands are not supported in your browser.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -283,7 +284,7 @@ export function MobileOptimization() {
       setIsListening(true);
       toast({
         title: "Voice Recognition",
-        description: "Listening for voice commands...",
+        description: "Listening for voice commands..."
       });
     }
   }, [recognition, isListening, toast]);
@@ -294,7 +295,7 @@ export function MobileOptimization() {
       toast({
         title: "Offline Caching",
         description: "Offline caching is not supported in your browser.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -302,18 +303,18 @@ export function MobileOptimization() {
     setLoading(true);
     try {
       const cache = await caches.open('k53-images-v1');
-      
+
       // Cache essential images
-      const essentialImages = Object.values(imageMapping)
-        .flat()
-        .slice(0, 100) // Cache first 100 images
-        .map(img => img.path);
+      const essentialImages = Object.values(imageMapping).
+      flat().
+      slice(0, 100) // Cache first 100 images
+      .map((img) => img.path);
 
       await cache.addAll(essentialImages);
-      
+
       // Update cache info
       const keys = await cache.keys();
-      setCacheInfo(prev => ({
+      setCacheInfo((prev) => ({
         ...prev,
         imageCount: keys.length,
         lastUpdated: new Date()
@@ -321,7 +322,7 @@ export function MobileOptimization() {
 
       toast({
         title: "Offline Cache",
-        description: "Essential images have been cached for offline use.",
+        description: "Essential images have been cached for offline use."
       });
     } catch (error) {
       const errorMessage = 'Failed to initialize offline cache.';
@@ -329,7 +330,7 @@ export function MobileOptimization() {
       toast({
         title: "Cache Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -342,7 +343,7 @@ export function MobileOptimization() {
       toast({
         title: "Cache Management",
         description: "Cache management is not supported in your browser.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -351,10 +352,10 @@ export function MobileOptimization() {
     try {
       const cacheNames = await caches.keys();
       await Promise.all(
-        cacheNames.map(name => caches.delete(name))
+        cacheNames.map((name) => caches.delete(name))
       );
 
-      setCacheInfo(prev => ({
+      setCacheInfo((prev) => ({
         ...prev,
         totalSize: 0,
         imageCount: 0,
@@ -363,7 +364,7 @@ export function MobileOptimization() {
 
       toast({
         title: "Cache Cleared",
-        description: "All cached data has been cleared.",
+        description: "All cached data has been cleared."
       });
     } catch (error) {
       const errorMessage = 'Failed to clear cache.';
@@ -371,7 +372,7 @@ export function MobileOptimization() {
       toast({
         title: "Cache Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -383,9 +384,9 @@ export function MobileOptimization() {
     setLoading(true);
     try {
       // Simulate image optimization
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setCacheInfo(prev => ({
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      setCacheInfo((prev) => ({
         ...prev,
         compressionRatio: compressionLevel[0] / 100,
         lastUpdated: new Date()
@@ -393,7 +394,7 @@ export function MobileOptimization() {
 
       toast({
         title: "Image Optimization",
-        description: "Images have been optimized for mobile devices.",
+        description: "Images have been optimized for mobile devices."
       });
     } catch (error) {
       const errorMessage = 'Failed to optimize images.';
@@ -401,7 +402,7 @@ export function MobileOptimization() {
       toast({
         title: "Optimization Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -413,7 +414,7 @@ export function MobileOptimization() {
     const updateMetrics = () => {
       if ('performance' in window) {
         const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-        setPerformanceMetrics(prev => ({
+        setPerformanceMetrics((prev) => ({
           ...prev,
           loadTime: navigation.loadEventEnd - navigation.loadEventStart,
           memoryUsage: (performance as any).memory?.usedJSHeapSize / 1024 / 1024 || 0
@@ -423,17 +424,21 @@ export function MobileOptimization() {
 
     updateMetrics();
     const interval = setInterval(updateMetrics, 5000);
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, []);
 
   // Touch gesture handlers
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (!settings.touchGestures) return;
-    
+
     const touch = e.touches[0];
     const startX = touch.clientX;
     const startY = touch.clientY;
-    
+
     // Store touch start position for gesture detection
     (e.currentTarget as any).touchStartX = startX;
     (e.currentTarget as any).touchStartY = startY;
@@ -441,31 +446,31 @@ export function MobileOptimization() {
 
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (!settings.touchGestures) return;
-    
+
     const touch = e.changedTouches[0];
     const endX = touch.clientX;
     const endY = touch.clientY;
     const startX = (e.currentTarget as any).touchStartX;
     const startY = (e.currentTarget as any).touchStartY;
-    
+
     const deltaX = endX - startX;
     const deltaY = endY - startY;
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    
-    if (distance > 50) { // Minimum swipe distance
+
+    if (distance > 50) {// Minimum swipe distance
       if (Math.abs(deltaX) > Math.abs(deltaY)) {
         // Horizontal swipe
         if (deltaX > 0) {
           // Swipe right - previous
           toast({
             title: "Gesture",
-            description: "Swipe right detected - Previous image",
+            description: "Swipe right detected - Previous image"
           });
         } else {
           // Swipe left - next
           toast({
             title: "Gesture",
-            description: "Swipe left detected - Next image",
+            description: "Swipe left detected - Next image"
           });
         }
       } else {
@@ -474,13 +479,13 @@ export function MobileOptimization() {
           // Swipe down
           toast({
             title: "Gesture",
-            description: "Swipe down detected",
+            description: "Swipe down detected"
           });
         } else {
           // Swipe up
           toast({
             title: "Gesture",
-            description: "Swipe up detected",
+            description: "Swipe up detected"
           });
         }
       }
@@ -503,16 +508,16 @@ export function MobileOptimization() {
           </CardHeader>
           <CardContent>
             <p className="text-red-600 mb-4">{error}</p>
-            <Button 
+            <Button
               onClick={() => setError(null)}
-              variant="outline"
-            >
+              variant="outline">
+
               Dismiss Error
             </Button>
           </CardContent>
         </Card>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -547,8 +552,8 @@ export function MobileOptimization() {
                   <Switch
                     id="touchGestures"
                     checked={settings.touchGestures}
-                    onCheckedChange={(checked) => updateSettings('touchGestures', checked)}
-                  />
+                    onCheckedChange={(checked) => updateSettings('touchGestures', checked)} />
+
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -559,8 +564,8 @@ export function MobileOptimization() {
                   <Switch
                     id="voiceCommands"
                     checked={settings.voiceCommands}
-                    onCheckedChange={(checked) => updateSettings('voiceCommands', checked)}
-                  />
+                    onCheckedChange={(checked) => updateSettings('voiceCommands', checked)} />
+
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -571,8 +576,8 @@ export function MobileOptimization() {
                   <Switch
                     id="offlineCaching"
                     checked={settings.offlineCaching}
-                    onCheckedChange={(checked) => updateSettings('offlineCaching', checked)}
-                  />
+                    onCheckedChange={(checked) => updateSettings('offlineCaching', checked)} />
+
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -583,8 +588,8 @@ export function MobileOptimization() {
                   <Switch
                     id="imageCompression"
                     checked={settings.imageCompression}
-                    onCheckedChange={(checked) => updateSettings('imageCompression', checked)}
-                  />
+                    onCheckedChange={(checked) => updateSettings('imageCompression', checked)} />
+
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -595,8 +600,8 @@ export function MobileOptimization() {
                   <Switch
                     id="lazyLoading"
                     checked={settings.lazyLoading}
-                    onCheckedChange={(checked) => updateSettings('lazyLoading', checked)}
-                  />
+                    onCheckedChange={(checked) => updateSettings('lazyLoading', checked)} />
+
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -607,8 +612,8 @@ export function MobileOptimization() {
                   <Switch
                     id="progressiveLoading"
                     checked={settings.progressiveLoading}
-                    onCheckedChange={(checked) => updateSettings('progressiveLoading', checked)}
-                  />
+                    onCheckedChange={(checked) => updateSettings('progressiveLoading', checked)} />
+
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -619,8 +624,8 @@ export function MobileOptimization() {
                   <Switch
                     id="mobileUI"
                     checked={settings.mobileUI}
-                    onCheckedChange={(checked) => updateSettings('mobileUI', checked)}
-                  />
+                    onCheckedChange={(checked) => updateSettings('mobileUI', checked)} />
+
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -631,8 +636,8 @@ export function MobileOptimization() {
                   <Switch
                     id="hapticFeedback"
                     checked={settings.hapticFeedback}
-                    onCheckedChange={(checked) => updateSettings('hapticFeedback', checked)}
-                  />
+                    onCheckedChange={(checked) => updateSettings('hapticFeedback', checked)} />
+
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -643,8 +648,8 @@ export function MobileOptimization() {
                   <Switch
                     id="batteryOptimization"
                     checked={settings.batteryOptimization}
-                    onCheckedChange={(checked) => updateSettings('batteryOptimization', checked)}
-                  />
+                    onCheckedChange={(checked) => updateSettings('batteryOptimization', checked)} />
+
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -655,8 +660,8 @@ export function MobileOptimization() {
                   <Switch
                     id="dataSaver"
                     checked={settings.dataSaver}
-                    onCheckedChange={(checked) => updateSettings('dataSaver', checked)}
-                  />
+                    onCheckedChange={(checked) => updateSettings('dataSaver', checked)} />
+
                 </div>
               </div>
             </CardContent>
@@ -675,8 +680,8 @@ export function MobileOptimization() {
                   max={100}
                   min={10}
                   step={5}
-                  className="mt-2"
-                />
+                  className="mt-2" />
+
                 <p className="text-sm text-muted-foreground">
                   Higher compression reduces file size but may affect quality
                 </p>
@@ -690,8 +695,8 @@ export function MobileOptimization() {
                   max={500}
                   min={50}
                   step={10}
-                  className="mt-2"
-                />
+                  className="mt-2" />
+
                 <p className="text-sm text-muted-foreground">
                   Maximum storage space for cached images
                 </p>
@@ -705,8 +710,8 @@ export function MobileOptimization() {
                   max={500}
                   min={50}
                   step={10}
-                  className="mt-2"
-                />
+                  className="mt-2" />
+
                 <p className="text-sm text-muted-foreground">
                   Distance from viewport to start loading images
                 </p>
@@ -716,16 +721,16 @@ export function MobileOptimization() {
                 <Button
                   onClick={optimizeImages}
                   disabled={loading}
-                  className="flex-1"
-                >
+                  className="flex-1">
+
                   {loading ? 'Optimizing...' : 'Optimize Images'}
                 </Button>
                 <Button
                   onClick={clearCache}
                   disabled={loading}
                   variant="outline"
-                  className="flex-1"
-                >
+                  className="flex-1">
+
                   Clear Cache
                 </Button>
               </div>
@@ -782,11 +787,11 @@ export function MobileOptimization() {
                 </div>
               </div>
 
-              <div 
+              <div
                 className="mt-6 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center"
                 onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-              >
+                onTouchEnd={handleTouchEnd}>
+
                 <p className="text-muted-foreground">
                   Test touch gestures here
                 </p>
@@ -814,32 +819,32 @@ export function MobileOptimization() {
                 <Button
                   onClick={toggleVoiceRecognition}
                   disabled={!settings.voiceCommands}
-                  variant={isListening ? "destructive" : "default"}
-                >
+                  variant={isListening ? "destructive" : "default"}>
+
                   {isListening ? 'Stop Listening' : 'Start Listening'}
                 </Button>
               </div>
 
               <div className="space-y-2">
                 <h4 className="font-semibold">Available Commands</h4>
-                {voiceCommands.map((command) => (
-                  <div key={command.id} className="flex items-center justify-between p-3 border rounded-lg">
+                {voiceCommands.map((command) =>
+                <div key={command.id} className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
                       <p className="font-medium">"{command.phrase}"</p>
                       <p className="text-sm text-muted-foreground">{command.action}</p>
                     </div>
                     <Switch
-                      checked={command.enabled}
-                      onCheckedChange={(checked) => {
-                        setVoiceCommands(prev =>
-                          prev.map(cmd =>
-                            cmd.id === command.id ? { ...cmd, enabled: checked } : cmd
-                          )
-                        );
-                      }}
-                    />
+                    checked={command.enabled}
+                    onCheckedChange={(checked) => {
+                      setVoiceCommands((prev) =>
+                      prev.map((cmd) =>
+                      cmd.id === command.id ? { ...cmd, enabled: checked } : cmd
+                      )
+                      );
+                    }} />
+
                   </div>
-                ))}
+                )}
               </div>
             </CardContent>
           </Card>
@@ -896,16 +901,16 @@ export function MobileOptimization() {
                 <Button
                   onClick={initializeOfflineCache}
                   disabled={loading}
-                  className="flex-1"
-                >
+                  className="flex-1">
+
                   {loading ? 'Initializing...' : 'Initialize Cache'}
                 </Button>
                 <Button
                   onClick={() => triggerHapticFeedback()}
                   disabled={!settings.hapticFeedback}
                   variant="outline"
-                  className="flex-1"
-                >
+                  className="flex-1">
+
                   Test Haptic Feedback
                 </Button>
               </div>
@@ -913,6 +918,8 @@ export function MobileOptimization() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
-} 
+    </div>);
+
+}
+
+export default MobileOptimization;

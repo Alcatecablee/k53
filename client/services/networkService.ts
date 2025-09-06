@@ -40,23 +40,36 @@ class NetworkService {
 
   private async checkSupabaseConnectivity() {
     try {
-      // Simple connectivity test to Supabase
+      // Check basic connectivity by testing if we can reach the domain
+      // Using a simple GET request to avoid CORS and auth issues
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-      const response = await fetch(
-        "https://lxzwakeusanxquhshcph.supabase.co/rest/v1/",
-        {
-          method: "HEAD",
-          signal: controller.signal,
-          mode: "no-cors", // Avoid CORS issues for connectivity test
-        },
-      );
+      // Check if we're online first
+      if (!navigator.onLine) {
+        this.status.isSupabaseReachable = false;
+        this.status.lastChecked = new Date();
+        this.notifyListeners();
+        return;
+      }
+
+      // Use a lightweight connectivity test
+      // Test DNS resolution and basic network connectivity
+      const testUrl = "https://www.google.com/favicon.ico";
+      const response = await fetch(testUrl, {
+        method: "HEAD",
+        signal: controller.signal,
+        mode: "no-cors", // This is fine for general connectivity
+      });
 
       clearTimeout(timeoutId);
+      
+      // If we can reach the internet, assume Supabase is reachable
+      // The actual Supabase client will handle auth and connection issues
       this.status.isSupabaseReachable = true;
+      
     } catch (error) {
-      console.warn("Supabase connectivity check failed:", error);
+      console.warn("Connectivity check failed:", error);
       this.status.isSupabaseReachable = false;
     }
 

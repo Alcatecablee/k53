@@ -71,6 +71,7 @@ class BlogService {
   }
 
   private initializePosts(): void {
+    console.log("Initializing blog posts...");
     this.posts = [
       {
         id: "1",
@@ -831,7 +832,11 @@ class BlogService {
   }
 
   public async getPostBySlug(slug: string): Promise<BlogPost | null> {
-    return this.posts.find(post => post.slug === slug) || null;
+    console.log("Looking for post with slug:", slug);
+    console.log("Available posts:", this.posts.map(p => p.slug));
+    const foundPost = this.posts.find(post => post.slug === slug);
+    console.log("Found post:", foundPost);
+    return foundPost || null;
   }
 
   public async getFeaturedPosts(): Promise<BlogPost[]> {

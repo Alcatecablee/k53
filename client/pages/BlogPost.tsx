@@ -1,52 +1,40 @@
-import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  ArrowLeft,
-  Calendar,
-  Clock,
-  User,
-  Share2,
-  BookOpen,
-  CheckCircle,
-  AlertTriangle,
-  Info,
-  ExternalLink,
-  ChevronRight,
-  Star,
-  Users,
-  TrendingUp,
-  Eye,
-  ThumbsUp,
-  Tag,
-  FileText,
-} from "lucide-react";
-import { SEO } from "@/components/SEO";
-import { SEO_CONFIGS } from "@/hooks/useSEO";
-import { blogService, type BlogPost } from "@/services/blogService";
+'use client';
+import React from 'react';
+import {  useState, useEffect  } from "react";
+import {  useParams, Link  } from 'react-router-dom';
+import {  Button  } from '@/components/ui/button';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Badge  } from '@/components/ui/badge';
+import {  ArrowLeft, Calendar, Clock, User, Share2, BookOpen, CheckCircle, AlertTriangle, Info, ExternalLink, ChevronRight, Star, Users, TrendingUp, Eye, ThumbsUp, Tag, FileText  } from 'lucide-react';
+import {  SEO  } from '@/components/SEO';
+import {  SEO_CONFIGS  } from '@/hooks/useSEO';
+import {  blogService, type, BlogPost  } from '@/services/blogService';
+import {  FinalShare  } from '@/components/FinalShare';
+import {  BlogComments  } from '@/components/BlogComments';
+import {  BlogDebug  } from '@/components/BlogDebug';
 
 
 
 export default function BlogPost() {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug } = useParams<{slug: string;}>();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadPost = async () => {
+      console.log("Loading post with slug:", slug);
       if (!slug) return;
-      
+
       try {
         const foundPost = await blogService.getPostBySlug(slug);
+        console.log("Found post:", foundPost);
         setPost(foundPost);
 
         if (foundPost) {
           // Increment view count
           await blogService.incrementViews(slug);
-          
+
           // Get related posts
           const related = await blogService.getRelatedPosts(foundPost, 3);
           setRelatedPosts(related);
@@ -71,8 +59,8 @@ export default function BlogPost() {
             <div className="h-10 bg-slate-700 rounded mx-auto w-32"></div>
           </div>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   if (!post) {
@@ -85,8 +73,8 @@ export default function BlogPost() {
             <Link to="/blog">Back to Blog</Link>
           </Button>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   // Create dynamic SEO config for this specific post
@@ -122,26 +110,26 @@ export default function BlogPost() {
                 <nav className="hidden md:flex items-center space-x-6">
                   <Link
                     to="/"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Home
                   </Link>
                   <Link
                     to="/practice"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Practice
                   </Link>
                   <Link
                     to="/blog"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Blog
                   </Link>
                   <Link
                     to="/pricing"
-                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors"
-                  >
+                    className="text-slate-400 hover:text-white text-xs font-normal transition-colors">
+                    
                     Premium
                   </Link>
                 </nav>
@@ -149,8 +137,8 @@ export default function BlogPost() {
                 <Button
                   asChild
                   variant="ghost"
-                  className="text-slate-300 hover:text-white hover:bg-slate-700 font-medium text-sm uppercase tracking-wide"
-                >
+                  className="text-slate-300 hover:text-white hover:bg-slate-700 font-medium text-sm uppercase tracking-wide">
+                  
                   <Link to="/practice">
                     <User className="h-4 w-4 mr-2" />
                     Sign In
@@ -194,11 +182,11 @@ export default function BlogPost() {
                   <Badge className="bg-slate-700 text-white border-0">
                     {post.category}
                   </Badge>
-                  {post.featured && (
-                    <Badge className="bg-slate-600 text-white border-0">
+                  {post.featured &&
+                  <Badge className="bg-slate-600 text-white border-0">
                       Featured
                     </Badge>
-                  )}
+                  }
                 </div>
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
                   {post.title}
@@ -253,61 +241,61 @@ export default function BlogPost() {
 
               {/* Article Content */}
               <div className="bg-slate-800 border border-black p-8 mb-8">
-                <div 
+                <div
                   className="prose prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
-                />
+                  dangerouslySetInnerHTML={{ __html: post.content }} />
+                
               </div>
 
               {/* External Links */}
-              {post.externalLinks.length > 0 && (
-                <div className="bg-slate-800 border border-black p-6 mb-8">
+              {post.externalLinks.length > 0 &&
+              <div className="bg-slate-800 border border-black p-6 mb-8">
                   <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
                     <ExternalLink className="h-5 w-5 mr-2" />
                     External Resources
                   </h3>
                   <div className="space-y-3">
-                    {post.externalLinks.map((link, index) => (
-                      <div key={index} className="bg-slate-700 border border-black p-4 rounded">
+                    {post.externalLinks.map((link, index) =>
+                  <div key={index} className="bg-slate-700 border border-black p-4 rounded">
                         <a
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-white hover:text-slate-300 font-medium flex items-center"
-                        >
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white hover:text-slate-300 font-medium flex items-center">
+                      
                           {link.title}
                           <ExternalLink className="h-4 w-4 ml-2" />
                         </a>
                         <p className="text-slate-400 text-sm mt-1">{link.description}</p>
                       </div>
-                    ))}
+                  )}
                   </div>
                 </div>
-              )}
+              }
 
               {/* Internal Links */}
-              {post.internalLinks.length > 0 && (
-                <div className="bg-slate-800 border border-black p-6 mb-8">
+              {post.internalLinks.length > 0 &&
+              <div className="bg-slate-800 border border-black p-6 mb-8">
                   <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
                     <BookOpen className="h-5 w-5 mr-2" />
                     Related Resources
                   </h3>
                   <div className="space-y-3">
-                    {post.internalLinks.map((link, index) => (
-                      <div key={index} className="bg-slate-700 border border-black p-4 rounded">
+                    {post.internalLinks.map((link, index) =>
+                  <div key={index} className="bg-slate-700 border border-black p-4 rounded">
                         <Link
-                          to={link.url}
-                          className="text-white hover:text-slate-300 font-medium flex items-center"
-                        >
+                      to={link.url}
+                      className="text-white hover:text-slate-300 font-medium flex items-center">
+                      
                           {link.title}
                           <ChevronRight className="h-4 w-4 ml-2" />
                         </Link>
                         <p className="text-slate-400 text-sm mt-1">{link.description}</p>
                       </div>
-                    ))}
+                  )}
                   </div>
                 </div>
-              )}
+              }
 
               {/* Tags */}
               <div className="bg-slate-800 border border-black p-6 mb-8">
@@ -316,28 +304,28 @@ export default function BlogPost() {
                   Tags
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="outline"
-                      className="border-slate-600 text-slate-300 hover:bg-slate-700"
-                    >
+                  {post.tags.map((tag) =>
+                  <Badge
+                    key={tag}
+                    variant="outline"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700">
+                    
                       {tag}
                     </Badge>
-                  ))}
+                  )}
                 </div>
               </div>
 
               {/* Related Articles */}
-              {relatedPosts.length > 0 && (
-                <div className="bg-slate-800 border border-black p-8 mb-8">
+              {relatedPosts.length > 0 &&
+              <div className="bg-slate-800 border border-black p-8 mb-8">
                   <h3 className="text-2xl font-bold text-white mb-6">Related Articles</h3>
                   <div className="grid md:grid-cols-3 gap-6">
-                    {relatedPosts.map((relatedPost) => (
-                      <Card
-                        key={relatedPost.id}
-                        className="bg-slate-700 border border-black hover:border-white transition-colors"
-                      >
+                    {relatedPosts.map((relatedPost) =>
+                  <Card
+                    key={relatedPost.id}
+                    className="bg-slate-700 border border-black hover:border-white transition-colors">
+                    
                         <CardHeader className="pb-3">
                           <Badge className="bg-slate-600 text-white border-0 w-fit mb-2">
                             {relatedPost.category}
@@ -361,11 +349,11 @@ export default function BlogPost() {
                             </div>
                           </div>
                           <Button
-                            asChild
-                            variant="outline"
-                            size="sm"
-                            className="border-black text-slate-300 hover:bg-slate-600 hover:text-white w-full"
-                          >
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="border-black text-slate-300 hover:bg-slate-600 hover:text-white w-full">
+                        
                             <Link to={`/blog/${relatedPost.slug}`}>
                               Read Article
                               <ExternalLink className="h-3 w-3 ml-1" />
@@ -373,10 +361,31 @@ export default function BlogPost() {
                           </Button>
                         </CardContent>
                       </Card>
-                    ))}
+                  )}
                   </div>
                 </div>
-              )}
+              }
+
+              {/* Debug Info */}
+              <div className="mb-8">
+                <BlogDebug post={post} />
+              </div>
+
+              {/* Final Share Component */}
+              <div className="mb-8">
+                <FinalShare />
+              </div>
+
+              {/* Comments Section */}
+              <div className="mb-8">
+                <BlogComments
+                  post={post}
+                  onCommentAdded={(comment) => {
+                    console.log('New comment added:', comment);
+                    // Track comment analytics
+                  }} />
+                
+              </div>
 
               {/* CTA Section */}
               <div className="bg-slate-800 border border-black p-8 text-center">
@@ -391,16 +400,16 @@ export default function BlogPost() {
                   <Button
                     asChild
                     size="lg"
-                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium"
-                  >
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium">
+                    
                     <Link to="/practice">Start Practicing Now</Link>
                   </Button>
                   <Button
                     asChild
                     variant="outline"
                     size="lg"
-                    className="border-black text-slate-300 hover:bg-slate-700 hover:text-white"
-                  >
+                    className="border-black text-slate-300 hover:bg-slate-700 hover:text-white">
+                    
                     <Link to="/blog">More Articles</Link>
                   </Button>
                 </div>
@@ -409,6 +418,6 @@ export default function BlogPost() {
           </div>
         </article>
       </div>
-    </>
-  );
+    </>);
+
 }

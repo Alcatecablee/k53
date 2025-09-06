@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -6,10 +6,10 @@ interface ErrorBoundaryState {
 }
 
 export class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  ErrorBoundaryState
-> {
-  constructor(props: { children: React.ReactNode }) {
+  {children: React.ReactNode;},
+  ErrorBoundaryState>
+{
+  constructor(props: {children: React.ReactNode;}) {
     super(props);
     this.state = { hasError: false };
   }
@@ -38,13 +38,13 @@ export class ErrorBoundary extends React.Component<
             </div>
             <button
               onClick={() => window.location.reload()}
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-            >
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+              
               Reload Page
             </button>
           </div>
-        </div>
-      );
+        </div>);
+
     }
 
     return this.props.children;

@@ -1,0 +1,116 @@
+import "./global.css";
+
+import { Toaster } from "@/components/ui/toaster";
+import { createRoot } from "react-dom/client";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { OfflineIndicator } from "@/components/OfflineIndicator";
+import { PWAInstaller } from "@/components/PWAInstaller";
+import { PWAStatus } from "@/components/PWAStatus";
+import { SkipToMainContent, LiveRegion } from "@/components/ui/accessibility";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import { lazy, Suspense } from "react";
+import { addResourceHints } from "./utils/seoUtils";
+import { PageLoadingSpinner } from "@/components/LoadingSpinner";
+
+// Lazy load pages for code splitting
+const Index = lazy(() => import("./pages/Index"));
+const Practice = lazy(() => import("./pages/Practice"));
+const Progress = lazy(() => import("./pages/Progress"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const DLTC = lazy(() => import("./pages/DLTC"));
+const Documentation = lazy(() => import("./pages/Documentation"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const AdminPro = lazy(() => import("./pages/AdminPro"));
+const ImageLibrary = lazy(() => import("./pages/ImageLibrary"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const SupabaseTest = lazy(() => import("./components/SupabaseTest").then(module => ({ default: module.SupabaseTest })));
+
+const queryClient = new QueryClient();
+
+// Initialize SEO resource hints
+if (typeof window !== "undefined") {
+  addResourceHints();
+
+  // Global error handler for unhandled fetch failures
+  window.addEventListener("unhandledrejection", (event) => {
+    if (
+      event.reason?.message?.includes("Failed to fetch") ||
+      event.reason?.name === "TypeError" ||
+      (event.reason?.stack && event.reason.stack.includes("AdminPro"))
+    ) {
+      // [NeuroLint] Removed console.warn: 
+        "Unhandled fetch error caught and suppressed:",
+        event.reason,
+      
+      event.preventDefault(); // Prevent the error from being thrown
+    }
+  });
+
+  // Enhanced error tracking for AdminPro
+  window.addEventListener("error", (event) => {
+    if (
+      event.error?.message?.includes("Failed to fetch") ||
+      event.filename?.includes("AdminPro")
+    ) {
+      // [NeuroLint] Removed console.warn: "AdminPro error caught and suppressed:", event.error
+      event.preventDefault();
+    }
+  });
+}
+
+const App = () => (
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <OfflineIndicator />
+          <PWAInstaller />
+          <SkipToMainContent />
+          <LiveRegion aria-live="polite">
+            <div id="live-announcements" />
+          </LiveRegion>
+          <BrowserRouter>
+            <ScrollToTop />
+            <Suspense fallback={<PageLoadingSpinner />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/practice" element={<Practice />} />
+                <Route path="/progress" element={<Progress />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/dltc" element={<DLTC />} />
+                <Route path="/docs" element={<Documentation />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/admin" element={<AdminPro />} />
+                <Route path="/pwa-status" element={<PWAStatus />} />
+                <Route path="/image-library" element={<ImageLibrary />} />
+                <Route path="/test-supabase" element={<SupabaseTest />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
+);
+
+const container = document.getElementById("root")!;
+
+// Check if root is already created to avoid React 18 warning
+if (!(container as any)._reactRoot) {
+  (container as any)._reactRoot = createRoot(container);
+}
+
+(container as any)._reactRoot.render(<App />);

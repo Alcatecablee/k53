@@ -1,15 +1,7 @@
+'use client';
 import React, { useState, useRef } from "react";
-import { 
-  Download, 
-  Upload, 
-  FileText, 
-  FileSpreadsheet, 
-  File,
-  CheckCircle,
-  AlertCircle,
-  Loader2
-} from "lucide-react";
-import { AchievementDatabaseService } from "@/services/achievementDatabaseService";
+import {  Download, Upload, FileText, FileSpreadsheet, File, CheckCircle, AlertCircle, Loader2  } from 'lucide-react';
+import {  AchievementDatabaseService  } from '@/services/achievementDatabaseService';
 import type { Achievement } from "@/types";
 
 interface AchievementExportImportProps {
@@ -18,20 +10,29 @@ interface AchievementExportImportProps {
   achievements?: Achievement[];
 }
 
-export default function AchievementExportImport({ 
+function AchievementExportImportWithErrorBoundary(props) {
+  try {
+    return <AchievementExportImport {...props} />;
+  } catch (error) {
+    return <div className="p-4 text-red-600">Something went wrong. Please try again.</div>;
+  }
+}
+
+function AchievementExportImport({
   className = "",
   userId,
   achievements = []
 }: AchievementExportImportProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [importing, setImporting] = useState(false);
   const [exportFormat, setExportFormat] = useState<'json' | 'csv' | 'pdf'>('json');
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{type: 'success' | 'error';text: string;} | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleExport = async () => {
     if (!userId) {
-      setMessage({ type: 'error', text: 'User ID required for export' });
+      setMessage({ type: 'error', text: 'User not authenticated' });
       return;
     }
 
@@ -40,22 +41,22 @@ export default function AchievementExportImport({
 
     try {
       const result = await AchievementDatabaseService.exportAchievements(userId, exportFormat);
-      
-      if (result.success && result.data) {
+
+      if (result && result.length > 0) {
         // Create and download file
         const fileName = `achievements_${new Date().toISOString().split('T')[0]}.${exportFormat}`;
-        
+
         if (exportFormat === 'json') {
-          downloadJSON(result.data, fileName);
+          downloadJSON(result, fileName);
         } else if (exportFormat === 'csv') {
-          downloadCSV(result.data, fileName);
+          downloadCSV(result, fileName);
         } else if (exportFormat === 'pdf') {
-          downloadPDF(result.data, fileName);
+          downloadPDF(result, fileName);
         }
-        
+
         setMessage({ type: 'success', text: 'Achievements exported successfully!' });
       } else {
-        setMessage({ type: 'error', text: result.error || 'Export failed' });
+        setMessage({ type: 'error', text: 'No data to export' });
       }
     } catch (error) {
       console.error('Export error:', error);
@@ -65,7 +66,7 @@ export default function AchievementExportImport({
     }
   };
 
-  const downloadJSON = (data: any, fileName: string) => {
+  const downloadJSON = (data: unknown, fileName: string) => {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -77,7 +78,7 @@ export default function AchievementExportImport({
     URL.revokeObjectURL(url);
   };
 
-  const downloadCSV = (data: any, fileName: string) => {
+  const downloadCSV = (data: unknown, fileName: string) => {
     const csvContent = convertToCSV(data);
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -90,7 +91,7 @@ export default function AchievementExportImport({
     URL.revokeObjectURL(url);
   };
 
-  const downloadPDF = (data: any, fileName: string) => {
+  const downloadPDF = (data: unknown, fileName: string) => {
     // Simple PDF generation using browser print
     const printWindow = window.open('', '_blank');
     if (printWindow) {
@@ -131,21 +132,21 @@ export default function AchievementExportImport({
     }
   };
 
-  const convertToCSV = (data: any): string => {
+  const convertToCSV = (data: unknown): string => {
     const headers = ['Title', 'Description', 'Category', 'Progress', 'Requirement', 'Status', 'Unlocked At'];
     const rows = data.achievements.map((achievement: Achievement) => [
-      achievement.title,
-      achievement.description,
-      achievement.category,
-      achievement.progress,
-      achievement.requirement,
-      achievement.unlocked ? 'Unlocked' : 'Locked',
-      achievement.unlockedAt || ''
-    ]);
-    
-    return [headers, ...rows]
-      .map(row => row.map(cell => `"${cell}"`).join(','))
-      .join('\n');
+    achievement.title,
+    achievement.description,
+    achievement.category,
+    achievement.progress,
+    achievement.requirement,
+    achievement.unlocked ? 'Unlocked' : 'Locked',
+    achievement.unlockedAt || '']
+    );
+
+    return [headers, ...rows].
+    map((row) => row.map((cell) => `"${cell}"`).join(',')).
+    join('\n');
   };
 
   const handleImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,13 +169,13 @@ export default function AchievementExportImport({
       }
 
       const result = await AchievementDatabaseService.importAchievements(userId, importData);
-      
+
       if (result.success) {
-        setMessage({ 
-          type: 'success', 
-          text: `Successfully imported ${result.imported} achievements!` 
+        setMessage({
+          type: 'success',
+          text: `Successfully imported ${result.imported} achievements!`
         });
-        
+
         // Refresh the page to show updated achievements
         setTimeout(() => {
           window.location.reload();
@@ -203,20 +204,20 @@ export default function AchievementExportImport({
         <h3 className="text-lg font-semibold text-white mb-4">Export & Import Achievements</h3>
         
         {/* Message Display */}
-        {message && (
-          <div className={`mb-4 p-3 rounded-lg flex items-center space-x-2 ${
-            message.type === 'success' 
-              ? 'bg-slate-700 border border-slate-500 text-white' 
-              : 'bg-slate-700 border border-red-500 text-red-300'
-          }`}>
-            {message.type === 'success' ? (
-              <CheckCircle className="h-4 w-4" />
-            ) : (
-              <AlertCircle className="h-4 w-4" />
-            )}
+        {message &&
+        <div className={`mb-4 p-3 rounded-lg flex items-center space-x-2 ${
+        message.type === 'success' ?
+        'bg-slate-700 border border-slate-500 text-white' :
+        'bg-slate-700 border border-red-500 text-red-300'}`
+        }>
+            {message.type === 'success' ?
+          <CheckCircle className="h-4 w-4" /> :
+
+          <AlertCircle className="h-4 w-4" />
+          }
             <span>{message.text}</span>
           </div>
-        )}
+        }
 
         {/* Export Section */}
         <div className="mb-6">
@@ -225,8 +226,8 @@ export default function AchievementExportImport({
             <select
               value={exportFormat}
               onChange={(e) => setExportFormat(e.target.value as any)}
-              className="bg-slate-700 text-white border border-slate-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-900"
-            >
+              className="bg-slate-700 text-white border border-slate-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-900">
+
               <option value="json">JSON</option>
               <option value="csv">CSV</option>
               <option value="pdf">PDF</option>
@@ -236,12 +237,12 @@ export default function AchievementExportImport({
               onClick={handleExport}
               disabled={exporting || !userId}
               className="bg-slate-800 text-white hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded font-medium flex items-center space-x-2"
-            >
-              {exporting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Download className="h-4 w-4" />
-              )}
+              aria-label="Button">
+              {exporting ?
+              <Loader2 className="h-4 w-4 animate-spin" /> :
+
+              <Download className="h-4 w-4" />
+              }
               <span>{exporting ? 'Exporting...' : 'Export'}</span>
             </button>
           </div>
@@ -263,19 +264,19 @@ export default function AchievementExportImport({
               type="file"
               accept=".json"
               onChange={handleImport}
-              className="hidden"
-            />
+              className="hidden" />
+
             
             <button
               onClick={triggerFileInput}
               disabled={importing || !userId}
               className="bg-slate-800 text-white hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded font-medium flex items-center space-x-2"
-            >
-              {importing ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Upload className="h-4 w-4" />
-              )}
+              aria-label="Button">
+              {importing ?
+              <Loader2 className="h-4 w-4 animate-spin" /> :
+
+              <Upload className="h-4 w-4" />
+              }
               <span>{importing ? 'Importing...' : 'Import JSON'}</span>
             </button>
           </div>
@@ -297,6 +298,9 @@ export default function AchievementExportImport({
           </ul>
         </div>
       </div>
-    </div>
-  );
-} 
+    </div>);
+
+}
+
+
+export default AchievementExportImportWithErrorBoundary;

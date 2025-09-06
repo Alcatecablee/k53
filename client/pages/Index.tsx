@@ -396,7 +396,7 @@ export default function Index() {
                     </div>
                     <div className="text-center border-r border-black last:border-r-0 transition-all duration-300 hover:scale-105">
                       <div className="text-2xl sm:text-4xl font-bold text-white mb-2">
-                        {stats?.successRate || 92}%
+                        {stats?.successRate || 0}%
                       </div>
                       <div className="text-xs sm:text-sm text-slate-400 uppercase tracking-wide font-medium">
                         Success Rate
@@ -404,7 +404,7 @@ export default function Index() {
                     </div>
                     <div className="text-center border-r border-black last:border-r-0 transition-all duration-300 hover:scale-105">
                       <div className="text-2xl sm:text-4xl font-bold text-white mb-2">
-                        {stats?.languages || 11}
+                        {stats?.languages || 1}
                       </div>
                       <div className="text-xs sm:text-sm text-slate-400 uppercase tracking-wide font-medium">
                         Languages
@@ -412,7 +412,7 @@ export default function Index() {
                     </div>
                     <div className="text-center transition-all duration-300 hover:scale-105">
                       <div className="text-2xl sm:text-4xl font-bold text-white mb-2">
-                        {stats?.testCenters || 500}+
+                        {stats?.testCenters || 0}
                       </div>
                       <div className="text-xs sm:text-sm text-slate-400 uppercase tracking-wide font-medium">
                         Test Centers

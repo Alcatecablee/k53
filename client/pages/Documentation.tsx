@@ -1,39 +1,15 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import {
-  ArrowLeft,
-  BookOpen,
-  Search,
-  HelpCircle,
-  PlayCircle,
-  Settings,
-  Shield,
-  Users,
-  FileText,
-  MapPin,
-  Clock,
-  Award,
-  Car,
-  Layers,
-  CheckCircle,
-  AlertTriangle,
-  Phone,
-  Mail,
-  ExternalLink,
-  ChevronRight,
-  Lightbulb,
-  Target,
-  BarChart3,
-  CreditCard,
-  Download,
-} from "lucide-react";
-import { Link } from "react-router-dom";
-import { StudyMaterials } from "@/components/StudyMaterials";
-import { SEO, BreadcrumbSEO, FAQSEO } from "@/components/SEO";
-import { SEO_CONFIGS } from "@/hooks/useSEO";
+'use client';
+import React from 'react';
+import {  useState  } from "react";
+import {  Button  } from '@/components/ui/button';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Badge  } from '@/components/ui/badge';
+import {  Input  } from '@/components/ui/input';
+import {  ArrowLeft, BookOpen, Search, HelpCircle, PlayCircle, Settings, Shield, Users, FileText, MapPin, Clock, Award, Car, Layers, CheckCircle, AlertTriangle, Phone, Mail, ExternalLink, ChevronRight, Lightbulb, Target, BarChart3, CreditCard, Download  } from 'lucide-react';
+import {  Link  } from 'react-router-dom';
+import {  StudyMaterials  } from '@/components/StudyMaterials';
+import {  SEO, BreadcrumbSEO, FAQSEO  } from '@/components/SEO';
+import {  SEO_CONFIGS  } from '@/hooks/useSEO';
 
 interface DocSection {
   id: string;
@@ -53,16 +29,16 @@ export default function Documentation() {
   const [activeSection, setActiveSection] = useState("getting-started");
 
   const documentationSections: DocSection[] = [
+  {
+    id: "getting-started",
+    title: "Getting Started",
+    icon: PlayCircle,
+    sections: [
     {
-      id: "getting-started",
-      title: "Getting Started",
-      icon: PlayCircle,
-      sections: [
-        {
-          id: "overview",
-          title: "Platform Overview",
-          content: (
-            <div className="space-y-6">
+      id: "overview",
+      title: "Platform Overview",
+      content:
+      <div className="space-y-6">
               <div className="bg-slate-100 border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-3 uppercase tracking-wide">
                   Welcome to SuperK53
@@ -93,13 +69,13 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-        {
-          id: "account-setup",
-          title: "Account Setup",
-          content: (
-            <div className="space-y-6">
+
+    },
+    {
+      id: "account-setup",
+      title: "Account Setup",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Creating Your Account
@@ -151,13 +127,13 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-        {
-          id: "first-test",
-          title: "Taking Your First Test",
-          content: (
-            <div className="space-y-6">
+
+    },
+    {
+      id: "first-test",
+      title: "Taking Your First Test",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Practice Test Guide
@@ -196,20 +172,20 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-      ],
-    },
+
+    }]
+
+  },
+  {
+    id: "k53-information",
+    title: "K53 Test Information",
+    icon: FileText,
+    sections: [
     {
-      id: "k53-information",
-      title: "K53 Test Information",
-      icon: FileText,
-      sections: [
-        {
-          id: "test-structure",
-          title: "Official Test Structure",
-          content: (
-            <div className="space-y-6">
+      id: "test-structure",
+      title: "Official Test Structure",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   K53 Examination Categories
@@ -275,18 +251,18 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-        {
-          id: "passing-requirements",
-          title: "Passing Requirements",
-          content: (
-            <div className="space-y-6">
+
+    },
+    {
+      id: "passing-requirements",
+      title: "Passing Requirements",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Official Pass Requirements
                 </h4>
-                <div className="bg-slate-100 border border-black p-4 mb-4">
+                <div className="bg-slate-800 border border-black p-4 mb-4">
                   <div className="flex items-center space-x-2 mb-2">
                     <CheckCircle className="h-5 w-5 text-green-600" />
                     <h5 className="font-bold text-slate-800">
@@ -326,13 +302,13 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-        {
-          id: "test-tips",
-          title: "Test Preparation Tips",
-          content: (
-            <div className="space-y-6">
+
+    },
+    {
+      id: "test-tips",
+      title: "Test Preparation Tips",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Success Strategies
@@ -393,20 +369,20 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-      ],
-    },
+
+    }]
+
+  },
+  {
+    id: "platform-features",
+    title: "Platform Features",
+    icon: Settings,
+    sections: [
     {
-      id: "platform-features",
-      title: "Platform Features",
-      icon: Settings,
-      sections: [
-        {
-          id: "assessment-types",
-          title: "Assessment Types",
-          content: (
-            <div className="space-y-6">
+      id: "assessment-types",
+      title: "Assessment Types",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Available Assessments
@@ -468,13 +444,13 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-        {
-          id: "progress-tracking",
-          title: "Progress Tracking",
-          content: (
-            <div className="space-y-6">
+
+    },
+    {
+      id: "progress-tracking",
+      title: "Progress Tracking",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Track Your Progress
@@ -507,13 +483,13 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-        {
-          id: "location-features",
-          title: "Location-Based Features",
-          content: (
-            <div className="space-y-6">
+
+    },
+    {
+      id: "location-features",
+      title: "Location-Based Features",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Location-Aware Learning
@@ -553,20 +529,20 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-      ],
-    },
+
+    }]
+
+  },
+  {
+    id: "premium-features",
+    title: "Premium Features",
+    icon: CreditCard,
+    sections: [
     {
-      id: "premium-features",
-      title: "Premium Features",
-      icon: CreditCard,
-      sections: [
-        {
-          id: "subscription-plans",
-          title: "Subscription Plans",
-          content: (
-            <div className="space-y-6">
+      id: "subscription-plans",
+      title: "Subscription Plans",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   SuperK53 Premium Access
@@ -600,7 +576,7 @@ export default function Documentation() {
                       </li>
                     </ul>
                   </div>
-                  <div className="border-2 border-orange-500 bg-orange-50 p-4">
+                  <div className="border-2 border-orange-500 bg-slate-700 p-4">
                     <h5 className="font-bold text-slate-800 mb-3 flex items-center justify-between">
                       Premium Access
                       <Badge className="bg-orange-600 text-white">
@@ -633,18 +609,18 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-        {
-          id: "study-materials",
-          title: "Study Materials",
-          content: <StudyMaterials />,
-        },
-        {
-          id: "payment-options",
-          title: "Payment Options",
-          content: (
-            <div className="space-y-6">
+
+    },
+    {
+      id: "study-materials",
+      title: "Study Materials",
+      content: <StudyMaterials />
+    },
+    {
+      id: "payment-options",
+      title: "Payment Options",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Available Payment Methods
@@ -675,7 +651,7 @@ export default function Documentation() {
                       <br />• 200 Scenarios: R65
                     </div>
                   </div>
-                  <div className="bg-slate-100 border border-black p-4">
+                  <div className="bg-slate-800 border border-black p-4">
                     <h5 className="font-bold text-slate-800 mb-2">
                       Payment Security
                     </h5>
@@ -687,20 +663,20 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-      ],
-    },
+
+    }]
+
+  },
+  {
+    id: "technical-requirements",
+    title: "Technical Requirements",
+    icon: Shield,
+    sections: [
     {
-      id: "technical-requirements",
-      title: "Technical Requirements",
-      icon: Shield,
-      sections: [
-        {
-          id: "system-requirements",
-          title: "System Requirements",
-          content: (
-            <div className="space-y-6">
+      id: "system-requirements",
+      title: "System Requirements",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Minimum System Requirements
@@ -731,7 +707,7 @@ export default function Documentation() {
                     </ul>
                   </div>
                 </div>
-                <div className="bg-slate-100 border border-black p-4 mt-4">
+                <div className="bg-slate-800 border border-black p-4 mt-4">
                   <h5 className="font-bold text-slate-800 mb-2">Recommended</h5>
                   <p className="text-slate-700 text-sm">
                     For optimal experience, use Chrome browser on desktop with
@@ -740,13 +716,13 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-        {
-          id: "connectivity",
-          title: "Internet & Connectivity",
-          content: (
-            <div className="space-y-6">
+
+    },
+    {
+      id: "connectivity",
+      title: "Internet & Connectivity",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Connectivity Requirements
@@ -774,7 +750,7 @@ export default function Documentation() {
                       <li>• Scenarios require internet connection</li>
                     </ul>
                   </div>
-                  <div className="bg-orange-50 border border-black p-4">
+                  <div className="bg-slate-700 border border-black p-4">
                     <h5 className="font-bold text-slate-800 mb-2 flex items-center">
                       <AlertTriangle className="h-4 w-4 mr-2" />
                       Connection Issues
@@ -788,20 +764,20 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-      ],
-    },
+
+    }]
+
+  },
+  {
+    id: "faq",
+    title: "FAQ",
+    icon: HelpCircle,
+    sections: [
     {
-      id: "faq",
-      title: "FAQ",
-      icon: HelpCircle,
-      sections: [
-        {
-          id: "general-questions",
-          title: "General Questions",
-          content: (
-            <div className="space-y-6">
+      id: "general-questions",
+      title: "General Questions",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Frequently Asked Questions
@@ -833,8 +809,7 @@ export default function Documentation() {
                     </h5>
                     <p className="text-slate-700 text-sm">
                       Yes, SuperK53 is fully responsive and works on
-                      smartphones, tablets, and desktop computers with modern
-                      web browsers.
+                      smartphones, tablets, and desktop computers.
                     </p>
                   </div>
                   <div className="border border-black p-4">
@@ -860,13 +835,13 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-        {
-          id: "technical-support",
-          title: "Technical Support",
-          content: (
-            <div className="space-y-6">
+
+    },
+    {
+      id: "technical-support",
+      title: "Technical Support",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Technical Support
@@ -910,7 +885,7 @@ export default function Documentation() {
                       </ul>
                     </div>
                   </div>
-                  <div className="bg-slate-100 border border-black p-4">
+                  <div className="bg-slate-800 border border-black p-4">
                     <h5 className="font-bold text-slate-800 mb-2">
                       Need More Help?
                     </h5>
@@ -931,20 +906,20 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-      ],
-    },
+
+    }]
+
+  },
+  {
+    id: "support",
+    title: "Support & Contact",
+    icon: Phone,
+    sections: [
     {
-      id: "support",
-      title: "Support & Contact",
-      icon: Phone,
-      sections: [
-        {
-          id: "contact-information",
-          title: "Contact Information",
-          content: (
-            <div className="space-y-6">
+      id: "contact-information",
+      title: "Contact Information",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Get in Touch
@@ -996,18 +971,18 @@ export default function Documentation() {
                   </h5>
                   <div className="flex items-center space-x-4 text-slate-700">
                     <Link
-                      to="/dltc"
-                      className="flex items-center hover:text-white"
-                    >
+                to="/dltc"
+                className="flex items-center hover:text-white">
+                
                       <MapPin className="h-4 w-4 mr-1" />
                       DLTC Centers
                     </Link>
                     <a
-                      href="https://taxfy.co.za"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center hover:text-white"
-                    >
+                href="https://taxfy.co.za"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center hover:text-white">
+                
                       <ExternalLink className="h-4 w-4 mr-1" />
                       Tax Services
                     </a>
@@ -1015,13 +990,13 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-        {
-          id: "feedback",
-          title: "Feedback & Suggestions",
-          content: (
-            <div className="space-y-6">
+
+    },
+    {
+      id: "feedback",
+      title: "Feedback & Suggestions",
+      content:
+      <div className="space-y-6">
               <div className="border border-black p-6">
                 <h4 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                   Help Us Improve
@@ -1063,7 +1038,7 @@ export default function Documentation() {
                       </p>
                     </div>
                   </div>
-                  <div className="bg-slate-100 border border-black p-4">
+                  <div className="bg-slate-800 border border-black p-4">
                     <h5 className="font-bold text-slate-800 mb-2">
                       Feature Requests
                     </h5>
@@ -1075,56 +1050,56 @@ export default function Documentation() {
                 </div>
               </div>
             </div>
-          ),
-        },
-      ],
-    },
-  ];
+
+    }]
+
+  }];
+
 
   const filteredSections = documentationSections.filter(
     (section) =>
-      section.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      section.sections.some((subsection) =>
-        subsection.title.toLowerCase().includes(searchTerm.toLowerCase()),
-      ),
+    section.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    section.sections.some((subsection) =>
+    subsection.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
   );
 
   const currentSection = documentationSections.find(
-    (section) => section.id === activeSection,
+    (section) => section.id === activeSection
   );
 
   const breadcrumbItems = [
-    { name: "Home", url: "https://superk53.co.za" },
-    { name: "Documentation", url: "https://superk53.co.za/docs" },
-    {
-      name: currentSection?.title || "Getting Started",
-      url: `https://superk53.co.za/docs#${activeSection}`,
-    },
-  ];
+  { name: "Home", url: "https://superk53.co.za" },
+  { name: "Documentation", url: "https://superk53.co.za/docs" },
+  {
+    name: currentSection?.title || "Getting Started",
+    url: `https://superk53.co.za/docs#${activeSection}`
+  }];
+
 
   // FAQ data for structured data
   const faqData = [
-    {
-      question: "Is SuperK53 officially recognized?",
-      answer:
-        "Yes, SuperK53 is certified by the Department of Transport and aligned with current K53 regulations and testing standards.",
-    },
-    {
-      question: "How accurate are the practice tests?",
-      answer:
-        "Our tests are based on official K53 curriculum and updated regularly to match current examination standards.",
-    },
-    {
-      question: "Can I use this on my mobile phone?",
-      answer:
-        "Yes, SuperK53 is fully responsive and works on smartphones, tablets, and desktop computers.",
-    },
-    {
-      question: "How many times can I take practice tests?",
-      answer:
-        "Unlimited! You can take as many practice and official simulation tests as you want.",
-    },
-  ];
+  {
+    question: "Is SuperK53 officially recognized?",
+    answer:
+    "Yes, SuperK53 is certified by the Department of Transport and aligned with current K53 regulations and testing standards."
+  },
+  {
+    question: "How accurate are the practice tests?",
+    answer:
+    "Our tests are based on official K53 curriculum and updated regularly to match current examination standards."
+  },
+  {
+    question: "Can I use this on my mobile phone?",
+    answer:
+    "Yes, SuperK53 is fully responsive and works on smartphones, tablets, and desktop computers."
+  },
+  {
+    question: "How many times can I take practice tests?",
+    answer:
+    "Unlimited! You can take as many practice and official simulation tests as you want."
+  }];
+
 
   return (
     <>
@@ -1135,8 +1110,8 @@ export default function Documentation() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(SEO_CONFIGS.documentationFAQ)
-        }}
-      />
+        }} />
+      
       <div className="min-h-screen bg-slate-900">
         {/* Header */}
         <header className="bg-slate-800 border-b border-black sticky top-0 z-50">
@@ -1146,8 +1121,8 @@ export default function Documentation() {
                 <Button
                   asChild
                   variant="ghost"
-                  className="text-slate-300 hover:text-white font-medium uppercase tracking-wide"
-                >
+                  className="text-slate-300 hover:text-white font-medium uppercase tracking-wide">
+                  
                   <Link to="/">
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     Return to Portal
@@ -1178,29 +1153,29 @@ export default function Documentation() {
                 <div className="grid md:grid-cols-4 gap-4">
                   <Button
                     onClick={() => setActiveSection("getting-started")}
-                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3"
-                  >
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3">
+                    
                     <PlayCircle className="h-4 w-4 mr-2" />
                     Getting Started
                   </Button>
                   <Button
                     onClick={() => setActiveSection("k53-information")}
-                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3"
-                  >
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3">
+                    
                     <FileText className="h-4 w-4 mr-2" />
                     K53 Info
                   </Button>
                   <Button
                     onClick={() => setActiveSection("faq")}
-                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3"
-                  >
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3">
+                    
                     <HelpCircle className="h-4 w-4 mr-2" />
                     FAQ
                   </Button>
                   <Button
                     onClick={() => setActiveSection("support")}
-                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3"
-                  >
+                    className="bg-slate-800 text-white hover:bg-slate-700 font-medium uppercase tracking-wide py-3">
+                    
                     <Phone className="h-4 w-4 mr-2" />
                     Support
                   </Button>
@@ -1220,8 +1195,8 @@ export default function Documentation() {
                         placeholder="Search documentation..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 border border-black bg-white"
-                      />
+                        className="pl-10 border border-black bg-slate-800 text-white placeholder:text-slate-400" />
+                      
                     </div>
                   </div>
 
@@ -1236,17 +1211,17 @@ export default function Documentation() {
                               key={section.id}
                               onClick={() => setActiveSection(section.id)}
                               className={`w-full text-left p-3 border border-black transition-colors flex items-center space-x-3 ${
-                                activeSection === section.id
-                                  ? "bg-slate-800 text-white"
-                                  : "bg-slate-700 text-white hover:bg-slate-600"
-                              }`}
-                            >
+                              activeSection === section.id ?
+                              "bg-slate-800 text-white" :
+                              "bg-slate-700 text-white hover:bg-slate-600"}`
+                              }>
+                              
                               <IconComponent className="h-4 w-4" />
                               <span className="font-medium text-sm uppercase tracking-wide">
                                 {section.title}
                               </span>
-                            </button>
-                          );
+                            </button>);
+
                         })}
                       </nav>
                     </CardContent>
@@ -1256,8 +1231,8 @@ export default function Documentation() {
 
               {/* Main Content */}
               <div className="lg:col-span-3">
-                {currentSection && (
-                  <div className="space-y-8">
+                {currentSection &&
+                <div className="space-y-8">
                     {/* Breadcrumb Navigation */}
                     <div className="flex items-center space-x-2 text-sm text-slate-400">
                       <Link to="/" className="hover:text-white">
@@ -1282,35 +1257,35 @@ export default function Documentation() {
                     </Card>
 
                     {/* Subsection Navigation */}
-                    <Card className="border border-black bg-white">
+                    <Card className="border border-black bg-slate-800">
                       <CardContent className="p-6">
                         <h3 className="text-lg font-bold text-slate-800 mb-4 uppercase tracking-wide">
                           Section Contents
                         </h3>
                         <div className="grid md:grid-cols-2 gap-3">
-                          {currentSection.sections.map((subsection) => (
-                            <a
-                              key={subsection.id}
-                              href={`#${subsection.id}`}
-                              className="flex items-center p-3 border border-black hover:bg-slate-100 transition-colors"
-                            >
+                          {currentSection.sections.map((subsection) =>
+                        <a
+                          key={subsection.id}
+                          href={`#${subsection.id}`}
+                          className="flex items-center p-3 border border-black hover:bg-slate-700 transition-colors">
+                          
                               <ChevronRight className="h-4 w-4 mr-2 text-slate-600" />
                               <span className="font-medium text-slate-800 text-sm uppercase tracking-wide">
                                 {subsection.title}
                               </span>
                             </a>
-                          ))}
+                        )}
                         </div>
                       </CardContent>
                     </Card>
 
                     {/* Section Content */}
-                    {currentSection.sections.map((subsection) => (
-                      <Card
-                        key={subsection.id}
-                        id={subsection.id}
-                        className="border border-black bg-white"
-                      >
+                    {currentSection.sections.map((subsection) =>
+                  <Card
+                    key={subsection.id}
+                    id={subsection.id}
+                    className="border border-black bg-slate-800">
+                    
                         <CardHeader className="bg-slate-800 text-white p-6">
                           <CardTitle className="text-xl font-bold uppercase tracking-wide">
                             {subsection.title}
@@ -1320,14 +1295,14 @@ export default function Documentation() {
                           {subsection.content}
                         </CardContent>
                       </Card>
-                    ))}
+                  )}
                   </div>
-                )}
+                }
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
-  );
+    </>);
+
 }

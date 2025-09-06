@@ -1,0 +1,90 @@
+import React, { useEffect, useState } from 'react';
+import { Alert, AlertDescription } from './ui/alert';
+import { Badge } from './ui/badge';
+import { Wifi, WifiOff, Database, Download } from 'lucide-react';
+
+interface OfflineStatus {
+  isOnline: boolean;
+  cachedData: boolean;
+  lastSync: Date | null;
+}
+
+export const OfflineIndicator: React.FC = () => {
+  const [offlineStatus, setOfflineStatus] = useState<OfflineStatus>({
+    isOnline: true,
+    cachedData: false,
+    lastSync: null
+  });
+
+  useEffect(() => {
+    checkOnlineStatus();
+    checkCachedData();
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  const checkOnlineStatus = () => {
+    setOfflineStatus(prev => ({ ...prev, isOnline: navigator.onLine }));
+  };
+
+  const checkCachedData = async () => {
+    try {
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        const hasCachedData = cacheNames.some(name => 
+          name.includes('superk53-static') || 
+          name.includes('superk53-dynamic') || 
+          name.includes('superk53-api')
+        );
+        
+        setOfflineStatus(prev => ({ 
+          ...prev, 
+          cachedData: hasCachedData 
+        }));
+      }
+    } catch (error) {
+      // [NeuroLint] Removed console.error: 'Failed to check cached data:', error
+    }
+  };
+
+  const handleOnline = () => {
+    setOfflineStatus(prev => ({ ...prev, isOnline: true }));
+  };
+
+  const handleOffline = () => {
+    setOfflineStatus(prev => ({ ...prev, isOnline: false }));
+  };
+
+  if (offlineStatus.isOnline) {
+    return null;
+  }
+
+  return (
+    <Alert className="mb-4 border-orange-200 bg-orange-50 dark:border-orange-800 dark:bg-orange-950">
+      <WifiOff className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+      <AlertDescription className="flex items-center justify-between">
+        <span className="text-orange-800 dark:text-orange-200">
+          You are currently offline
+        </span>
+        <div className="flex items-center gap-2">
+          {offlineStatus.cachedData && (
+            <Badge variant="secondary" className="text-xs">
+              <Database className="h-3 w-3 mr-1" />
+              Cached
+            </Badge>
+          )}
+          <Badge variant="destructive" className="text-xs">
+            <WifiOff className="h-3 w-3 mr-1" />
+            Offline
+          </Badge>
+        </div>
+      </AlertDescription>
+    </Alert>
+  );
+};

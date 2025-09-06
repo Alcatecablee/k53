@@ -21,7 +21,7 @@ const getDatabase = () => {
 };
 
 // Health check for database connection
-export const databaseHealthCheck: RequestHandler = async (req, res) => {
+export const databaseHealthCheck: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -59,7 +59,7 @@ export const databaseHealthCheck: RequestHandler = async (req, res) => {
 };
 
 // Get basic database stats
-export const getDatabaseStats: RequestHandler = async (req, res) => {
+export const getDatabaseStats: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -95,16 +95,16 @@ export const getDatabaseStats: RequestHandler = async (req, res) => {
 };
 
 // Create/update user
-export const upsertUser: RequestHandler = async (req, res) => {
+export const upsertUser: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { user_id, email, plan_type = "free", status = "active" } = req.body;
+    const { _user_id, _email, _plan_type = "free", _status = "active" } = _req.body;
 
-    if (!user_id || !email) {
+    if (!_user_id || !email) {
       return res.status(400).json({ error: "user_id and email are required" });
     }
 
@@ -133,16 +133,16 @@ export const upsertUser: RequestHandler = async (req, res) => {
 };
 
 // Get user by ID
-export const getUser: RequestHandler = async (req, res) => {
+export const getUser: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { userId } = req.params;
+    const { userId } = _req.params;
 
-    if (!userId) {
+    if (!_userId) {
       return res.status(400).json({ error: "User ID is required" });
     }
 
@@ -168,16 +168,16 @@ export const getUser: RequestHandler = async (req, res) => {
 };
 
 // Delete user
-export const deleteUser: RequestHandler = async (req, res) => {
+export const deleteUser: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { userId } = req.params;
+    const { userId } = _req.params;
 
-    if (!userId) {
+    if (!_userId) {
       return res.status(400).json({ error: "User ID is required" });
     }
 
@@ -206,7 +206,7 @@ export const deleteUser: RequestHandler = async (req, res) => {
 };
 
 // Test database tables
-export const testTables: RequestHandler = async (req, res) => {
+export const testTables: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {

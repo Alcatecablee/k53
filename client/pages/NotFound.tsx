@@ -1,8 +1,10 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Home, AlertTriangle } from "lucide-react";
+'use client';
+import React from 'react';
+import {  useLocation  } from 'react-router-dom';
+import {  useEffect  } from "react";
+import {  Button  } from '@/components/ui/button';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Home, AlertTriangle  } from 'lucide-react';
 
 const NotFound = () => {
   const location = useLocation();
@@ -10,7 +12,7 @@ const NotFound = () => {
   useEffect(() => {
     console.error(
       "404 Error: User attempted to access non-existent route:",
-      location.pathname,
+      location.pathname
     );
   }, [location.pathname]);
 
@@ -46,8 +48,8 @@ const NotFound = () => {
             <Button
               asChild
               size="lg"
-              className="bg-slate-700 hover:bg-slate-600 font-semibold uppercase tracking-wide px-8 py-4"
-            >
+              className="bg-slate-700 hover:bg-slate-600 font-semibold uppercase tracking-wide px-8 py-4">
+              
               <a href="/">
                 <Home className="h-5 w-5 mr-3" />
                 Return to Main Portal
@@ -56,8 +58,8 @@ const NotFound = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default NotFound;

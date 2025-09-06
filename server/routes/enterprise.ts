@@ -9,8 +9,8 @@ const getEnterpriseDatabase = () => {
     const supabaseUrl =
       process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
     const supabaseServiceKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY ||
-      process.env.VITE_SUPABASE_ANON_KEY;
+      process.env.VITE_SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseServiceKey) {
       return null;
@@ -59,7 +59,7 @@ const invalidateCache = (pattern: string) => {
 };
 
 // Enhanced dashboard statistics with real persistence
-export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
+export const getEnhancedDashboardStats: RequestHandler = async (_req, res) => {
   const cacheKey = "dashboard_stats";
 
   try {
@@ -75,9 +75,9 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
     }
 
     // Get real data from multiple tables with parallel queries
-    const [usersResult, subscriptionsResult, paymentsResult, usageResult] =
+    const [profilesResult, subscriptionsResult, paymentsResult, usageResult, scenariosResult, questionsResult] =
       await Promise.allSettled([
-        db.from("user_subscriptions").select("*"),
+        db.from("profiles").select("*"),
         db
           .from("user_subscriptions")
           .select("*")
@@ -88,10 +88,12 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
           .from("daily_usage")
           .select("*")
           .eq("date", new Date().toISOString().split("T")[0]),
+        db.from("scenarios").select("*", { count: "exact", head: true }),
+        db.from("questions").select("*", { count: "exact", head: true }),
       ]);
 
     const users =
-      usersResult.status === "fulfilled" ? usersResult.value.data || [] : [];
+      profilesResult.status === "fulfilled" ? profilesResult.value.data || [] : [];
     const activeSubscriptions =
       subscriptionsResult.status === "fulfilled"
         ? subscriptionsResult.value.data || []
@@ -102,6 +104,8 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
         : [];
     const todayUsage =
       usageResult.status === "fulfilled" ? usageResult.value.data || [] : [];
+    const totalScenarios = scenariosResult.status === "fulfilled" ? scenariosResult.value.count || 0 : 0;
+    const totalQuestions = questionsResult.status === "fulfilled" ? questionsResult.value.count || 0 : 0;
 
     // Calculate enhanced metrics
     const totalRevenue = completedPayments.reduce(
@@ -109,7 +113,7 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
       0,
     );
     const today = new Date().toISOString().split("T")[0];
-    const todaySignups = users.filter((user) =>
+    const todaySignups = users.filter((user: any) =>
       user.created_at?.startsWith(today),
     ).length;
 
@@ -127,7 +131,7 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
       .slice(0, 5);
 
     // Real-time metrics from actual system data
-    const realtimeUsers = users.filter((user) => {
+    const realtimeUsers = users.filter((user: any) => {
       if (!user.last_seen) return false;
       const lastSeen = new Date(user.last_seen);
       const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
@@ -154,6 +158,9 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
       avgSessionTime: 847, // This would come from session tracking
       topLocations,
       monthlyGrowth: 23.4, // This would require historical comparison
+      totalScenarios,
+      totalQuestions,
+      totalAssessmentItems: totalScenarios + totalQuestions,
       ...realtimeMetrics,
     };
 
@@ -168,8 +175,8 @@ export const getEnhancedDashboardStats: RequestHandler = async (req, res) => {
 };
 
 // Enhanced user management with real persistence
-export const getEnhancedUsers: RequestHandler = async (req, res) => {
-  const { search, status, limit = 50, offset = 0 } = req.query;
+export const getEnhancedUsers: RequestHandler = async (_req, res) => {
+  const { search, status, limit = 50, offset = 0 } = _req.query;
   const cacheKey = `enhanced_users_${search}_${status}_${limit}_${offset}`;
 
   try {
@@ -249,8 +256,8 @@ export const getEnhancedUsers: RequestHandler = async (req, res) => {
 };
 
 // Enhanced payment analytics
-export const getEnhancedPayments: RequestHandler = async (req, res) => {
-  const { limit = 50, offset = 0, status, country } = req.query;
+export const getEnhancedPayments: RequestHandler = async (_req, res) => {
+  const { limit = 50, offset = 0, status, country } = _req.query;
   const cacheKey = `enhanced_payments_${limit}_${offset}_${status}_${country}`;
 
   try {
@@ -326,7 +333,7 @@ export const getEnhancedPayments: RequestHandler = async (req, res) => {
 };
 
 // Real-time metrics with WebSocket simulation
-export const getRealTimeMetrics: RequestHandler = async (req, res) => {
+export const getRealTimeMetrics: RequestHandler = async (_req, res) => {
   try {
     const db = getEnterpriseDatabase();
     const now = new Date();
@@ -370,8 +377,8 @@ export const getRealTimeMetrics: RequestHandler = async (req, res) => {
       );
 
       const intervalRevenue = intervalPayments
-        .filter((p) => p.status === "completed")
-        .reduce((sum, p) => sum + (p.amount_cents || 0), 0);
+        .filter((p: any) => p.status === "completed")
+        .reduce((sum: any, p: any) => sum + (p.amount_cents || 0), 0);
 
       metrics.push({
         timestamp: timestamp.toISOString(),
@@ -397,8 +404,8 @@ export const getRealTimeMetrics: RequestHandler = async (req, res) => {
 };
 
 // Advanced user management operations
-export const updateEnhancedUser: RequestHandler = async (req, res) => {
-  const { userId } = req.params;
+export const updateEnhancedUser: RequestHandler = async (_req, res) => {
+  const { userId } = _req.params;
   const updates = req.body;
 
   try {
@@ -410,7 +417,7 @@ export const updateEnhancedUser: RequestHandler = async (req, res) => {
     // Validate updates
     const allowedFields = ["email", "location", "plan_type", "status"];
     const sanitizedUpdates = Object.keys(updates)
-      .filter((key) => allowedFields.includes(key))
+      .filter((key: any) => allowedFields.includes(key))
       .reduce((obj: any, key) => {
         obj[key] = updates[key];
         return obj;
@@ -442,8 +449,8 @@ export const updateEnhancedUser: RequestHandler = async (req, res) => {
 };
 
 // Bulk operations for enterprise management
-export const bulkUserOperation: RequestHandler = async (req, res) => {
-  const { operation, userIds, data } = req.body;
+export const bulkUserOperation: RequestHandler = async (_req, res) => {
+  const { _operation, _userIds, _data } = _req.body;
 
   try {
     const db = getEnterpriseDatabase();
@@ -489,7 +496,7 @@ export const bulkUserOperation: RequestHandler = async (req, res) => {
         const csvHeaders = Object.keys(exportUsers[0] || {}).join(",");
         const csvRows = exportUsers.map((user: any) =>
           Object.values(user)
-            .map((val) => `"${val}"`)
+            .map((val: any) => `"${val}"`)
             .join(","),
         );
         const csv = [csvHeaders, ...csvRows].join("\n");
@@ -588,7 +595,7 @@ const generateRealStats = async (db: any) => {
     );
     
     const today = new Date().toISOString().split("T")[0];
-    const todaySignups = users.filter((user) =>
+    const todaySignups = users.filter((user: any) =>
       user.created_at?.startsWith(today),
     ).length;
 
@@ -608,7 +615,7 @@ const generateRealStats = async (db: any) => {
 
     // Calculate average session time from real session data
     const avgSessionTime = recentSessions.length > 0
-      ? recentSessions.reduce((sum, session) => sum + (session.duration_seconds || 0), 0) / recentSessions.length
+      ? recentSessions.reduce((sum: any, session: any) => sum + (session.duration_seconds || 0), 0) / recentSessions.length
       : 0;
 
     // Location analysis from real user data
@@ -645,7 +652,7 @@ const generateRealStats = async (db: any) => {
       : 0;
 
     // Real-time metrics from actual system data
-    const realtimeUsers = users.filter((user) => {
+    const realtimeUsers = users.filter((user: any) => {
       if (!user.last_seen) return false;
       const lastSeen = new Date(user.last_seen);
       const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
@@ -694,8 +701,8 @@ const generateRealStats = async (db: any) => {
 };
 
 // Cache management endpoints
-export const clearCache: RequestHandler = async (req, res) => {
-  const { pattern } = req.body;
+export const clearCache: RequestHandler = async (_req, res) => {
+  const { _pattern } = _req.body;
 
   if (pattern) {
     invalidateCache(pattern);
@@ -709,7 +716,7 @@ export const clearCache: RequestHandler = async (req, res) => {
   });
 };
 
-export const getCacheStats: RequestHandler = async (req, res) => {
+export const getCacheStats: RequestHandler = async (_req, res) => {
   try {
     const stats = {
       totalEntries: cache.size,
@@ -728,7 +735,7 @@ export const getCacheStats: RequestHandler = async (req, res) => {
 // System Configuration Endpoints
 
 // Get maintenance mode status
-export const getMaintenanceMode: RequestHandler = async (req, res) => {
+export const getMaintenanceMode: RequestHandler = async (_req, res) => {
   try {
     // In a real implementation, this would be stored in database or environment
     const maintenanceMode = process.env.MAINTENANCE_MODE === 'true';
@@ -740,9 +747,9 @@ export const getMaintenanceMode: RequestHandler = async (req, res) => {
 };
 
 // Toggle maintenance mode
-export const toggleMaintenanceMode: RequestHandler = async (req, res) => {
+export const toggleMaintenanceMode: RequestHandler = async (_req, res) => {
   try {
-    const { enable } = req.body;
+    const { _enable } = _req.body;
     
     // In a real implementation, this would update database or environment
     // For now, we'll simulate the action
@@ -764,7 +771,7 @@ export const toggleMaintenanceMode: RequestHandler = async (req, res) => {
 };
 
 // Trigger database backup
-export const triggerBackup: RequestHandler = async (req, res) => {
+export const triggerBackup: RequestHandler = async (_req, res) => {
   try {
     const db = getEnterpriseDatabase();
     if (!db) {
@@ -793,7 +800,7 @@ export const triggerBackup: RequestHandler = async (req, res) => {
 };
 
 // Get last backup time
-export const getLastBackup: RequestHandler = async (req, res) => {
+export const getLastBackup: RequestHandler = async (_req, res) => {
   try {
     // In a real implementation, this would query the backup log
     const lastBackup = {
@@ -811,7 +818,7 @@ export const getLastBackup: RequestHandler = async (req, res) => {
 };
 
 // Run security scan
-export const runSecurityScan: RequestHandler = async (req, res) => {
+export const runSecurityScan: RequestHandler = async (_req, res) => {
   try {
     // Simulate security scan process
     const scanId = `scan-${Date.now()}`;
@@ -845,7 +852,7 @@ export const runSecurityScan: RequestHandler = async (req, res) => {
 };
 
 // Get last security scan
-export const getLastSecurityScan: RequestHandler = async (req, res) => {
+export const getLastSecurityScan: RequestHandler = async (_req, res) => {
   try {
     // In a real implementation, this would query the security scan log
     const lastScan = {
@@ -864,7 +871,7 @@ export const getLastSecurityScan: RequestHandler = async (req, res) => {
 };
 
 // Save system configuration
-export const saveConfiguration: RequestHandler = async (req, res) => {
+export const saveConfiguration: RequestHandler = async (_req, res) => {
   try {
     const {
       maintenanceMode,
@@ -909,7 +916,7 @@ export const saveConfiguration: RequestHandler = async (req, res) => {
 };
 
 // Get system configuration
-export const getConfiguration: RequestHandler = async (req, res) => {
+export const getConfiguration: RequestHandler = async (_req, res) => {
   try {
     // In a real implementation, this would load from database
     const config = {

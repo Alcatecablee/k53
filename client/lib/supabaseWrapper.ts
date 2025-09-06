@@ -83,7 +83,8 @@ const safeOperation = async <T>(
         isOfflineMode = true;
       }
     } else {
-      console.warn(`${operationName}: Error occurred:`, error.message);
+      const err = error as any;
+      console.warn(`${operationName}: Error occurred:`, err?.message || err);
     }
     return fallback;
   }
@@ -204,25 +205,15 @@ export const supabase = {
   // Database methods
   from: (table: string) => {
     if (!supabaseClient || clientInitializationFailed) {
-      // Return a mock query builder that returns empty results
+      // Do not return mock data; surface explicit errors so callers can handle properly
+      const unavailable = async () => Promise.reject(new Error("Supabase client unavailable"));
       return {
-        select: () => ({
-          eq: () => ({ single: () => Promise.resolve({ data: null, error: null }) }),
-          single: () => Promise.resolve({ data: null, error: null }),
-        }),
-        insert: () => ({
-          select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }),
-        }),
-        upsert: () => ({
-          select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }),
-        }),
-        update: () => ({
-          eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }),
-        }),
-        delete: () => ({
-          eq: () => Promise.resolve({ data: null, error: null }),
-        }),
-      };
+        select: () => ({ eq: unavailable, single: unavailable }),
+        insert: () => ({ select: () => ({ single: unavailable }) }),
+        upsert: () => ({ select: () => ({ single: unavailable }) }),
+        update: () => ({ eq: () => ({ select: () => ({ single: unavailable }) }) }),
+        delete: () => ({ eq: unavailable }),
+      } as any;
     }
     return supabaseClient.from(table);
   },

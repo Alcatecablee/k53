@@ -318,7 +318,7 @@ const toRadians = (degrees: number): number => {
 // Get location from local storage
 export const getStoredLocation = (): UserLocation | null => {
   try {
-    const stored = localStorage.getItem("userLocation");
+    const stored = typeof window !== "undefined" ? typeof window !== "undefined" ? localStorage.getItem("userLocation") : null : null;
     return stored ? JSON.parse(stored) : null;
   } catch {
     return null;
@@ -328,7 +328,9 @@ export const getStoredLocation = (): UserLocation | null => {
 // Store location in local storage
 export const storeLocation = (location: UserLocation): void => {
   try {
-    localStorage.setItem("userLocation", JSON.stringify(location));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("userLocation", JSON.stringify(location));
+    }
   } catch {
     // Ignore storage errors
   }
@@ -337,7 +339,9 @@ export const storeLocation = (location: UserLocation): void => {
 // Clear stored location
 export const clearStoredLocation = (): void => {
   try {
-    localStorage.removeItem("userLocation");
+    if (typeof window !== "undefined") {
+      typeof window !== "undefined" ? localStorage.removeItem("userLocation") : null;
+    }
   } catch {
     // Ignore storage errors
   }

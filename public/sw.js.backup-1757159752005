@@ -1,0 +1,311 @@
+const CACHE_NAME = 'superk53-v1.0.0';
+const STATIC_CACHE = 'superk53-static-v1.0.0';
+const DYNAMIC_CACHE = 'superk53-dynamic-v1.0.0';
+const API_CACHE = 'superk53-api-v1.0.0';
+
+// Check if we're in development mode
+const isDevelopment = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1';
+
+// Core files to cache immediately
+const STATIC_FILES = [
+'/',
+'/index.html',
+'/manifest.json',
+'/client/App.tsx',
+'/client/global.css',
+'/images/pwa/icon-192x192.svg',
+'/images/pwa/icon-512x512.svg',
+'/images/pwa/icon-72x72.svg'];
+
+
+// API endpoints to cache
+const API_ENDPOINTS = [
+'/api/scenarios',
+'/api/progress',
+'/api/achievements',
+'/api/user',
+'/api/analytics'];
+
+
+// Install event - cache static files
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(STATIC_CACHE).
+    then((cache) => {
+      return cache.addAll(STATIC_FILES);
+    }).
+    then(() => {
+      return self.skipWaiting();
+    }).
+    catch((error) => {
+      console.error('Service Worker install failed:', error);
+    })
+  );
+});
+
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().
+    then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== STATIC_CACHE &&
+          cacheName !== DYNAMIC_CACHE &&
+          cacheName !== API_CACHE) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).
+    then(() => {
+      return self.clients.claim();
+    })
+  );
+});
+
+// Fetch event - handle all requests
+self.addEventListener('fetch', (event) => {
+  // Skip service worker functionality in development mode
+  if (isDevelopment) {
+    return;
+  }
+
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // Skip Supabase and other external API requests
+  if (url.hostname.includes('supabase.co') ||
+  url.hostname.includes('supabase.com') ||
+  url.hostname.includes('googleapis.com') ||
+  url.hostname.includes('gstatic.com') ||
+  url.hostname.includes('google-analytics.com') ||
+  url.hostname.includes('googletagmanager.com')) {
+    // Let these requests pass through without service worker interference
+    return;
+  }
+
+  // Handle API requests
+  if (url.pathname.startsWith('/api/')) {
+    event.respondWith(handleApiRequest(request));
+    return;
+  }
+
+  // Handle static file requests
+  if (request.method === 'GET') {
+    event.respondWith(handleStaticRequest(request));
+    return;
+  }
+
+  // Handle other requests
+  event.respondWith(fetch(request));
+});
+
+// Handle API requests with network-first strategy
+async function handleApiRequest(request) {
+  try {
+    // Try network first
+    const networkResponse = await fetch(request);
+
+    if (networkResponse.ok) {
+      // Cache successful responses
+      const cache = await caches.open(API_CACHE);
+      cache.put(request, networkResponse.clone());
+      return networkResponse;
+    }
+  } catch (error) {
+
+
+
+
+
+
+    // Network failed, try cache
+  } // Fallback to cache
+  const cachedResponse = await caches.match(request);if (cachedResponse) {return cachedResponse;}
+  // Return offline response for API calls
+  return new Response(
+    JSON.stringify({
+      error: 'Offline mode',
+      message: 'Please check your connection and try again',
+      timestamp: Date.now()
+    }),
+    {
+      status: 503,
+      statusText: 'Service Unavailable',
+      headers: { 'Content-Type': 'application/json' }
+    }
+  );
+}
+
+// Handle static requests (CSS, JS, images, etc.)
+async function handleStaticRequest(request) {
+  // Skip chrome-extension and other unsupported schemes
+  if (request.url.startsWith('chrome-extension://') ||
+  request.url.startsWith('moz-extension://') ||
+  request.url.startsWith('safari-extension://') ||
+  request.url.startsWith('ms-browser-extension://')) {
+    return new Response('Unsupported scheme', { status: 400 });
+  }
+
+  try {
+    // Try network
+    const networkResponse = await fetch(request);
+
+    if (networkResponse.ok) {
+      // Cache successful responses
+      const cache = await caches.open(DYNAMIC_CACHE);
+      cache.put(request, networkResponse.clone());
+      return networkResponse;
+    }
+  } catch (error) {
+
+
+
+
+
+
+    // Network failed
+  } // Return offline page for navigation requests
+  if (request.mode === 'navigate') {return caches.match('/index.html');}return new Response('Offline', { status: 503 });
+}
+
+// Background sync for offline actions
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'background-sync') {
+    event.waitUntil(performBackgroundSync());
+  }
+});
+
+// Background sync implementation
+async function performBackgroundSync() {
+  try {
+    // Sync user progress
+    const progressData = await getStoredProgress();
+    if (progressData) {
+      await syncProgressToServer(progressData);
+    }
+
+    // Sync achievements
+    const achievementData = await getStoredAchievements();
+    if (achievementData) {
+      await syncAchievementsToServer(achievementData);
+    }
+
+    // Clear stored data after successful sync
+    await clearStoredData();
+  } catch (error) {
+    console.error('Background sync failed:', error);
+  }
+}
+
+// Push notification handling
+self.addEventListener('push', (event) => {
+  const options = {
+    body: event.data ? event.data.text() : 'New K53 practice reminder!',
+    icon: '/images/pwa/icon-192x192.svg',
+    badge: '/images/pwa/icon-72x72.svg',
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: 1
+    },
+    actions: [
+    {
+      action: 'practice',
+      title: 'Start Practice',
+      icon: '/images/pwa/shortcut-practice.svg'
+    },
+    {
+      action: 'dismiss',
+      title: 'Dismiss',
+      icon: '/images/pwa/icon-72x72.svg'
+    }]
+
+  };
+
+  event.waitUntil(
+    self.registration.showNotification('SuperK53', options)
+  );
+});
+
+// Notification click handling
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+
+  if (event.action === 'practice') {
+    event.waitUntil(
+      clients.openWindow('/practice')
+    );
+  } else if (event.action === 'dismiss') {
+
+
+
+
+
+
+    // Just close the notification
+  } else {// Default action - open the app
+    event.waitUntil(clients.openWindow('/'));}});
+// Helper functions for background sync
+async function getStoredProgress() {
+  // Implementation for getting stored progress data
+  return null;
+}
+
+async function syncProgressToServer(progressData) {
+  // Implementation for syncing progress to server
+  return fetch('/api/progress', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(progressData)
+  });
+}
+
+async function getStoredAchievements() {
+  // Implementation for getting stored achievement data
+  return null;
+}
+
+async function syncAchievementsToServer(achievementData) {
+  // Implementation for syncing achievements to server
+  return fetch('/api/achievements', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(achievementData)
+  });
+}
+
+async function clearStoredData() {
+
+
+
+
+
+
+  // Implementation for clearing stored data after sync
+} // Message handling for communication with main thread
+self.addEventListener('message', (event) => {if (event.data && event.data.type === 'SKIP_WAITING') {self.skipWaiting();}
+    if (event.data && event.data.type === 'GET_VERSION') {
+      // Check if ports are available before posting message
+      if (event.ports && event.ports.length > 0) {
+        event.ports[0].postMessage({ version: CACHE_NAME });
+      }
+    }
+
+    if (event.data && event.data.type === 'CACHE_SCENARIOS') {
+      event.waitUntil(cacheScenarios(event.data.scenarios));
+    }
+  });
+
+// Cache scenarios function
+async function cacheScenarios(scenarios) {
+  try {
+    const cache = await caches.open(DYNAMIC_CACHE);
+    const response = new Response(JSON.stringify(scenarios), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    await cache.put('/api/scenarios', response);
+  } catch (error) {
+    console.error('Failed to cache scenarios:', error);
+  }
+}

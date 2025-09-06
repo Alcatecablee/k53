@@ -1,16 +1,17 @@
+'use client';
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
-import { useToast } from '@/hooks/use-toast';
-import { imageMapping, ImageAsset } from '@/data/imageMapping';
+import {  Card, CardContent, CardHeader, CardTitle  } from '@/components/ui/card';
+import {  Button  } from '@/components/ui/button';
+import {  Badge  } from '@/components/ui/badge';
+import {  Input  } from '@/components/ui/input';
+import {  Select, SelectContent, SelectItem, SelectTrigger, SelectValue  } from '@/components/ui/select';
+import {  Checkbox  } from '@/components/ui/checkbox';
+import {  Label  } from '@/components/ui/label';
+import {  Tabs, TabsContent, TabsList, TabsTrigger  } from '@/components/ui/tabs';
+import {  Textarea  } from '@/components/ui/textarea';
+import {  Progress  } from '@/components/ui/progress';
+import {  useToast  } from '@/hooks/use-toast';
+import {  imageMapping, ImageAsset  } from '@/data/imageMapping';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -82,7 +83,7 @@ export function ImageExport() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        const collectionsWithDates = parsed.map((collection: any) => ({
+        const collectionsWithDates = parsed.map((collection: unknown) => ({
           ...collection,
           createdAt: new Date(collection.createdAt),
           lastModified: new Date(collection.lastModified)
@@ -94,7 +95,7 @@ export function ImageExport() {
         toast({
           title: "Data Error",
           description: errorMessage,
-          variant: "destructive",
+          variant: "destructive"
         });
         localStorage.removeItem('k53-export-collections');
       }
@@ -111,7 +112,7 @@ export function ImageExport() {
       toast({
         title: "Save Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   }, [toast]);
@@ -122,7 +123,7 @@ export function ImageExport() {
       toast({
         title: "Validation Error",
         description: "Collection name is required.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -131,7 +132,7 @@ export function ImageExport() {
       toast({
         title: "Validation Error",
         description: "At least one image is required for a collection.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -145,7 +146,7 @@ export function ImageExport() {
       difficulty,
       createdAt: new Date(),
       lastModified: new Date(),
-      tags: tags.filter(tag => tag.trim()),
+      tags: tags.filter((tag) => tag.trim()),
       isPublic: false
     };
 
@@ -155,29 +156,29 @@ export function ImageExport() {
 
     toast({
       title: "Collection Created",
-      description: `Collection "${name}" has been created successfully.`,
+      description: `Collection "${name}" has been created successfully.`
     });
   }, [collections, saveCollections, toast]);
 
   // Update collection
   const updateCollection = useCallback((id: string, updates: Partial<ExportCollection>) => {
-    const updatedCollections = collections.map(collection =>
-      collection.id === id
-        ? { ...collection, ...updates, lastModified: new Date() }
-        : collection
+    const updatedCollections = collections.map((collection) =>
+    collection.id === id ?
+    { ...collection, ...updates, lastModified: new Date() } :
+    collection
     );
     setCollections(updatedCollections);
     saveCollections(updatedCollections);
 
     toast({
       title: "Collection Updated",
-      description: "Collection has been updated successfully.",
+      description: "Collection has been updated successfully."
     });
   }, [collections, saveCollections, toast]);
 
   // Delete collection
   const deleteCollection = useCallback((id: string) => {
-    const updatedCollections = collections.filter(collection => collection.id !== id);
+    const updatedCollections = collections.filter((collection) => collection.id !== id);
     setCollections(updatedCollections);
     saveCollections(updatedCollections);
 
@@ -187,7 +188,7 @@ export function ImageExport() {
 
     toast({
       title: "Collection Deleted",
-      description: "Collection has been deleted successfully.",
+      description: "Collection has been deleted successfully."
     });
   }, [collections, selectedCollection, saveCollections, toast]);
 
@@ -197,7 +198,7 @@ export function ImageExport() {
       toast({
         title: "No Collection Selected",
         description: "Please select a collection to export.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -211,16 +212,16 @@ export function ImageExport() {
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
       const margin = 20;
-      const contentWidth = pageWidth - (2 * margin);
-      const contentHeight = pageHeight - (2 * margin);
+      const contentWidth = pageWidth - 2 * margin;
+      const contentHeight = pageHeight - 2 * margin;
 
       // Add title page
       pdf.setFontSize(24);
       pdf.text(selectedCollection.name, pageWidth / 2, 40, { align: 'center' });
-      
+
       pdf.setFontSize(12);
       pdf.text(selectedCollection.description, pageWidth / 2, 60, { align: 'center' });
-      
+
       pdf.setFontSize(10);
       pdf.text(`Category: ${selectedCollection.category}`, pageWidth / 2, 80, { align: 'center' });
       pdf.text(`Difficulty: ${selectedCollection.difficulty}`, pageWidth / 2, 90, { align: 'center' });
@@ -246,12 +247,12 @@ export function ImageExport() {
 
         for (let i = 0; i < pageImages.length; i++) {
           const image = pageImages[i];
-          
+
           try {
             // Load image
             const img = new Image();
             img.crossOrigin = 'anonymous';
-            
+
             await new Promise((resolve, reject) => {
               img.onload = resolve;
               img.onerror = reject;
@@ -262,17 +263,17 @@ export function ImageExport() {
             const maxImageWidth = contentWidth / 2 - 10;
             const maxImageHeight = 60;
             const aspectRatio = img.width / img.height;
-            
+
             let imageWidth = maxImageWidth;
             let imageHeight = imageWidth / aspectRatio;
-            
+
             if (imageHeight > maxImageHeight) {
               imageHeight = maxImageHeight;
               imageWidth = imageHeight * aspectRatio;
             }
 
             // Add image to PDF with error handling
-            const xPosition = margin + (i % 2) * (contentWidth / 2 + 10);
+            const xPosition = margin + i % 2 * (contentWidth / 2 + 10);
             try {
               pdf.addImage(img, 'PNG', xPosition, yPosition, imageWidth, imageHeight);
             } catch (pdfError) {
@@ -289,13 +290,13 @@ export function ImageExport() {
                 const description = image.description || image.filename;
                 const truncatedDescription = description.length > 50 ? description.substring(0, 47) + '...' : description;
                 pdf.text(truncatedDescription, xPosition, yPosition + imageHeight + 5);
-                
+
                 if (image.context && image.context.length > 0) {
                   const contextText = `Context: ${image.context.join(', ')}`;
                   const truncatedContext = contextText.length > 40 ? contextText.substring(0, 37) + '...' : contextText;
                   pdf.text(truncatedContext, xPosition, yPosition + imageHeight + 12);
                 }
-                
+
                 if (image.difficulty) {
                   pdf.text(`Difficulty: ${image.difficulty}`, xPosition, yPosition + imageHeight + 19);
                 }
@@ -309,13 +310,13 @@ export function ImageExport() {
               yPosition += Math.max(imageHeight + (exportSettings.includeMetadata ? 30 : 10), 80);
             }
 
-            setExportProgress(10 + ((page + 1) / totalPages) * 80);
+            setExportProgress(10 + (page + 1) / totalPages * 80);
 
           } catch (imageError) {
             console.error(`Failed to load image: ${image.path}`, imageError);
             // Add placeholder text for failed images
             pdf.setFontSize(10);
-            pdf.text(`[Image not available: ${image.filename}]`, margin + (i % 2) * (contentWidth / 2 + 10), yPosition + 30);
+            pdf.text(`[Image not available: ${image.filename}]`, margin + i % 2 * (contentWidth / 2 + 10), yPosition + 30);
           }
         }
       }
@@ -327,7 +328,7 @@ export function ImageExport() {
       setExportProgress(100);
       toast({
         title: "Export Successful",
-        description: `PDF "${filename}" has been downloaded successfully.`,
+        description: `PDF "${filename}" has been downloaded successfully.`
       });
 
     } catch (error) {
@@ -336,7 +337,7 @@ export function ImageExport() {
       toast({
         title: "Export Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -350,7 +351,7 @@ export function ImageExport() {
       toast({
         title: "No Collection Selected",
         description: "Please select a collection to export.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -362,11 +363,11 @@ export function ImageExport() {
     try {
       for (let i = 0; i < selectedCollection.images.length; i++) {
         const image = selectedCollection.images[i];
-        
+
         try {
           const img = new Image();
           img.crossOrigin = 'anonymous';
-          
+
           await new Promise((resolve, reject) => {
             img.onload = resolve;
             img.onerror = reject;
@@ -376,7 +377,7 @@ export function ImageExport() {
           // Create canvas
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
-          
+
           if (!ctx) {
             throw new Error('Failed to get canvas context');
           }
@@ -405,7 +406,7 @@ export function ImageExport() {
           document.body.removeChild(a);
           URL.revokeObjectURL(url);
 
-          setExportProgress(((i + 1) / selectedCollection.images.length) * 100);
+          setExportProgress((i + 1) / selectedCollection.images.length * 100);
 
         } catch (imageError) {
           console.error(`Failed to export image: ${image.path}`, imageError);
@@ -414,7 +415,7 @@ export function ImageExport() {
 
       toast({
         title: "Export Successful",
-        description: `All images have been exported successfully.`,
+        description: `All images have been exported successfully.`
       });
 
     } catch (error) {
@@ -423,7 +424,7 @@ export function ImageExport() {
       toast({
         title: "Export Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -437,7 +438,7 @@ export function ImageExport() {
       toast({
         title: "No Collection Selected",
         description: "Please select a collection to share.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -470,7 +471,7 @@ export function ImageExport() {
             toast({
               title: "Email Required",
               description: "Please enter a recipient email address.",
-              variant: "destructive",
+              variant: "destructive"
             });
             return;
           }
@@ -491,7 +492,7 @@ export function ImageExport() {
           await navigator.clipboard.writeText(shareUrl);
           toast({
             title: "Link Copied",
-            description: "Collection link has been copied to clipboard.",
+            description: "Collection link has been copied to clipboard."
           });
           break;
       }
@@ -502,7 +503,7 @@ export function ImageExport() {
       toast({
         title: "Share Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -515,7 +516,7 @@ export function ImageExport() {
       toast({
         title: "No Collection Selected",
         description: "Please select a collection to print.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -525,7 +526,7 @@ export function ImageExport() {
       toast({
         title: "Print Error",
         description: "Please allow pop-ups to print collections.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -553,7 +554,7 @@ export function ImageExport() {
             <p>Images: ${selectedCollection.images.length} | Created: ${selectedCollection.createdAt.toLocaleDateString()}</p>
           </div>
           <div class="image-grid">
-            ${selectedCollection.images.map(image => `
+            ${selectedCollection.images.map((image) => `
               <div class="image-item">
                 <img src="${image.path}" alt="${image.description || image.filename}" />
                 <div class="metadata">
@@ -565,8 +566,8 @@ export function ImageExport() {
             `).join('')}
           </div>
           <div class="no-print">
-            <button onclick="window.print()">Print</button>
-            <button onclick="window.close()">Close</button>
+            <button onclick="window.print()" aria-label="Button">Print</button>
+            <button onclick="window.close()" aria-label="Button">Close</button>
           </div>
         </body>
       </html>
@@ -595,16 +596,16 @@ export function ImageExport() {
           </CardHeader>
           <CardContent>
             <p className="text-red-600 mb-4">{error}</p>
-            <Button 
+            <Button
               onClick={() => setError(null)}
-              variant="outline"
-            >
+              variant="outline">
+
               Dismiss Error
             </Button>
           </CardContent>
         </Card>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -629,31 +630,9 @@ export function ImageExport() {
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle>Study Collections</CardTitle>
-                                  <Button 
-                    onClick={() => {
-                      // Create a sample collection for demonstration
-                      const sampleImages = Object.values(imageMapping).flat().slice(0, 10) as ImageAsset[];
-                      createCollection(
-                        'Sample Collection',
-                        'A sample collection for testing export features',
-                        sampleImages,
-                        'signs',
-                        'basic',
-                        ['sample', 'test', 'demo']
-                      );
-                    }}
-                  variant="outline"
-                  size="sm"
-                >
-                  Create Sample Collection
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              {collections.length === 0 ? (
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground mb-4">No collections created yet.</p>
-                  <Button onClick={() => {
+                                  <Button
+                  onClick={() => {
+                    // Create a sample collection for demonstration
                     const sampleImages = Object.values(imageMapping).flat().slice(0, 10) as ImageAsset[];
                     createCollection(
                       'Sample Collection',
@@ -663,20 +642,42 @@ export function ImageExport() {
                       'basic',
                       ['sample', 'test', 'demo']
                     );
-                  }}>
+                  }}
+                  variant="outline"
+                  size="sm">
+
+                  Create Sample Collection
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {collections.length === 0 ?
+              <div className="text-center py-8">
+                  <p className="text-muted-foreground mb-4">No collections created yet.</p>
+                  <Button onClick={() => {
+                  const sampleImages = Object.values(imageMapping).flat().slice(0, 10) as ImageAsset[];
+                  createCollection(
+                    'Sample Collection',
+                    'A sample collection for testing export features',
+                    sampleImages,
+                    'signs',
+                    'basic',
+                    ['sample', 'test', 'demo']
+                  );
+                }}>
                     Create Your First Collection
                   </Button>
-                </div>
-              ) : (
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {collections.map((collection) => (
-                    <Card 
-                      key={collection.id} 
-                      className={`cursor-pointer transition-colors ${
-                        selectedCollection?.id === collection.id ? 'border-primary' : ''
-                      }`}
-                      onClick={() => setSelectedCollection(collection)}
-                    >
+                </div> :
+
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {collections.map((collection) =>
+                <Card
+                  key={collection.id}
+                  className={`cursor-pointer transition-colors ${
+                  selectedCollection?.id === collection.id ? 'border-primary' : ''}`
+                  }
+                  onClick={() => setSelectedCollection(collection)}>
+
                       <CardContent className="p-4">
                         <div className="flex justify-between items-start mb-2">
                           <h3 className="font-semibold">{collection.name}</h3>
@@ -701,21 +702,21 @@ export function ImageExport() {
                         <div className="flex justify-between items-center text-xs text-muted-foreground">
                           <span>Created: {collection.createdAt.toLocaleDateString()}</span>
                           <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deleteCollection(collection.id);
-                            }}
-                          >
+                        size="sm"
+                        variant="destructive"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteCollection(collection.id);
+                        }}>
+
                             Delete
                           </Button>
                         </div>
                       </CardContent>
                     </Card>
-                  ))}
+                )}
                 </div>
-              )}
+              }
             </CardContent>
           </Card>
         </TabsContent>
@@ -732,9 +733,9 @@ export function ImageExport() {
                   <Select
                     value={exportSettings.format}
                     onValueChange={(value: 'pdf' | 'png' | 'jpg') =>
-                      setExportSettings(prev => ({ ...prev, format: value }))
-                    }
-                  >
+                    setExportSettings((prev) => ({ ...prev, format: value }))
+                    }>
+
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -751,9 +752,9 @@ export function ImageExport() {
                   <Select
                     value={exportSettings.quality}
                     onValueChange={(value: 'low' | 'medium' | 'high') =>
-                      setExportSettings(prev => ({ ...prev, quality: value }))
-                    }
-                  >
+                    setExportSettings((prev) => ({ ...prev, quality: value }))
+                    }>
+
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -770,9 +771,9 @@ export function ImageExport() {
                   <Select
                     value={exportSettings.pageSize}
                     onValueChange={(value: 'a4' | 'letter' | 'a3') =>
-                      setExportSettings(prev => ({ ...prev, pageSize: value }))
-                    }
-                  >
+                    setExportSettings((prev) => ({ ...prev, pageSize: value }))
+                    }>
+
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -789,9 +790,9 @@ export function ImageExport() {
                   <Select
                     value={exportSettings.orientation}
                     onValueChange={(value: 'portrait' | 'landscape') =>
-                      setExportSettings(prev => ({ ...prev, orientation: value }))
-                    }
-                  >
+                    setExportSettings((prev) => ({ ...prev, orientation: value }))
+                    }>
+
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -807,9 +808,9 @@ export function ImageExport() {
                   <Select
                     value={exportSettings.imagesPerPage.toString()}
                     onValueChange={(value) =>
-                      setExportSettings(prev => ({ ...prev, imagesPerPage: parseInt(value) }))
-                    }
-                  >
+                    setExportSettings((prev) => ({ ...prev, imagesPerPage: parseInt(value) }))
+                    }>
+
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -830,9 +831,9 @@ export function ImageExport() {
                     id="includeMetadata"
                     checked={exportSettings.includeMetadata}
                     onCheckedChange={(checked) =>
-                      setExportSettings(prev => ({ ...prev, includeMetadata: checked as boolean }))
-                    }
-                  />
+                    setExportSettings((prev) => ({ ...prev, includeMetadata: checked as boolean }))
+                    } />
+
                   <Label htmlFor="includeMetadata">Include image metadata</Label>
                 </div>
 
@@ -841,9 +842,9 @@ export function ImageExport() {
                     id="includeProgress"
                     checked={exportSettings.includeProgress}
                     onCheckedChange={(checked) =>
-                      setExportSettings(prev => ({ ...prev, includeProgress: checked as boolean }))
-                    }
-                  />
+                    setExportSettings((prev) => ({ ...prev, includeProgress: checked as boolean }))
+                    } />
+
                   <Label htmlFor="includeProgress">Include study progress</Label>
                 </div>
 
@@ -852,9 +853,9 @@ export function ImageExport() {
                     id="includeNotes"
                     checked={exportSettings.includeNotes}
                     onCheckedChange={(checked) =>
-                      setExportSettings(prev => ({ ...prev, includeNotes: checked as boolean }))
-                    }
-                  />
+                    setExportSettings((prev) => ({ ...prev, includeNotes: checked as boolean }))
+                    } />
+
                   <Label htmlFor="includeNotes">Include personal notes</Label>
                 </div>
 
@@ -863,9 +864,9 @@ export function ImageExport() {
                     id="includeAnswers"
                     checked={exportSettings.includeAnswers}
                     onCheckedChange={(checked) =>
-                      setExportSettings(prev => ({ ...prev, includeAnswers: checked as boolean }))
-                    }
-                  />
+                    setExportSettings((prev) => ({ ...prev, includeAnswers: checked as boolean }))
+                    } />
+
                   <Label htmlFor="includeAnswers">Include answers</Label>
                 </div>
 
@@ -874,29 +875,29 @@ export function ImageExport() {
                     id="includeExplanations"
                     checked={exportSettings.includeExplanations}
                     onCheckedChange={(checked) =>
-                      setExportSettings(prev => ({ ...prev, includeExplanations: checked as boolean }))
-                    }
-                  />
+                    setExportSettings((prev) => ({ ...prev, includeExplanations: checked as boolean }))
+                    } />
+
                   <Label htmlFor="includeExplanations">Include explanations</Label>
                 </div>
               </div>
 
-              {loading && (
-                <div className="space-y-2">
+              {loading &&
+              <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>Exporting...</span>
                     <span>{Math.round(exportProgress)}%</span>
                   </div>
                   <Progress value={exportProgress} />
                 </div>
-              )}
+              }
 
               <div className="flex gap-2">
                 <Button
                   onClick={exportSettings.format === 'pdf' ? exportToPDF : exportToImages}
                   disabled={!selectedCollection || loading}
-                  className="flex-1"
-                >
+                  className="flex-1">
+
                   {loading ? 'Exporting...' : `Export as ${exportSettings.format.toUpperCase()}`}
                 </Button>
               </div>
@@ -916,9 +917,9 @@ export function ImageExport() {
                   <Select
                     value={shareSettings.platform}
                     onValueChange={(value: 'email' | 'whatsapp' | 'telegram' | 'copy-link') =>
-                      setShareSettings(prev => ({ ...prev, platform: value }))
-                    }
-                  >
+                    setShareSettings((prev) => ({ ...prev, platform: value }))
+                    }>
+
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -931,20 +932,20 @@ export function ImageExport() {
                   </Select>
                 </div>
 
-                {shareSettings.platform === 'email' && (
-                  <div>
+                {shareSettings.platform === 'email' &&
+                <div>
                     <Label htmlFor="recipientEmail">Recipient Email</Label>
                     <Input
-                      id="recipientEmail"
-                      type="email"
-                      placeholder="Enter email address"
-                      value={shareSettings.recipientEmail || ''}
-                      onChange={(e) =>
-                        setShareSettings(prev => ({ ...prev, recipientEmail: e.target.value }))
-                      }
-                    />
+                    id="recipientEmail"
+                    type="email"
+                    placeholder="Enter email address"
+                    value={shareSettings.recipientEmail || ''}
+                    onChange={(e) =>
+                    setShareSettings((prev) => ({ ...prev, recipientEmail: e.target.value }))
+                    } />
+
                   </div>
-                )}
+                }
               </div>
 
               <div>
@@ -954,10 +955,10 @@ export function ImageExport() {
                   placeholder="Enter your message..."
                   value={shareSettings.message}
                   onChange={(e) =>
-                    setShareSettings(prev => ({ ...prev, message: e.target.value }))
+                  setShareSettings((prev) => ({ ...prev, message: e.target.value }))
                   }
-                  rows={3}
-                />
+                  rows={3} />
+
               </div>
 
               <div className="space-y-2">
@@ -966,9 +967,9 @@ export function ImageExport() {
                     id="shareProgress"
                     checked={shareSettings.includeProgress}
                     onCheckedChange={(checked) =>
-                      setShareSettings(prev => ({ ...prev, includeProgress: checked as boolean }))
-                    }
-                  />
+                    setShareSettings((prev) => ({ ...prev, includeProgress: checked as boolean }))
+                    } />
+
                   <Label htmlFor="shareProgress">Include study progress</Label>
                 </div>
 
@@ -977,9 +978,9 @@ export function ImageExport() {
                     id="shareNotes"
                     checked={shareSettings.includeNotes}
                     onCheckedChange={(checked) =>
-                      setShareSettings(prev => ({ ...prev, includeNotes: checked as boolean }))
-                    }
-                  />
+                    setShareSettings((prev) => ({ ...prev, includeNotes: checked as boolean }))
+                    } />
+
                   <Label htmlFor="shareNotes">Include personal notes</Label>
                 </div>
               </div>
@@ -987,8 +988,8 @@ export function ImageExport() {
               <Button
                 onClick={shareCollection}
                 disabled={!selectedCollection || loading}
-                className="w-full"
-              >
+                className="w-full">
+
                 {loading ? 'Sharing...' : `Share via ${shareSettings.platform}`}
               </Button>
             </CardContent>
@@ -1008,8 +1009,8 @@ export function ImageExport() {
               <Button
                 onClick={printCollection}
                 disabled={!selectedCollection}
-                className="w-full"
-              >
+                className="w-full">
+
                 Print Collection
               </Button>
             </CardContent>
@@ -1018,36 +1019,38 @@ export function ImageExport() {
       </Tabs>
 
       {/* Collection Preview */}
-      {selectedCollection && (
-        <Card>
+      {selectedCollection &&
+      <Card>
           <CardHeader>
             <CardTitle>Selected Collection: {selectedCollection.name}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {selectedCollection.images.slice(0, 8).map((image, index) => (
-                <div key={index} className="border rounded-lg p-2">
+              {selectedCollection.images.slice(0, 8).map((image, index) =>
+            <div key={index} className="border rounded-lg p-2">
                   <img
-                    src={image.path}
-                    alt={image.description || image.filename}
-                    className="w-full h-24 object-cover rounded"
-                  />
+                src={image.path}
+                alt={image.description || image.filename}
+                className="w-full h-24 object-cover rounded" />
+
                   <p className="text-xs mt-1 truncate">
                     {image.description || image.filename}
                   </p>
                 </div>
-              ))}
-              {selectedCollection.images.length > 8 && (
-                <div className="border rounded-lg p-2 flex items-center justify-center">
+            )}
+              {selectedCollection.images.length > 8 &&
+            <div className="border rounded-lg p-2 flex items-center justify-center">
                   <p className="text-sm text-muted-foreground">
                     +{selectedCollection.images.length - 8} more
                   </p>
                 </div>
-              )}
+            }
             </div>
           </CardContent>
         </Card>
-      )}
-    </div>
-  );
-} 
+      }
+    </div>);
+
+}
+
+export default ImageExport;

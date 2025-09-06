@@ -4,7 +4,8 @@
 SuperK53 - Official K53 Learner's License Platform with location-aware learning, gamification, and comprehensive preparation tools.
 
 ## Current Status ✅
-- **250+ Location-Aware Scenarios** - Comprehensive coverage across South Africa
+- **429 Location-Aware Scenarios** - Comprehensive coverage across South Africa
+- **85 K53 Questions** - Real questions from official sources in database
 - **Enhanced Analytics Dashboard** - Test readiness score, performance metrics, learning insights
 - **Push Notification System** - Daily reminders, achievement alerts, streak warnings
 - **Comprehensive PWA** - Full Progressive Web App with offline support, background sync, and native app features

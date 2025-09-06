@@ -29,8 +29,8 @@ async function checkTablesExist(db: any): Promise<boolean> {
 
 const getDatabase = () => {
   if (!supabase) {
-    const supabaseUrl = "https://lxzwakeusanxquhshcph.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx4endha2V1c2FueHF1aHNoY3BoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzAxNTIsImV4cCI6MjA2ODgwNjE1Mn0.WzlkTGbselENSvmDG0oD7xEM1s6ZnJtY1TgBiGHuXVE";
+    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+    const supabaseKey = process.env.VITE_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
       console.error("Missing Supabase configuration");
@@ -57,7 +57,7 @@ const isAdminUser = async (req: any): Promise<boolean> => {
 };
 
 // Get dashboard statistics
-export const getDashboardStats: RequestHandler = async (req, res) => {
+export const getDashboardStats: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -81,7 +81,7 @@ export const getDashboardStats: RequestHandler = async (req, res) => {
 
     // Check if tables exist before querying
     const tablesExist = await checkTablesExist(db);
-    if (!tablesExist) {
+    if (!_tablesExist) {
       return res.json({
         totalUsers: 0,
         activeSubscriptions: 0,
@@ -243,25 +243,25 @@ export const getDashboardStats: RequestHandler = async (req, res) => {
 };
 
 // Check admin status
-export const checkAdminStatus: RequestHandler = async (req, res) => {
+export const checkAdminStatus: RequestHandler = async (_req, res) => {
   try {
     const isAdmin = await isAdminUser(req);
     res.json({ isAdmin });
   } catch (error) {
     console.error("Admin status check error:", error);
-    res.status(500).json({ error: "Failed to check admin status" });
+    return res.status(500).json({ error: "Failed to check admin status" });
   }
 };
 
 // Get users with search and filtering
-export const getUsers: RequestHandler = async (req, res) => {
+export const getUsers: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { search, status, limit = 100 } = req.query;
+    const { search, status, limit = 100 } = _req.query;
 
     // First try to get users with profile join
     let query = db
@@ -357,14 +357,14 @@ export const getUsers: RequestHandler = async (req, res) => {
 };
 
 // Get user details
-export const getUserDetails: RequestHandler = async (req, res) => {
+export const getUserDetails: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { userId } = req.params;
+    const { userId } = _req.params;
 
     const { data: userData, error } = await db
       .from("user_subscriptions")
@@ -416,14 +416,14 @@ export const getUserDetails: RequestHandler = async (req, res) => {
 };
 
 // Update user
-export const updateUser: RequestHandler = async (req, res) => {
+export const updateUser: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { userId } = req.params;
+    const { userId } = _req.params;
     const updates = req.body;
 
     const { data, error } = await db
@@ -446,15 +446,15 @@ export const updateUser: RequestHandler = async (req, res) => {
 };
 
 // Ban user
-export const banUser: RequestHandler = async (req, res) => {
+export const banUser: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { userId } = req.params;
-    const { reason, durationDays } = req.body;
+    const { userId } = _req.params;
+    const { reason: _reason, durationDays: _durationDays } = req.body as { reason?: string; durationDays?: number };
 
     // Update user subscription status to banned
     const { error: updateError } = await db
@@ -475,14 +475,14 @@ export const banUser: RequestHandler = async (req, res) => {
 };
 
 // Unban user
-export const unbanUser: RequestHandler = async (req, res) => {
+export const unbanUser: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { userId } = req.params;
+    const { userId } = _req.params;
 
     // Update user subscription status to active
     const { error: updateError } = await db
@@ -503,14 +503,14 @@ export const unbanUser: RequestHandler = async (req, res) => {
 };
 
 // Get payments
-export const getPayments: RequestHandler = async (req, res) => {
+export const getPayments: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { limit = 50, status, dateFrom, dateTo } = req.query;
+    const { limit = 50, status, dateFrom, dateTo } = _req.query;
 
     // First try to get payments with profile join
     let query = db
@@ -602,22 +602,22 @@ export const getPayments: RequestHandler = async (req, res) => {
 };
 
 // Refund payment
-export const refundPayment: RequestHandler = async (req, res) => {
+export const refundPayment: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { paymentId } = req.params;
-    const { reason } = req.body;
+    const { paymentId } = _req.params;
+    const { _reason } = _req.body;
 
     // Update payment status to refunded
     const { error: updateError } = await db
       .from("payments")
       .update({ 
         status: "refunded",
-        failure_reason: reason,
+        failure_reason: _reason,
         updated_at: new Date().toISOString()
       })
       .eq("id", paymentId);
@@ -635,7 +635,7 @@ export const refundPayment: RequestHandler = async (req, res) => {
 };
 
 // System health check
-export const getSystemHealth: RequestHandler = async (req, res) => {
+export const getSystemHealth: RequestHandler = async (_req, res) => {
   try {
     const health = {
       database: "operational",
@@ -672,7 +672,7 @@ export const getSystemHealth: RequestHandler = async (req, res) => {
 };
 
 // Get system settings
-export const getSystemSettings: RequestHandler = async (req, res) => {
+export const getSystemSettings: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -697,15 +697,15 @@ export const getSystemSettings: RequestHandler = async (req, res) => {
 };
 
 // Update system setting
-export const updateSystemSetting: RequestHandler = async (req, res) => {
+export const updateSystemSetting: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { key } = req.params;
-    const { setting_value } = req.body;
+    const { key } = _req.params;
+    const { _setting_value } = _req.body;
 
     const { data, error } = await db
       .from("system_settings")
@@ -730,7 +730,7 @@ export const updateSystemSetting: RequestHandler = async (req, res) => {
 };
 
 // Get maintenance mode
-export const getMaintenanceMode: RequestHandler = async (req, res) => {
+export const getMaintenanceMode: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -757,14 +757,14 @@ export const getMaintenanceMode: RequestHandler = async (req, res) => {
 };
 
 // Toggle maintenance mode
-export const toggleMaintenanceMode: RequestHandler = async (req, res) => {
+export const toggleMaintenanceMode: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { is_active, message } = req.body;
+    const { _is_active, _message } = _req.body;
 
     const { data, error } = await db
       .from("maintenance_mode")
@@ -789,7 +789,7 @@ export const toggleMaintenanceMode: RequestHandler = async (req, res) => {
 };
 
 // Get system notifications
-export const getSystemNotifications: RequestHandler = async (req, res) => {
+export const getSystemNotifications: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -815,14 +815,14 @@ export const getSystemNotifications: RequestHandler = async (req, res) => {
 };
 
 // Create system notification
-export const createSystemNotification: RequestHandler = async (req, res) => {
+export const createSystemNotification: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { title, message, type, target_audience, is_active = true } = req.body;
+    const { _title, _message, _type, _target_audience, _is_active = true } = _req.body;
 
     const { data, error } = await db
       .from("system_notifications")
@@ -849,14 +849,14 @@ export const createSystemNotification: RequestHandler = async (req, res) => {
 };
 
 // Update system notification
-export const updateSystemNotification: RequestHandler = async (req, res) => {
+export const updateSystemNotification: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { id } = req.params;
+    const { id } = _req.params;
     const updates = req.body;
 
     const { data, error } = await db
@@ -882,14 +882,14 @@ export const updateSystemNotification: RequestHandler = async (req, res) => {
 };
 
 // Delete system notification
-export const deleteSystemNotification: RequestHandler = async (req, res) => {
+export const deleteSystemNotification: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { id } = req.params;
+    const { id } = _req.params;
 
     const { error } = await db
       .from("system_notifications")
@@ -909,14 +909,14 @@ export const deleteSystemNotification: RequestHandler = async (req, res) => {
 };
 
 // Get analytics events
-export const getAnalytics: RequestHandler = async (req, res) => {
+export const getAnalytics: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { eventType, dateFrom, dateTo, limit = 100 } = req.query;
+    const { eventType, dateFrom, dateTo, limit = 100 } = _req.query;
 
     let query = db
       .from("analytics_events")
@@ -951,14 +951,14 @@ export const getAnalytics: RequestHandler = async (req, res) => {
 };
 
 // Get error logs
-export const getErrorLogs: RequestHandler = async (req, res) => {
+export const getErrorLogs: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { errorType, resolved, limit = 100 } = req.query;
+    const { errorType, resolved, limit = 100 } = _req.query;
 
     let query = db
       .from("error_logs")
@@ -989,14 +989,14 @@ export const getErrorLogs: RequestHandler = async (req, res) => {
 };
 
 // Resolve error log
-export const resolveErrorLog: RequestHandler = async (req, res) => {
+export const resolveErrorLog: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { id } = req.params;
+    const { id } = _req.params;
 
     const { data, error } = await db
       .from("error_logs")
@@ -1021,14 +1021,14 @@ export const resolveErrorLog: RequestHandler = async (req, res) => {
 };
 
 // Get audit log
-export const getAuditLog: RequestHandler = async (req, res) => {
+export const getAuditLog: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { action, targetType, limit = 100 } = req.query;
+    const { action, targetType, limit = 100 } = _req.query;
 
     let query = db
       .from("admin_audit_log")
@@ -1059,7 +1059,7 @@ export const getAuditLog: RequestHandler = async (req, res) => {
 };
 
 // Get user bans
-export const getUserBans: RequestHandler = async (req, res) => {
+export const getUserBans: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -1084,15 +1084,15 @@ export const getUserBans: RequestHandler = async (req, res) => {
 };
 
 // Export data
-export const exportData: RequestHandler = async (req, res) => {
+export const exportData: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
       return res.status(503).json({ error: "Database not configured" });
     }
 
-    const { type } = req.params;
-    const { format = 'json' } = req.query;
+    const { type } = _req.params;
+    const { format = 'json' } = _req.query;
 
     let data: any[] = [];
 
@@ -1137,7 +1137,7 @@ export const exportData: RequestHandler = async (req, res) => {
 };
 
 // Clear cache
-export const clearCache: RequestHandler = async (req, res) => {
+export const clearCache: RequestHandler = async (_req, res) => {
   try {
     // In a real implementation, this would clear application cache
     res.json({ success: true, message: "Cache cleared successfully" });
@@ -1148,7 +1148,7 @@ export const clearCache: RequestHandler = async (req, res) => {
 };
 
 // Get cache stats
-export const getCacheStats: RequestHandler = async (req, res) => {
+export const getCacheStats: RequestHandler = async (_req, res) => {
   try {
     // In a real implementation, this would return actual cache statistics
     res.json({
@@ -1165,7 +1165,7 @@ export const getCacheStats: RequestHandler = async (req, res) => {
 };
 
 // Get real-time metrics
-export const getRealTimeMetrics: RequestHandler = async (req, res) => {
+export const getRealTimeMetrics: RequestHandler = async (_req, res) => {
   try {
     const db = getDatabase();
     if (!db) {
@@ -1206,6 +1206,447 @@ export const getRealTimeMetrics: RequestHandler = async (req, res) => {
     res.status(500).json({ error: "Failed to load real-time metrics" });
   }
 };
+
+// Get comprehensive content data
+export const getContentData: RequestHandler = async (_req, res) => {
+  try {
+    const db = getDatabase();
+    if (!db) {
+      return res.status(503).json({ error: "Database not configured" });
+    }
+
+    const { type } = _req.params;
+    const { limit = 100, category, difficulty } = _req.query;
+
+    let data: any[] = [];
+    let stats: any = {};
+
+    switch (type) {
+      case 'questions':
+        let questionsQuery = db.from("questions").select("*");
+        if (category) questionsQuery = questionsQuery.eq("category", category);
+        if (difficulty) questionsQuery = questionsQuery.eq("difficulty", difficulty);
+        const { data: questionsData, error: questionsError } = await questionsQuery.limit(Number(limit));
+        
+        if (questionsError) {
+          console.error("Get questions error:", questionsError);
+          return res.status(500).json({ error: "Failed to load questions" });
+        }
+        
+        data = questionsData || [];
+        
+        // Get questions statistics
+        const { data: allQuestions } = await db.from("questions").select("category, difficulty");
+        const totalQuestions = allQuestions?.length || 0;
+        const categories = [...new Set(allQuestions?.map(q => q.category) || [])];
+        const difficulties = [...new Set(allQuestions?.map(q => q.difficulty) || [])];
+        
+        stats = {
+          total: totalQuestions,
+          categories: categories.length,
+          difficulties: difficulties.length,
+          byCategory: categories.reduce((acc: Record<string, number>, cat: string) => {
+            acc[cat] = allQuestions?.filter(q => q.category === cat).length || 0;
+            return acc;
+          }, {}),
+          byDifficulty: difficulties.reduce((acc: Record<string, number>, diff: string) => {
+            acc[diff] = allQuestions?.filter(q => q.difficulty === diff).length || 0;
+            return acc;
+          }, {})
+        };
+        break;
+
+      case 'scenarios':
+        let scenariosQuery = db.from("scenarios").select("*");
+        if (category) scenariosQuery = scenariosQuery.eq("category", category);
+        if (difficulty) scenariosQuery = scenariosQuery.eq("difficulty", difficulty);
+        const { data: scenariosData, error: scenariosError } = await scenariosQuery.limit(Number(limit));
+        
+        if (scenariosError) {
+          console.error("Get scenarios error:", scenariosError);
+          return res.status(500).json({ error: "Failed to load scenarios" });
+        }
+        
+        data = scenariosData || [];
+        
+        // Get scenarios statistics
+        const { data: allScenarios } = await db.from("scenarios").select("category, difficulty, location");
+        const totalScenarios = allScenarios?.length || 0;
+        const scenarioCategories = [...new Set(allScenarios?.map(s => s.category) || [])];
+        const scenarioDifficulties = [...new Set(allScenarios?.map(s => s.difficulty) || [])];
+        const locations = [...new Set(allScenarios?.map(s => s.location) || [])];
+        
+        stats = {
+          total: totalScenarios,
+          categories: scenarioCategories.length,
+          difficulties: scenarioDifficulties.length,
+          locations: locations.length,
+          byCategory: scenarioCategories.reduce((acc: Record<string, number>, cat: string) => {
+            acc[cat] = allScenarios?.filter(s => s.category === cat).length || 0;
+            return acc;
+          }, {}),
+          byDifficulty: scenarioDifficulties.reduce((acc: Record<string, number>, diff: string) => {
+            acc[diff] = allScenarios?.filter(s => s.difficulty === diff).length || 0;
+            return acc;
+          }, {})
+        };
+        break;
+
+      case 'user_progress':
+        try {
+          const { data: progressData, error: progressError } = await db
+            .from("user_progress")
+            .select(`
+              *,
+              profiles(email, full_name)
+            `)
+            .order("completed_at", { ascending: false })
+            .limit(Number(limit));
+          
+          if (progressError) {
+            console.error("Get user progress error:", progressError);
+            // Return empty data instead of error
+            data = [];
+            stats = {
+              total: 0,
+              passed: 0,
+              failed: 0,
+              passRate: 0,
+              averageScore: 0,
+              byType: {
+                scenarios: 0,
+                questions: 0
+              }
+            };
+          } else {
+            data = progressData || [];
+            
+            // Get progress statistics
+            const { data: allProgress } = await db.from("user_progress").select("test_type, passed, score, total_questions");
+            const totalTests = allProgress?.length || 0;
+            const passedTests = allProgress?.filter(p => p.passed).length || 0;
+            const averageScore = allProgress?.length > 0 
+              ? allProgress.reduce((sum: any, p: any) => sum + (p.score / p.total_questions * 100), 0) / allProgress.length 
+              : 0;
+            
+            stats = {
+              total: totalTests,
+              passed: passedTests,
+              failed: totalTests - passedTests,
+              passRate: totalTests > 0 ? (passedTests / totalTests) * 100 : 0,
+              averageScore: Math.round(averageScore * 100) / 100,
+              byType: {
+                scenarios: allProgress?.filter(p => p.test_type === 'scenarios').length || 0,
+                questions: allProgress?.filter(p => p.test_type === 'questions').length || 0
+              }
+            };
+          }
+        } catch (error) {
+          console.error("User progress query error:", error);
+          data = [];
+          stats = {
+            total: 0,
+            passed: 0,
+            failed: 0,
+            passRate: 0,
+            averageScore: 0,
+            byType: {
+              scenarios: 0,
+              questions: 0
+            }
+          };
+        }
+        break;
+
+      case 'user_scenarios':
+        try {
+          const { data: userScenariosData, error: userScenariosError } = await db
+            .from("user_scenarios")
+            .select(`
+              *,
+              profiles(email, full_name)
+            `)
+            .order("completed_at", { ascending: false })
+            .limit(Number(limit));
+          
+          if (userScenariosError) {
+            console.error("Get user scenarios error:", userScenariosError);
+            // Return empty data instead of error
+            data = [];
+            stats = {
+              total: 0,
+              correct: 0,
+              incorrect: 0,
+              accuracy: 0,
+              averageTime: 0
+            };
+          } else {
+            data = userScenariosData || [];
+            
+            // Get user scenarios statistics
+            const { data: allUserScenarios } = await db.from("user_scenarios").select("answered_correctly, time_taken");
+            const totalAttempts = allUserScenarios?.length || 0;
+            const correctAnswers = allUserScenarios?.filter(us => us.answered_correctly).length || 0;
+            const averageTime = allUserScenarios?.length > 0 
+              ? allUserScenarios.reduce((sum: any, us: any) => sum + us.time_taken, 0) / allUserScenarios.length 
+              : 0;
+            
+            stats = {
+              total: totalAttempts,
+              correct: correctAnswers,
+              incorrect: totalAttempts - correctAnswers,
+              accuracy: totalAttempts > 0 ? (correctAnswers / totalAttempts) * 100 : 0,
+              averageTime: Math.round(averageTime / 1000) // Convert to seconds
+            };
+          }
+        } catch (error) {
+          console.error("User scenarios query error:", error);
+          data = [];
+          stats = {
+            total: 0,
+            correct: 0,
+            incorrect: 0,
+            accuracy: 0,
+            averageTime: 0
+          };
+        }
+        break;
+
+      default:
+        return res.status(400).json({ error: "Invalid content type" });
+    }
+
+    res.json({
+      data,
+      stats,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error("Get content data error:", error);
+    res.status(500).json({ error: "Failed to load content data" });
+  }
+};
+
+// Get comprehensive analytics
+export const getComprehensiveAnalytics: RequestHandler = async (_req, res) => {
+  try {
+    const db = getDatabase();
+    if (!db) {
+      return res.status(503).json({ error: "Database not configured" });
+    }
+
+    const { period = '30d' } = _req.query;
+    const periodStr = String(period);
+    
+    // Calculate date range
+    const now = new Date();
+    let startDate: Date;
+    switch (period) {
+      case '7d':
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case '30d':
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case '90d':
+        startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+        break;
+      default:
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    }
+
+    // Get user registrations over time
+    const { data: userRegistrations } = await db
+      .from("user_subscriptions")
+      .select("created_at")
+      .gte("created_at", startDate.toISOString());
+
+    // Get test completions over time
+    const { data: testCompletions } = await db
+      .from("user_progress")
+      .select("completed_at, test_type, passed")
+      .gte("completed_at", startDate.toISOString());
+
+    // Get scenario attempts over time
+    const { data: scenarioAttempts } = await db
+      .from("user_scenarios")
+      .select("completed_at, answered_correctly")
+      .gte("completed_at", startDate.toISOString());
+
+    // Get payments over time
+    const { data: payments } = await db
+      .from("payments")
+      .select("created_at, amount_cents, status")
+      .gte("created_at", startDate.toISOString());
+
+    // Process data for charts
+    const dailyData = [];
+    const currentDate = new Date(startDate);
+    
+    while (currentDate <= now) {
+      const dateStr = currentDate.toISOString().split('T')[0];
+      
+      const dayRegistrations = userRegistrations?.filter(u => 
+        u.created_at.startsWith(dateStr)
+      ).length || 0;
+      
+      const dayTests = testCompletions?.filter(t => 
+        t.completed_at.startsWith(dateStr)
+      ).length || 0;
+      
+      const dayScenarios = scenarioAttempts?.filter(s => 
+        s.completed_at.startsWith(dateStr)
+      ).length || 0;
+      
+      const dayRevenue = payments?.filter(p => 
+        p.created_at.startsWith(dateStr) && p.status === 'completed'
+      ).reduce((sum: any, p: any) => sum + (p.amount_cents || 0), 0) || 0;
+
+      dailyData.push({
+        date: dateStr,
+        registrations: dayRegistrations,
+        tests: dayTests,
+        scenarios: dayScenarios,
+        revenue: dayRevenue / 100 // Convert cents to currency
+      });
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    // Calculate summary statistics
+    const totalRegistrations = userRegistrations?.length || 0;
+    const totalTests = testCompletions?.length || 0;
+    const totalScenarios = scenarioAttempts?.length || 0;
+    const totalRevenue = payments?.filter(p => p.status === 'completed')
+      .reduce((sum: any, p: any) => sum + (p.amount_cents || 0), 0) || 0;
+
+    const passedTests = testCompletions?.filter(t => t.passed).length || 0;
+    const correctScenarios = scenarioAttempts?.filter(s => s.answered_correctly).length || 0;
+
+    const analytics = {
+      period,
+      summary: {
+        totalRegistrations,
+        totalTests,
+        totalScenarios,
+        totalRevenue: totalRevenue / 100,
+        testPassRate: totalTests > 0 ? (passedTests / totalTests) * 100 : 0,
+        scenarioAccuracy: totalScenarios > 0 ? (correctScenarios / totalScenarios) * 100 : 0
+      },
+      dailyData,
+      topPerformers: {
+        byTests: await getTopPerformers(db, 'tests', periodStr),
+        byScenarios: await getTopPerformers(db, 'scenarios', periodStr),
+        byRevenue: await getTopPerformers(db, 'revenue', periodStr)
+      }
+    };
+
+    res.json(analytics);
+  } catch (error) {
+    console.error("Get comprehensive analytics error:", error);
+    res.status(500).json({ error: "Failed to load analytics" });
+  }
+};
+
+// Helper function to get top performers
+async function getTopPerformers(db: any, type: string, period: string) {
+  try {
+    const now = new Date();
+    let startDate: Date;
+    switch (period) {
+      case '7d':
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case '30d':
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case '90d':
+        startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+        break;
+      default:
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    }
+
+    switch (type) {
+      case 'tests':
+        const { data: testData } = await db
+          .from("user_progress")
+          .select(`
+            user_id,
+            profiles(email, full_name)
+          `)
+          .gte("completed_at", startDate.toISOString());
+        
+        const testCounts = testData?.reduce((acc: any, item: any) => {
+          acc[item.user_id] = (acc[item.user_id] || 0) + 1;
+          return acc;
+        }, {}) || {};
+        
+        return Object.entries(testCounts)
+          .map(([userId, count]) => ({
+            userId,
+            email: testData?.find((t: any) => t.user_id === userId)?.profiles?.email || 'Unknown',
+            count: count as number
+          }))
+          .sort((a: any, b: any) => b.count - a.count)
+          .slice(0, 10);
+
+      case 'scenarios':
+        const { data: scenarioData } = await db
+          .from("user_scenarios")
+          .select(`
+            user_id,
+            profiles(email, full_name)
+          `)
+          .gte("completed_at", startDate.toISOString());
+        
+        const scenarioCounts = scenarioData?.reduce((acc: any, item: any) => {
+          acc[item.user_id] = (acc[item.user_id] || 0) + 1;
+          return acc;
+        }, {}) || {};
+        
+        return Object.entries(scenarioCounts)
+          .map(([userId, count]) => ({
+            userId,
+            email: scenarioData?.find((s: any) => s.user_id === userId)?.profiles?.email || 'Unknown',
+            count: count as number
+          }))
+          .sort((a: any, b: any) => b.count - a.count)
+          .slice(0, 10);
+
+      case 'revenue':
+        const { data: paymentData } = await db
+          .from("payments")
+          .select(`
+            user_id,
+            amount_cents,
+            profiles(email, full_name)
+          `)
+          .gte("created_at", startDate.toISOString())
+          .eq("status", "completed");
+        
+        const revenueCounts = paymentData?.reduce((acc: any, item: any) => {
+          acc[item.user_id] = (acc[item.user_id] || 0) + (item.amount_cents || 0);
+          return acc;
+        }, {}) || {};
+        
+        return Object.entries(revenueCounts)
+          .map(([userId, amount]) => ({
+            userId,
+            email: paymentData?.find((p: any) => p.user_id === userId)?.profiles?.email || 'Unknown',
+            amount: ((amount as number) / 100)
+          }))
+          .sort((a: any, b: any) => b.amount - a.amount)
+          .slice(0, 10);
+
+      default:
+        return [];
+    }
+  } catch (error) {
+    console.error("Get top performers error:", error);
+    return [];
+  }
+}
 
 // Helper function to convert data to CSV
 function convertToCSV(data: any[]): string {
