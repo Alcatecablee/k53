@@ -56,7 +56,6 @@ import {
   runSecurityScan,
   getAccessLogs,
   getThreatDetection,
-  logAccess,
 } from "./routes/system";
 import {
   getQuestionBank,

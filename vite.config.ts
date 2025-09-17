@@ -8,14 +8,14 @@ import { config } from "dotenv";
 config();
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   server: {
-    host: "localhost",
-    port: 3000,
+    host: "0.0.0.0",
+    port: 5000,
     strictPort: true,
     hmr: {
-      port: 3000,
-      host: "localhost"
+      port: 5000,
+      host: "0.0.0.0"
     },
     cors: true
   },
@@ -32,13 +32,13 @@ export default defineConfig(({ mode }) => ({
           'supabase-vendor': ['@supabase/supabase-js'],
           'paypal-vendor': ['@paypal/checkout-server-sdk', '@paypal/react-paypal-js'],
         },
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
+        chunkFileNames: () => {
           return `js/[name]-[hash].js`;
         },
         entryFileNames: 'js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.');
+          const name = assetInfo.name || 'asset';
+          const info = name.split('.');
           const ext = info[info.length - 1];
           if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
             return `images/[name]-[hash][extname]`;
