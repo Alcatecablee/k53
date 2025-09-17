@@ -81,7 +81,7 @@ export const getDashboardStats: RequestHandler = async (_req, res) => {
 
     // Check if tables exist before querying
     const tablesExist = await checkTablesExist(db);
-    if (!_tablesExist) {
+    if (!tablesExist) {
       return res.json({
         totalUsers: 0,
         activeSubscriptions: 0,
