@@ -1,0 +1,42 @@
+21:54:50.701 Running build in Washington, D.C., USA (East) – iad1
+21:54:50.701 Build machine configuration: 2 cores, 8 GB
+21:54:50.730 Cloning github.com/Alcatecablee/k53 (Branch: main, Commit: 20ca790)
+21:54:52.588 Cloning completed: 1.857s
+21:54:53.123 Restored build cache from previous deployment (DueKXnDBms1opUWTGDS9Zy4BxNJR)
+21:54:53.932 Running "vercel build"
+21:54:54.316 Vercel CLI 48.2.0
+21:54:55.244 Running "install" command: `npm install`...
+21:54:56.855 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+21:54:56.881 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+21:54:58.343 
+21:54:58.344 added 21 packages, changed 2 packages, and audited 601 packages in 3s
+21:54:58.345 
+21:54:58.345 79 packages are looking for funding
+21:54:58.345   run `npm fund` for details
+21:54:58.377 
+21:54:58.377 5 vulnerabilities (1 low, 4 moderate)
+21:54:58.378 
+21:54:58.378 To address issues that do not require attention, run:
+21:54:58.378   npm audit fix
+21:54:58.379 
+21:54:58.379 To address all issues (including breaking changes), run:
+21:54:58.379   npm audit fix --force
+21:54:58.380 
+21:54:58.380 Run `npm audit` for details.
+21:54:58.665 
+21:54:58.666 > build:client
+21:54:58.666 > vite build
+21:54:58.666 
+21:54:59.623 [31mfailed to load config from /vercel/path0/vite.config.ts[39m
+21:54:59.627 [31merror during build:
+21:54:59.627 Error: DATABASE_URL must be set. Did you forget to provision a database?
+21:54:59.628     at file:///vercel/path0/node_modules/.vite-temp/vite.config.ts.timestamp-1759866898984-358a851532239.mjs:1521:9
+21:54:59.628     at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+21:54:59.628     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+21:54:59.628     at async loadConfigFromBundledFile (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:49416:15)
+21:54:59.629     at async bundleAndLoadConfigFile (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:49259:22)
+21:54:59.629     at async loadConfigFromFile (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:49222:44)
+21:54:59.629     at async resolveConfig (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:48718:24)
+21:54:59.630     at async createBuilder (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:46707:18)
+21:54:59.630     at async CAC.<anonymous> (file:///vercel/path0/node_modules/vite/dist/node/cli.js:862:23)[39m
+21:54:59.663 Error: Command "npm run build:client" exited with 1
