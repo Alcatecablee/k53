@@ -30,6 +30,7 @@ export const questions = pgTable('questions', {
   options: jsonb('options').notNull(),
   correct: integer('correct').notNull(),
   explanation: text('explanation').notNull(),
+  difficulty: text('difficulty'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({

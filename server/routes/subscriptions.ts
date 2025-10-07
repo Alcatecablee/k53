@@ -1,24 +1,7 @@
 import { RequestHandler } from "express";
-import { createClient } from "@supabase/supabase-js";
-
-// Database client
-let supabase: any = null;
-
-const getDatabase = () => {
-  if (!supabase) {
-    const supabaseUrl =
-      process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseKey =
-      process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseKey) {
-      return null;
-    }
-
-    supabase = createClient(supabaseUrl, supabaseKey);
-  }
-  return supabase;
-};
+import { db } from "../db";
+import { userSubscriptions, dailyUsage } from "@shared/schema";
+import { eq, and } from "drizzle-orm";
 
 // Simple auth middleware - just check for authorization header
 const requireAuth: RequestHandler = (req, res, next) => {
@@ -40,92 +23,77 @@ const requireAuth: RequestHandler = (req, res, next) => {
 };
 
 // Validate scenario access for a user
-export const validateScenarioAccess: RequestHandler = async (_req, res) => {
+export const validateScenarioAccess: RequestHandler = async (req, res) => {
   try {
-    const db = getDatabase();
-    if (!db) {
-      return res.json({
-        allowed: true,
-        remaining: 5,
-        isSubscribed: false,
-        plan: "free",
-      });
-    }
-
     const userId = (req as any).user?.id;
-    if (!_userId) {
+    if (!userId) {
       return res.status(401).json({ error: "User not authenticated" });
     }
 
     // Get user's subscription
-    const { data: subscription, error } = await db
-      .from("user_subscriptions")
-      .select("*")
-      .eq("user_id", userId)
-      .single();
-
-    if (error && error.code !== "PGRST116") {
-      console.error("Error fetching subscription:", error);
-      return res.json({
-        allowed: true,
-        remaining: 5,
-        isSubscribed: false,
-        plan: "free",
-      });
-    }
+    const subscription = await db
+      .select()
+      .from(userSubscriptions)
+      .where(eq(userSubscriptions.userId, userId))
+      .limit(1);
 
     // Check if user has active subscription
     const isSubscribed =
-      subscription?.plan_type !== "free" && subscription?.status === "active";
+      subscription.length > 0 &&
+      subscription[0].planType !== "free" &&
+      subscription[0].status === "active";
 
     if (isSubscribed) {
       return res.json({
         allowed: true,
         remaining: -1,
         isSubscribed: true,
-        plan: subscription.plan_type,
+        plan: subscription[0].planType,
       });
     }
 
     // For free users, check daily usage
     const today = new Date().toISOString().split("T")[0];
-    const { data: usage } = await db
-      .from("daily_usage")
-      .select("*")
-      .eq("user_id", userId)
-      .eq("date", today)
-      .single();
+    const usage = await db
+      .select()
+      .from(dailyUsage)
+      .where(
+        and(
+          eq(dailyUsage.userId, userId),
+          eq(dailyUsage.date, today)
+        )
+      )
+      .limit(1);
 
-    let currentUsage = usage;
-    if (!_currentUsage) {
+    let currentUsage = usage[0];
+    if (!currentUsage) {
       // Create new usage record for today
-      const { data: newUsage } = await db
-        .from("daily_usage")
-        .insert({
-          user_id: userId,
+      const newUsage = await db
+        .insert(dailyUsage)
+        .values({
+          userId: userId,
           date: today,
-          scenarios_used: 0,
-          questions_used: 0,
-          max_scenarios: 5,
-          max_questions: 10,
+          scenariosUsed: 0,
+          questionsUsed: 0,
+          maxScenarios: 5,
+          maxQuestions: 10,
         })
-        .select()
-        .single();
+        .returning();
 
-      currentUsage = newUsage || { scenarios_used: 0, max_scenarios: 5 };
+      currentUsage = newUsage[0] || { scenariosUsed: 0, maxScenarios: 5 };
     }
 
     const remaining = Math.max(
       0,
-      currentUsage.max_scenarios - currentUsage.scenarios_used,
+      currentUsage.maxScenarios - currentUsage.scenariosUsed
     );
 
     res.json({
       allowed: remaining > 0,
       remaining,
       isSubscribed: false,
-      used: currentUsage.scenarios_used,
-      max: currentUsage.max_scenarios,
+      used: currentUsage.scenariosUsed,
+      max: currentUsage.maxScenarios,
     });
   } catch (error) {
     console.error("Validate scenario access error:", error);
@@ -139,31 +107,24 @@ export const validateScenarioAccess: RequestHandler = async (_req, res) => {
 };
 
 // Record scenario usage
-export const recordScenarioUsage: RequestHandler = async (_req, res) => {
+export const recordScenarioUsage: RequestHandler = async (req, res) => {
   try {
-    const db = getDatabase();
-    if (!db) {
-      return res.json({
-        success: true,
-        remaining: 4,
-        message: "Usage recorded (offline mode)",
-      });
-    }
-
     const userId = (req as any).user?.id;
-    if (!_userId) {
+    if (!userId) {
       return res.status(401).json({ error: "User not authenticated" });
     }
 
     // Check if user has unlimited access
-    const { data: subscription } = await db
-      .from("user_subscriptions")
-      .select("*")
-      .eq("user_id", userId)
-      .single();
+    const subscription = await db
+      .select()
+      .from(userSubscriptions)
+      .where(eq(userSubscriptions.userId, userId))
+      .limit(1);
 
     const isSubscribed =
-      subscription?.plan_type !== "free" && subscription?.status === "active";
+      subscription.length > 0 &&
+      subscription[0].planType !== "free" &&
+      subscription[0].status === "active";
 
     if (isSubscribed) {
       return res.json({
@@ -177,38 +138,55 @@ export const recordScenarioUsage: RequestHandler = async (_req, res) => {
     const today = new Date().toISOString().split("T")[0];
 
     // Get current usage
-    const { data: currentUsage } = await db
-      .from("daily_usage")
-      .select("*")
-      .eq("user_id", userId)
-      .eq("date", today)
-      .single();
-
-    const newCount = (currentUsage?.scenarios_used || 0) + 1;
-
-    // Update usage
-    const { data: updatedUsage } = await db
-      .from("daily_usage")
-      .upsert({
-        user_id: userId,
-        date: today,
-        scenarios_used: newCount,
-        questions_used: currentUsage?.questions_used || 0,
-        max_scenarios: 5,
-        max_questions: 10,
-        updated_at: new Date().toISOString(),
-      })
+    const currentUsageResult = await db
       .select()
-      .single();
+      .from(dailyUsage)
+      .where(
+        and(
+          eq(dailyUsage.userId, userId),
+          eq(dailyUsage.date, today)
+        )
+      )
+      .limit(1);
+
+    const currentUsage = currentUsageResult[0];
+    const newCount = (currentUsage?.scenariosUsed || 0) + 1;
+
+    // Update or insert usage
+    let updatedUsage;
+    if (currentUsage) {
+      const result = await db
+        .update(dailyUsage)
+        .set({
+          scenariosUsed: newCount,
+          updatedAt: new Date(),
+        })
+        .where(eq(dailyUsage.id, currentUsage.id))
+        .returning();
+      updatedUsage = result[0];
+    } else {
+      const result = await db
+        .insert(dailyUsage)
+        .values({
+          userId: userId,
+          date: today,
+          scenariosUsed: newCount,
+          questionsUsed: 0,
+          maxScenarios: 5,
+          maxQuestions: 10,
+        })
+        .returning();
+      updatedUsage = result[0];
+    }
 
     const remaining = updatedUsage
-      ? Math.max(0, updatedUsage.max_scenarios - updatedUsage.scenarios_used)
+      ? Math.max(0, updatedUsage.maxScenarios - updatedUsage.scenariosUsed)
       : 4;
 
     res.json({
       success: true,
       remaining,
-      used: updatedUsage?.scenarios_used || newCount,
+      used: updatedUsage?.scenariosUsed || newCount,
       max: 5,
     });
   } catch (error) {

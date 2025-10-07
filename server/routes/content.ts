@@ -1,96 +1,57 @@
 import { RequestHandler } from "express";
-import { createClient } from "@supabase/supabase-js";
+import { db } from "../db";
+import { questions, scenarios } from "@shared/schema";
+import { eq } from "drizzle-orm";
 
 // Fisher-Yates shuffle function
 const shuffleArray = <T>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    const temp = shuffled[i];
+    shuffled[i] = shuffled[j]!;
+    shuffled[j] = temp!;
   }
   return shuffled;
 };
 
-// Database client
-let supabase: any = null;
-
-const getDatabase = () => {
-  if (!supabase) {
-    const supabaseUrl =
-      process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseKey =
-      process.env.VITE_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!supabaseUrl || !supabaseKey) {
-      return null;
-    }
-
-    supabase = createClient(supabaseUrl, supabaseKey);
-  }
-  return supabase;
-};
-
 // Get question bank from database
-export const getQuestionBank: RequestHandler = async (_req, res) => {
+export const getQuestionBank: RequestHandler = async (req, res) => {
   try {
-    const { category, difficulty, limit = 50 } = _req.query;
-    const db = getDatabase();
+    const { category, difficulty, limit = 50 } = req.query;
 
-    if (!db) {
-      return res.status(503).json({ 
-        error: "Database not available",
-        questions: [],
-        stats: {
-          total: 0,
-          categories: [],
-          difficulties: [],
-          filtered: 0
-        }
-      });
+    let query = db.select().from(questions);
+    const conditions = [];
+
+    if (category && questions.category) {
+      conditions.push(eq(questions.category, category as string));
     }
 
-    let query = db.from("questions").select("*");
-
-    if (category) {
-      query = query.eq("category", category);
+    if (difficulty && questions.difficulty) {
+      conditions.push(eq(questions.difficulty, difficulty as string));
     }
 
-    if (difficulty) {
-      query = query.eq("difficulty", difficulty);
-    }
-
-    const { data: questions, error } = await query.limit(Number(limit));
-
-    if (error) {
-      console.error("Database query error:", error);
-      return res.status(500).json({ 
-        error: "Failed to fetch questions",
-        questions: [],
-        stats: {
-          total: 0,
-          categories: [],
-          difficulties: [],
-          filtered: 0
-        }
-      });
-    }
-
-    // Get total counts for stats
-    const { data: allQuestions } = await db.from("questions").select("category, difficulty");
+    const questionList = await query.limit(Number(limit));
     
-    const totalQuestions = allQuestions?.length || 0;
-    const categories = [...new Set(allQuestions?.map(q => q.category) || [])];
-    const difficulties = [...new Set(allQuestions?.map(q => q.difficulty) || [])];
+    // Get total counts for stats
+    const allQuestions = await db.select({
+      category: questions.category,
+      difficulty: questions.difficulty
+    }).from(questions);
+    
+    const totalQuestions = allQuestions.length;
+    const categories = [...new Set(allQuestions.map(q => q.category))];
+    const difficulties = [...new Set(allQuestions.map(q => q.difficulty))];
 
     const stats = {
       total: totalQuestions,
       categories,
       difficulties,
-      filtered: questions?.length || 0,
+      filtered: questionList.length,
     };
 
     res.json({
-      questions: questions || [],
+      questions: questionList,
       stats,
       timestamp: new Date().toISOString(),
     });
@@ -110,21 +71,11 @@ export const getQuestionBank: RequestHandler = async (_req, res) => {
 };
 
 // Export questions as CSV
-export const exportQuestions: RequestHandler = async (_req, res) => {
+export const exportQuestions: RequestHandler = async (req, res) => {
   try {
-    const { format = "csv" } = _req.query;
-    const db = getDatabase();
+    const { format = "csv" } = req.query;
 
-    if (!db) {
-      return res.status(503).json({ error: "Database not available" });
-    }
-
-    const { data: questions, error } = await db.from("questions").select("*");
-
-    if (error) {
-      console.error("Database query error:", error);
-      return res.status(500).json({ error: "Failed to fetch questions" });
-    }
+    const questionList = await db.select().from(questions);
 
     if (format === "csv") {
       const headers = [
@@ -136,23 +87,21 @@ export const exportQuestions: RequestHandler = async (_req, res) => {
         "Option 4",
         "Correct",
         "Category",
-        "Difficulty",
+        "Explanation",
       ];
-      const rows = (questions || []).map((q: any) => [
+      const rows = questionList.map((q: any) => [
         q.id,
-        `"${q.question_text || q.question}"`,
+        `"${q.question}"`,
         `"${q.options[0]}"`,
         `"${q.options[1]}"`,
         `"${q.options[2]}"`,
         `"${q.options[3]}"`,
-        q.correct_answer + 1, // Convert to 1-based index
+        q.correct + 1,
         q.category,
-        q.difficulty,
+        `"${q.explanation}"`,
       ]);
 
-      const csv = [headers.join(","), ...rows.map((row: any) => row.join(","))].join(
-        "\n",
-      );
+      const csv = [headers.join(","), ...rows.map((row: any) => row.join(","))].join("\n");
 
       res.setHeader("Content-Type", "text/csv");
       res.setHeader(
@@ -162,8 +111,8 @@ export const exportQuestions: RequestHandler = async (_req, res) => {
       res.send(csv);
     } else {
       res.json({
-        questions: questions || [],
-        exported: questions?.length || 0,
+        questions: questionList,
+        exported: questionList.length,
         timestamp: new Date().toISOString(),
       });
     }
@@ -174,21 +123,15 @@ export const exportQuestions: RequestHandler = async (_req, res) => {
 };
 
 // Import questions from CSV
-export const importQuestions: RequestHandler = async (_req, res) => {
+export const importQuestions: RequestHandler = async (req, res) => {
   try {
-    const { _csvData } = _req.body;
-    const db = getDatabase();
+    const { csvData } = req.body;
 
-    if (!_csvData) {
+    if (!csvData) {
       return res.status(400).json({ error: "CSV data is required" });
     }
 
-    if (!db) {
-      return res.status(503).json({ error: "Database not available" });
-    }
-
     const lines = csvData.split("\n").filter((line: string) => line.trim());
-    const headers = lines[0].split(",");
 
     const imported = [];
     const errors = [];
@@ -197,28 +140,21 @@ export const importQuestions: RequestHandler = async (_req, res) => {
       try {
         const values = lines[i].split(",");
         const question = {
-          question_text: values[1]?.replace(/"/g, ""),
+          id: values[0] || '',
+          question: values[1]?.replace(/"/g, "") || '',
           options: [
-            values[2]?.replace(/"/g, ""),
-            values[3]?.replace(/"/g, ""),
-            values[4]?.replace(/"/g, ""),
-            values[5]?.replace(/"/g, ""),
+            values[2]?.replace(/"/g, "") || '',
+            values[3]?.replace(/"/g, "") || '',
+            values[4]?.replace(/"/g, "") || '',
+            values[5]?.replace(/"/g, "") || '',
           ],
-          correct_answer: parseInt(values[6]) - 1, // Convert from 1-based to 0-based
-          category: values[7],
-          difficulty: values[8],
+          correct: parseInt(values[6]) - 1,
+          category: values[7] || '',
+          explanation: values[8]?.replace(/"/g, "") || '',
         };
 
-        const { data, error: insertError } = await db
-          .from("questions")
-          .insert(question)
-          .select();
-
-        if (insertError) {
-          errors.push({ row: i + 1, error: insertError.message });
-        } else {
-          imported.push(data[0]);
-        }
+        const result = await db.insert(questions).values(question).returning();
+        imported.push(result[0]);
       } catch (error) {
         errors.push({ row: i + 1, error: "Invalid data format" });
       }
@@ -240,75 +176,28 @@ export const importQuestions: RequestHandler = async (_req, res) => {
 };
 
 // Get scenarios from database
-export const getScenarios: RequestHandler = async (_req, res) => {
+export const getScenarios: RequestHandler = async (req, res) => {
   try {
-    const { difficulty, location, type, limit = 50 } = _req.query;
-    const db = getDatabase();
+    const { limit = 50 } = req.query;
 
-    if (!db) {
-      return res.status(503).json({ 
-        error: "Database not available",
-        scenarios: [],
-        stats: {
-          total: 0,
-          difficulties: [],
-          locations: [],
-          types: [],
-          filtered: 0
-        }
-      });
-    }
-
-    let query = db.from("scenarios").select("*");
-
-    if (difficulty) {
-      query = query.eq("difficulty", difficulty);
-    }
-
-    if (location) {
-      query = query.eq("location", location);
-    }
-
-    if (type) {
-      query = query.eq("type", type);
-    }
-
-    // Add random ordering for better variety
-    query = query.order('created_at', { ascending: false });
-
-    const { data: scenarios, error } = await query.limit(Number(limit));
-
-    if (error) {
-      console.error("Database query error:", error);
-      return res.status(500).json({ 
-        error: "Failed to fetch scenarios",
-        scenarios: [],
-        stats: {
-          total: 0,
-          difficulties: [],
-          locations: [],
-          types: [],
-          filtered: 0
-        }
-      });
-    }
-
-    // Get total counts for stats
-    const { count: totalScenarios } = await db.from("scenarios").select("*", { count: "exact", head: true });
-    const { data: allScenarios } = await db.from("scenarios").select("difficulty, location, type");
+    const scenarioList = await db.select().from(scenarios).limit(Number(limit));
     
-    const difficulties = [...new Set(allScenarios?.map(s => s.difficulty) || [])];
-    const locations = [...new Set(allScenarios?.map(s => s.location) || [])];
-    const types = [...new Set(allScenarios?.map(s => s.type) || [])];
+    // Get total counts for stats
+    const allScenarios = await db.select({
+      difficulty: scenarios.difficulty,
+      location: scenarios.location,
+    }).from(scenarios);
+    
+    const difficulties = [...new Set(allScenarios.map(s => s.difficulty))];
+    const locations = [...new Set(allScenarios.map(s => s.location).filter(Boolean))];
 
     // Shuffle scenarios for better variety
-    const shuffledScenarios = scenarios ? shuffleArray(scenarios) : [];
+    const shuffledScenarios = shuffleArray(scenarioList);
 
     const stats = {
-      total: totalScenarios,
+      total: allScenarios.length,
       difficulties,
       locations,
-      types,
       filtered: shuffledScenarios.length,
     };
 
@@ -326,7 +215,6 @@ export const getScenarios: RequestHandler = async (_req, res) => {
         total: 0,
         difficulties: [],
         locations: [],
-        types: [],
         filtered: 0
       }
     });
@@ -334,38 +222,14 @@ export const getScenarios: RequestHandler = async (_req, res) => {
 };
 
 // Create new scenario
-export const createScenario: RequestHandler = async (_req, res) => {
+export const createScenario: RequestHandler = async (req, res) => {
   try {
-    const { _title, _description, _difficulty, _location, _type, _active = true } = _req.body;
-    const db = getDatabase();
+    const scenarioData = req.body;
 
-    if (!db) {
-      return res.status(503).json({ error: "Database not available" });
-    }
-
-    if (!_title || !description || !difficulty || !location || !type) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-
-    const { data, error } = await db
-      .from("scenarios")
-      .insert({
-        title,
-        description,
-        difficulty,
-        location,
-        type,
-        active,
-      })
-      .select();
-
-    if (error) {
-      console.error("Database insert error:", error);
-      return res.status(500).json({ error: "Failed to create scenario" });
-    }
+    const result = await db.insert(scenarios).values(scenarioData).returning();
 
     res.json({
-      scenario: data[0],
+      scenario: result[0],
       message: "Scenario created successfully",
       timestamp: new Date().toISOString(),
     });
@@ -376,33 +240,22 @@ export const createScenario: RequestHandler = async (_req, res) => {
 };
 
 // Update scenario
-export const updateScenario: RequestHandler = async (_req, res) => {
+export const updateScenario: RequestHandler = async (req, res) => {
   try {
-    const { id } = _req.params;
+    const { id } = req.params;
     const updates = req.body;
-    const db = getDatabase();
 
-    if (!db) {
-      return res.status(503).json({ error: "Database not available" });
-    }
+    const result = await db.update(scenarios)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(scenarios.id, id as string))
+      .returning();
 
-    const { data, error } = await db
-      .from("scenarios")
-      .update(updates)
-      .eq("id", id)
-      .select();
-
-    if (error) {
-      console.error("Database update error:", error);
-      return res.status(500).json({ error: "Failed to update scenario" });
-    }
-
-    if (!_data || data.length === 0) {
+    if (!result || result.length === 0) {
       return res.status(404).json({ error: "Scenario not found" });
     }
 
     res.json({
-      scenario: data[0],
+      scenario: result[0],
       message: "Scenario updated successfully",
       timestamp: new Date().toISOString(),
     });
@@ -413,21 +266,11 @@ export const updateScenario: RequestHandler = async (_req, res) => {
 };
 
 // Delete scenario
-export const deleteScenario: RequestHandler = async (_req, res) => {
+export const deleteScenario: RequestHandler = async (req, res) => {
   try {
-    const { id } = _req.params;
-    const db = getDatabase();
+    const { id } = req.params;
 
-    if (!db) {
-      return res.status(503).json({ error: "Database not available" });
-    }
-
-    const { error } = await db.from("scenarios").delete().eq("id", id);
-
-    if (error) {
-      console.error("Database delete error:", error);
-      return res.status(500).json({ error: "Failed to delete scenario" });
-    }
+    await db.delete(scenarios).where(eq(scenarios.id, id as string));
 
     res.json({
       message: "Scenario deleted successfully",
@@ -442,39 +285,35 @@ export const deleteScenario: RequestHandler = async (_req, res) => {
 // Get content statistics
 export const getContentStats: RequestHandler = async (_req, res) => {
   try {
-    const db = getDatabase();
+    const questionList = await db.select({
+      category: questions.category,
+      difficulty: questions.difficulty
+    }).from(questions);
+    
+    const scenarioList = await db.select({
+      difficulty: scenarios.difficulty,
+      location: scenarios.location,
+    }).from(scenarios);
 
-    if (!db) {
-      return res.status(503).json({ error: "Database not available" });
-    }
+    const totalQuestions = questionList.length;
+    const categories = [...new Set(questionList.map(q => q.category))];
 
-    const { data: questions, error: questionsError } = await db.from("questions").select("category, difficulty");
-    const { data: scenarios, error: scenariosError } = await db.from("scenarios").select("difficulty, location, type");
-
-    const totalQuestions = questions?.length || 0;
-    const categories = [...new Set(questions?.map(q => q.category) || [])];
-    const difficulties = [...new Set(questions?.map(q => q.difficulty) || [])];
-
-    const totalScenarios = scenarios?.length || 0;
-    const difficultiesScenarios = [...new Set(scenarios?.map(s => s.difficulty) || [])];
-    const locations = [...new Set(scenarios?.map(s => s.location) || [])];
-    const types = [...new Set(scenarios?.map(s => s.type) || [])];
+    const totalScenarios = scenarioList.length;
+    const locations = [...new Set(scenarioList.map(s => s.location).filter(Boolean))];
 
     const stats = {
       questions: {
         total: totalQuestions,
         categories: categories.length,
         difficulties: {
-          easy: questions?.filter(q => q.difficulty === "easy").length || 0,
-          medium: questions?.filter(q => q.difficulty === "medium").length || 0,
-          hard: questions?.filter(q => q.difficulty === "hard").length || 0,
+          basic: questionList.filter(q => q.difficulty === "basic").length,
+          intermediate: questionList.filter(q => q.difficulty === "intermediate").length,
+          advanced: questionList.filter(q => q.difficulty === "advanced").length,
         },
       },
       scenarios: {
         total: totalScenarios,
-        active: scenarios?.filter(s => s.active === true).length || 0,
         locations: locations.length,
-        types: types.length,
       },
       languages: ["en", "af", "zu"],
       lastUpdated: new Date().toISOString(),
