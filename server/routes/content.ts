@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { db } from "../db";
-import { questions, scenarios } from "@shared/schema";
+import { questions, scenarios } from "../../shared/schema";
 import { eq } from "drizzle-orm";
 
 // Fisher-Yates shuffle function

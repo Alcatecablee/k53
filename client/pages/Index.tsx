@@ -750,6 +750,33 @@ export default function Index() {
                   >
                     Tax Services Portal
                   </a>
+                  <a
+                    href="https://burbgigz.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block hover:text-white transition-all duration-200 uppercase tracking-wide text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
+                    aria-label="IT services portal (opens in new tab)"
+                  >
+                    IT Services
+                  </a>
+                  <a
+                    href="https://neurolint.dev/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block hover:text-white transition-all duration-200 uppercase tracking-wide text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
+                    aria-label="Development services (opens in new tab)"
+                  >
+                    Development Services
+                  </a>
+                  <a
+                    href="https://dealeeoo.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block hover:text-white transition-all duration-200 uppercase tracking-wide text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 rounded"
+                    aria-label="Deal creation platform (opens in new tab)"
+                  >
+                    Deal Creation Platform
+                  </a>
                 </div>
               </div>
 

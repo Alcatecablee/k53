@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { db } from "../db";
-import { userSubscriptions, dailyUsage } from "@shared/schema";
+import { userSubscriptions, dailyUsage } from "../../shared/schema";
 import { eq, and } from "drizzle-orm";
 
 // Simple auth middleware - just check for authorization header
