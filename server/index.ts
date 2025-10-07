@@ -4,41 +4,21 @@ import { handleDemo } from "./routes/demo";
 import {
   databaseHealthCheck,
   getDatabaseStats,
-  upsertUser,
-  getUser,
-  deleteUser,
-  testTables,
 } from "./routes/database";
+import {
+  signup,
+  signin,
+  signout,
+  getSession,
+  getCurrentUser,
+} from "./routes/auth";
 import {
   getDashboardStats,
   getUsers,
   getPayments,
-  getSystemHealth,
   checkAdminStatus,
   getUserDetails,
-  updateUser,
-  banUser,
-  unbanUser,
-  refundPayment,
-  getSystemSettings,
-  updateSystemSetting,
-  getMaintenanceMode,
-  toggleMaintenanceMode,
-  getSystemNotifications,
-  createSystemNotification,
-  updateSystemNotification,
-  deleteSystemNotification,
-  getAnalytics,
-  getErrorLogs,
-  resolveErrorLog,
-  getAuditLog,
-  getUserBans,
-  exportData,
-  clearCache,
-  getCacheStats,
-  getRealTimeMetrics,
-  getContentData,
-  getComprehensiveAnalytics,
+  updateUserSubscription,
 } from "./routes/admin";
 import {
   authenticatedValidateScenarioAccess,
@@ -100,54 +80,24 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Auth routes
+  app.post("/api/auth/signup", signup);
+  app.post("/api/auth/signin", signin);
+  app.post("/api/auth/signout", signout);
+  app.get("/api/auth/session", getSession);
+  app.get("/api/auth/user", getCurrentUser);
+
   // Database routes
   app.get("/api/db/health", databaseHealthCheck);
   app.get("/api/db/stats", getDatabaseStats);
-  app.get("/api/db/test-tables", testTables);
-  app.post("/api/db/users", upsertUser);
-  app.get("/api/db/users/:userId", getUser);
-  app.delete("/api/db/users/:userId", deleteUser);
 
   // Admin routes - Core functionality
   app.get("/api/admin/check-status", checkAdminStatus);
   app.get("/api/admin/dashboard-stats", getDashboardStats);
   app.get("/api/admin/users", getUsers);
   app.get("/api/admin/users/:userId", getUserDetails);
-  app.put("/api/admin/users/:userId", updateUser);
-  app.post("/api/admin/users/:userId/ban", banUser);
-  app.post("/api/admin/users/:userId/unban", unbanUser);
+  app.put("/api/admin/users/:userId/subscription", updateUserSubscription);
   app.get("/api/admin/payments", getPayments);
-  app.post("/api/admin/payments/:paymentId/refund", refundPayment);
-  app.get("/api/admin/system-health", getSystemHealth);
-
-  // Admin routes - System management
-  app.get("/api/admin/settings", getSystemSettings);
-  app.put("/api/admin/settings/:key", updateSystemSetting);
-  app.get("/api/admin/maintenance-mode", getMaintenanceMode);
-  app.post("/api/admin/maintenance-mode", toggleMaintenanceMode);
-
-  // Admin routes - Notifications
-  app.get("/api/admin/notifications", getSystemNotifications);
-  app.post("/api/admin/notifications", createSystemNotification);
-  app.put("/api/admin/notifications/:id", updateSystemNotification);
-  app.delete("/api/admin/notifications/:id", deleteSystemNotification);
-
-  // Admin routes - Analytics and monitoring
-  app.get("/api/admin/analytics", getAnalytics);
-  app.get("/api/admin/error-logs", getErrorLogs);
-  app.post("/api/admin/error-logs/:id/resolve", resolveErrorLog);
-  app.get("/api/admin/audit-log", getAuditLog);
-  app.get("/api/admin/user-bans", getUserBans);
-
-  // Admin routes - Data export and cache
-  app.get("/api/admin/export/:type", exportData);
-  app.post("/api/admin/cache/clear", clearCache);
-  app.get("/api/admin/cache/stats", getCacheStats);
-  app.get("/api/admin/realtime-metrics", getRealTimeMetrics);
-
-  // Admin routes - Comprehensive data access
-  app.get("/api/admin/content/:type", getContentData);
-  app.get("/api/admin/analytics/comprehensive", getComprehensiveAnalytics);
 
   // Legacy admin routes (for backward compatibility)
   // app.post("/api/admin/users/:userId/action", userAction); // Removed - use ban/unban instead
