@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface OptimizedImageProps {
@@ -31,9 +31,13 @@ export function OptimizedImage({
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isInView, setIsInView] = useState(priority);
+  const placeholderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (priority) return;
+
+    const currentPlaceholder = placeholderRef.current;
+    if (!currentPlaceholder) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -48,8 +52,7 @@ export function OptimizedImage({
       }
     );
 
-    const img = document.createElement("img");
-    observer.observe(img);
+    observer.observe(currentPlaceholder);
 
     return () => {
       observer.disconnect();
@@ -83,6 +86,7 @@ export function OptimizedImage({
   if (!isInView) {
     return (
       <div
+        ref={placeholderRef}
         className={cn(
           "bg-gray-200 animate-pulse",
           className
