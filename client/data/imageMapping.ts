@@ -18969,15 +18969,83 @@ export const getQuestionImage = (
   }
   
   const questionText = question.question.toLowerCase();
+  const requiredTags: string[] = [];
   const context: string[] = [];
   
+  // Speed-related questions (check specific first, then general)
+  if (questionText.includes("speed limit") || questionText.includes("maximum speed") || questionText.includes("minimum speed")) {
+    requiredTags.push("speed-limit");
+    context.push("speed");
+  } else if (questionText.includes("speed")) {
+    // General speed questions (not about limits)
+    context.push("speed-control");
+  }
+  
+  // Built-up area / urban questions
+  if (questionText.includes("built-up") || questionText.includes("urban area") || questionText.includes("city")) {
+    context.push("urban");
+  }
+  
+  // Stop and yield
+  if (questionText.includes("stop sign") || questionText.includes("stop street")) {
+    requiredTags.push("stop");
+  }
+  if (questionText.includes("yield") || questionText.includes("give way")) {
+    requiredTags.push("yield");
+  }
+  
+  // No entry / prohibited
+  if (questionText.includes("no entry") || questionText.includes("prohibited") || questionText.includes("not allowed")) {
+    requiredTags.push("no-entry");
+  }
+  
+  // Parking (check "no parking" FIRST to avoid double-tagging)
+  if (questionText.includes("no parking")) {
+    requiredTags.push("no-parking");
+  } else if (questionText.includes("parking") || questionText.includes("park")) {
+    requiredTags.push("parking");
+    context.push("parking");
+  }
+  
+  // Pedestrians
+  if (questionText.includes("pedestrian") || questionText.includes("crosswalk") || questionText.includes("crossing")) {
+    requiredTags.push("pedestrian");
+  }
+  
+  // School zones
+  if (questionText.includes("school")) {
+    requiredTags.push("school");
+    context.push("school-zone");
+  }
+  
+  // Traffic lights
+  if (questionText.includes("traffic light") || questionText.includes("robot")) {
+    requiredTags.push("traffic-light");
+  }
+  
+  // Roundabouts
+  if (questionText.includes("roundabout") || questionText.includes("traffic circle")) {
+    requiredTags.push("roundabout");
+  }
+  
+  // Overtaking
+  if (questionText.includes("overtake") || questionText.includes("passing")) {
+    requiredTags.push("overtaking");
+  }
+  
+  // One way
+  if (questionText.includes("one way") || questionText.includes("one-way")) {
+    requiredTags.push("one-way");
+  }
+  
+  // Vehicle controls
   if (questionText.includes("clutch") || questionText.includes("gear")) {
     context.push("gear-change");
   }
-  if (questionText.includes("brake") || questionText.includes("stop")) {
+  if (questionText.includes("brake")) {
     context.push("braking");
   }
-  if (questionText.includes("speed") || questionText.includes("accelerator")) {
+  if (questionText.includes("accelerator")) {
     context.push("speed-control");
   }
   if (questionText.includes("steering") || questionText.includes("wheel")) {
@@ -18989,15 +19057,29 @@ export const getQuestionImage = (
   if (questionText.includes("indicator") || questionText.includes("signal")) {
     context.push("signaling");
   }
-  if (questionText.includes("parking")) {
-    context.push("parking");
+  
+  // If we have specific tags, try to find images with those tags
+  if (requiredTags.length > 0) {
+    const allImages = Object.values(imageMapping).flat();
+    const matchingImages = allImages.filter(img => {
+      const imgTags = img.tags || generateImageTags(img);
+      return requiredTags.some(tag => imgTags.includes(tag));
+    });
+    
+    if (matchingImages.length > 0) {
+      return matchingImages[Math.floor(Math.random() * matchingImages.length)];
+    }
   }
   
+  // If we have context but no tag matches, use context matching
   if (context.length > 0) {
     const mappedCategory = question.category === "rules" ? "signs" : question.category;
-    return getImageByContext(mappedCategory as "signs" | "controls" | "scenarios" | "locations" | "landmarks" | "misc", context);
+    const contextMatch = getImageByContext(mappedCategory as "signs" | "controls" | "scenarios" | "locations" | "landmarks" | "misc", context);
+    if (contextMatch) return contextMatch;
   }
   
+  // Default: return a category-appropriate image (not completely random)
+  // For rules category, prefer signs category images
   const mappedCategory = question.category === "rules" ? "signs" : question.category;
   return getRandomImageByCategory(mappedCategory as "signs" | "controls" | "scenarios" | "locations" | "landmarks" | "misc");
 };
