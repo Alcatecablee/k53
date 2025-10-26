@@ -1,5 +1,30 @@
-import { pgTable, text, integer, jsonb, timestamp, uuid, boolean, date, index } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, jsonb, timestamp, uuid, boolean, date, index, varchar } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
+
+// Session storage table for express-session
+export const sessions = pgTable(
+  'sessions',
+  {
+    sid: varchar('sid').primaryKey(),
+    sess: jsonb('sess').notNull(),
+    expire: timestamp('expire').notNull(),
+  },
+  (table) => ({
+    expireIdx: index('IDX_session_expire').on(table.expire),
+  })
+);
+
+// Users table for Replit Auth integration (linked to profiles)
+export const users = pgTable('users', {
+  id: text('id').primaryKey(),
+  email: text('email').unique(),
+  firstName: text('first_name'),
+  lastName: text('last_name'),
+  profileImageUrl: text('profile_image_url'),
+  profileId: uuid('profile_id'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+});
 
 export const scenarios = pgTable('scenarios', {
   id: text('id').primaryKey(),
@@ -126,6 +151,9 @@ export const payments = pgTable('payments', {
   statusIdx: index('idx_payments_status').on(table.status),
 }));
 
+export type Session = typeof sessions.$inferSelect;
+export type User = typeof users.$inferSelect;
+export type UpsertUser = typeof users.$inferInsert;
 export type Scenario = typeof scenarios.$inferSelect;
 export type Question = typeof questions.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
