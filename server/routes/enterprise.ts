@@ -1,25 +1,7 @@
 import { RequestHandler } from "express";
-import { createClient } from "@supabase/supabase-js";
-
-// Database client with service role for full access
-let supabase: any = null;
-
-const getEnterpriseDatabase = () => {
-  if (!supabase) {
-    const supabaseUrl =
-      process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseServiceKey =
-      process.env.VITE_SUPABASE_SERVICE_ROLE_KEY ||
-      process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!supabaseUrl || !supabaseServiceKey) {
-      return null;
-    }
-
-    supabase = createClient(supabaseUrl, supabaseServiceKey);
-  }
-  return supabase;
-};
+import { db } from "../db";
+import { profiles, userSubscriptions, payments, dailyUsage, scenarios, questions } from "../../shared/schema";
+import { eq, and, ne, gte, sql, ilike, inArray, desc } from "drizzle-orm";
 
 // In-memory cache with TTL
 interface CacheEntry {
@@ -69,43 +51,31 @@ export const getEnhancedDashboardStats: RequestHandler = async (_req, res) => {
       return res.json(cachedData);
     }
 
-    const db = getEnterpriseDatabase();
-    if (!db) {
-      return res.json(await generateRealStats(null));
-    }
-
     // Get real data from multiple tables with parallel queries
     const [profilesResult, subscriptionsResult, paymentsResult, usageResult, scenariosResult, questionsResult] =
       await Promise.allSettled([
-        db.from("profiles").select("*"),
-        db
-          .from("user_subscriptions")
-          .select("*")
-          .neq("plan_type", "free")
-          .eq("status", "active"),
-        db.from("payments").select("*").eq("status", "completed"),
-        db
-          .from("daily_usage")
-          .select("*")
-          .eq("date", new Date().toISOString().split("T")[0]),
-        db.from("scenarios").select("*", { count: "exact", head: true }),
-        db.from("questions").select("*", { count: "exact", head: true }),
+        db.select().from(profiles),
+        db.select().from(userSubscriptions).where(and(ne(userSubscriptions.planType, 'free'), eq(userSubscriptions.status, 'active'))),
+        db.select().from(payments).where(eq(payments.status, 'completed')),
+        db.select().from(dailyUsage).where(eq(dailyUsage.date, new Date().toISOString().split("T")[0])),
+        db.select({ count: sql<number>`count(*)` }).from(scenarios),
+        db.select({ count: sql<number>`count(*)` }).from(questions),
       ]);
 
     const users =
-      profilesResult.status === "fulfilled" ? profilesResult.value.data || [] : [];
+      profilesResult.status === "fulfilled" ? profilesResult.value || [] : [];
     const activeSubscriptions =
       subscriptionsResult.status === "fulfilled"
-        ? subscriptionsResult.value.data || []
+        ? subscriptionsResult.value || []
         : [];
     const completedPayments =
       paymentsResult.status === "fulfilled"
-        ? paymentsResult.value.data || []
+        ? paymentsResult.value || []
         : [];
     const todayUsage =
-      usageResult.status === "fulfilled" ? usageResult.value.data || [] : [];
-    const totalScenarios = scenariosResult.status === "fulfilled" ? scenariosResult.value.count || 0 : 0;
-    const totalQuestions = questionsResult.status === "fulfilled" ? questionsResult.value.count || 0 : 0;
+      usageResult.status === "fulfilled" ? usageResult.value || [] : [];
+    const totalScenarios = scenariosResult.status === "fulfilled" ? Number(scenariosResult.value[0]?.count) || 0 : 0;
+    const totalQuestions = questionsResult.status === "fulfilled" ? Number(questionsResult.value[0]?.count) || 0 : 0;
 
     // Calculate enhanced metrics
     const totalRevenue = completedPayments.reduce(
